@@ -11,7 +11,7 @@ http://book.caltech.edu/bookforum/index.php
 
 
 
-补充说明：仓库中有三类文件，分别是Jupyter Notebook,pdf,md，可以任意使用，推荐使用Jupyter Notebook
+补充说明：仓库中有三类文件，分别是Jupyter Notebook,pdf,md，可以随意使用，推荐使用Jupyter Notebook
 
 
 
