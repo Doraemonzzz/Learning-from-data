@@ -543,7 +543,7 @@ $$
 $$
 P=\lambda\mu+(1-\lambda)(1-\mu)=\lambda\mu+1-\mu-\lambda+\lambda\mu=1-\lambda+(2\lambda-1)\mu
 $$
-所以当$\lambda=\frac 1 2$，$P=1-\lambda$，因此和$\mu$独立
+所以当$\lambda=\frac 1 2$时，$P=1-\lambda$，此时和$\mu$独立
 
 ### Part 2:Problems
 
