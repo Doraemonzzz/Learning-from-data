@@ -69,7 +69,7 @@ $$
 h(x)=sign((\sum_{i=1}^{d}w_ix_i)+b)
 $$
 可以变形为:
-$$
+$$ 
 h(x)=sign((\sum_{i=0}^{d}w_ix_i))=sign(w^T(t)x(t))
 $$
 接着给出式(1.3)
@@ -93,7 +93,7 @@ $$
 
 (c) 由(1)我们知道，如果分类错误，那么$y(t)w^T(t)x(t) < 0$，但利用(1.3)跟新之后，$y(t)w^T(t+1)x(t)>y(t)w^T(t)x(t)$，也就是向着正方向前进了，所以如果资料是可分的，那么经过有限步之后得到$w$,可以使得所有的$x$,$yw^Tx>0$ 
 
-#### Exercise 1.4  (Page 8)
+#### Exercise 1.4 (Page 8)
 Let us create our own target function $f$ and data set $D$ and see how the perceptron learning algorithm works. Take d = 2 so you can visualize the problem, and choose a random line in the plane as your target function,where one side of the line maps to 1 and the other maps to -1. Choose the inputs $X_n$ of the data set as random points in the plane, and evaluate the target function on each $X_n$ to get the corresponding output $Y_n$.  
 Now, generate a data set of size 20. Try the perceptron learning algorithm on your data set and see how long it takes to converge and how well the final hypothesis g matches your target $f$. You can find other ways to play with this experiment in Problem 1.4.
 
@@ -287,7 +287,7 @@ $$
 $$
 [\![statement]\!]= 0\ if\ the\ statement \ is\ false
 $$
-$E_{in}(h)$就是我们得到的假设和目标假设在训练集上的误差，$E_{out}(h)$是实际误差，所以$E_{out}(h)$相当于$Hoeffding$不等式中的$\mu$,$E_{in}(h)$相当$于Hoeffding$不等式中的$v$。
+$E_{in}(h)$就是我们得到的假设和目标假设在训练集上的误差，$E_{out}(h)$是实际误差，所以$E_{out}(h)$相当于$Hoeffding$不等式中的$\mu$,$E_{in}(h)$相当于$Hoeffding$不等式中的$v$。
 因此：
 $$
 P[|E_{in}(h)-E_{out}(h）|>\epsilon]\le 2e^{-2\epsilon ^2N}
@@ -435,7 +435,7 @@ print(h(1000))
 ```
 
     0.0376444191414
-
+    
 
 (c)  这里根据上述的结果作图
 
@@ -531,7 +531,7 @@ P(y|x)=\begin{cases}
 \lambda & y = f(x)
 \\ 1-\lambda & y\ne f(x)
 \end{cases}
-$$
+$$  
 
 (a) What is the probability of error that $h$ makes in approximating $y$?  
 (b) At what value of $\lambda$ will the perfrmance of $h$ be independent of $\mu$?  
@@ -543,7 +543,7 @@ $$
 $$
 P=\lambda\mu+(1-\lambda)(1-\mu)=\lambda\mu+1-\mu-\lambda+\lambda\mu=1-\lambda+(2\lambda-1)\mu
 $$
-所以当$\lambda=\frac 1 2$时，$P=1-\lambda$，此时和$\mu$独立
+所以当$\lambda=\frac 1 2$，$P=1-\lambda$，因此和$\mu$独立
 
 ### Part 2:Problems
 
@@ -770,8 +770,8 @@ def f(n):
     Y4=4-X4
 
     #画出图片
-    plt.scatter(X1,Y1,c='r')
-    plt.scatter(X2,Y2,c='b')
+    plt.scatter(X1,Y1,c='r',s=1)
+    plt.scatter(X2,Y2,c='b',s=1)
     plt.plot(X3,Y3,label="("+str(w[0])+")+("+str(w[1])+")x+("+str(w[2])+")y=0")
     plt.plot(X4,Y4,label="x+y=4")
     plt.title(u"经过"+str(s)+u"次迭代收敛")
@@ -871,7 +871,7 @@ print("迭代次数为"+str(g(500,10)))
 ```
 
     迭代次数为103
-
+    
 
 (g)重复(f)100次，做出直方图
 
@@ -900,7 +900,7 @@ $$
 One may argue that this algorithm does not take the 'closeness' between $s(t)$
 and $y(t)$ into consideration. Let's look at another perceptron learning algorithm: In each iteration, pick a random $(x(t), y(t))$ and compute $s(t)$. If $y(t) · s(t) \le 1$, update $w$ by 
 $$
-w(t + 1) = w(t) + \eta (y(t) s(t)).x(t)
+w(t + 1) = w(t) + \eta (y(t)-s(t)).x(t)
 $$
 where $\eta$ is a constant. That is, if $s(t)$ agrees with $y(t)$ well (their product is > 1), the algorithm does nothing. On the other hand, if $s(t)$ is further from $y(t)$, the algorithm changes $w(t)$ more. In this problem , you are asked to implement this algorithm and study its perfrmance.
 
@@ -954,7 +954,7 @@ def GenerateData(n,low,up,w):
 #定义函数Adaline(n,m,k,w0,low,up,iteration=1000)，n组训练数据，m组测试数据，参数为k,w0为目标函数，iteration为迭代次数,
 #数据每个分量下界为low,上界为up
 def Adaline(n,m,k,w0,low,up,iteration=1000):
-    d=len(w0)-1
+    d=len(w0)
     #首先生成n组训练数据
     data,X1,Y1,X2,Y2=GenerateData(n,low,up,w0)
     #测试数据集
@@ -971,27 +971,27 @@ def Adaline(n,m,k,w0,low,up,iteration=1000):
     def Judge(x,w):
         flag=1
         for i in x:
-            if sign(i[:d+1].dot(w))*i[-1]<0:
+            if sign(i[:d].dot(w))*i[-1]<0:
                 flag=0
                 break
         return flag
     
     #记录次数
-    s=0
+    T=0
     #初始化w,注意这里不能初始化为0
-    w=np.ones(d+1)
-    while(Judge(data,w)==0 and s<iteration):
+    w=np.ones(d)
+    while(Judge(data,w)==0 and T<iteration):
         i=data[random.randint(0,n-1)]
-        a=i[:d+1].dot(w)*i[-1]
+        s=i[:d].dot(w)
+        a=s*i[-1]
         if a<=1:
-            w+=k*a*i[:d+1]
-            s+=1
+            w+=k*(i[-1]-s)*i[:d]
+            T+=1
     
     #计算错误率
     error=0
     #print(type(test))
     for i in test:
-        #print(type(i))
         if sign(i[:3].dot(w))*i[-1]<0:
             error+=1
     print("n为"+str(k)+"时错误率为"+str(error/m))
@@ -1005,11 +1005,11 @@ def Adaline(n,m,k,w0,low,up,iteration=1000):
     Y4=np.array([(X3[i]*w0[1]+w0[0])/(-w0[2]) for i in range(len(X4))])
 
     #画出图片
-    plt.scatter(X1,Y1,c='r')
-    plt.scatter(X2,Y2,c='b')
+    plt.scatter(X1,Y1,c='r',s=1)
+    plt.scatter(X2,Y2,c='b',s=1)
     plt.plot(X3,Y3,label="("+str(w[0])+")+("+str(w[1])+")x+("+str(w[2])+")y=0")
     plt.plot(X4,Y4,label="("+str(w0[0])+")+("+str(w0[1])+")x+("+str(w0[2])+")y=0")
-    plt.title(u"经过"+str(s)+u"次迭代")
+    plt.title(u"经过"+str(T)+u"次迭代")
     #设置坐标范围
     #plt.xticks(np.arange(0,10))
     #plt.yticks(np.arange(0,10))
@@ -1022,8 +1022,8 @@ def Adaline(n,m,k,w0,low,up,iteration=1000):
 Adaline(1000,10000,1,np.array([1,-1,-1]),0,1)
 ```
 
-    n为1时错误率为0.5919
-
+    n为1时错误率为0.1369
+    
 
 
 ![png](output_63_1.png)
@@ -1034,8 +1034,8 @@ Adaline(1000,10000,1,np.array([1,-1,-1]),0,1)
 Adaline(1000,10000,0.1,np.array([1,-1,-1]),0,1)
 ```
 
-    n为0.1时错误率为0.2508
-
+    n为0.1时错误率为0.0576
+    
 
 
 ![png](output_64_1.png)
@@ -1046,8 +1046,8 @@ Adaline(1000,10000,0.1,np.array([1,-1,-1]),0,1)
 Adaline(1000,10000,0.01,np.array([1,-1,-1]),0,1)
 ```
 
-    n为0.01时错误率为0.4039
-
+    n为0.01时错误率为0.0899
+    
 
 
 ![png](output_65_1.png)
@@ -1058,14 +1058,14 @@ Adaline(1000,10000,0.01,np.array([1,-1,-1]),0,1)
 Adaline(1000,10000,0.001,np.array([1,-1,-1]),0,1)
 ```
 
-    n为0.001时错误率为0.4089
-
+    n为0.001时错误率为0.3984
+    
 
 
 ![png](output_66_1.png)
 
 
-(f)可以看到这几种情形下的错误率都很高，应该是由于设置最多更新1000次的原因导致，但是当$\eta =1,0.01,0.001$时，预测函数和目标函数差别特别大，当$\eta =0.1$时，预测函数和目标函数差别相对较小。
+(f)可以看到除了$\eta=0.001$的情形，其余几种错误率都很低，推测是因为$\eta=0.001$时，步长太小，需要更多的迭代。
 
 #### Problem 1.6 (Page 35)
 Consider a sample of 10 marbles drawn independently from a bin that holds red and green marbles. The probability of a red marble is $\mu$.For $\mu = 0.05, \mu = 0.5,$ and $\mu = 0.8$, compute the probability of getting no red
@@ -1154,7 +1154,7 @@ plt.show()
 ![png](output_75_0.png)
 
 
-#### Problem 1.8(Page 36) 
+#### Problem 1.8 (Page 36) 
 The Hoeffding Inequality is one form of the $law\ of\ large\ numbers$. One of the simplest forms of that law is the $Chebyshev\ Inequality$,which you will prove here.
 
 (a) If $t$ is a nonnegative random variable, prove that for any $\alpha > 0$,$P[t \ge \alpha] \ge \frac {E(t)}\alpha$  
