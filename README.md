@@ -15,4 +15,4 @@ http://book.caltech.edu/bookforum/index.php
 
 
 
-做笔记的过程中发现如果公式太多,Jupyter Notebook会特别卡，所以后续建议使用pdf查看，代码我会单独存成py文件。
+做笔记的过程中发现如果公式太多,Jupyter Notebook会特别卡，所以后续建议使用pdf查看，代码已存在子目录代码文件夹内。
