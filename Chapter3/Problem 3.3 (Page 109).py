@@ -7,8 +7,9 @@ Created on Thu Jun 14 11:13:34 2018
 
 import numpy as np
 import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 from numpy.linalg import inv
-import time
 
 #n为产生点的个数,x1,y1为上半个圆环的坐标
 def generatedata(rad,thk,sep,n,x1=0,y1=0):
@@ -93,11 +94,11 @@ def PocketPLA(x,k,maxnum):
             #得到w(t+1)
             w=w0+k*i[-1]*i[:n]
             error1=CountError(x,w)
-            Error.append(error1)
             #如果w(t+1)比w(t)效果好，则更新w(t)
             if error>error1:
                 w0=w[:]
                 error=error1
+            Error.append(error)
             j+=1
     return w0,Error
 
@@ -141,7 +142,7 @@ t=np.arange(num)
 plt.plot(t,np.array(error)/data.shape[0])
 plt.title('Ein VS t')
 plt.show()
- 
+
 #(c)
 plt.scatter(X1,Y1,s=1)
 plt.scatter(X2,Y2,s=1)
@@ -151,7 +152,7 @@ Y3=[-(w[0]+w[1]*i)/w[2] for i in X3]
 plt.plot(X3,Y3)
 plt.title('Pocket PLA')
 plt.show()
-print('PLA的错误率'+str(CountError(data,w)/data.shape[0]))
+print('Pocket PLA的错误率'+str(CountError(data,w)/data.shape[0]))
  
 #(d)
 #对数据预处理

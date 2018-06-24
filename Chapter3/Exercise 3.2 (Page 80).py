@@ -53,16 +53,16 @@ x=[-2,2]
 y=[-2,2]
 
 #训练数据
-plt.scatter(trainpx,trainpy)
-plt.scatter(trainnx,trainny)
+plt.scatter(trainpx,trainpy,s=1)
+plt.scatter(trainnx,trainny,s=1)
 plt.title('训练数据')
 plt.plot(x,y,label='y=x')
 plt.legend()
 plt.show()
 
 #测试数据
-plt.scatter(testpx,testpy)
-plt.scatter(testnx,testny)
+plt.scatter(testpx,testpy,s=1)
+plt.scatter(testnx,testny,s=1)
 plt.title('测试数据')
 plt.plot(x,y,label='y=x')
 plt.legend()

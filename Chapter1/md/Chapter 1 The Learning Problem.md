@@ -4,10 +4,18 @@
 今年2月的时候开始学习台大林轩田老师的机器学习课程，感觉讲的非常好，课程的参考教材是**learning from data**，网上查阅资料的时候发现关于这本书的笔记几乎没有，所以想自己做一个学习笔记，记录教材中的习题的解法，一来可以加深自己的理解，而来也可以给后来学习的小伙伴一些参考。
 这份笔记主要以**learning from data**的习题解析为主，笔记形式为Markdown以及Jupyter Notebook结合的形式。因为笔者水平有限，难免有些错误，欢迎指出。
 
+我的github地址：  
+https://github.com/Doraemonzzz
+
+个人主页：  
+http://doraemonzzz.com/
+
+
 参考资料:  
 https://blog.csdn.net/a1015553840/article/details/51085129  
 http://www.vynguyen.net/category/study/machine-learning/page/6/  
-http://book.caltech.edu/bookforum/index.php
+http://book.caltech.edu/bookforum/index.php  
+http://beader.me/mlnotebook/
 
 下面进入正题，这一次讨论第一章的讨论题和课后习题。
 
@@ -69,7 +77,7 @@ $$
 h(x)=sign((\sum_{i=1}^{d}w_ix_i)+b)
 $$
 可以变形为:
-$$ 
+$$
 h(x)=sign((\sum_{i=0}^{d}w_ix_i))=sign(w^T(t)x(t))
 $$
 接着给出式(1.3)
@@ -435,7 +443,7 @@ print(h(1000))
 ```
 
     0.0376444191414
-    
+
 
 (c)  这里根据上述的结果作图
 
@@ -531,7 +539,7 @@ P(y|x)=\begin{cases}
 \lambda & y = f(x)
 \\ 1-\lambda & y\ne f(x)
 \end{cases}
-$$  
+$$
 
 (a) What is the probability of error that $h$ makes in approximating $y$?  
 (b) At what value of $\lambda$ will the perfrmance of $h$ be independent of $\mu$?  
@@ -871,7 +879,7 @@ print("迭代次数为"+str(g(500,10)))
 ```
 
     迭代次数为103
-    
+
 
 (g)重复(f)100次，做出直方图
 
@@ -1023,7 +1031,7 @@ Adaline(1000,10000,1,np.array([1,-1,-1]),0,1)
 ```
 
     n为1时错误率为0.1369
-    
+
 
 
 ![png](output_63_1.png)
@@ -1035,7 +1043,7 @@ Adaline(1000,10000,0.1,np.array([1,-1,-1]),0,1)
 ```
 
     n为0.1时错误率为0.0576
-    
+
 
 
 ![png](output_64_1.png)
@@ -1047,7 +1055,7 @@ Adaline(1000,10000,0.01,np.array([1,-1,-1]),0,1)
 ```
 
     n为0.01时错误率为0.0899
-    
+
 
 
 ![png](output_65_1.png)
@@ -1059,7 +1067,7 @@ Adaline(1000,10000,0.001,np.array([1,-1,-1]),0,1)
 ```
 
     n为0.001时错误率为0.3984
-    
+
 
 
 ![png](output_66_1.png)

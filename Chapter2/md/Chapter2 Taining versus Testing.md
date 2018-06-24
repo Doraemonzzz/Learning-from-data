@@ -1,12 +1,18 @@
 
 这一章是讲学习理论的，涉及了VC dimension以及bias,var的知识，比较难，数学推导很多，我做这些习题估计前前后后有三四十个小时，感觉还需要多体会几遍。
 
-参考资料:   
-https://blog.csdn.net/a1015553840/article/details/51085129   
-http://www.vynguyen.net/category/study/machine-learning/page/6/   
-http://book.caltech.edu/bookforum/index.php   
-http://beader.me/mlnotebook/  
+我的github地址：  
+https://github.com/Doraemonzzz
 
+个人主页：  
+http://doraemonzzz.com/
+
+
+参考资料:  
+https://blog.csdn.net/a1015553840/article/details/51085129  
+http://www.vynguyen.net/category/study/machine-learning/page/6/  
+http://book.caltech.edu/bookforum/index.php  
+http://beader.me/mlnotebook/
 
 ## Chapter2 Taining versus Testing
 
