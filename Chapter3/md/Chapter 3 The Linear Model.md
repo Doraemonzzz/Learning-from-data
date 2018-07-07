@@ -1951,7 +1951,7 @@ $$
 
 (c)依旧设$w,x_n\in R^d,n = 1, . . . , N$，和上一题类似的思路
 $$
-z=(w_1,..w_d,\xi_1,...,\xi_N)^T\in{R^{d+N}}\\
+z=(w_1,..w_d,\xi_1,...,\xi_N)^T\in{R^{N+d}}\\
 记A_1=\left(
  \begin{matrix}
  -y_1x_1^T 
@@ -1960,17 +1960,23 @@ z=(w_1,..w_d,\xi_1,...,\xi_N)^T\in{R^{d+N}}\\
  -y_Nx_N^T
   \end{matrix}
  \right)\in R^{N\times d},I_{N\times N}为N\times N阶单位矩阵\\
- A=\left(
+ A2=\left(
 	\begin{array}{c|c}
 	A_1& -I_{N\times N}\\
 	\end{array}
 	\right)\in R^{N\times(N+d)}\\
-  \\b= \left(  \begin{matrix}
-  -1\\
-  ...\\
-  -1
-   \end{matrix}
-  \right)\in R^{N+d}\\
+A3=\left(
+	\begin{array}{c|c}
+	0& -I_{N\times N}\\
+	\end{array}
+	\right)\in R^{N\times(N+d)}(0为N\times d阶0矩阵)\\
+A=\left(
+	\begin{matrix}
+	A1 \\ 
+	A2
+	\end{matrix}
+	\right)\in R^{(2N)\times (N+d)}
+  \\b= (-1...-1,0...0)^T\in R^{2N}，其中前N个分量为-1，其余为0\\
   c=(0,..0,1,...1)^T\in R^{N+d}，其中c的前d个分量为0，后N的分量为1
 $$
 同上一题的验证方法可以知此问题即为原来的问题。

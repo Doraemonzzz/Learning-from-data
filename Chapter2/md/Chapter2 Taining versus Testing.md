@@ -717,7 +717,7 @@ print([m(i,d)/2**i for i in [10,20,40]])
 
 概率如上所示，可以看到对于$d=10$，只要有40个点就几乎不可能表出了
 
-#### Problem 2.10  (Page 70)
+#### Problem 2.10 (Page 70)
 
 Show that $m_H(2N) \le m_H (N)^2 $, and hence obtain a generaIization bound which only involves $m_H (N) $
 
@@ -775,7 +775,7 @@ f(10000)
 
 
 
-#### Problem 2.12  (Page 71)
+#### Problem 2.12 (Page 71)
 
 For an $H$ with $d_{vc} = 10$, what sample size do you need (as prescribed by the generalization bound) to have a 95% confidence that your generalization error is at most 0.05? 
 
@@ -1095,7 +1095,7 @@ $$
 
 但是对于二维及以上情形就完全不一样了，我们如提示中这样构造点，先随意取一个点$x_1$，接着取第二个点$x_2$，使得$x_2$的第一个分量比$x_1$的第一个分量大，但是第二个分量比$x_1$的第二个分量小，换句话说，我们不让$x_2$大于$x1$，也不让$x_2$小于$x_1$，用同样的方式可以构造$x_3...x_N$，使得这$N$的点任意两个点是无序的，对于这样$N$个点，我们可以shatter 他们，因为此时$h(x_i)$和$h(x_j)$的关系没有限制。所以对于二维及以上情形$m_H(N)=2^N$
 
-#### Problem 2. 16 (Page 72)
+#### Problem 2.16 (Page 72)
 
 In this problem , we will consider $\mathcal{X} = \mathcal{R} $.That is, x=$x$ is a one dimensional variable. For a hypothesis set prove that the VC dimension of $\mathcal{H}$ is exactly $(D + 1)$ by showing that 
 $$
@@ -1375,7 +1375,7 @@ $$
 
 可能有人会说(c)需要$D > 2e log_2 D$，这个不等式左边是一次式，右边是对数式，所以只有$D$取个稍微大点的数，例如32，这个不等式就必然成立。由$D = \tilde{d}+ \sum _{i=1}^{K}d_i $可得$D\ge K+1$，所主要$K$稍大一些变能满足不等式了。
 
-总结一下，我认为这题的非常好，这个对于复合函数的VC dimension估计实际上非常好的解释了像神经网络这种多层感知机模型为什么可以shatter维度非常高的数据，从数学角度证明了看起来显然的事情。
+总结一下，我认为这题的非常好，这个对于复合函数的VC dimension估计实际上非常好的解释了有些特征转换后的模型为什么可以shatter维度非常高的数据，从数学角度证明了看起来显然的事情。
 
 #### Problem 2.20 (Page 73)
 
