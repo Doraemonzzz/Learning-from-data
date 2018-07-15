@@ -167,11 +167,9 @@ E_{in}(aw^{'}) \approx E_{in}^{'}(w^{'})
 $$
 结合
 $$
-min E_{in}(w) \ge E'_{in}(w^{'})
+min E_{in}(w) \ge E'_{in}(w^{'})\approx E_{in}(aw^{'})
 $$
-我们可得$aw^{'}$可以近似为加上soft-order constraint后的最优解，而$aw^{'}$为不加soft-order constraint的解，从而soft-order constraint基本没有效果。
-
-而hard-order constraint直接限制一些权重为$0$，必然有效果。所以对于此题hard-order constraint的效果好于soft-order constraint
+$aw^{'}$可以近似为加上soft-order constraint后的最优解，而$aw^{'}$为不加soft-order constraint的解，从而soft-order constraint基本没有效果。hard-order constraint直接限制一些权重为$0$，必然有效果。所以对于此题hard-order constraint的效果好于soft-order constraint
 
 
 
@@ -220,7 +218,9 @@ $$
 $$
 E_x[e(g^{-} (x) , y)]=P[g ^{-}(x) \neq y]\\
 \begin{aligned}
-\sigma^2 (g^{-})= Var_{x}[e(g^{-}(x),y)]&=E_x[e(g^{-} (x) , y)-P[g ^{-}(x) \neq y]]^2 \\
+\sigma^2 (g^{-})&= Var_{x}[e(g^{-}(x),y)]\\
+&=E_x[e(g^{-} (x) , y)-E_x[e(g^{-} (x) , y)]]^2 \\
+&=E_x[e(g^{-} (x) , y)-P[g ^{-}(x) \neq y]]^2 \\
 &=(1-P[g ^{-}(x) \neq y])P^2[g ^{-}(x) \neq y]+P[g ^{-}(x) \neq y](1-P[g ^{-}(x) \neq y])^2\\
 &=(1-P[g ^{-}(x) \neq y])P[g ^{-}(x)\neq y]
 \end{aligned}
@@ -243,15 +243,11 @@ $$
 $$
 由于$\sigma$可以取任意值，所以对于平方误差，$\sigma^2 (g^{-})$没有上界，$\sigma_{val}^2=\frac1{K} {\sigma^2 (g^{-})}$也没有上界
 
-
-
 (e)对于平方误差
 $$
 \sigma^{2}(g^{-}) =Var[(g^{-}(x) - y)^{2}]
 $$
 如果训练集的数量$N-K$减少，那么$g^{-}(x)$会比较糟糕，从而$(g^{-}(x) - y)^{2}$会增加一些，从而$E(g^{-}(x) - y)^{2}$也会增加，由题目里的提示**对于连续非负随机变量，较大的数学期望往往带来较大的方差**，所以$\sigma^{2}(g^{-}) =Var[(g^{-}(x) - y)^{2}]$大概率会增加。（这题感觉没法定量分析，只能这样定性思考）
-
-
 
 (f)由$\sigma_{val}^2=\frac1{K} {\sigma^2 (g^{-})}$我们知道增加$K$会减小$\sigma_{val}^2$，但是注意对于平方误差增加$K$也会增加${\sigma^2 (g^{-})}$，所以我认为这题的结论应该是在一定范围内，增加$K$会减小$E_{out}$，超过这个范围，增加$K$会增加$E_{out}$（和上一题一样，这题感觉没法准确的定量分析，只能这样定性思考）
 
@@ -293,11 +289,11 @@ $$
 
 #### Exercise 4.10 (Page 144)
 
-(a) From Figure 4.12, $E[E_{out}(g^-_{m_*} )]$ is initially decreasing. How can this be, if $E[E_{val}(g^-_{m})]$ is increasing in $K$ for each $m$? 
+(a) From Figure 4.12, $E[E_{out}(g^-_{m^*} )]$ is initially decreasing. How can this be, if $E[E_{val}(g^-_{m})]$ is increasing in $K$ for each $m$? 
 
-(b) From Figure 4.12 we see that $E[E_{out}(g_{m_*} )]$ is initially decreasing, and then it starts to increase. What are the possible reasons for this? 
+(b) From Figure 4.12 we see that $E[E_{out}(g_{m^*} )]$ is initially decreasing, and then it starts to increase. What are the possible reasons for this? 
 
-(c) When $K = 1$ , $E[E_{out}(g^-_{m_*} )]<E[E_{out}(g_{m_*} )]$. How can this be, if the learning curves for both models are decreasing?    
+(c) When $K = 1$ , $E[E_{out}(g^-_{m^*} )]<E[E_{out}(g_{m^*} )]$. How can this be, if the learning curves for both models are decreasing?    
 
 先看下这张图
 
@@ -309,9 +305,9 @@ $$
 
 (a)这个之前也讨论过了，因为一开始验证集数量不多，$K$增加会产生比较好的模型，所以$E[E_{out}(g^-_{m^*} )]$一开始会减少。但随着$K$增加很多，训练集数量大幅减少，得到的模型比价差，所以$E[E_{out}(g^-_{m^*} )]$又开始增加。
 
-(b)来比较$g^-_{m^*}$和$g_{m^*}$，因为前者拿$D_{train}$训练的，后者是拿全部数据$D$训练的。当$K$很小时，$D_{train}$和$D$差别很小，所以$g^-_{m^*}$和$g_{m_*}$非常接近，因此一开始$g_{m^*}$的趋势和$g^-_{m^*}$一致，都是先减少。当$K$增大到一定数量时，$g^-_{m^*}$变得非常糟糕，我们选择的模型$\mathcal H_{m^*}$也会逐渐变差，所以拿全部数据训练出来的$g_{m_*}$也会逐渐变差，所以后来曲线也是上升。之所以$g_{m^*}$的变化趋势没有$g^-_{m^*}$那么明显，是因为$g_{m_*}$是拿全部数据训练的，产生的结果有一定的保证。
+(b)来比较$g^-_{m^*}$和$g_{m^*}$，因为前者拿$D_{train}$训练的，后者是拿全部数据$D$训练的。当$K$很小时，$D_{train}$和$D$差别很小，所以$g^-_{m^*}$和$g_{m^*}$非常接近，因此一开始$g_{m^*}$的趋势和$g^-_{m^*}$一致，都是先减少。当$K$增大到一定数量时，$g^-_{m^*}$变得非常糟糕，我们选择的模型$\mathcal H_{m^*}$也会逐渐变差，所以拿全部数据训练出来的$g_{m^*}$也会逐渐变差，所以后来曲线也是上升。之所以$g_{m^*}$的变化趋势没有$g^-_{m^*}$那么明显，是因为$g_{m^*}$是拿全部数据训练的，产生的结果有一定的保证。
 
-(c)这题我的理解是$g_{m_*}$训练出来的结果是保证$E_{in}$比较小，但是$E_{out}$未必很小。而$g^-_{m^*}$本身就是选择在$D_{val}$误差最小的模型，所以在$E_{out}$上的结果还会更好一些。
+(c)这题需要解释$K = 1$时 , $E[E_{out}(g^-_{m^*} )]<E[E_{out}(g_{m^*} )]$的原因。我的理解是$g_{m^*}$训练出来的结果是保证$E_{in}$比较小，但是$E_{out}$未必很小。而$g^-_{m^*}$本身就是选择在$D_{val}$误差最小的模型，所以在$E_{out}$上的结果还会更好一些。
 
 
 
@@ -453,7 +449,7 @@ L_k(x)=\frac {2k-1}{k} xL_{k-1}(x)-\frac{k-1}{k}L_{k-2}(x)
 $$
 我们可得$L_K(x)$是单项$x^{K},x^{K-2},...$的线性组合。
 
-由于$(-x)^{k}=(-1)^kx^k$以及$L_x(x)$是单项$x^{x},x^{x-2},...$的线性组合,所以
+由于$(-x)^{k}=(-1)^kx^k,(-x)^{k-2i}=(-1)^kx^{k-2i}$以及$L_x(x)$是单项$x^{x},x^{x-2},...$的线性组合,所以
 $$
 L_k(-x) = (-1)^kL_k(x)
 $$
@@ -673,7 +669,7 @@ $$
     两边同乘$xL_{k-1}$，然后积分
   $$
   \frac{x(x^2-1)}{k-1}L_{k-1}\frac {dL_{k-1}}{dx}=x^2L_{k-1}^2-xL_{k-2}L_{k-1}\\
-    \int_{-1}^{1}\frac{x(x^2-1)}{k-1}L_{k-1}\frac {dL_{k-1}}{dx}dx=\int_{-1}^{1}(x^2L_{k-1}^2-xL_{k-2}L_{k-1})dx
+    \int_{-1}^{1}\frac{x(x^2-1)}{k-1}L_{k-1}\frac {dL_{k-1}}{dx}dx=\int_{-1}^{1}(x^2L_{k-1}^2-xL_{k-2}L_{k-1})dx 
   $$
     先处理左边
   $$
@@ -1119,17 +1115,17 @@ In the augmented error minimization with $\Gamma =I$ and $\lambda > 0$:
 $$
 w_{reg}^Tw_{reg}=u^T(Z^TZ+\lambda I)^{-2}u
 $$
-where $u = Z^Ty$ and $Z$ is the transformed data matrix. Show that $Z^TZ + \lambda I$ has the same eigenvectors with correspondingly larger eigenvalues as $Z^TZ$. Expand $u$ in the eigenbasis of $Z^TZ$. For a matrix $A$, how are the eigenvectors and eigenvalues of $A^{-2}$ related to those of $A$?]  
+where $u = Z^Ty​$ and $Z​$ is the transformed data matrix. Show that $Z^TZ + \lambda I​$ has the same eigenvectors with correspondingly larger eigenvalues as $Z^TZ​$. Expand $u​$ in the eigenbasis of $Z^TZ​$. For a matrix $A​$, how are the eigenvectors and eigenvalues of $A^{-2}​$ related to those of $A​$?]  
 
 (a)反证法，假设$||w_{reg}|| > ||w_{lin}||$，由于$||w_{lin}||$是使得$E_{in}(w)$最小化的$w$，那么
 $$
 \begin{aligned}
 E_{aug}(w_{reg})&=E_{in}(w_{reg})+\lambda w_{reg}^Tw_{reg} \\
-&> E_{in}(w_{in})+w_{lin}^Tw_{lin}\\
+&> E_{in}(w_{in})+\lambda w_{lin}^Tw_{lin}\\
 &=E_{aug}(w_{lin})
 \end{aligned}
 $$
-这与$||w_{reg}||$是使得$E_{aug}(w)$最小化的$w$矛盾，所以
+这与$||w_{reg}||​$是使得$E_{aug}(w)​$最小化的$w​$矛盾，所以
 $$
 ||w_{reg}|| \le ||w_{lin}||
 $$
@@ -1148,9 +1144,15 @@ P^{T}(Z^TZ+\lambda I)P= diag\{k _1+\lambda,k _2+\lambda,...,k _M+\lambda\}\\
 $$
 带入$w_{reg}^Tw_{reg}$的定义可得
 $$
-w_{reg}^Tw_{reg}=u^TP^{T}diag\{(k _1+\lambda)^{-2},(k _2+\lambda)^{-2},...,(k _M+\lambda)^{-2}\}Pu\\
+\begin{aligned}
+w_{reg}^Tw_{reg}
+&=((Z^TZ+\lambda I)^{-1}Z^Ty)^T((Z^TZ+\lambda I)^{-1}Z^Ty)\\
+&=((Z^TZ+\lambda I)^{-1}u)^T((Z^TZ+\lambda I)^{-1}u)\\
+&=u^T(Z^TZ+\lambda I)^{-2}u\\
+&=u^TP^{T}diag\{(k _1+\lambda)^{-2},(k _2+\lambda)^{-2},...,(k _M+\lambda)^{-2}\}Pu
+\end{aligned}
 $$
-记$v=Pu=(v_1,...,v_M)$，注意$P,u$为常量，所以$v$也为常量，从而
+记$v=Pu=(v_1,...,v_M)​$，注意$P,u​$为常量，所以$v​$也为常量，从而
 $$
 w_{reg}^Tw_{reg}=v^{T}diag\{(k _1+\lambda)^{-2},(k _2+\lambda)^{-2},...,(k _M+\lambda)^{-2}\}v=\sum_{i=1}^{M} (k _i+\lambda)^{-2} v_i^2
 $$
@@ -1172,7 +1174,14 @@ E_{in}(w_{reg})=E_{in}(w_{lin})+\frac 1 N \sum_{i=1}^{d}a_i^2(1-\frac{\sigma _i^
 $$
 and proceed from there.   
 
-这题计算量比较大，暂时没找到比较简单的算法。
+这题计算量比较大，暂时没找到比较简单的算法。另外解这题的时候我发现课本上114页的奇异值分解和维基百科的奇异值分解不一样，后来查阅了几本书，都是维基百科的形式，所以这里按照维基百科的奇异值分解来思考这个问题，不知道老师给的奇异值分解是笔误还是另一种形式。因为按照维基百科的形式来解决这个问题，所以要对结论做一些改变：
+$$
+Z=U\Gamma V^T\\
+Z\in R^{N\times d},U\in R^{N\times N},\Gamma \in R^{N\times d},V\in {R^{d\times d}}\\
+ZZ^T\in R^{N\times N}，有特征值 \sigma^2_1,...,\sigma^2_N,a = U^Ty\in R^N\\
+E_{in}(w_{reg})=E_{in}(w_{lin})+\frac 1 N \sum_{i=1}^{N}a_i^2(1-\frac{\sigma _i^2}{\sigma _i^2+\lambda})^2
+$$
+有了这些准备工作，开始证明结论。
 
 首先回顾课本第87页，我们知道
 $$
@@ -1212,7 +1221,7 @@ $$
 Z=U\Gamma V^T\\
 Z\in R^{N\times d},U\in R^{N\times N},\Gamma \in R^{N\times d},V\in {R^{d\times d}}
 $$
-其中$U,Z$为[酉矩阵](https://zh.wikipedia.org/wiki/%E9%85%89%E7%9F%A9%E9%98%B5)(其实就是复数域上的正交矩阵)，利用奇异值分解计算$A,A^2,A^3$，记$B=\Gamma \Gamma^T$
+其中$U,Z$为正交矩阵，利用奇异值分解计算$A,A^2,A^3$，记$B=\Gamma \Gamma^T$
 $$
 A=Z^TZ=V\Gamma^T U^TU\Gamma V^T=V\Gamma^T \Gamma V^T\\
 A^2=V\Gamma^T \Gamma V^T V\Gamma^T \Gamma V^T=V\Gamma^T(\Gamma \Gamma^T) \Gamma V^T=V\Gamma^TB \Gamma V^T\\
@@ -1249,24 +1258,24 @@ E_{in}(w_{reg})-E_{in}(w_{lin})
 &=\frac 1 N \lambda ^2 a^T (B+\lambda I)^{-2} a\\
 \end{aligned}
 $$
-因为
+考虑$ZZ^T$
 $$
-Z^TZ=V\Gamma^T U^TU\Gamma V^T=V\Gamma^T \Gamma V^T =VBV^T\\
-V为酉矩阵\\
+ZZ^T=U\Gamma V^TV\Gamma ^TU=U\Gamma \Gamma ^TU=UBU\\
+U为正交矩阵
 $$
-所以$B$相似于$Z^TZ$，注意$B=\Gamma^T \Gamma$为对角阵，$Z^TZ$的特征值为$\sigma^2_1,...,\sigma^2_d$，从而
+所以$B​$相似于$Z^TZ​$，注意$B=\Gamma\Gamma^T ​$为对角阵，$Z^TZ​$的特征值为$\sigma^2_1,...,\sigma^2_d​$，从而
 $$
-B=diag\{\sigma^2_1,...,\sigma^2_d\}\\
-(B+\lambda I)^{-2}=diag\{(\sigma^2_1+\lambda)^{-2},...,(\sigma^2_d+\lambda)^{-2}\}\\
+B=diag\{\sigma^2_1,...,\sigma^2_N\}\\
+(B+\lambda I)^{-2}=diag\{(\sigma^2_1+\lambda)^{-2},...,(\sigma^2_N+\lambda)^{-2}\}\\
 \begin{aligned}
 E_{in}(w_{reg})-E_{in}(w_{lin})&=\frac 1 N \lambda ^2 a^T (B+\lambda I)^{-2} a\\
-&=\frac 1 N \lambda ^2 \sum_{i=1}^{d}a_i (\sigma^2_i+\lambda)^{-2}a_i\\
-&=\frac 1 N \sum_{i=1}^{d}a_i^2(1-\frac{\sigma _i^2}{\sigma _i^2+\lambda})^2
+&=\frac 1 N \lambda ^2 \sum_{i=1}^{N}a_i (\sigma^2_i+\lambda)^{-2}a_i\\
+&=\frac 1 N \sum_{i=1}^{N}a_i^2(1-\frac{\sigma _i^2}{\sigma _i^2+\lambda})^2
 \end{aligned}
 $$
 所以结论成立。
 
-解这题的时候我发现课本上114页的奇异值分解是错误的，一定要注意。
+
 
 
 
@@ -1663,7 +1672,7 @@ bias(x) &= (\overline g(x) - f(x))^2\\
 &=\lambda^2 w_f^T(Z^TZ + \lambda I)^{-1}zz^T(Z^TZ + \lambda I)^{-1}w_f
 \end{aligned}
 $$
-接着计算$bias$，利用trace
+接着计算$bias$，利用trace，以及$E[zz^T] = I$
 $$
 \begin{aligned}
 bias&=E[bias(x)]\\
@@ -1672,12 +1681,12 @@ bias&=E[bias(x)]\\
 &=\lambda^2Etrace[ w_f^T(Z^TZ + \lambda I)^{-1}zz^T(Z^TZ + \lambda I)^{-1}w_f]\\
 &=\lambda^2Etrace[zz^T(Z^TZ + \lambda I)^{-1}w_fw_f^T(Z^TZ + \lambda I)^{-1}]\\
 &=\lambda^2trace(E[zz^T(Z^TZ + \lambda I)^{-1}w_fw_f^T(Z^TZ + \lambda I)^{-1}])\\
-&=\lambda^2trace[E[zz^T](Z^TZ + \lambda I)^{-1}w_fw_f^T(Z^TZ + \lambda I)^{-1}]\\
+&=\lambda^2trace[E[zz^T](Z^TZ + \lambda I)^{-1}w_fw_f^T(Z^TZ + \lambda I)^{-1}](利用E[zz^T] = I)\\
 &=\lambda^2trace[(Z^TZ + \lambda I)^{-1}w_fw_f^T(Z^TZ + \lambda I)^{-1}]\\
 &=\lambda^2trace[(Z^TZ + \lambda I)^{-2}w_fw_f^T]\ (利用trace(AB)=trace(BA))\\
 \end{aligned}
 $$
-假设$z_i\in R^{Q+1}$
+假设$z_i\in R^{Q+1}​$
 $$
 Z=
  \left(
@@ -1688,9 +1697,21 @@ Z=
   \end{matrix}
   \right)\in R^{N\times (Q+1)}
 $$
-由题目可知$E[zz^T] = I_{Q+1}$，所以
+由题目可知$E[zz^T] = I_{Q+1}​$，所以
 $$
-Z^TZ=\sum_{i=1}^{N}z_i^Tz_i\approx \sum_{i=1}^{N}E[z_i^Tz_i]= \sum_{i=1}^{N}I_{Q+1}=NI_{Q+1}
+\begin{aligned}
+Z^TZ&=(z_1,...,z_N) \left(
+ \begin{matrix}
+   z_1^T \\
+   ... \\
+   z_N^T
+  \end{matrix}
+  \right)\\
+&=\sum_{i=1}^{N}z_iz_i^T\\
+&\approx \sum_{i=1}^{N}E[z_iz_i^T]\\
+&= \sum_{i=1}^{N}I_{Q+1}\\
+&=NI_{Q+1}
+\end{aligned}
 $$
 带入上式可得
 $$
@@ -1717,7 +1738,7 @@ var &= E[(g^{(D)} - \overline g)^2]\\
 &=E[\epsilon^TZ(Z^TZ + \lambda I) ^{-1}zz^T(Z^TZ + \lambda I) ^{-1}Z^T\epsilon]\\
 &=Etrace[\epsilon^TZ(Z^TZ + \lambda I) ^{-1}zz^T(Z^TZ + \lambda I) ^{-1}Z^T\epsilon]\\
 &=Etrace[zz^T(Z^TZ + \lambda I) ^{-1}Z^T\epsilon\epsilon^TZ(Z^TZ + \lambda I) ^{-1}]\\
-&=trace(E_ZE_{\epsilon}E_{\Phi}[zz^T(Z^TZ + \lambda  I) ^{-1}Z^T\epsilon\epsilon^TZ(Z^TZ + \lambda  I) ^{-1}])(注意E[zz^T] = I)\\
+&=trace(E_ZE_{\epsilon}E_{\Phi}[zz^T(Z^TZ + \lambda  I) ^{-1}Z^T\epsilon\epsilon^TZ(Z^TZ + \lambda  I) ^{-1}])(注意E[zz^T] = I,z=\Phi(x))\\
 &=trace(E_ZE_{\epsilon}[(Z^TZ + \lambda  I) ^{-1}Z^T\epsilon\epsilon^TZ(Z^TZ + \lambda  I) ^{-1}])
 \end{aligned}
 $$
@@ -1769,18 +1790,18 @@ $$
 (ii) d_{eﬀ}(\lambda) = trace(H(\lambda))\\
 (iii) d_{eﬀ}(\lambda) = trace(H^2(\lambda))
 $$
-where $H(\lambda) = Z(Z^TZ +\lambda I) ^{-1}Z^T$ and $Z$ is the transformed data matrix. To obtain $ﬀd_{eﬀ}$. one must first compute $H(\lambda)$ as though you are doing regression . One can then heuristically use $ﬀd_{eﬀ}$ in place of $d_{vc}$ in the VC bound. 
+where $H(\lambda) = Z(Z^TZ +\lambda I) ^{-1}Z^T$ and $Z$ is the transformed data matrix. To obtain $d_{eﬀ}$. one must first compute $H(\lambda)$ as though you are doing regression . One can then heuristically use $d_{eﬀ}$ in place of $d_{vc}$ in the VC bound. 
 
-(a) When $\lambda$, show that for all three choices, $ﬀd_{eﬀ }=\tilde{d} + 1$, where $\tilde{d}$ is the dimension in the $Z$ space. 
+(a) When $\lambda$, show that for all three choices, $d_{eﬀ }=\tilde{d} + 1$, where $\tilde{d}$ is the dimension in the $Z$ space. 
 
-(b) When $\lambda>0$,, show that $ﬀ0\le d_{eﬀ }\le \tilde{d} + 1$ and $ﬀd_{eﬀ }$ is decreasing in $\lambda$ for all three choices. [Hint: Use the singular value decomposition
+(b) When $\lambda>0$,, show that $0\le d_{eﬀ }\le \tilde{d} + 1$ and $ﬀd_{eﬀ }$ is decreasing in $\lambda$ for all three choices. [Hint: Use the singular value decomposition
 
 这题和Problem 4.15基本一致，一起做了。
 
  (a)当$\lambda=0$时，
 $$
 H(\lambda) =H(0)= Z(Z^TZ ) ^{-1}Z^T\\
-H^2(0)=H(0)= Z(Z^TZ ) ^{-1}Z^T\\
+H^2(0)=H(0)= Z(Z^TZ ) ^{-1}Z^TZ(Z^TZ ) ^{-1}Z^T=Z(Z^TZ ) ^{-1}Z^T\\
 trace(H(0))=trace(Z(Z^TZ ) ^{-1}Z^T)=trace(Z^TZ(Z^TZ ) ^{-1})=trace(I_{\tilde{d}+1})=\tilde{d}+1
 $$
 所以
@@ -1794,15 +1815,15 @@ $$
 Z=U\Gamma V^T\\
 Z\in R^{N\times d},U\in R^{N\times N},\Gamma \in R^{N\times d},V\in {R^{d\times d}}
 $$
-其中$U,Z$为[酉矩阵](https://zh.wikipedia.org/wiki/%E9%85%89%E7%9F%A9%E9%98%B5)，所以
+其中$U,Z$为正交矩阵，所以
 $$
 Z^TZ=V\Gamma^T U^TU\Gamma V^T=V\Gamma^T \Gamma V^T\\
 \begin{aligned}
 H(\lambda)&= Z(Z^TZ +\lambda I) ^{-1}Z^T\\
-&=U\Gamma V^T(V\Gamma^T \Gamma V^T+\lambda I) ^{-1}V\Gamma^T U\\
-&=U\Gamma V^T(V(\Gamma^T \Gamma+\lambda I)V^T) ^{-1}V\Gamma^T U\\
-&=U\Gamma (V^TV)(\Gamma^T \Gamma+\lambda I) ^{-1}(V^TV)\Gamma^T U\\
-&=U\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U
+&=U\Gamma V^T(V\Gamma^T \Gamma V^T+\lambda I) ^{-1}V\Gamma^T U^T\\
+&=U\Gamma V^T(V(\Gamma^T \Gamma+\lambda I)V^T) ^{-1}V\Gamma^T U^T\\
+&=U\Gamma (V^TV)(\Gamma^T \Gamma+\lambda I) ^{-1}(V^TV)\Gamma^T U^T\\
+&=U\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U^T
 \end{aligned}
 $$
 接着设
@@ -1812,8 +1833,8 @@ $$
 接着计算$trace(H(\lambda)),trace(H^2(\lambda))$
 $$
 \begin{aligned}
-trace(H(\lambda))&=trace(U\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U)\\
-&=trace(\Gamma^T UU\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1})\\
+trace(H(\lambda))&=trace(U\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U^T)\\
+&=trace(\Gamma^T U^TU\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1})\\
 &=trace(\Gamma^T\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1})\\
 \end{aligned}
 $$
@@ -1834,16 +1855,16 @@ $$
 $$
 \begin{aligned}
 trace(H^2(\lambda))
-&=trace(U\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T UU\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U)\\
-&=trace(U\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T \Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U)\\
-&=trace(\Gamma^T \Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T UU\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1})\\
+&=trace(U\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U^TU\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U^T)\\
+&=trace(U\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T \Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U^T)\\
+&=trace(\Gamma^T \Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}\Gamma^T U^TU\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1})\\
 &=trace((\Gamma^T\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1})^2)\\
 &=trace((diag\{\frac{\sigma_1^2}{\sigma_1^2+\lambda},...,\frac{\sigma_d^2}{\sigma_d^2+\lambda}\})^2)\\
 &=trace(diag\{\frac{\sigma_1^4}{(\sigma_1^2+\lambda)^2},...,\frac{\sigma_d^4}{(\sigma_d^2+\lambda)^2}\})\\
 &=\sum_{i=1}^d \frac{\sigma_i^4}{(\sigma_i^2+\lambda)^2}
 \end{aligned}
 $$
-现在来看三种$d_{eff}$
+现在来看三种$d_{eff}​$
 
 (i)
 $$
@@ -1860,7 +1881,7 @@ d_{e ﬀ}(\lambda) &= 2trace(H(\lambda)) - trace(H^2(\lambda))\\
 &=\sum_{i=1}^d \frac{-2\sigma_i^2\lambda}{(\sigma_i^2+\lambda)^3}<0
 \end{aligned}
 $$
-所以$ﬀd_{e ﬀ}(\lambda)$递减，从而
+所以$d_{e ﬀ}(\lambda)$递减，从而
 $$
 d_{e ﬀ}(\lambda)\le limit_{\lambda \to 0}=d_{e ﬀ}(0)=\tilde{d}+1
 $$
@@ -1871,7 +1892,7 @@ d_{eﬀ}(\lambda) &= trace(H(\lambda))\\
 &=\sum_{i=1}^d \frac{\sigma_i^2}{\sigma_i^2+\lambda}>0
 \end{aligned}
 $$
-因为$ \frac{\sigma_i^2}{\sigma_i^2+\lambda}$在$\lambda >0$范围内递减，所以$ﬀd_{eﬀ}(\lambda)$递减，从而
+因为$ \frac{\sigma_i^2}{\sigma_i^2+\lambda}$在$\lambda >0$范围内递减，所以$d_{eﬀ}(\lambda)$递减，从而
 $$
 d_{e ﬀ}(\lambda)\le limit_{\lambda \to 0}=d_{e ﬀ}(0)=\tilde{d}+1
 $$
@@ -1882,7 +1903,7 @@ d_{eﬀ}(\lambda) &= trace(H^2(\lambda))\\
 &=\sum_{i=1}^d \frac{\sigma_i^4}{(\sigma_i^2+\lambda)^2}>0
 \end{aligned}
 $$
-因为 $在\frac{\sigma_i^4}{(\sigma_i^2+\lambda)^2}在$$\lambda >0$范围内递减，所以$ﬀd_{eﬀ}(\lambda)$递减，从而
+因为 $在\frac{\sigma_i^4}{(\sigma_i^2+\lambda)^2}在$$\lambda >0$范围内递减，所以$d_{eﬀ}(\lambda)$递减，从而
 $$
 d_{e ﬀ}(\lambda)\le limit_{\lambda \to 0}=d_{e ﬀ}(0)=\tilde{d}+1
 $$
@@ -1926,11 +1947,11 @@ E_{in}&=\frac 1 N ||Zw-y||^2\\
 &=\frac 1 N [f^T(H(\lambda)-I)^2f+\epsilon^T(H(\lambda)-I)^2\epsilon +2\epsilon^T(H(\lambda)-I)^2f]
 \end{aligned}
 $$
-注意$E[\epsilon\epsilon^T]=\sigma^2I$
+注意$E[\epsilon\epsilon^T]=\sigma^2I​$
 $$
 \begin{aligned}
 E_{\epsilon}[E_{in}]
-&=\frac 1 N E[f^T(H(\lambda)-I)^2f+\epsilon^T(H(\lambda)-I)^2\epsilon +2\epsilon^T(H(\lambda)-I)^2f\\
+&=\frac 1 N E[f^T(H(\lambda)-I)^2f+\epsilon^T(H(\lambda)-I)^2\epsilon +2\epsilon^T(H(\lambda)-I)^2f]\\
 &=\frac 1 N \{E[f^T(H(\lambda)-I)^2f]+E[\epsilon^T(H(\lambda)-I)^2\epsilon]\}\\
 &=\frac 1 N(f^T(H(\lambda)-I)^2f+Etrace[\epsilon^T(H(\lambda)-I)^2\epsilon])\\
 &=\frac 1 N(f^T(H(\lambda)-I)^2f+Etrace[\epsilon\epsilon^T(H(\lambda)-I)^2])\\
@@ -1962,25 +1983,25 @@ E_{\epsilon}[E_{in}]&=\frac 1 Nf^T(H(\lambda)-I)^2f+\frac {\sigma^2} N(N-d_{e �
 &=\frac 1 Nf^T(H(\lambda)-I)^2f+\sigma^2(1-\frac{d_{e ﬀ}}{N})
 \end{aligned}
 $$
-(a)从结论中可以看出和$\sigma^2$有关的项为$ﬀ1-\frac{d_{e ﬀ}}{N}$
+(a)从结论中可以看出和$\sigma^2$有关的项为$1-\frac{d_{e ﬀ}}{N}$
 
-(b)从定义可以看出$N$增大会使得$E_{\epsilon}[E_{in}]$增大，这说明数据太多的话误差也会上升，而$ﬀd_{e ﬀ}$增大会使得$E_{\epsilon}[E_{in}]$减小，说明$ﬀd_{e ﬀ}$相当于有效参数的个数。
+(b)从定义可以看出$N$增大会使得$E_{\epsilon}[E_{in}]$增大，这说明数据太多的话误差也会上升，而$d_{e ﬀ}$增大会使得$E_{\epsilon}[E_{in}]$减小，说明$d_{e ﬀ}$相当于有效参数的个数。
 
 
 
 #### Problem 4.15 (Page 160)
 
-We further investigate deﬀ of Problems 4.13 and 4.14. We know that $H(\lambda) = Z(Z^TZ +\lambda \Gamma^T\Gamma) ^{-1}Z^T$. When $\Gamma$ is square and invertible, as is usually the case (for example with weight decay, $\Gamma=I$) , denote $\tilde{Z} = Z\Gamma^{-1}$ . Let $s_0^2 , . . . , s_d^2$ be the eigenvalues of $\tilde{Z} ^T\tilde{Z} $ ($s_i > 0$ when $Z$ has full column rank) .    
+We further investigate $d_{eﬀ}$ of Problems 4.13 and 4.14. We know that $H(\lambda) = Z(Z^TZ +\lambda \Gamma^T\Gamma) ^{-1}Z^T$. When $\Gamma$ is square and invertible, as is usually the case (for example with weight decay, $\Gamma=I$) , denote $\tilde{Z} = Z\Gamma^{-1}$ . Let $s_0^2 , . . . , s_d^2$ be the eigenvalues of $\tilde{Z} ^T\tilde{Z} $ ($s_i > 0$ when $Z$ has full column rank) .    
 
-(a) For $ﬀd_{e ﬀ}(\lambda) = 2trace(H(\lambda)) - trace(H^2(\lambda))$ show that    
+(a) For $d_{e ﬀ}(\lambda) = 2trace(H(\lambda)) - trace(H^2(\lambda))$ show that    
 $$
 d_{eff}(\lambda)=d+1-\sum_{i=0}^d\frac{\lambda^2}{(s_i+\lambda)^2}
 $$
-(b) For $ﬀd_{e ﬀ}(\lambda) = trace(H(\lambda)) $, show that
+(b) For $d_{e ﬀ}(\lambda) = trace(H(\lambda)) $, show that
 $$
 d_{eff}(\lambda)=d+1-\sum_{i=0}^d\frac{\lambda}{s_i+\lambda}
 $$
-(c) For $ﬀd_{e ﬀ}(\lambda) = trace(H^2(\lambda)) $, show that $d_{eff}(\lambda)=\sum_{i=0}^d\frac{\lambda^4}{(s_i+\lambda)^2}$   
+(c) For $d_{e ﬀ}(\lambda) = trace(H^2(\lambda)) $, show that $d_{eff}(\lambda)=\sum_{i=0}^d\frac{\lambda^4}{(s_i+\lambda)^2}$   
 
 In all cases, for $ﬀﬀ\lambda\ge0,0\le d_{eﬀ }\le \tilde{d} + 1, d_{eﬀ}(0) = d+ 1$ and $ﬀd_{eﬀ}$ is decreasing in $\lambda$. [Hint: use the singular value decomposition $\tilde{Z} = USV^T$, where $U,V$ are orthogonal and $S$ is diagonal with entries $s_i$ .] 
 
@@ -1995,6 +2016,8 @@ H(\lambda) &= Z(Z^TZ +\lambda \Gamma^T\Gamma) ^{-1}Z^T\\
 \end{aligned}
 $$
 所以可以化为13题的情形。
+
+
 
 #### Problem 4.16 (Page 160)
 
@@ -2027,7 +2050,7 @@ $$
 (Z^TZ+ \lambda \Gamma ^T\Gamma)w=Z^Ty\\
 w_{reg} =(Z^TZ +\lambda \Gamma^T\Gamma) ^{-1}Z^Ty
 $$
-(a)预测值$\tilde{y} =$
+(a)预测值
 $$
 \tilde{y} =Zw_{reg}=Z(Z^TZ +\lambda \Gamma^T\Gamma) ^{-1}Z^Ty= H(\lambda )y
 $$
@@ -2087,7 +2110,7 @@ $$
 
 #### Problem 4.18 (Page 161)
 
-In a regression setting, assume the target function is linear, so $f(x) = w_f^Tx$, and $y = Zw_f + \epsilon$, where the entries in $\epsilon$ are iid with zero mean and variance $\sigma^2$ . Assume a regularization term $\frac \lambda Nw^TZ^TZw$ and that $E[zz^T] = I$. In this problem derive the optimal value for $\lambda$ as follows. 
+In a regression setting, assume the target function is linear, so $f(x) = w_f^Tx$, and $y = Zw_f + \epsilon$, where the entries in $\epsilon$ are iid with zero mean and variance $\sigma^2$ . Assume a regularization term $\frac \lambda Nw^TZ^TZw$ and that $E[xx^T] = I$. In this problem derive the optimal value for $\lambda$ as follows. 
 
 (a) Show that the average function is $\overline g(x) = \frac {1}{1+\lambda}f(x)$ What is the bias? 
 
@@ -2097,7 +2120,7 @@ In a regression setting, assume the target function is linear, so $f(x) = w_f^Tx
 
 (d) Explain the dependence of the optimal regularization parameter on the parameters of the learning problem. [Hint: write $ \lambda^* =\frac {\frac{(d+1)}{N}}{\frac{||w_f||^2}{\sigma^2}}$]
 
-原题符号有点歧义，我查阅了论坛，我这边改了一下（将$E[xx^T] = I$改为$E[zz^T] = I$）。
+原题符号有点歧义，我查阅了论坛，我理解下来这里的$Z$其实就是$X$。
 
 (a)先看一下损失函数$E_{in}(w)=\frac 1 N||Zw-y||^2+\frac \lambda Nw^TZ^TZw$，对其求偏导即可
 $$
@@ -2166,7 +2189,7 @@ $$
 Z^TZ=(z_1^T,...,z_N^T)^T(z_1^T,...,z_N^T)\\
 =\sum_{i=1}^{N}z_iz_i^T
 $$
-我们知道$E[xx^T] = I$，所以
+我们知道$E[xx^T] = I$，注意这里$Z$应该就是$X$，所以
 $$
 Z^TZ=\sum_{i=1}^{N}z_iz_i^T\approx  NI_{d+1}
 $$
@@ -2383,7 +2406,7 @@ Intuitively, linear regression should not be affected by a linear transform.This
 $$
 \tilde w=\alpha (A^T)^{-1}w
 $$
-(b) Suppose the regularization penalty term in the augmented error is $w^TX^TXw$ for the original data and $w^TZ^TZw$ fr the transfrmed data . On the original data , the regularized solution is $w_{reg} (\lambda)$ . Show that for the transformed problem, the same linear transform of $w_{reg} (\lambda)$ gives the corresponding regularized weights for the transformed problem:    
+(b) Suppose the regularization penalty term in the augmented error is $w^TX^TXw$ for the original data and $w^TZ^TZw$ for the transfrmed data . On the original data , the regularized solution is $w_{reg} (\lambda)$ . Show that for the transformed problem, the same linear transform of $w_{reg} (\lambda)$ gives the corresponding regularized weights for the transformed problem:    
 $$
 \tilde w_{reg}(\lambda)=\alpha (A^T)^{-1}w_{reg}(\lambda)
 $$
@@ -2408,15 +2431,7 @@ $$
 &=\alpha(A^T)^{-1}w
 \end{aligned}
 $$
-(b)由公式可得
-$$
-\begin{aligned}
-\tilde w_{reg} &=(Z^TZ+\lambda I)^{-1}Z^T\tilde y\\
-&=\alpha (AX^TXA^T+\lambda I)^{-1} AX^Ty\\
-&=
-\end{aligned}
-$$
-先看下此时的$E_{in}$，然后求偏导即可
+(b)先看下此时的$E_{in}$，然后求偏导即可
 $$
 \begin{aligned}
 E_{in}&=\frac 1 N||Zw-\tilde y||+\frac {\lambda}N w^TZ^TZw\\
@@ -2442,7 +2457,7 @@ $$
 &=\frac {\alpha}{1+\lambda} (A^T)^{-1}(X^TX)^{-1}X^Ty
 \end{aligned}
 $$
-用同样的方法可知
+用同样的方法可知（或者对上式取$A=I,\alpha=1$）
 $$
 w_{reg}(\lambda)=\frac {1}{1+\lambda} (X^TX)^{-1}X^Ty
 $$
@@ -2450,6 +2465,7 @@ $$
 $$
 \tilde w_{reg}(\lambda)=\alpha (A^T)^{-1}w_{reg}(\lambda)
 $$
+
 
 
 #### Problem 4.21 (Page 162)
@@ -2495,13 +2511,14 @@ E_{out}(\mathcal{H} )\le E_{in}(\mathcal{H}) + \sqrt{\frac 8 Nln(\frac {4((2N)^{
 $$
 对于此题来说$N=100$
 $$
-E_{in}(\mathcal{H})=0.15\\
+E_{in}(\mathcal{H})=0.25\\
 \sqrt{\frac 8 Nln(\frac {4((2N)^{d_{vc}}+1)}{\delta})}<\sqrt{\frac 8 {100}ln(\frac {4((200)^{1100}+1)}{\delta})}
 $$
 所以
 $$
-E_{out}(\mathcal{H} )\le0.15 +\sqrt{\frac 8 {100}ln(\frac {4((200)^{1100}+1)}{\delta})}的概率大于等于1-\delta
+E_{out}(\mathcal{H} )\le0.25 +\sqrt{\frac 8 {100}ln(\frac {4((200)^{1100}+1)}{\delta})}的概率大于等于1-\delta
 $$
+
 
 
 #### Problem 4.23 (Page 162)
@@ -2601,11 +2618,11 @@ $$
 $$
 \begin{aligned}
 \frac 1 {N^2}\sum_{n\neq M}\text{Cov}_D[e_n, e_m]
-&=\frac 1 {N^2} N(N-1)[\text{Var}_{D}[E_{out} (g)]+O(\frac 1 N)+\delta_n+\delta_m]\\
+&=\frac 1 {N^2} N(N-1)\{\text{Var}_{D}[E_{out} (g)]+O(\frac 1 N)+\delta_n+\delta_m\}\\
 &\approx \frac 1 N\text{Var}_{D}[E_{out} (g)]+O(\frac 1 N)
 \end{aligned}
 $$
-由刚刚的结论 $\text{Cov}_D[e_n, e_m]= \text{Varv}_{D^{(N-2)}}[E_{out} (g^{(N-2)})]+ $higher order in $\delta_n,\delta_m$，以及$\delta_n,\delta_m$ 为 $O( \frac  1N)$
+由刚刚的结论 $\text{Cov}_D[e_n, e_m]= \text{Var}_{D^{(N-2)}}[E_{out} (g^{(N-2)})]+ $higher order in $\delta_n,\delta_m$，以及$\delta_n,\delta_m$ 为 $O( \frac  1N)$
 $$
 \begin{aligned}
 \text{Varv}_D [E_{cv}] 
@@ -2613,6 +2630,7 @@ $$
 &\approx \frac 1 {N} \text{Var}_D[e_1] +\text{Var}_D[E_{out}(g)]+O(\frac 1 N)
 \end{aligned}
 $$
+
 
 
 #### Problem 4.24 (Page 163)
@@ -2746,7 +2764,7 @@ plt.show()
 
 可以看到$N_{eﬀ}$和$N$比较接近。
 
-(f)如果正规项增加，我认为N_{eﬀ}会减少，因为正规项增加相当于限制了参数的大小，对数据做了额外的限制，所以有效数据也会减少，下面作图看下。
+(f)如果正规项增加，我认为$N_{eﬀ}$会减少，因为正规项增加相当于限制了参数的大小，对数据做了额外的限制，所以有效数据也会减少，下面作图看下。
 
 
 ```python
@@ -2827,7 +2845,7 @@ $$
 
 (b)如果验证集一致，那么$K$一样，所以选择最小的$E_{val} (g_{m^*}^- )$即为选择最小的$E_{val} (g_{m^*}^- ) + O(\sqrt{\frac {lnM}{2K}})$
 
-(c)回顾课本22页的Hoeffing不等式
+(c)回顾课本22页的Hoeffding不等式
 $$
 P[|E_{in}(h)-E_{out}(h)|>\epsilon]\le 2e^{-2\epsilon^2N}
 $$
@@ -2842,9 +2860,9 @@ P(E_{out} (g_{m} )-E_{val} (g_{m})>\epsilon)\le e^{-2\epsilon^2K_m}
 $$
 记$A_m$为事件$E_{out} (g_{m} )-E_{val} (g_{m})>\epsilon$，所以
 $$
-P(A_m>\epsilon)\le e^{-2\epsilon^2K_m}
+P(A_m)\le e^{-2\epsilon^2K_m}
 $$
-当$\bigcup _{m=1}^MA_m$发生时，题目中事件$E_{out}(m^*) > E_{val}(m^*) + \epsilon$发生，从而
+当$\bigcup _{m=1}^MA_m​$发生时，题目中事件$E_{out}(m^*) > E_{val}(m^*) + \epsilon​$发生，从而
 $$
 \begin{aligned}
 P[E_{out}(m^*) > E_{val}(m^*) + \epsilon]
@@ -2903,7 +2921,7 @@ $$
 $$
 P[E_{out}(m^*) > E_{val}(m^*) + \epsilon] \le Me^{-2\epsilon^2\kappa (\epsilon)}
 $$
-这说明验证集大小相等时，上界更紧，这或许能解释为什么我们要选择大小相等的上界。
+这说明验证集大小相等时，上界更紧，这或许能解释为什么我们要选择大小相等的验证集。
 
 
 
@@ -3021,13 +3039,14 @@ z_n^T w_n^{-}
 $$
 (e)
 $$
-e_n=(z_n^Tw_n-y_n)^2=(\frac{\hat y_n-H_{nn}y_n}{1-H_{nn}}-y_n)^2=(\frac{\hat y_n-y_n}{1-H_{nn}})^2
+e_n=(z_n^Tw_n^{-}-y_n)^2=(\frac{\hat y_n-H_{nn}y_n}{1-H_{nn}}-y_n)^2=(\frac{\hat y_n-y_n}{1-H_{nn}})^2
 $$
+
 
 
 #### Problem 4.27 (Page 165)
 
-Cross validation gives an accurate estimate of $\overline E_{out} (N- 1)$ , but it can b e quite sensitive, leading to problems in model selection. A common heuristic for 'regularizing' cross validation is to use a measure of error $\sigma_{cv} (\mathcal H)$ for the cross validation estimate in model selection . 
+Cross validation gives an accurate estimate of $\overline E_{out} (N- 1)$ , but it can be quite sensitive, leading to problems in model selection. A common heuristic for 'regularizing' cross validation is to use a measure of error $\sigma_{cv} (\mathcal H)$ for the cross validation estimate in model selection . 
 
 (a) One choice for $\sigma_{cv} (\mathcal H)$ is the standard deviation of the leave-one-out errors divided by $\sqrt N,\sigma_{cv}\approx \frac 1{\sqrt N}\sqrt{var(e_1,...,e_n)}$,  Why divide by $\sqrt N$? 
 
@@ -3037,16 +3056,16 @@ Cross validation gives an accurate estimate of $\overline E_{out} (N- 1)$ , but 
 
 ​	(ii) The bound minimizing approach selects the model which minimizes $E_{cv}(\mathcal H) + \sigma_{cv} (\mathcal H) $. 
 
-Use the experimental design in Problem 4.4 to compare these approaches with the 'unregularized' cross validation estimate as follows. Fix $Q_f= 15, Q = 20$, and $\sigma = 1$. Use each of the two methods proposed here as well as traditional cross validation to select the optimal value of the regularization parameter $\lambda$ in the range $\{0.05, 0.10, 0.15, . . . , 5\} $ using weight decay regularization, $\Omega(w) = \frac{\lambda}{N}w^Tw$. Plot the resulting out-of-sample error fr the model selected using each method as a function of $N$, with $N$ in the range $\{2 \times Q, 3  \times  Q, . . . , 10  \times  Q\}$. 
+Use the experimental design in Problem 4.4 to compare these approaches with the 'unregularized' cross validation estimate as follows. Fix $Q_f= 15, Q = 20$, and $\sigma = 1$. Use each of the two methods proposed here as well as traditional cross validation to select the optimal value of the regularization parameter $\lambda$ in the range $\{0.05, 0.10, 0.15, . . . , 5\} $ using weight decay regularization, $\Omega(w) = \frac{\lambda}{N}w^Tw$. Plot the resulting out-of-sample error for the model selected using each method as a function of $N$, with $N$ in the range $\{2 \times Q, 3  \times  Q, . . . , 10  \times  Q\}$. 
 
-What are you r conclusions?    
+What are your conclusions?    
 
 (a)这里我的理解如下
 $$
 var(e_1,...,e_n) \approx N var(e_1)\\
-\frac 1 {\sqrt N}var(e_1,...,e_n)\approx var(e_1)
+\frac 1 {\sqrt N}\sqrt{var(e_1,...,e_n)}\approx \sqrt{var(e_1)}
 $$
-所以$\sigma_{cv}\approx \frac 1{\sqrt N}\sqrt{var(e_1,...,e_n)}$除以$\sqrt N$是为了正规化，方便不同的模型进行比较
+所以$\sigma_{cv}\approx \frac 1{\sqrt N}\sqrt{var(e_1,...,e_n)}​$除以$\sqrt N​$是为了正规化，方便不同的模型进行比较
 
 (b)个人感觉这题结论给错了，$\sqrt N\sigma_{cv}$相当于标准差，所以结论应该为
 $$
@@ -3062,10 +3081,12 @@ E_{cv}=\frac 1 N \sum_{n=1}^Ne_n
 $$
 以及上一题公式
 $$
-e_n=(z_n^Tw_n-y_n)^2=(\frac{\hat y_n-H_{nn}y_n}{1-H_{nn}}-y_n)^2=(\frac{\hat y_n-y_n}{1-H_{nn}})^2
+e_n=(z_n^Tw_n^{-}-y_n)^2=(\frac{\hat y_n-H_{nn}y_n}{1-H_{nn}}-y_n)^2=(\frac{\hat y_n-y_n}{1-H_{nn}})^2
 $$
 可得
 $$
 \sqrt N\sigma_{cv}=\sqrt{\frac 1 N (\sum_{i=1}^Ne_i^2) -(\frac 1 N \sum_{i=1}^Ne_i)^2}
 =\sqrt{\frac 1 N\sum_{i=1}^N (\frac{\hat y_n-y_n}{1-H_{nn}})^4-E_{cv}^2}
 $$
+
+(c)这题做实验的，先暂时略过。

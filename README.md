@@ -11,8 +11,4 @@ http://book.caltech.edu/bookforum/index.php
 
 
 
-补充说明：仓库中有三类文件，分别是Jupyter Notebook,pdf,md，可以随意使用，推荐使用Jupyter Notebook
-
-
-
-做笔记的过程中发现如果公式太多,Jupyter Notebook会特别卡，所以后续建议使用pdf查看，代码已存在子目录代码文件夹内。
+补充说明：由于Jupyter Notebook比较卡，后续就不上传Jupyter Notebook文件了，代码已存在子目录代码文件夹内，前两章的代码后续也会保存下来，推荐使用pdf加代码来查阅。
