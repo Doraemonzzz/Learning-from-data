@@ -12,3 +12,17 @@ http://book.caltech.edu/bookforum/index.php
 
 
 补充说明：由于Jupyter Notebook比较卡，后续就不上传Jupyter Notebook文件了，代码已存在子目录代码文件夹内，前两章的代码后续也会保存下来，推荐使用pdf加代码来查阅。
+
+
+
+更新日志：
+
+2018/6/1	上传Chapter1
+
+2018/6/15	上传Chapter2
+
+2018/7/1	上传Chapter3
+
+2018/7/15	上传Chapter4,Chapter5
+
+2018/7/31	上传Chapter8
