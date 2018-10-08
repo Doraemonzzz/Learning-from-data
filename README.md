@@ -19,14 +19,16 @@ http://book.caltech.edu/bookforum/index.php
 
 更新日志：
 
-2018/6/1	上传Chapter1
+2018/6/1		上传Chapter1
 
 2018/6/15	上传Chapter2
 
-2018/7/1	上传Chapter3
+- 2018/10/8日更新：根据网友RingoTC提醒([链接](https://github.com/Doraemonzzz/Learning-from-data/issues/1))，修改problem 2.2并对一些排版做了一些调整。
+
+2018/7/1		上传Chapter3
 
 2018/7/15	上传Chapter4,Chapter5
 
 2018/7/31	上传Chapter8
 
-2018/9/5	上传Chapter7
+2018/9/5		上传Chapter7

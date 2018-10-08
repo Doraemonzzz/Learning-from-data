@@ -14,7 +14,9 @@ http://www.vynguyen.net/category/study/machine-learning/page/6/
 http://book.caltech.edu/bookforum/index.php  
 http://beader.me/mlnotebook/
 
-## Chapter2 Taining versus Testing
+
+
+## Chapter2 Training versus Testing
 
 ### Part 1:Exercise
 
@@ -44,7 +46,10 @@ By inspection , find a break point $k$ for each hypothesis set in Example 2.2(if
 
 对例(3)来说，$m_H (N)=2^N$，所以没有break point
 
+
+
 #### Exercise 2.2 (Page 50)
+
 (a) Verify the bound of Theorem 2.4 in the three cases of Example 2.2:  
   (i) Positive rays: $H$ consists of all hypotheses in one dimension of the form $h(x) = sign(x - a)$.  
   (ii) Positive intervals: $H$ consists of all hypotheses in one dimension that are positive within some interval and negative elsewhere.  
@@ -85,7 +90,10 @@ m_N(N) = N+ 2^{\lfloor \frac N 2 \rfloor}\le\sum_{i=0}^{k-1}\binom{N}{i}
 $$
 不等式左边是$N$的指数函数,右边是$N$的多项式，所以当$N$充分大时不可能成立。
 
+
+
 #### Exercise 2.3 (Page 50)
+
 Compute the VC dimension of $H$ for the hypothesis sets in parts (i), (ii),(iii) of Exercise 2.2(a).
 
 这题需要计算VC维，由公式$k = d_{vc} + 1$，$k$为最小的break point，可以轻松得到。
@@ -166,7 +174,10 @@ $(sign(z_1),sign(z_2)...sign(z_{d+1}),-sign(z_{d+2}))$这种情形必然无法�
 
 综上所述$d_{vc}=d+1$
 
+
+
 #### Exercise 2.5 (Page 56)
+
 Suppose we have a simple learning model whose growth function is $m_H(N) = N+1$ , hence $d_{vc} =1$. Use the VC bound (2.12) to estimate the probability that $E_{out}$ will be within 0.1 of $E_{in}$ given 100 training examples. [Hint: The estimate wil be ridiculous.}
 
 这里回顾下(2.12) (Page 53)  
@@ -206,8 +217,6 @@ delta(100,0.1)
 ```
 
 
-
-
     709.5275096780147
 
 
@@ -233,7 +242,10 @@ $$
 
 (b)如果测试集过多的话，会使得训练集较少，这样训练出来的结果就比较差
 
+
+
 #### Exercise 2.7 (Page 62)
+
 For binary target functions, show that $P[h(x)\ne  f(x)]$ can be written as an expected value of a mean squared error measure in the following cases.
 
 (a) The convention used for the binary function is $0$ or $1$
@@ -270,7 +282,10 @@ $$
 P[h(x)\ne  f(x)]=\frac 1 4E((h(x)-f(x))^2)
 $$
 
+
+
 #### Exercise 2.8 (Page 63)
+
 (a) Show that if $H$ is closed under linear combination (any linear combination of hypotheses in $H$ is also a hypothesis in $H$), then $\overline g \in H$ .  
 (b) Give a model for which the average function $\overline g$ is not in the model's hypothesis set. [int: Use a very simple model.]  
 (c) For binary classification, do you expect $\overline g$ to be a binary function?  
@@ -280,6 +295,8 @@ $$
 (b)考虑一个二元分类问题，第一组数据为全0，这样得出来的假设为$g_1(x)=0$，第二组数据全为1，这样得出来的假设为$g_2(x)=1$，$H=\{1,0\}$,但是$\overline g(x)=\frac 1 2(g_1(x)+g_2(x))$显然不属于$H$
 
 (c)对于二元分类问题，肯定不希望$\overline g$是一个binary function，否则之后的数据要么全分为，要么全分为1，效果太差
+
+
 
 ### Part 2:Probelms
 
@@ -349,7 +366,10 @@ f(10000,0.05)
 (b)1760.9750527736032  
 (c)2682.0090899712213
 
+
+
 #### Problem 2.2 (Page 69)
+
 Show that for the learning model of positive rectangles (aligned horizontally or vertically), $m_H (4) = 2^4$ and $m_H (5) < 2^5$ . Hence, give a bound for $ m_H (N)$ .
 
 题目给出的学习模型是两条平行于x轴的直线或者两条平行于y轴的直线。$m_H (4) = 2^4$这个比较简单，画图就可以了。$m_H (5) < 2^5$可以通过下图来看。
@@ -369,6 +389,14 @@ plt.show()
 
 显然这种情形无法被水平或者竖直的矩形分类，因此$m_H (5) < 2^5$。
 
+结合以上两点可得$d_{vc}=4$，所以
+$$
+ m_H (N) \le N^{d_{vc}}+1 =N^4+1
+$$
+一开始忘记了这个公式，后来网友提醒我才想起来，下面一段是我一开始思考的结果，可以适当参考。
+
+
+
 将二维平面每个点投影到x轴上以及y轴上，二维平面上的点能被表出当且仅当在x轴上的投影点能被表出或者y轴上的投影点能被表出。设在x轴上一共能表出的情形为$f(N)$，x轴和y轴是对称的，因此$m_H(N)\le 2f(N)$（这个估计还是比较粗糙的，但是准确的估计暂时没想出来）。在x轴上，一共有以下两种情形:
 
 
@@ -384,8 +412,6 @@ plt.show()
 
 
 ![png](output_24_0.png)
-
-
 
 ```python
 import matplotlib.pyplot as plt
@@ -410,7 +436,10 @@ f(N)\le (N-1)(N-2)+2N=N^2-N+2\\
 m_H(N)\le 2f(N)=2N^2-2N+4
 $$
 
+
+
 #### Problem 2.3 (Page 69) 
+
 Compute the maximum number of dichotomies, $m_H (N)$,for these learning models, and consequently compute $d_{vc}$ , the VC dimension.  
 (a) Positive or negative ray: $H$ contains the functions which are + 1 on $[a, +\infty)$(for some a) together with those that are +1 on $( - \infty , a]$ (for some a).  
 (b) Positive or negative interval : $H$ contains the functions which are + 1 on an interval $[a, b]$ and -1 elsewhere or -1 on an interval $[a, b]$ and +1 elsewhere.  
@@ -431,7 +460,9 @@ m_H (N)=C_{N+1}^2+1=\frac{N(N+1)}2+1,d_{vc}=2
 $$
 
 
+
 #### Problem 2.4 (Page 69)
+
 Show that $B(N, k) =\sum_{i=0}^{k-1}\binom N i$ by showing the other
 direction to Lemma 2.3, namely that
 $$
@@ -449,7 +480,9 @@ B(N, k) =\sum_{i=0}^{k-1}\binom N i
 $$
 
 
+
 #### Problem 2.5 (Page 69)
+
 Prove by induction that $\sum_{i=0}^{D}\binom N i\le N^D+1$ , hence
 $$
 m_H(N)\le N^{d_{vc}}+1
@@ -484,7 +517,10 @@ $$
 m_H(N)\le \sum_{i=0}^{d_{vc}}\binom N i\le N^{d_{vc}}+1
 $$
 
+
+
 #### Problem 2.6 (Page 70)
+
 Prove that for $N \ge d$,
 $$
 \sum_{i=0}^{d}\binom N i\le (\frac {eN}d )^d
@@ -526,7 +562,10 @@ $$
 
 这题和之前一题都是对$m_H(N)$给出一个多项式上界。
 
+
+
 #### Problem 2.7 (Page 70)
+
 Plot the bounds for $m_H (N)$ given in Problems 2.5 and 2.6
 for $d_{vc} = 2$ and $d_{vc} = 5$. When do you prefer one bound over the other?
 
@@ -590,10 +629,12 @@ $$
 当$d_{vc}=2$时，$\frac {e}{d_{vc}}>1$，所以当N充分大时，$(\frac {eN}{d_{vc}} )^{d_{vc}}$明显大于$N^{d_{vc}}+1$
 而当$d_{vc}=5$时，$\frac {e}{d_{vc}}<1$，所以当N充分大时，$(\frac {eN}{d_{vc}} )^{d_{vc}}$明显小于$N^{d_{vc}}+1$
 
-所以当$d_{vc}\le 2$时，选$N^{d_{vc}}+1$作为上界，其余情形选择$
-(\frac {eN}{d_{vc}} )^{d_{vc}}$作为上界。
+所以当$d_{vc}\le 2$时，选$N^{d_{vc}}+1$作为上界，其余情形选择$(\frac {eN}{d_{vc}} )^{d_{vc}}$作为上界。
+
+
 
 #### Problem 2.8 (Page 70)
+
 Which of the following are possible growth functions $m_H (N)$for some hypothesis set:
 $$
 1+N;1+ N +\frac {N(N - 1)} 2;2^N;2^{\lfloor \sqrt N \rfloor} ;2^{\lfloor \frac N 2 \rfloor};1+N+\frac {N(N-1)(N-2)} 6
@@ -601,7 +642,10 @@ $$
 
 我们知道$m_H (N)$要么等于$2^N$，要么有一个多项式的上界，根据这两点，除了$2^{\lfloor \sqrt N \rfloor},2^{\lfloor \frac N 2 \rfloor}$以外，其余函数均有可能成为$m_H (N)$
 
+
+
 #### Problem 2.9 (Page 70)
+
 [hard] For the perceptron in $d$ dimensions, show that
 $$
 m_H(N)=2\sum_{i=0}^d \binom {N-1} i\\
@@ -713,9 +757,11 @@ print([m(i,d)/2**i for i in [10,20,40]])
 ```
 
     [1.0, 0.67619705200195313, 0.0016889239559532143]
-    
+
 
 概率如上所示，可以看到对于$d=10$，只要有40个点就几乎不可能表出了
+
+
 
 #### Problem 2.10 (Page 70)
 
@@ -725,6 +771,7 @@ Show that $m_H(2N) \le m_H (N)^2 $, and hence obtain a generaIization bound whic
 $$
 m_H(2N) \le m_H (N)^2
 $$
+
 
 
 #### Problem 2.11 (Page 70)
@@ -808,7 +855,7 @@ print(n)
 ```
 
     452957
-    
+
 
 可以看到这个数字非常大，我们再来作图看一下
 
@@ -823,6 +870,7 @@ plt.show()
 
 
 ![png](output_52_0.png)
+
 
 
 #### Problem 2.13 (Page 71)
@@ -920,6 +968,8 @@ d_{vc} (\cup _{k=1}^{n+1}H_k)&=d_{vc} ((\cup _{k=1}^{n}H_k)\cup H_{n+1})
 \end{aligned}
 $$
 因此$K=n+1$时不等式也成立
+
+
 
 #### Problem 2.14 (Page 71)
 
@@ -1046,6 +1096,8 @@ $$
 
 总结下，这题是对并集的VC dimension证明一些不等式，进行放缩，技巧性比较强，但是放缩的过程中发现$7(d_{vc} + K) log_2 (d_{vc}K)$其实是一个很宽松的上界，完全可以取一个更小的下界，不过这里最终的结论应该是要得出$d_{vc}(H) = O(max(d_{vc}, K) log_2 max(d_{vc}, K))$，因此更小的下界其实也不一定有必要了。
 
+
+
 #### Problem 2.15 (Page 71)
 
 The monotonically increasing hypothesis set is 
@@ -1094,6 +1146,8 @@ $$
 因此对于一维的情形，相当于一刀切，左边为$-1$，右边为$+1$，因此一共有$m_{\mathcal{H}}(N)=N+1$
 
 但是对于二维及以上情形就完全不一样了，我们如提示中这样构造点，先随意取一个点$x_1$，接着取第二个点$x_2$，使得$x_2$的第一个分量比$x_1$的第一个分量大，但是第二个分量比$x_1$的第二个分量小，换句话说，我们不让$x_2$大于$x1$，也不让$x_2$小于$x_1$，用同样的方式可以构造$x_3...x_N$，使得这$N$的点任意两个点是无序的，对于这样$N$个点，我们可以shatter 他们，因为此时$h(x_i)$和$h(x_j)$的关系没有限制。所以对于二维及以上情形$m_H(N)=2^N$
+
+
 
 #### Problem 2.16 (Page 72)
 
@@ -1205,6 +1259,8 @@ d_{vc}=D+1
 $$
 回顾书上的说明，$d_{vc}$可以理解为自由分量的个数，对于$D$次多项式，显然有$D+1$个自由分量。
 
+
+
 #### Problem 2.17 (Page 72) 
 
 The VC dimension depends on the input space as well as $\mathcal{H}$. For a fixed $\mathcal{H}$, consider two input spaces $\mathcal{X_1} \subseteq \mathcal{X_2} $. Show that the VC dimension of $\mathcal{H}$ with respect to input space $\mathcal{X_1}$ is at most the VC dimension of $\mathcal{H}$ with respect to input space $\mathcal{X_2}$. 
@@ -1214,6 +1270,8 @@ How can the result of this problem be used to answer part (b) in Problem 2.16? [
 反正法，假设$d_1=d_{vc}(\mathcal{X1},\mathcal{H})> d_{vc}(\mathcal{X2},\mathcal{H})=d_2$。那么在$\mathcal{X_1}$中必然有$d_1$个点可以被shatter，由$\mathcal{X_1} \subseteq \mathcal{X_2} $我们知道这$d_1$个点也在$\mathcal{X_2}$中，因为假设空间均为$\mathcal{H}$，我们知道$\mathcal{X_2}$中这$d_1$个点也可以被shatter，这就与$d_1=d_{vc}(\mathcal{X1},\mathcal{H})> d_{vc}(\mathcal{X2},\mathcal{H})=d_2$矛盾。因此$d_{vc}(\mathcal{X1},\mathcal{H})\le d_{vc}(\mathcal{X2},\mathcal{H})$
 
 回到上题的(b)部分，我们知道$z_j=(1,x_j,x_j^2...x_j^{D})\in R^{D+1}$，所以整个输入空间的集合构成了整个$R^{D+1}$的子集，而我们知道维度为$D+1$的感知机的VC dimension 为D+1，因此$d_{vc}\le D+1$。
+
+
 
 #### Problem 2.18 (Page 72)
 
@@ -1252,6 +1310,8 @@ $$
 存在z=(z_1,...,z_N,...)\in \{0,1\}^{\infty}.其中(-1)^{z_i}=y_i
 $$
 因此$\mathcal{H}$的VC dimension为无穷大。
+
+
 
 #### Problem 2.19 (Page 72)
 
@@ -1376,6 +1436,8 @@ $$
 可能有人会说(c)需要$D > 2e log_2 D$，这个不等式左边是一次式，右边是对数式，所以只有$D$取个稍微大点的数，例如32，这个不等式就必然成立。由$D = \tilde{d}+ \sum _{i=1}^{K}d_i $可得$D\ge K+1$，所主要$K$稍大一些变能满足不等式了。
 
 总结一下，我认为这题的非常好，这个对于复合函数的VC dimension估计实际上非常好的解释了有些特征转换后的模型为什么可以shatter维度非常高的数据，从数学角度证明了看起来显然的事情。
+
+
 
 #### Problem 2.20 (Page 73)
 
@@ -1721,6 +1783,8 @@ plt.show()
 
 和之前的图稍有不同，这是因为上界取的不同的缘故所致。
 
+
+
 #### Problem 2.21 (Page 74)
 
 Assume the following theorem to hold 
@@ -1780,6 +1844,8 @@ $$
 $$
 因此结论成立。其实这题就是纯粹计算，没什么技巧性。
 
+
+
 #### Problem 2.22 (Page 74)
 
 When there is noise in the data , $E_{out} (g^{(D)}) = E_{x,y} [(g^{(D)} (x) - y(x))^2] $, where $y(x) = f(x) + \epsilon$. If $\epsilon$ is a zero mean noise random variable with variance $\delta^2$ , show that the bias variance decomposition becomes 
@@ -1815,6 +1881,8 @@ $$
 $$
 E_D[E_{out} (g^{(D)})] = \delta^2 + bias + var.
 $$
+
+
 
 #### Problem 2.23 (Page 74)
 
@@ -1985,7 +2053,7 @@ for i in n:
     (0.765253062648756, -0.0028639442057468425)
     (0.7760896638149842, -0.0023032291702520225)
     (0.7715108115910325, 0.0033123763043239156)
-    
+
 
 可以看到，模拟10000次以上得出的结果都比较接近，这里我们取最后一组数据,然后计算$bias$
 
@@ -2129,7 +2197,7 @@ for i in n:
     1.4229954500221687
     1.4303862267979082
     1.4312748986249892
-    
+
 
 取$a=1.4312748986249892$
 
@@ -2251,7 +2319,7 @@ for i in n:
     0.00221990817969627
     -0.0007085095487530242
     0.002409096191388286
-    
+
 
 依旧选取最后一组数据,$b=0.002409096191388286$
 
@@ -2292,11 +2360,11 @@ integrate.tplquad(var_b, -1, 1, lambda x: -1, lambda x: 1,lambda x, y: -1, lambd
 
     (0.23657944182387183, 1.4859571695348272e-08)
 
-
-
 和书上页基本一致。
 
 最后总结一下，这题设计的目的是让我们从实验中验证$bias,var$的等式，我一开始这题完全没有头绪，不过后来做完之后对这部分理解更加深刻了。
+
+
 
 #### Problem 2.24 (Page 75)
 
@@ -2392,7 +2460,7 @@ for i in n:
     (0.0014864777632894372, -0.0014178489060713278)
     (-0.0009288612232758783, 0.0007764903473425881)
     (0.0029127592564764616, -0.0010760763093043003)
-    
+
 
 可以看到后面的结果已经比较接近了，我们这里取最后一组数据，然后作图。
 
