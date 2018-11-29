@@ -19,18 +19,31 @@ http://book.caltech.edu/bookforum/index.php
 
 更新日志：
 
-2018/6/1		上传Chapter1
+2018/6/1
 
-2018/6/15	上传Chapter2
+- 上传Chapter1
 
+2018/6/15
+
+- 上传Chapter2
 - 2018/10/8日更新：根据网友RingoTC提醒([链接](https://github.com/Doraemonzzz/Learning-from-data/issues/1))，修改problem 2.2并对一些排版做了一些调整。
 
-2018/7/1		上传Chapter3
+2018/7/1
 
-2018/7/15	上传Chapter4,Chapter5
+- 上传Chapter3
 
-2018/7/31	上传Chapter8
+2018/7/15
 
-2018/9/5		上传Chapter7
+- 上传Chapter4,Chapter5
 
-2018/11/29	感谢[黄博](https://github.com/fengdu78)的推广，最近star的小伙伴逐渐增多，我后续会抽空对资料进行一些优化，如果大家发现什么问题可以直接发issue，希望能借助大家的力量把这份资料做的更好，谢谢！另外最后两个章节已经完成了一部分，争取年底左右完成。
+2018/7/31
+
+- 上传Chapter8
+
+2018/9/5
+
+- 上传Chapter7
+
+2018/11/29
+
+- 感谢[黄博](https://github.com/fengdu78)的推广，最近star的小伙伴逐渐增多，我后续会抽空对资料进行一些优化，如果大家发现什么问题可以直接发issue，希望能借助大家的力量把这份资料做的更好，谢谢！另外最后两个章节已经完成了一部分，争取年底左右完成。
