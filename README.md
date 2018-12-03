@@ -47,3 +47,8 @@ http://book.caltech.edu/bookforum/index.php
 2018/11/29
 
 - 感谢[黄博](https://github.com/fengdu78)的推广，最近star的小伙伴逐渐增多，我后续会抽空对资料进行一些优化，如果大家发现什么问题可以直接发issue，希望能借助大家的力量把这份资料做的更好，谢谢！另外最后两个章节已经完成了一部分，争取年底左右完成。
+
+2018/12/4
+
+- 上传Chapter6，Chapter7的草稿，其中Chaper6大部分已经完成，Chapter7只完成了一部分，后续部分会尽快给出解答。
+
