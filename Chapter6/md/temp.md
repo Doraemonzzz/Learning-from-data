@@ -95,3 +95,320 @@ $$
 \Big(F_{\mathcal N}\Big(\frac{x_n +\epsilon -\mu_k}{\sigma_k}\Big)-
 F_{\mathcal N}\Big(\frac{x_n -\epsilon -\mu_k}{\sigma_k}\Big) \Big)}{P(x_n)}
 $$
+
+
+
+#### Problem 6.28 (Page 51)
+
+(a)将$\mathbb E_{P(x,y)}$记为$\mathbb E$
+$$
+\begin{aligned}
+E_{out}(h) &=\mathbb E[(h(x)-y)^2] \\
+&=\mathbb E[(h(x)-\mathbb E[y|x]+\mathbb E[y|x]-y)^2] \\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
++2\mathbb E[(h(x)-\mathbb E[y|x])(\mathbb E[y|x]-y)]\\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
++2\mathbb E[\mathbb E [(h(x)-\mathbb E[y|x])(\mathbb E[y|x]-y)]|x]\\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
++2\mathbb E[(h(x)-\mathbb E[y|x]) \mathbb E [(\mathbb E[y|x]-y)]|x]\\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
++2\mathbb E[(h(x)-\mathbb E[y|x]) \mathbb (\mathbb E[y|x] -\mathbb E[y|x])]\\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]\\
+&\ge \mathbb E[(h(x)-\mathbb E[y|x])^2]
+\end{aligned}
+$$
+当且仅当$y=\mathbb E[y|x]$时等式成立。
+
+(b)首先证明一个引理：
+$$
+X= \left(
+ \begin{matrix}
+   X_1 \\
+   X_2
+  \end{matrix}
+  \right) 
+  \sim N_n 
+  \left(
+  \left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2
+  \end{matrix}
+  \right) ,
+  \left(
+ \begin{matrix}
+   \sum_{11} &   \sum_{12} \\
+   \sum_{21} &\sum_{22} 
+  \end{matrix}
+  \right)
+   \right) \\
+   X_1 ,\mu _1 \in \mathbb R^k ,{\sum}_{11}为k阶方阵， 
+   {\sum}_{11}，{\sum}_{21}{\sum}_{22}相应矩阵，|{\sum}_{22}| \neq 0\\
+   
+  那么(1)X_1 \sim  N_k (\mu_1, {\sum}_{11})\\
+  (2)在X_1= x_1条件下，X_2的条件分布是\\
+  N_{n-k} 
+  \left(
+  \mu_2+{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1),
+ {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+   \right)
+$$
+(1)证明：
+
+令
+$$
+B = \left(
+ \begin{matrix}
+   I_k & 0 \\
+   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+  \end{matrix}
+  \right) (该矩阵为分块初等矩阵)
+$$
+那么
+$$
+\begin{aligned}
+B\sum B'&=\left(
+ \begin{matrix}
+   I_k & 0 \\
+   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+  \end{matrix}
+  \right)
+    \left(
+ \begin{matrix}
+   \sum_{11} &   \sum_{12} \\
+   \sum_{21} &\sum_{22} 
+  \end{matrix}
+  \right)
+  
+  \left(
+ \begin{matrix}
+   I_k &  -{\sum}_{11}^{-1}{\sum}_{12} \\
+   0&  I_{n-k}  
+  \end{matrix}
+  \right) \\
+  &=
+  \left(
+ \begin{matrix}
+   \sum_{11} &   \sum_{12} \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)
+   \left(
+ \begin{matrix}
+   I_k &  -{\sum}_{11}^{-1}{\sum}_{12} \\
+   0&  I_{n-k}  
+  \end{matrix}
+  \right)\\
+  &=\left(
+ \begin{matrix}
+   \sum_{11} &  0 \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)
+\end{aligned}\\
+B\left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2
+  \end{matrix}
+  \right)  = \left(
+ \begin{matrix}
+   I_k & 0 \\
+   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+  \end{matrix}
+  \right) \left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2
+  \end{matrix}
+  \right)
+  = \left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2 -{\sum}_{21}{\sum}_{11}^{-1} \mu_1
+  \end{matrix}
+  \right)
+$$
+设$Y = BX$，那么
+$$
+Y= \left(
+ \begin{matrix}
+   Y_1 \\
+   Y_2
+  \end{matrix}
+  \right) =BX =\left(
+ \begin{matrix}
+   I_k & 0 \\
+   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+  \end{matrix}
+  \right)
+  \left(
+ \begin{matrix}
+   X_1 \\
+   X_2
+  \end{matrix}
+  \right)  = 
+  \left(
+ \begin{matrix}
+   X_1 \\
+   X_2-{\sum}_{21}{\sum}_{11}^{-1}X_1
+  \end{matrix}
+  \right) \\
+   B(X-\mu)=\left(
+ \begin{matrix}
+   X_1-\mu_1 \\
+   X_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(X_1 -\mu_1)
+  \end{matrix}
+  \right)
+$$
+因此
+$$
+Y= \left(
+ \begin{matrix}
+   Y_1 \\
+   Y_2
+  \end{matrix}
+  \right) 
+  \sim N_n 
+  \left(
+   \left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2 -{\sum}_{21}{\sum}_{11}^{-1} \mu_1
+  \end{matrix}
+  \right) ,
+ \left(
+ \begin{matrix}
+    \sum_{11} &  0 \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)
+   \right)
+$$
+不难看出$Y_1,Y_2$独立，从而
+$$
+Y_1=X_1 \sim N_k (\mu_1, {\sum}_{11})
+$$
+(2)证明：按定义将$X,X_1$的分布写出来
+$$
+f_X(x) = \frac{1}{(2\pi)^{\frac n 2 } |\sum|^{\frac 1 2 }} 
+\exp(-\frac 1 2 (x-\mu)^T{\sum}^{-1} (x-\mu)) \\
+f_{X_1}(x_1) = \frac{1}{(2\pi)^{\frac k 2 } |\sum_{11}|^{\frac 1 2 }} 
+\exp(-\frac 1 2 (x_1-\mu_1)^T{\sum}_{11}^{-1} (x_1-\mu_1))
+$$
+对$(x-\mu)'{\sum}^{-1} (x-\mu)$进行处理，利用上一题的$B$，不难看出$B$为正交矩阵，即$B^TB=BB^T =I$，所以
+$$
+\begin{aligned}
+(x-\mu)^T{\sum}^{-1} (x-\mu) 
+&= (x-\mu)^TB^T B {\sum}^{-1} B^T B (x-\mu) \\
+&= (B(x-\mu))^T (B{\sum} B^T)^{-1} (B (x-\mu)) \\
+&= \left(
+ \begin{matrix}
+   x_1-\mu_1 \\
+   x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)
+  \end{matrix}
+  \right)^T\left(
+ \begin{matrix}
+   \sum_{11} &  0 \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)\left(
+ \begin{matrix}
+   x_1-\mu_1 \\
+   x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)
+  \end{matrix}
+  \right) \\
+  &=( x_1-\mu_1 )^T \sum_{11}( x_1-\mu_1 )+
+  (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
+ ( \sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
+ (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))
+\end{aligned}
+$$
+注意到
+$$
+|\sum| =\det (\left(
+ \begin{matrix}
+   \sum_{11} &  0 \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)) =|\sum_{11}||\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}|
+$$
+所以条件概率为
+$$
+\begin{aligned}
+f_{X_2|X_1}(x|x_1)&=
+\frac{\frac{1}{(2\pi)^{\frac n 2 } |\sum|^{\frac 1 2 }} 
+\exp(( x_1-\mu_1 )^T \sum_{11}( x_1-\mu_1 )+
+  (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
+ ( \sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
+ (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)))}
+{\frac{1}{(2\pi)^{\frac k 2 } |\sum_{11}|^{\frac 1 2 }} 
+\exp(-\frac 1 2 (x_1-\mu_1)^T{\sum}_{11}^{-1} (x_1-\mu_1))}\\
+&= \frac{1}{(2\pi)^{\frac {n-k} 2 }|\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}|^{\frac 1 2 }}
+\exp((x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
+ ( {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
+ (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)))
+\end{aligned}
+$$
+即
+$$
+f_{X_2|X_1}(x|x_1) \sim N_{n-k} 
+  \left(
+  \mu_2+{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1),
+ {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+   \right)
+$$
+
+
+
+
+回到原题，记$Z_k \sim N(\mu_k, S_k^{-1})$，对应的$X,Y$分别记为$X_k,Y_k$那么
+$$
+f_Z(z) = \sum_{k=1}^K \frac{w_k |S_k|^{\frac 1 2 }}{(2\pi)^{\frac{d+1}{2}}}
+\exp(-\frac 1 2 (z-\mu_k)^T S_k (z-\mu_k))=\sum_{k=1}^K 
+w_k f_{Z_k}(z)
+$$
+由引理的第一部分可知
+$$
+f_X(x)  = \sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))
+= \sum_{k=1}^K w_k f_{X_k}(x)
+$$
+所以
+$$
+f_{Y|X}(y|x) =\frac{\sum_{k=1}^K w_k f_{X_k}(x)f_{Y_k|X_k}(y|x)}{f_X(x)}
+$$
+由引理的第二部分可知
+$$
+f_{Y_k|X_k}(y|x) \sim N(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k) , S_k^* )\\
+S_k^*可由引理计算出来
+$$
+对上式取期望可得
+$$
+\mathbb E_{Y_k|X_k}[y|x] = \beta_k+\frac 1 {c_k}b_k^T(x-\mu_k)
+$$
+对整体取期望可得
+$$
+\begin{aligned}
+g(x) &=\mathbb E[y|x]\\
+&= \frac{\sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k))}{\sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k)} \\
+&=\frac{\sum_{k=1}^K {w_k |A_k|^{\frac 1 2 }}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k))}{\sum_{k=1}^K {w_k |A_k|^{\frac 1 2 }}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))}
+\end{aligned}
+$$
+
+
+(c)此时为(b)的特殊情形
+$$
+K= N,w_k =\frac 1 K ,\alpha_k= x_k,\beta_k =y_k,S_k =r^2 I
+$$
+带入上式可得
+$$
+\begin{aligned}
+g(x) &=\mathbb E[y|x]\\
+&=\frac{\sum_{n=1}^N \exp({-\frac 1 {2r^2}||x-x_n||^2  })y_n}{\sum_{n=1}^N \exp({-\frac 1 {2r^2}||x-x_n||^2  })}
+\end{aligned}
+$$

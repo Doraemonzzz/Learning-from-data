@@ -2001,7 +2001,7 @@ $$
 $$
 d_{eff}(\lambda)=d+1-\sum_{i=0}^d\frac{\lambda}{s_i+\lambda}
 $$
-(c) For $d_{e ﬀ}(\lambda) = trace(H^2(\lambda)) $, show that $d_{eff}(\lambda)=\sum_{i=0}^d\frac{\lambda^4}{(s_i+\lambda)^2}$   
+(c) For $d_{e ﬀ}(\lambda) = trace(H^2(\lambda)) $, show that $d_{eff}(\lambda)=\sum_{i=0}^d\frac{s_i^4}{(s_i+\lambda)^2}​$   
 
 In all cases, for $ﬀﬀ\lambda\ge0,0\le d_{eﬀ }\le \tilde{d} + 1, d_{eﬀ}(0) = d+ 1$ and $ﬀd_{eﬀ}$ is decreasing in $\lambda$. [Hint: use the singular value decomposition $\tilde{Z} = USV^T$, where $U,V$ are orthogonal and $S$ is diagonal with entries $s_i$ .] 
 

@@ -1188,7 +1188,7 @@ For the $1$-NN rule in two dimensions ($d = 2$) and data set $(x_1, y_1), . . . 
 
 (b) How does the out-of-sample error for the $1$-NN rule using condensed data compare with the $1$-NN rule on the full data (worst case and on average)?    
 
-(a)假设被condense的区域为$V_1,...,V_k$，现在任取一点$x$，如果$x \notin V_i,(i=1,...,k)$，那么和原数据的分类结果显然一致，如果$x \in V_i,(i=1,...,k)$，那么离$x$最近的点必然为$V_i$的邻居，由定义可知，$V_i$的邻居的分类和$V_i$一致，所以$x$的分类结果与原数据的分类结果一致，从而结论成立。
+(a)假设被condense的区域为$V_1,...,V_k$，现在任取一点$x$，如果$x \notin V_i,(i=1,...,k)$，那么和原数据的分类结果显然一致，如果$x \in V_i,(i=1,...,k)$，那么离$x$最近的点必然为$V_i$的邻居，由定义可知，$V_i$的邻居的分类和$V_i$一致，所以$x​$的分类结果与原数据的分类结果一致，从而结论成立。
 
 (b)回顾课本第$7$页的公式
 $$

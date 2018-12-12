@@ -50,5 +50,8 @@ http://book.caltech.edu/bookforum/index.php
 
 2018/12/4
 
-- 上传Chapter6，Chapter7的草稿，其中Chaper6大部分已经完成，Chapter7只完成了一部分，后续部分会尽快给出解答。
+- 上传Chapter6，Chapter9的草稿，其中Chaper6大部分已经完成，Chapter9只完成了一部分，后续部分会尽快给出解答。
 
+2018/12/12
+
+- 完成Chapter9绝大多数内容，剩余少部分等有空再解答。
