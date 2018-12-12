@@ -1,3 +1,23 @@
+大家好，这篇是有关Learning from data第九章习题的详解，这一章主要介绍了一些学习技巧。
+
+我的github地址：  
+https://github.com/Doraemonzzz
+
+个人主页：  
+http://doraemonzzz.com/
+
+参考资料:  
+https://blog.csdn.net/a1015553840/article/details/51085129  
+http://www.vynguyen.net/category/study/machine-learning/page/6/  
+http://book.caltech.edu/bookforum/index.php  
+http://beader.me/mlnotebook/
+
+
+
+## Chapter 9 Learning Aides
+
+
+
 #### SVD补充
 
 课本中$11$页的SVD和平常见到的不大一样，这里做下注解，常见的SVD形式如下
@@ -33,6 +53,8 @@ $$
 为课本第10页的形式
 
 
+
+### Part 1: Exercise
 
 #### Exercise 9.1 (Page 1)
 
@@ -583,6 +605,8 @@ $$
 (d)这题暂时略过
 
 
+
+### Part 2:Problems
 
 #### Problem 9.1 (Page 38)
 
