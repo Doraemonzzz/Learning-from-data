@@ -14,6 +14,8 @@ http://beader.me/mlnotebook/
 
 
 
+## Chapter7 Neural Networks
+
 ### Part 1: Exercise
 
 #### Exercise 7.1  (Page 2)

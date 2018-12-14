@@ -1,4 +1,24 @@
-#### Exercise 6.1 (Page 3) 
+大家好，这篇是有关Learning from data第六章习题的详解，这一章从K-NN开始，介绍了一些Similarity-Based Methods。
+
+我的github地址：  
+https://github.com/Doraemonzzz
+
+个人主页：  
+http://doraemonzzz.com/
+
+参考资料:  
+https://blog.csdn.net/a1015553840/article/details/51085129  
+http://www.vynguyen.net/category/study/machine-learning/page/6/  
+http://book.caltech.edu/bookforum/index.php  
+http://beader.me/mlnotebook/
+
+
+
+## Chapter 6 Similarity-Based Methods
+
+### Part 1: Exercise
+
+####  Exercise 6.1 (Page 3) 
 
 (a) Give two vectors with very high cosine similarity but very low Euclidean distance similarity. Similarly, give two vectors with very low cosine similarity but very high Euclidean distance similarity. 
 
@@ -23,7 +43,7 @@ $$
 d(a+x_1,a+x_2)=|a+x_1-a-x_2 |=|x_1-x_2 |=d(x_1,x_2)\\
 \text{CosSim}(a+x_1, a+x_2) =\frac{(a+x_1).(a+x_2)}{|a+x_1||a+x_2|}
 $$
-可以看到欧式距离相似性是不变的，然而余弦距离相似性会改变，例如取$a=0,a=-x_1$，得到的结果不相同。所以如果使用欧式距离相似性，那么不会影响特征选择，如果采用余弦距离相似性，那么会影响特征的选择。
+可以看到欧式距离相似性是不变的，然而余弦距离相似性会改变，例如取$a=0,a=-x_1​$，得到的结果不相同。所以如果使用欧式距离相似性，那么不会影响特征选择，如果采用余弦距离相似性，那么会影响特征的选择。
 
 
 
@@ -117,7 +137,7 @@ $$
 \sum_{i=0}^{\frac{k-1}{2}} \binom k i  \pi(x)^i(1- \pi(x))^{k-i} +F_N(x,x_1,...,x_N)\\
 随着N增加，F_N(x,x_1,...,x_N)依概率收敛到0
 $$
-同理$P[g_N(x)= +1] ​$发生的概率为
+同理$P[g_N(x)= +1] $发生的概率为
 $$
 \sum_{i=0}^{\frac{k-1}{2}}\binom k i(1- \pi(x))^{i}   \pi(x)^{k-i}+G_N(x,x_1,...,x_N)\\
 随着N增加，G_N(x,x_1,...,x_N)依概率收敛到0
@@ -140,15 +160,56 @@ $$
 E_{out}(g_N ) = \mathbb E_x[Q_k(η(x))] +  \mathbb E_x[\epsilon_N (x)]\\
 Q_k(η) =\sum_{i=0}^{(k-1)/2} \binom k i \Big(\eta^{i+1}(1 - η)^{k-i} + (1 - η)^{i+1}η^{k-i} \Big)
 $$
-(c)$k=3$时，注意$\eta \le \frac 1 2 $
+(b)作图
+
+```python
+from scipy.special import comb
+import matplotlib.pyplot as plt
+import numpy as np
+
+def Q(k, x):
+    s = 0
+    for i in range(0, (k+1)//2):
+        s1 = x ** (i + 1) * (1 - x) ** (k - i)
+        s2 = (1 - x) ** (i + 1) * x ** (k - i)
+        s += comb(k, i) * (s1 + s2)
+    return s
+
+x = np.arange(0.01, 0.5, 0.01)
+K = np.arange(1, 20, 2)
+for k in K:
+    result = []
+    for i in x:
+        result.append(Q(k, i))
+    plt.plot(x, result, label = str(k))
+    plt.legend()
+plt.title("$Q_k$ VS $\eta$")
+plt.show()
+```
+
+![png](output_1_0.png)
+
+(c)$k=3​$时，注意$\eta \le \frac 1 2 ​$
 $$
 \begin{aligned}
 Q_3(η) 
 &=\sum_{i=0}^{1} \binom 3i \Big(\eta^{i+1}(1 - η)^{3-i} + (1 - η)^{i+1}η^{3-i} \Big)\\
 &=  \binom 30 \Big(\eta^{1}(1 - η)^{3}+ \eta^{3}(1 - η)^{1} \Big)+ \binom 31\Big( \eta^{2}(1 - η)^{2}+ \eta^{2}(1 - η)^{2} \Big)\\
-&\le \Big(\eta(1 - η)+ \eta^{2} \Big)+3\eta^{2}\\
-&=\eta+3\eta^{2}
+&= \eta(\eta^3-3\eta^2+3\eta-1) +\eta^3 -\eta^4 + 6\eta^2(\eta^2-2\eta+1) \\
+&=6\eta^4-14\eta^3 +9\eta^2-\eta\\
+&= \eta(6\eta^3-14\eta^2 +9\eta-1)
 \end{aligned}
+$$
+注意到
+$$
+6\eta^3-14\eta^2 +9\eta-1 \le 1 +3\eta \Leftrightarrow \\
+6\eta^3-14\eta^2+6\eta-2 \le 0 \Leftrightarrow\\
+6\eta^3-13\eta^2+6\eta-\eta^2-2 \le 0 \Leftrightarrow\\
+\eta(3\eta -2)(2\eta-3) -\eta^2-2 \le 0
+$$
+由$\eta \le \frac 1 2 $可知最后一个不等式成立，从而第一个不等式成立，因此
+$$
+Q_3(η) \le \eta(1+3\eta) =\eta+3\eta^2
 $$
 因为$\epsilon_N(x)$依概率收敛到$0$，从而有至少$1-\delta$的概率
 $$
@@ -334,7 +395,7 @@ $$
 $$
 d(x_*,x_1)\le d(x_*,x_2)\le...\le d(x_*,x_N)
 $$
-因此决定了$ g_{\mathcal D}(x_*)​$的$k​$个点为
+因此决定了$ g_{\mathcal D}(x_*)$的$k$个点为
 $$
 x_1,...,x_k
 $$
@@ -409,7 +470,7 @@ $$
 
 #### Exercise 6.9 (Page 20)
 
-With $C$ classes labeled $1, . . . , C$, define $π_c(x) = \mathbb P[c|x]$ (the probability to bserve class $c$ given $x$, analogous to $π(x)$). Let $η(x) = 1 - \text{max}_c π_c(x)$. 
+With $C$ classes labeled $1, . . . , C$, define $π_c(x) = \mathbb P[c|x]$ (the probability to observe class $c$ given $x$, analogous to $π(x)$). Let $η(x) = 1 - \text{max}_c π_c(x)$. 
 
 ​(a) Define a target $f(x) = \text{argmax}_c π_c(x)$. Show that, on a test point $x$, $f$ attains the minimum possible error probability of 
 $$
@@ -433,7 +494,8 @@ e(f(x)) &= \mathbb P[f(x) \neq  y]\\
 &=\sum_{c=1}^C (1- \mathbb P[f(x) =  c] )  π_c(x) \\
 &=\sum_{c=1}^Cπ_c(x) - \sum_{c=1 }^C   \mathbb P[f(x) =  c] π_c(x) \\
 &=1- \sum_{c=1 }^C   \mathbb P[\text{argmax}_i π_i(x)=  c] π_c(x) \\
-&=1- \sum_{c=1 }^C   \mathbb P[\text{argmax}_i π_i(x)=  c] π_c(x)
+&=1- \max_{c} π_c(x)\\
+&=\eta(x)
 \end{aligned}
 $$
 (b)
@@ -482,6 +544,7 @@ $$
 $$
 E_{\text{out}}(g_N) ≤ 2E_{\text{out}}^ ∗ - \frac{C} {C - 1} (E_{\text{out}}^∗ )^2
 $$
+
 
 
 #### Exercise 6.10 (Page 23)
@@ -560,6 +623,7 @@ g(x) =\frac {\sum_{n=1}^Ny_{[n]}α_{[n]}/α_{[1]}} {\sum_{m=1}^N α_{[m]}/α_{[1
 $$
 
 
+
 #### Exercise 6.12 (Page 27) 
 
 (a) For the Gaussian kernel, what is $g(x)$ as $||x|| → ∞$ for the nonparametric RBF versus for the parametric RBF with fixed $w_n$? 
@@ -633,6 +697,7 @@ S_j = \{x_n : ||x_n - \mu_j|| ≤  ||x_n - \mu_ℓ||\text{ for }ℓ = 1, . . . ,
 $$
 
 
+
 #### Exercise 6.14 (Page 32) 
 
 Show that steps 2 and 3 in Lloyd’s algorithm can never increase $E_{\text{in}}$, and hence that the algorithm must eventually stop iterating. [Hint: There are only a finite number of different partitions]    
@@ -657,7 +722,7 @@ $$
 N_j =\sum_{n=1}^N \frac 1 k =\frac N k\\
 w_j= \frac{N_j}{N}=\frac 1 k \\
 \mu_j= \frac 1{N_j} \sum_{n=1}^N \gamma_{nj}x_n=\frac 1 N \sum_{n=1}^Nx_n\\
-{\sum}_j = \frac 1{N_j}\sum_{n=1}^N \gamma_{nj}x_nx_n^T - \mu_j\mu_j^T = \frac 1 N \sum_{n=1}^N x_nx_n^T -\frac 1 {N^2}(\sum_{n=1}^Nx_n)^2
+{\sum}_j = \frac 1{N_j}\sum_{n=1}^N \gamma_{nj}x_nx_n^T - \mu_j\mu_j^T = \frac 1 N \sum_{n=1}^N x_nx_n^T -\frac 1 {N^2}(\sum_{n=1}^Nx_n)(\sum_{n=1}^Nx_n)^T
 $$
 这说明$\mu_j,{\sum}_j $为常量。
 
@@ -673,6 +738,8 @@ $$
 从而更新之后$γ_{nj}(t+1)$依旧为$\frac 1 k$，从而$γ_{nj}$初始值为$\frac 1 k$会导致更新没有效果。
 
 
+
+### Part 2: Problems
 
 #### Problem 6.1 (Page 42)
 
@@ -690,7 +757,7 @@ $$
 \left[ \begin{matrix}x_1 \\ x_2 \end{matrix}\right] →\left[ \begin{matrix}z_1 \\ z_2 \end{matrix}\right]  = 
 \left[ \begin{matrix}\sqrt{x_1^2+x_2^2} \\ \arctan (x_2/x_1) \end{matrix}\right] 
 $$
-which maps $x$ to $z$. Show the classification regions in the $x$-space for the $1$-NN and $3$-NN rules implemented on the data in the $z$-space.
+which maps $x$ to $z$. Show the classification regions in the $x$-space for the $1$-NN and $3$-NN rules implemented on the data in the $z​$-space.
 
 (a)利用sklearn的函数包
 
@@ -746,7 +813,7 @@ knn(X, y, 1)
 ```
 
 
-![png](output_1_0.png)
+![png](output_3_0.png)
 
 
 
@@ -755,7 +822,7 @@ knn(X, y, 3)
 ```
 
 
-![png](output_2_0.png)
+![png](output_4_0.png)
 
 (b)进行特征转换，注意$\arctan(1,0)$我取了$\frac \pi 2$
 
@@ -805,7 +872,7 @@ knn_with_transform(X, Z, y, 1)
 ```
 
 
-![png](output_5_0.png)
+![png](output_7_0.png)
 
 
 
@@ -814,7 +881,7 @@ knn_with_transform(X, Z, y, 3)
 ```
 
 
-![png](output_6_0.png)
+![png](output_8_0.png)
 
 [代码参考地址](http://sklearn.apachecn.org/cn/0.19.0/auto_examples/neighbors/plot_classification.html#sphx-glr-auto-examples-neighbors-plot-classification-py)
 
@@ -883,7 +950,7 @@ knn_condense(x, X, y, Y, 1)
 ```
 
 
-![png](output_9_0.png)
+![png](output_11_0.png)
 
 可以看出in-sample error为$\frac 3 7$
 
@@ -920,7 +987,7 @@ knn_condense(data, X, label, Y, 1)
 ```
 
 
-![png](output_12_0.png)
+![png](output_14_0.png)
 
 可以看出in-sample error为$\frac 3 7$
 
@@ -1019,11 +1086,11 @@ knn(X, y, 3)
 ```
 
 
-![png](output_14_0.png)
+![png](output_16_0.png)
 
 
 
-![png](output_14_1.png)
+![png](output_16_1.png)
 
 [代码参考地址](http://sklearn.apachecn.org/cn/0.19.0/auto_examples/neighbors/plot_classification.html#sphx-glr-auto-examples-neighbors-plot-classification-py)
 
@@ -1125,6 +1192,7 @@ d_{\text{vc}}(\mathcal H) = K
 $$
 
 
+
 #### Problem 6.8 (Page 43)
 
 Suppose the target function is deterministic, so $π(x)=0$ or $π(x) = 1$. The decision boundary implemented by $f$ is defined as follows. The point $x$ is on the decision boundary if every ball of positive radius centered on $x$ contains both positive and negative points. Conversely if $x$ is not on the decision boundary, then some ball around $x$ contains only points of one classification. 
@@ -1139,6 +1207,7 @@ $$
 $$
 E_{\text{out}} \to E_{\text{out}}^∗
 $$
+
 
 
 #### Problem 6.9 (Page 43) 
@@ -1175,6 +1244,94 @@ $$
 #### Problem 6.10 (Page 44)
 
 Let $E_{\text{out}}(k) = \text{lim}_{N→∞} E_{\text{out}}(g_N(k))$, where $g_N(k)$ is the $k$-nearest neighbor rule on a data set of size $N$, where $k$ is odd. Let $E_{\text{out}}^*$ is the optimal out-of-sample probability of error. Show that (with probability $1$), 
+$$
+E_{\text{out}}^* ≤E_{\text{out}}(k) ≤E_{\text{out}}(k-2) ≤ · · · ≤ E_{\text{out}}(1)≤ 2E_{\text{out}}^*
+$$
+
+因为$E_{\text{out}}^* ≤E_{\text{out}}(k) \le 2E_{\text{out}}^* $在课本中已经说明，所以只要证明$E_{\text{out}}(k)$关于$k$单调递减即可，这个证明思路非常巧妙，参考[A Probabilistic Theory of Pattern Recognition](https://book.douban.com/subject/1465496/)第73页。
+
+证明前先介绍加权$k-$NN，即
+$$
+g_k(x) =\text{sign}(\sum_{i=1}^k w_iy_{[i]}(x))，其中\sum_{i=1}^kw_{i}=1
+$$
+不难看出，我们常用的$k-$NN即为上式中$w_i=\frac 1 k $的特殊情形，不仅如此，加权$k -$NN给我们一种看待$k-j-$NN的新视角：即$k-j-$NN为加权$k-$NN在$w_i = \frac{1}{k-j},i=1,...j$的特殊情形，所以我们要证明的结论相当于$E_{\text{out}}(k) $取最小值当且仅当
+$$
+g_k(x) =\text{sign}(\sum_{i=1}^k\frac 1 k y_{[i]}(x))
+$$
+下面开始证明：
+
+假设
+$$
+P(y=1|x) = p,P(y=-1|x) = 1-p
+$$
+所以
+$$
+E_{\text{out}}(k) 
+= P(\sum_{i=1}^k w_iy_{[i]}(x)>0)(1-p) + 
+P(\sum_{i=1}^k w_iy_{[i]}(x)\le 0) p
+$$
+如果$p=\frac 1 2$，所以
+$$
+E_{\text{out}}(k) =P(\sum_{i=1}^k w_iy_{[i]}(x)>0)\times \frac 12  + 
+P(\sum_{i=1}^k w_iy_{[i]}(x)\le 0)\times \frac 12  = \frac 12
+$$
+结论平凡，所以只考虑$p\neq \frac 1 2$的情形，又由对称性，我们假设$p < \frac 1 2$，将上式化为
+$$
+E_{\text{out}}(k) =p+(1-2p)P(\sum_{i=1}^k w_iy_{[i]}(x)>0)
+$$
+我们假设$P(\sum_{i=1}^k w_iy_{[i]}(x)=0)=0$，记$N_l$为$\sum I_{y_{[i]}(x)=1}=l$且$\sum_{i=1}^k w_iy_{[i]}(x)>0$的数量，注意到
+$$
+\sum I_{y_{[i]}(x)=1}=l,\sum_{i=1}^k w_iy_{[i]}(x)<0 \Leftrightarrow \\
+\sum I_{y_{[i]}(x)=-1}=k-l,\sum_{i=1}^k w_i(-y_{[i]}(x))>0 \Leftrightarrow \\
+\sum I_{-y_{[i]}(x)=1}=k-l,\sum_{i=1}^k w_i(-y_{[i]}(x))>0
+$$
+这说明使得$\sum I_{y_{[i]}(x)=1}=l$且$\sum_{i=1}^k w_iy_{[i]}(x)<0$的数量为$N_{k-l}$，注意到$\sum I_{y_{[i]}(x)=1}=l$的数量为$\binom k l$，所以
+$$
+N_l + N_{k-l} =\binom k l
+$$
+特别的，如果$k$为偶数，那么对上式令$l=\frac  k 2$
+$$
+N_{\frac k 2 } + N_{\frac k 2 } =\binom k {\frac k 2 } \\
+ N_{\frac k 2 } =\frac 1  2\binom k {\frac k 2 }
+$$
+利用该记号对$P(\sum_{i=1}^k w_iy_{[i]}(x)>0)$进行处理
+$$
+\begin{aligned}
+P(\sum_{i=1}^k w_iy_{[i]}(x)>0)
+&= \sum_{l=0}^k  N_l p^{l}(1-p)^{k-l} \\
+&= \sum_{l< \frac k 2 }N_l p^{l}(1-p)^{k-l} +
+\sum_{l> \frac k 2 }N_l p^{l}(1-p)^{k-l} +
+ \frac 1  2\binom k {\frac k 2 }p^{\frac k 2 }(1-p)^{\frac k 2}I_{k为偶数} \\
+ &=\sum_{l< \frac k 2 }N_l p^{l}(1-p)^{k-l} +
+\sum_{l< \frac k 2 }N_{k-l} p^{k-l}(1-p)^{l} +
+ \frac 1  2\binom k {\frac k 2 }p^{\frac k 2 }(1-p)^{\frac k 2}I_{k为偶数}(对第二项令l'=k-l) \\
+ &=\sum_{l< \frac k 2 }N_l p^{l}(1-p)^{k-l} +
+\sum_{l< \frac k 2 }\Big(\binom k l-N_l\Big) p^{k-l}(1-p)^{l} +
+ \frac 1  2\binom k {\frac k 2 }p^{\frac k 2 }(1-p)^{\frac k 2}I_{k为偶数}\\
+ &=\sum_{l< \frac k 2 }\binom k lp^{k-l}(1-p)^{l} + \sum_{l< \frac k 2 }
+ N_l \Big(p^{l}(1-p)^{k-l} -p^{k-l}(1-p)^{l}\Big) +\frac 1  2\binom k {\frac k 2 }p^{\frac k 2 }(1-p)^{\frac k 2}I_{k为偶数} \\
+ &=I + II+III
+\end{aligned}
+$$
+注意到$I,III$和权重$w_i$无关，所以只要考虑第二项即可，注意$p<\frac 1 2$，所以
+$$
+(1-p)^i > p^i
+$$
+因此
+$$
+\begin{aligned}
+\sum_{l< \frac k 2 }
+ N_l \Big(p^{l}(1-p)^{k-l} -p^{k-l}(1-p)^{l}\Big)
+ &=\sum_{l< \frac k 2 }
+ N_l p^{l}(1-p)^{l}\Big( (1-p)^{k-2l}-p^{k-2l}\Big)\\
+ &\ge 0
+\end{aligned}
+$$
+等号成立当且仅当$N_l =0(l<\frac k 2)$，即$\sum I_{y_{[i]}(x)=1}=l$且$\sum_{i=1}^k w_iy_{[i]}(x)>0$的数量为$0$，这种情形只可能在一种状况下发生——每一项的权重相等，所以等号成立当且仅当$w_i =\frac 1 k$，即我们证明了如下结论：
+$$
+E_{\text{out}}(k)取最小值当且仅当每一项的权重都为\frac 1 k
+$$
+由之前描述可知$E_{\text{out}}(k-2)$可以理解为$E_{\text{out}}(k)$的特殊情形，所以
 $$
 E_{\text{out}}^* ≤E_{\text{out}}(k) ≤E_{\text{out}}(k-2) ≤ · · · ≤ E_{\text{out}}(1)≤ 2E_{\text{out}}^*
 $$
@@ -1241,7 +1398,7 @@ f(k)
 &\le 2d+(2-p)f(k-1) \\
 &\le 2d +(2-p)C(d(k-1)+d(2-p)^{k-1})\\
 &=d(2+C(2-p)(k-1)) +Cd(2-p)^k\\
-& \le C d(\frac 2 C+(k-1))+Cd(2-p)^k \\
+& \le C d(\frac 2 C+2(k-1))+Cd(2-p)^k \\
 &\le C^{'}d(k+(2-p)^k)
 \end{aligned}
 $$
@@ -1287,25 +1444,6 @@ $$
 
 For the full RBFN in Equation (6.6) give the details of a 2-stage algorithm to fit the model to the data. The first stage determines the parameters of the bumps (their centers and covariance matrices); and, the second stage determines the weights. [Hint: For the first stage, think about the E-M algorithm to learn a Gaussian mixture model.]    
 
-首先回顾公式6.6，在34页
-$$
-h(x) = \sum_{j=1}^k w_j e^{− \frac 12
-(x − \mu_j)^TΣ_j^{-1}(x −  \mu_j)}
-$$
-对这个式子进行改写
-$$
-\begin{aligned}
-h(x) 
-&= \sum_{j=1}^k w_j(2\pi)^{\frac d 2 } |Σ_j|^{\frac 1 2 }\frac{1}{(2\pi)^{\frac d 2 } |Σ_j|^{\frac 1 2 }}e^{− \frac 12(x − \mu_j)^TΣ_j^{-1}(x −  \mu_j)}\\
-&= \sum_{j=1}^k w_j ^{'} \frac{1}{(2\pi)^{\frac d 2 } |Σ_j|^{\frac 1 2 }}e^{− \frac 12(x − \mu_j)^TΣ_j^{-1}(x −  \mu_j)}
-\end{aligned}
-$$
-从而将这个式子视为GMM，利用40页的公式计算即可。
-
-（注：个人感觉这样不是很严谨，但暂时只能照着提示这样做）
-
-
-
 我们要优化的式子为
 $$
 \begin{aligned}
@@ -1335,13 +1473,13 @@ L&=- \sum_{i=1}^N\sum_{j=1}^k    \gamma_{ij} \text{ln} \Big ( e^{− \frac 12
 (x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)}
 \end{aligned}
 $$
-先关于$\mu_j$求梯度
+先关于$\mu_m$求梯度
 $$
-\nabla _{\mu_m}L = \frac 1 2  \sum_{i=1}^N\sum_{j=1}^k  \gamma_{ij} { 
+\nabla _{\mu_m}L = \nabla _{\mu_m}\frac 1 2  \sum_{i=1}^N\sum_{j=1}^k  \gamma_{ij} { 
 (x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)} =\frac 1 2   \sum_{i=1}^N  \gamma_{im} Σ_m^{-1}(x_i − \mu_m)=0\\
  \mu_m= \frac{\sum_{i=1}^N  \gamma_{im} x_i}{ \sum_{i=1}^N  \gamma_{im}} =\frac 1 {N_m} \sum_{i=1}^N  \gamma_{im}x_i
 $$
-再关于$Σ_m^{-1}$求梯度，利用$\frac{\partial}{\partial S}(z^TSz)=zz^T$
+再关于$Σ_m^{-1}​$求梯度，利用$\frac{\partial}{\partial S}(z^TSz)=zz^T​$
 $$
 \nabla _{Σ_m^{-1}}L = \frac 1 2  \sum_{i=1}^N \gamma_{im} { 
 (x_i −  \mu_m)(x_i −  \mu_m)^T}
@@ -1411,7 +1549,51 @@ E_{\text{aug}}(h)
 a_k  \Big(h^{(k)}(x)\Big)^2 \Big] dx
 \end{aligned}
 $$
-(c)注意文档上的$L$是不对的，论坛里已经有人指出了，这里$L =\sum^∞_{k=0}(-1)^ka_k \frac{d^{2k}} {dx^{2k}}$，将$h(x) = \sum_{i=1}^N w_iG(x, x_i)$带入(b)中求得等式
+对上式求导
+$$
+\begin{aligned}
+\frac {\partial E_{\text{aug}}(h) }{\partial h}
+&= \frac {\partial  }{\partial h}\int _{−∞}^{∞}  \Big[ \sum_{i=1}^N (h(x) − y_i)^2δ(x − x_i) + λ\sum_{k=0}^\infty
+a_k  \Big(h^{(k)}(x)\Big)^2 \Big] dx\\
+&=\int _{−∞}^{∞}  \Big[ \sum_{i=1}^N 2(h(x) − y_i)δ(x − x_i) + 2λ\sum_{k=0}^\infty
+a_k  h^{(k)}(x)h^{(k+1)}(x) \Big] dx\\
+
+\end{aligned}
+$$
+单独处理第二项
+$$
+\begin{aligned}
+\int _{−∞}^{∞}
+  h^{(k)}(x)h^{(k+1)}(x) dx
+&=\int _{−∞}^{∞}
+ h^{(k+1)}(x) d(h^{(k)}(x)) \\
+&= h^{(k+1)}(x)h^{(k)}(x)|_{-\infty}^{\infty} - \int _{−∞}^{∞}
+ h^{(k+2)}(x)h^{(k-2)}(x) dx\\
+ &=-\int _{−∞}^{∞}
+ h^{(k+2)}(x) d(h^{(k-1)}(x))\\
+ &=...\\
+ &=(-1)^k\int _{−∞}^{∞}
+ h^{(2k)}(x) dx
+\end{aligned}
+$$
+所以导数为
+$$
+\begin{aligned}
+\frac {\partial E_{\text{aug}}(h) }{\partial h}
+
+&=2\int _{−∞}^{∞}  \Big[ \sum_{i=1}^N (h(x) − y_i)δ(x − x_i) + λ\sum_{k=0}^\infty
+(-1)^k a_k
+ h^{(2k)}(x) \Big] dx\\
+
+\end{aligned}
+$$
+令其为$0$可得
+$$
+\int _{−∞}^{∞}  \Big[ \sum_{i=1}^N (h(x) − y_i)δ(x − x_i) + λ\sum_{k=0}^\infty
+(-1)^k a_k
+ h^{(2k)}(x) \Big] dx = 0
+$$
+(c)注意题目中的$L$是不对的，论坛里已经有人指出了，这里$L =\sum^∞_{k=0}(-1)^ka_k \frac{d^{2k}} {dx^{2k}}$，将$h(x) = \sum_{i=1}^N w_iG(x, x_i)$带入(b)中求得等式
 $$
 \sum_{i=1}^N ( \sum_{j=1}^N w_jG(x, x_j) − y_i)δ(x − x_i) + λ\sum_{k=0}^\infty
 (-1)^ka_k\Big ( \sum_{j=1}^N w_jG(x, x_j)\Big ) ^{(2k)}=0\\
@@ -1497,7 +1679,7 @@ G(x,x^{'}) =\int_{-\infty}^{\infty}  \frac{ e^{2\pi if (x- x^{'})} }{Q(f)} df
 $$
 这里我和题目的结论
 $$
-G(x,x^{'}) =\int_{-\infty}^{\infty}  \frac{ e^{2\pi if (x^{'} -x^{'})} }{Q(f)} df
+G(x,x^{'}) =\int_{-\infty}^{\infty}  \frac{ e^{2\pi if (x^{'} -x)} }{Q(f)} df
 $$
 有所不同，暂时不确定谁对谁错，这里先保留这个问题。
 
@@ -1524,6 +1706,7 @@ G(x,x^{'})
 &= \sqrt{\frac {1}{2\pi}}  e^{{-\frac 1 2  (x -x^{'})^2}}
 \end{aligned}
 $$
+
 
 
 #### Problem 6.21 (Page 48)
@@ -1570,7 +1753,7 @@ y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1
 $$
 所以优化问题为
 $$
-\underset {w}{\text{minimize }} \sum_{i=1}^N|w_i| \text{ s.t.  }y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1
+\underset {w}{\text{minimize }} \sum_{i=1}^N|w_i|\\ \text{ s.t.  }y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1
 $$
 这个算法很容易过拟合，因为$E_{in}=0$
 
@@ -1713,7 +1896,7 @@ $$
 现在我们来计算$P[+1|x],P[-1|x]$，由全概率公式可得
 $$
 P[+1|x] =  \sum^k_{ j =1} p_ j\pi_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}\\
-P[+1|x] =  \sum^k_{ j =1} p_ j(1-\pi_j)e^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}
+P[-1|x] =  \sum^k_{ j =1} p_ j(1-\pi_j)e^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}
 $$
 所以
 $$
@@ -1721,7 +1904,7 @@ $$
 P[+1|x]- P[-1|x] 
   &=   \sum^k_{ j =1} p_ j\pi_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)} -  \sum^k_{ j =1} p_ j(1-\pi_j)e^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}\\
   &= \sum^k_{ j =1} p_ j(2\pi_j-1)e^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)} \\
-  &=\sum^k_{ j =1} p_ jw_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}
+  &=\sum^k_{ j =1} w_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}
   \end{aligned}\\
   其中 w_j = p_j(2π_j - 1)
 $$
@@ -1775,9 +1958,15 @@ $$
 Steinhaus Transform:
 $$
 集合X上定义了距离d，那么对于任意a\in X\\
-\delta(x,y) = \frac{2D(x,y)}{d(x,a) + d(y,a) + d(x,y)}构成新的距离
+\delta(x,y) = \frac{2d(x,y)}{d(x,a) + d(y,a) + d(x,y)}构成新的距离
+$$
+在证明之前，给出如下结论：
+$$
+p,q,r >0,如果p\le q,那么\frac{p}{q} \le \frac{p+r}{q+r}
 $$
 证明：
+
+这里取$p=d(x,y),q= d(x,a) + d(y,a) + d(x,y),r=d(x,z)+d(y,z)-d(x,y)$
 $$
 \begin{aligned}
  \delta(x,y)& = \frac{2d(x,y)}{d(x,a)+d(y,a)+d(x,y)}\\
@@ -1787,7 +1976,7 @@ $$
 &= \delta(x,z)+\delta(y,z)
 \end{aligned}
 $$
-证明中利用了$d$为距离，从而
+证明中利用了$d$为距离：
 $$
 d(x,y) \le d(x,z) + d(y,z)\\
 d(y,a) + d(y,z)\ge d(a,z)\\
@@ -1831,7 +2020,7 @@ $$
 $$
 令偏导数等于$0$可得
 $$
-\hat \sigma_1^2 =  \frac 1 n \sum_{i=1}^n(x_i-\mu_1)^2 \\
+\hat \sigma_1^2 =  \frac 1 {2n} \sum_{i=1}^n(x_i-\mu_1)^2 \\
 \hat \mu_1  =\frac 1 n \sum_{i=1}^n  x_i
 $$
 
@@ -1863,7 +2052,7 @@ $$
 \Big(F_{\mathcal N}\Big(\frac{x_n +\epsilon -\mu_k}{\sigma_k}\Big)-
 F_{\mathcal N}\Big(\frac{x_n -\epsilon -\mu_k}{\sigma_k}\Big) \Big)
 $$
-我们来计算左边的概率，利用全概率公式
+我们来计算右边的概率，利用全概率公式
 $$
 \begin{aligned}
 \mathbb P(x_n \in B_n) 
@@ -1911,3 +2100,314 @@ F_{\mathcal N}\Big(\frac{x_n -\epsilon -\mu_k}{\sigma_k}\Big) \Big)}{P(x_n)}
 $$
 
 
+
+#### Problem 6.28 (Page 51)
+
+(a)将$\mathbb E_{P(x,y)}$记为$\mathbb E$
+$$
+\begin{aligned}
+E_{out}(h) &=\mathbb E[(h(x)-y)^2] \\
+&=\mathbb E[(h(x)-\mathbb E[y|x]+\mathbb E[y|x]-y)^2] \\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
++2\mathbb E[(h(x)-\mathbb E[y|x])(\mathbb E[y|x]-y)]\\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
++2\mathbb E[\mathbb E [(h(x)-\mathbb E[y|x])(\mathbb E[y|x]-y)]|x]\\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
++2\mathbb E[(h(x)-\mathbb E[y|x]) \mathbb E [(\mathbb E[y|x]-y)]|x]\\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
++2\mathbb E[(h(x)-\mathbb E[y|x]) \mathbb (\mathbb E[y|x] -\mathbb E[y|x])]\\
+&=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]\\
+&\ge \mathbb E[(h(x)-\mathbb E[y|x])^2]
+\end{aligned}
+$$
+当且仅当$y=\mathbb E[y|x]$时等式成立。
+
+(b)首先证明一个引理：
+$$
+X= \left(
+ \begin{matrix}
+   X_1 \\
+   X_2
+  \end{matrix}
+  \right) 
+  \sim N_n 
+  \left(
+  \left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2
+  \end{matrix}
+  \right) ,
+  \left(
+ \begin{matrix}
+   \sum_{11} &   \sum_{12} \\
+   \sum_{21} &\sum_{22} 
+  \end{matrix}
+  \right)
+   \right) \\
+   X_1 ,\mu _1 \in \mathbb R^k ,{\sum}_{11}为k阶方阵， 
+   {\sum}_{11}，{\sum}_{21}{\sum}_{22}相应矩阵，|{\sum}_{22}| \neq 0\\
+   
+  那么(1)X_1 \sim  N_k (\mu_1, {\sum}_{11})\\
+  (2)在X_1= x_1条件下，X_2的条件分布是\\
+  N_{n-k} 
+  \left(
+  \mu_2+{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1),
+ {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+   \right)
+$$
+(1)证明：
+
+令
+$$
+B = \left(
+ \begin{matrix}
+   I_k & 0 \\
+   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+  \end{matrix}
+  \right) (该矩阵为分块初等矩阵)
+$$
+那么
+$$
+\begin{aligned}
+B\sum B'&=\left(
+ \begin{matrix}
+   I_k & 0 \\
+   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+  \end{matrix}
+  \right)
+    \left(
+ \begin{matrix}
+   \sum_{11} &   \sum_{12} \\
+   \sum_{21} &\sum_{22} 
+  \end{matrix}
+  \right)
+  
+  \left(
+ \begin{matrix}
+   I_k &  -{\sum}_{11}^{-1}{\sum}_{12} \\
+   0&  I_{n-k}  
+  \end{matrix}
+  \right) \\
+  &=
+  \left(
+ \begin{matrix}
+   \sum_{11} &   \sum_{12} \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)
+   \left(
+ \begin{matrix}
+   I_k &  -{\sum}_{11}^{-1}{\sum}_{12} \\
+   0&  I_{n-k}  
+  \end{matrix}
+  \right)\\
+  &=\left(
+ \begin{matrix}
+   \sum_{11} &  0 \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)
+\end{aligned}\\
+B\left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2
+  \end{matrix}
+  \right)  = \left(
+ \begin{matrix}
+   I_k & 0 \\
+   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+  \end{matrix}
+  \right) \left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2
+  \end{matrix}
+  \right)
+  = \left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2 -{\sum}_{21}{\sum}_{11}^{-1} \mu_1
+  \end{matrix}
+  \right)
+$$
+设$Y = BX$，那么
+$$
+Y= \left(
+ \begin{matrix}
+   Y_1 \\
+   Y_2
+  \end{matrix}
+  \right) =BX =\left(
+ \begin{matrix}
+   I_k & 0 \\
+   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+  \end{matrix}
+  \right)
+  \left(
+ \begin{matrix}
+   X_1 \\
+   X_2
+  \end{matrix}
+  \right)  = 
+  \left(
+ \begin{matrix}
+   X_1 \\
+   X_2-{\sum}_{21}{\sum}_{11}^{-1}X_1
+  \end{matrix}
+  \right) \\
+   B(X-\mu)=\left(
+ \begin{matrix}
+   X_1-\mu_1 \\
+   X_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(X_1 -\mu_1)
+  \end{matrix}
+  \right)
+$$
+因此
+$$
+Y= \left(
+ \begin{matrix}
+   Y_1 \\
+   Y_2
+  \end{matrix}
+  \right) 
+  \sim N_n 
+  \left(
+   \left(
+ \begin{matrix}
+   \mu_1 \\
+   \mu_2 -{\sum}_{21}{\sum}_{11}^{-1} \mu_1
+  \end{matrix}
+  \right) ,
+ \left(
+ \begin{matrix}
+    \sum_{11} &  0 \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)
+   \right)
+$$
+不难看出$Y_1,Y_2$独立，从而
+$$
+Y_1=X_1 \sim N_k (\mu_1, {\sum}_{11})
+$$
+(2)证明：按定义将$X,X_1$的分布写出来
+$$
+f_X(x) = \frac{1}{(2\pi)^{\frac n 2 } |\sum|^{\frac 1 2 }} 
+\exp(-\frac 1 2 (x-\mu)^T{\sum}^{-1} (x-\mu)) \\
+f_{X_1}(x_1) = \frac{1}{(2\pi)^{\frac k 2 } |\sum_{11}|^{\frac 1 2 }} 
+\exp(-\frac 1 2 (x_1-\mu_1)^T{\sum}_{11}^{-1} (x_1-\mu_1))
+$$
+对$(x-\mu)'{\sum}^{-1} (x-\mu)$进行处理，利用上一题的$B$，不难看出$B$为正交矩阵，即$B^TB=BB^T =I$，所以
+$$
+\begin{aligned}
+(x-\mu)^T{\sum}^{-1} (x-\mu) 
+&= (x-\mu)^TB^T B {\sum}^{-1} B^T B (x-\mu) \\
+&= (B(x-\mu))^T (B{\sum} B^T)^{-1} (B (x-\mu)) \\
+&= \left(
+ \begin{matrix}
+   x_1-\mu_1 \\
+   x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)
+  \end{matrix}
+  \right)^T\left(
+ \begin{matrix}
+   \sum_{11} &  0 \\
+   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)\left(
+ \begin{matrix}
+   x_1-\mu_1 \\
+   x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)
+  \end{matrix}
+  \right) \\
+  &=( x_1-\mu_1 )^T {\sum}_{11}( x_1-\mu_1 )+
+  (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
+ ( {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
+ (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))
+\end{aligned}
+$$
+注意到
+$$
+|\sum| =\det (\left(
+ \begin{matrix}
+   \sum_{11} &  0 \\
+   0 &{\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+  \end{matrix}
+  \right)) =|{\sum}_{11}||{\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}|
+$$
+所以条件概率为
+$$
+\begin{aligned}
+f_{X_2|X_1}(x|x_1)&=
+\frac{\frac{1}{(2\pi)^{\frac n 2 } |\sum|^{\frac 1 2 }} 
+\exp(( x_1-\mu_1 )^T \sum_{11}( x_1-\mu_1 )+
+  (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
+ ( \sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
+ (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)))}
+{\frac{1}{(2\pi)^{\frac k 2 } |\sum_{11}|^{\frac 1 2 }} 
+\exp(-\frac 1 2 (x_1-\mu_1)^T{\sum}_{11}^{-1} (x_1-\mu_1))}\\
+&= \frac{1}{(2\pi)^{\frac {n-k} 2 }|\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}|^{\frac 1 2 }}
+\exp((x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
+ ( {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
+ (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)))
+\end{aligned}
+$$
+即
+$$
+f_{X_2|X_1}(x|x_1) \sim N_{n-k} 
+  \left(
+  \mu_2+{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1),
+ {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+   \right)
+$$
+回到原题，记$Z_k \sim N(\mu_k, S_k^{-1})$，对应的$X,Y$分别记为$X_k,Y_k$那么
+$$
+f_Z(z) = \sum_{k=1}^K \frac{w_k |S_k|^{\frac 1 2 }}{(2\pi)^{\frac{d+1}{2}}}
+\exp(-\frac 1 2 (z-\mu_k)^T S_k (z-\mu_k))=\sum_{k=1}^K 
+w_k f_{Z_k}(z)
+$$
+由引理的第一部分可知
+$$
+f_X(x)  = \sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))
+= \sum_{k=1}^K w_k f_{X_k}(x)
+$$
+所以
+$$
+f_{Y|X}(y|x) =\frac{\sum_{k=1}^K w_k f_{X_k}(x)f_{Y_k|X_k}(y|x)}{f_X(x)}
+$$
+由引理的第二部分可知
+$$
+f_{Y_k|X_k}(y|x) \sim N(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k) , S_k^* )\\
+S_k^*可由引理计算出来
+$$
+对上式取期望可得
+$$
+\mathbb E_{Y_k|X_k}[y|x] = \beta_k+\frac 1 {c_k}b_k^T(x-\mu_k)
+$$
+对整体取期望可得
+$$
+\begin{aligned}
+g(x) &=\mathbb E[y|x]\\
+&= \frac{\sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k))}{\sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k)} \\
+&=\frac{\sum_{k=1}^K {w_k |A_k|^{\frac 1 2 }}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k))}{\sum_{k=1}^K {w_k |A_k|^{\frac 1 2 }}
+\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))}
+\end{aligned}
+$$
+注意这里我和题目的答案不同，个人感觉答案错了。
+
+(c)此时为(b)的特殊情形
+$$
+K= N,w_k =\frac 1 K ,\alpha_k= x_k,\beta_k =y_k,S_k =r^2 I
+$$
+带入上式可得
+$$
+\begin{aligned}
+g(x) &=\mathbb E[y|x]\\
+&=\frac{\sum_{n=1}^N \exp({-\frac 1 {2r^2}||x-x_n||^2  })y_n}{\sum_{n=1}^N \exp({-\frac 1 {2r^2}||x-x_n||^2  })}
+\end{aligned}
+$$
