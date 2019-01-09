@@ -33,10 +33,10 @@ A=U \left[
   A\in \mathbb R^{N\times d} , U\in \mathbb R^{N\times N} ,\sum \in \mathbb R^{N\times d},
   V\in \mathbb R^{d\times d}
 $$
-注意$d\ge r$，我们补充$u_{r+1},...,u_d=0$，那么
+注意$d\ge r$，我们补充$\sigma_{r+1},...,\sigma_n=0$，那么
 $$
 U\sum=
-(\sigma_1 u_1,...,\sigma_d u_d, \underbrace {0,...,0}_{n-d个0向量})=
+(\sigma_1 u_1,...,\sigma_d u_d)=
 (u_1,...,u_d)\left[
  \begin{matrix}
 \sigma_1   \\
