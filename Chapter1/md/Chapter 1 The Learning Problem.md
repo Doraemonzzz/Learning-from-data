@@ -10,7 +10,6 @@ https://github.com/Doraemonzzz
 个人主页：  
 http://doraemonzzz.com/
 
-
 参考资料:  
 https://blog.csdn.net/a1015553840/article/details/51085129  
 http://www.vynguyen.net/category/study/machine-learning/page/6/  
@@ -1188,8 +1187,9 @@ $$
 \begin{aligned}
 P[t \ge \alpha]&=\int _{\alpha}^{+\infty}f(t)dt
 \\&\le\int _{\alpha}^{+\infty}\frac t \alpha f(t)dt\ (注意t\ge \alpha)
-\\&=\frac{\int _{\alpha}^{+\infty}t  f(t)dt} \alpha
-\\&=\frac {E(t)}\alpha
+\\&=\frac{\int _{\alpha}^{+\infty}t  f(t)dt} \alpha\\
+& \le \frac{\int _{0}^{+\infty}t  f(t)dt} \alpha
+\\&= \frac {E(t)}\alpha
 \end{aligned}
 $$
 (b)在(a)中取$t=u-\mu$，注意此处$u$是随机变量，且
@@ -1434,3 +1434,4 @@ $$
 因此由之前结论知道$E_{in}(h)$在$h=y_{med}$取最小值
 
 (c)当$y_N$被污染为 $y_N + \epsilon,(\epsilon \to \infty)$时，由定义可知$h_{mean}\to \infty$,而$y_{med}$为中位数，则不会有太大变化，因为元素的相对次序只有$y_N$变了
+
