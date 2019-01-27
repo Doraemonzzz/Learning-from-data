@@ -559,12 +559,21 @@ $$
 We have 2 opaque bags, each containing 2 balls. One bag has 2 black balls and the other has a black and a white ball . You pick a bag at random and then pick one of the balls in that bag at random. When you look at the ball it is black. You now pick the second ball from that same bag.What is the probability that this ball is also black? 
 Hint: Use Bayes' Theorem:$P[A\ and\ B] = P[A | B] P [B] = P[B | A] P[A]$ 
 
-这题还是比较基础的，有两个包，一个包里有两个黑球，另一个包里有一个黑球和一个白球，先随机取一个包，再随机从这个包里随机取一个球，当发现第一取出的球是黑球时，再从这个包里再取一次球，现在问第二次取出的球也是黑色的概率?  
+这题还是比较基础的，有两个包，一个包里有两个黑球，另一个包里有一个黑球和一个白球，先随机取一个包，再随机从这个包里随机取一个球，当发现第一取出的球是黑球时，再从这个包里再取一次球，现在问第二次取出的球也是黑色的概率?  利用贝叶斯公式即可，记第一次拿到黑球的事件为$A$，连续两次拿到黑球的事件为$B$，所以概率为
 $$
-P=\frac 1 2 \times 1\times 1+\frac 1 2\times \frac 1 2\times 0=\frac 1 2
+\begin{aligned}
+p&=P(B|A)\\
+&=\frac{P(AB)}{P(A)} \\
+&= \frac{P(B)}{P(A)} \\
+&=\frac{\frac 1 2 \times \frac 1 2}{\frac 1 2 +\frac 1 2 \times \frac 1 2}\\
+&=\frac 2 3 
+\end{aligned}
 $$
 
+
+
 #### Problem 1.2 (Page 33)
+
 Consider the perceptron in two dimensions: $h(x)=sign(w^Tx)$ where $w = [w_0 , w_1 , w_2]^T$ and $x = [1, x_1 , x_2 ]^T$. Technically, $x$ has three coordinates, but we call this perceptron two-dimensional because the first coordinate is fixed at 1 .  
 (a) Show that the regions on the plane where $h(x) = + 1$ and $h(x) = - 1$ are separated by a line. If we express this line by the equation $x_2 = ax_1 + b$,what are the slope $a$ and intercept $b$ in terms of $w_0 , w_1 , w_2$?  
 (b) Draw a picture for the cases $w = [1, 2, 3]^T$ and $w = - [1 , 2, 3]^T$.  
