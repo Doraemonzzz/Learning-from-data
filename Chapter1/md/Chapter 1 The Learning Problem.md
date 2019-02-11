@@ -41,9 +41,11 @@ c|邮件内容|是否为垃圾邮件|判别函数(邮件内容至是否为垃圾
 d|电力负载量，电力价格，温度，日期|电量的预测|预测函数
 e|数据|处理结果|经验解决方案(empirical solution)
 
+
+
 #### Exercise 1.2 (Page 6)
-Suppose that we use a perceptron to detect spam messages. Let's say that each email message is represented by the frequency of occurrence of
-keywords, and the output is if the message is considered spam.  
+
+Suppose that we use a perceptron to detect spam messages. Let's say that each email message is represented by the frequency of occurrence of keywords, and the output is if the message is considered spam.  
 
 (a) Can you think of some keywords that will end up with a large positive weight in the perceptron?  
 (b) How about keywords that will get a negative weight?  
@@ -60,34 +62,37 @@ keywords, and the output is if the message is considered spam.
 (c) 感知机中哪些参数直接影响了边界信息最终被分类为垃圾邮件?
 这里回顾下感知机模型:
 $$
-h(x)=sign((\sum_{i=1}^{d}w_ix_i)+b)
+h(x)=\text{sign}((\sum_{i=1}^{d}w_ix_i)+b)
 $$
 所以这里直接影响的参数为$w_i(i=1,2...d)$以及$b$
 
-#### Exercise 1.3 (Page 8)
-The weight update rule in (1.3) has the nice interpretation that it moves in the direction of classifying x(t) correctly.  
 
-(a) Show that $y(t)w^T(t)x(t) < 0$. [Hint: $x(t)$ is misclassifed by $w(t)$.]  
-(b) Show that $y(t)w^T(t+1)x(t) > y(t)w^T(t)x(t)$. [Hint: Use (1.3).]  
-(c) As far as classifying $x(t)$ is concerned, argue that the move from $w(t)$ to $w(t + 1)$ is a move 'in the right direction ' . 
+
+#### Exercise 1.3 (Page 8)
+
+The weight update rule in (1.3) has the nice interpretation that it moves in the direction of classifying $x(t)$ correctly.  
+
+(a) Show that $y(t)w^T(t)x(t) < 0​$. [Hint: $x(t)​$ is misclassifed by $w(t)​$.]  
+(b) Show that $y(t)w^T(t+1)x(t) > y(t)w^T(t)x(t)​$. [Hint: Use (1.3).]  
+(c) As far as classifying $x(t)​$ is concerned, argue that the move from $w(t)​$ to $w(t + 1)​$ is a move 'in the right direction ' . 
 
 这里先对之前的感知机模型稍作变形，令$w_0=b,x_0=1$，那么
 $$
-h(x)=sign((\sum_{i=1}^{d}w_ix_i)+b)
+h(x)=\text {sign}((\sum_{i=1}^{d}w_ix_i)+b)
 $$
 可以变形为:
 $$
-h(x)=sign((\sum_{i=0}^{d}w_ix_i))=sign(w^T(t)x(t))
+h(x)=\text {sign}((\sum_{i=0}^{d}w_ix_i))=\text {sign}(w^T(t)x(t))
 $$
 接着给出式(1.3)
 $$
 对于y(t)\ne
-sign(w^T(t)x(t))的数据, 更新规则是
-w(t + 1) = w(t) + y(t)x(t) 
+\text {sign}(w^T(t)x(t))的数据, 更新规则是
+w(t + 1) = w(t) + y(t)x(t)
 $$
 
-(a) 因为$y(t)\ne sign(w^T(t)x(t))$，所以当$sign(w^T(t)x(t))>0 $时，$y(t)=-1$，
-当$sign(w^T(t)x(t))<0 $时，$y(t)=1$，所以$y(t)w^T(t)x(t) < 0$  
+(a) 因为$y(t)\ne \text {sign}(w^T(t)x(t))$，所以当$\text {sign}(w^T(t)x(t))>0 $时，$y(t)=-1$，
+当$\text {sign}(w^T(t)x(t))<0 $时，$y(t)=1$，所以$y(t)w^T(t)x(t) < 0$  
 
 (b)
 $$
@@ -98,75 +103,79 @@ $$
 y(t)w^T(t+1)x(t)>y(t)w^T(t)x(t)
 $$
 
-(c) 由(1)我们知道，如果分类错误，那么$y(t)w^T(t)x(t) < 0$，但利用(1.3)跟新之后，$y(t)w^T(t+1)x(t)>y(t)w^T(t)x(t)$，也就是向着正方向前进了，所以如果资料是可分的，那么经过有限步之后得到$w$,可以使得所有的$x$,$yw^Tx>0$ 
+(c) 由(1)我们知道，如果分类错误，那么$y(t)w^T(t)x(t) < 0​$，但利用(1.3)更新之后，$y(t)w^T(t+1)x(t)>y(t)w^T(t)x(t)​$，也就是向着正方向前进了，所以如果资料是可分的，那么经过有限步之后可以得到$w​$，使得对所有的$x​$，$yw^Tx>0​$ 
+
+
 
 #### Exercise 1.4 (Page 8)
-Let us create our own target function $f$ and data set $D$ and see how the perceptron learning algorithm works. Take d = 2 so you can visualize the problem, and choose a random line in the plane as your target function,where one side of the line maps to 1 and the other maps to -1. Choose the inputs $X_n$ of the data set as random points in the plane, and evaluate the target function on each $X_n$ to get the corresponding output $Y_n$.  
-Now, generate a data set of size 20. Try the perceptron learning algorithm on your data set and see how long it takes to converge and how well the final hypothesis g matches your target $f$. You can find other ways to play with this experiment in Problem 1.4.
+
+Let us create our own target function $f$ and data set $\mathcal D$ and see how the perceptron learning algorithm works. Take d = 2 so you can visualize the problem, and choose a random line in the plane as your target function,where one side of the line maps to 1 and the other maps to -1. Choose the inputs $x_n$ of the data set as random points in the plane, and evaluate the target function on each $x_n$ to get the corresponding output $Y_n$.  
+Now, generate a data set of size 20. Try the perceptron learning algorithm on your data set and see how long it takes to converge and how well the final hypothesis g matches your target $f​$. You can find other ways to play with this experiment in Problem 1.4.
 
 这题是对感知机模型编程实现一下，这里使用了Python
 
 
 ```python
 # -*- coding: utf-8 -*-
-import random
+"""
+Created on Mon Feb 11 21:32:17 2019
+
+@author: qinzhen
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
-plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
-plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
+plt.rcParams['font.sans-serif'] = ['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus'] = False #用来正常显示负号
+
+#设置随机种子，保证每次结果一致
+seed = 42
+rnd = np.random.RandomState(42)
 
 #首先生成20个可分的数据，为方便起见，分别生成10个第一象限的点和10个第三象限的点
 #第一象限10个点
-X1=[]
-Y1=[]
+X1 = rnd.uniform(0, 1, size=(10, 2))
+y1 = np.ones(10)
 #第三象限10个点
-X2=[]
-Y2=[]
-for i in range(10):
-    X1.append(random.uniform(0,1))
-    Y1.append(random.uniform(0,1))
-    X2.append(random.uniform(-1,0))
-    Y2.append(random.uniform(-1,0))
-    
-#给数据打标记,第一象限的标记为1，第三象限的标记为-1,注意添加第一个分量为1
-data1=[np.array([1,X1[i],Y1[i],1]) for i in range(10)]
-data2=[np.array([1,X2[i],Y2[i],-1]) for i in range(10)]
-data=data1+data2
+X2 = rnd.uniform(-1, 0, size=(10, 2))
+y2 = -1 * np.ones(10)
 
-#定义sign函数
-def sign(x):
-    if x>=0:
-        return 1
-    else:
-        return -1
-    
+#按行拼接
+X = np.r_[X1, X2]
+y = np.r_[y1, y2]
+#添加第一个分量为1
+X = np.c_[np.ones((20, 1)), X]
+
 #定义判别函数，判断所有数据是否分类完成
-def Judge(x,w):
-    flag=1
-    for i in x:
-        if sign(i[:3].dot(w))*i[-1]<0:
-            flag=0
+def Judge(X, y, w):
+    flag = 1
+    n = X.shape[0]
+    for i in range(n):
+        if X[i, :].dot(w) * y[i] <= 0:
+            flag = 0
             break
-    return flag    
+    return flag
 
 #记录次数
-s=0
-#初始化w=[0,0]
-w=np.array([0,0,0],dtype=float)
-while (Judge(data,w)==0):
-    for i in data:
-        if sign(i[:3].dot(w))*i[-1]<0:
-            w+=i[-1]*i[:3]
-            s+=1
+s = 0
+#初始化w=[0, 0, 0]
+w = np.array([0,0,0], dtype=float)
+#数据数量
+n = X.shape[0]
+while (Judge(X, y ,w) == 0):
+    for i in range(n):
+        if X[i, :].dot(w) * y[i] <= 0:
+            w += y[i] * X[i, :]
+            s += 1
             
-#直线方程为w0+w1*x+w2*y=0,根据此生成点
-X3=np.arange(-1,1,0.1)
-Y3=np.array([(X3[i]*w[1]+w[0])/(-w[2]) for i in range(len(X3))])
+#直线方程为w0+w1*a+w2*b=0,根据此生成点
+a = np.arange(-1, 1, 0.1)
+b = np.array([(i * w[1] + w[0]) / (-w[2]) for i in a])
 
 #画出图片
-plt.scatter(X1,Y1,c='r')
-plt.scatter(X2,Y2,c='b')
-plt.plot(X3,Y3)
+plt.scatter(X1[:, 0], X1[:, 1], c='r')
+plt.scatter(X2[:, 0], X2[:, 1], c='b')
+plt.plot(a, b)
 plt.title(u"经过"+str(s)+u"次迭代收敛")
 plt.show()
 ```
@@ -175,7 +184,9 @@ plt.show()
 ![png](output_12_0.png)
 
 
+
 #### Exercise 1.5 (Page 11)
+
 Which of the following problems are more suited for the learning approach and which are more suited for the design approach?  
 
 (a) Determining the age at which a particular medical test should be performed  
@@ -196,7 +207,10 @@ e|learning approach
 
 质数和自由落体问题可以直接得出结果，所以使用design approach
 
+
+
 #### Exercise 1.6 (Page 14)
+
 For each of the following tasks, identify which type of learning is involved (supervised, reinforcement, or unsupervised) and the training data to be used. If a task can fit more than one type, explain how and describe the training data for each type.  
 
 (a) Recommending a book to a user in an online bookstore  
@@ -205,36 +219,37 @@ For each of the following tasks, identify which type of learning is involved (su
 (d) Learning to play music  
 (e) Credit limit: Deciding the maximum allowed debt for each bank customer
 
-(a) 推荐系统的问题，监督学习  
+(a) 推荐系统的问题，非监督学习  
 (b) 游戏输赢是确定的，所以是监督学习，然后学习的过程是强化学习  
 (c) 标准的分类问题，监督学习  
 (d) 学习音乐的结果没有直接标志，非监督学习，然后学习的过程是强化学习  
 (e) 标准的预测问题，监督学习  
 
-#### Exercise 1.7 (Page 17)
-For each of the following learning scenarios in the above problem, evaluate the performance of $g$ on the three points in $X$ outside $D$. To measure the performance, compute how many of the 8 possible target functions agree with $g$ on all three points, on two of them, on one of them, and on none of them.  
 
-(a) $H$ has only two hypotheses, one that always returns ' $•$' and one that always returns '$o$'. The learning algorithm picks the hypothesis that matches the data set the most.  
-(b) The same $H$, but the learning algorithm now picks the hypothesis that matches the data set the least.  
-(c) $H = \{XOR\}$ (only one hypothesis which is always picked), where $XOR$ is defined by $XOR(x) = •$ if the number of $1$'s in x is odd and
-$XOR(x) = o$ if the num ber is even.  
-(d) $H$ contains all possible hypotheses (all Boolean functions on three variables), and the learning algorithm picks the hypothesis that agrees with all training examples, but otherwise disagrees the most with the $XOR$.
+
+#### Exercise 1.7 (Page 17)
+For each of the following learning scenarios in the above problem, evaluate the performance of $g$ on the three points in $\mathcal X$ outside $\mathcal  D$. To measure the performance, compute how many of the 8 possible target functions agree with $g$ on all three points, on two of them, on one of them, and on none of them.  
+
+(a) $\mathcal H$ has only two hypotheses, one that always returns ' $•$' and one that always returns '$o$'. The learning algorithm picks the hypothesis that matches the data set the most.  
+(b) The same $\mathcal H$,  but the learning algorithm now picks the hypothesis that matches the data set the least.  
+(c) $\mathcal H = \{\text{XOR}\}$ (only one hypothesis which is always picked), where $\text{XOR}$ is defined by $\text{XOR}(x) = •$ if the number of $1$'s in x is odd and $\text{XOR}(x) = o$ if the number is even.  
+(d) $\mathcal H$ contains all possible hypotheses (all Boolean functions on three variables), and the learning algorithm picks the hypothesis that agrees with all training examples, but otherwise disagrees the most with the $\text{XOR}$.
 
 ![](https://github.com/Doraemonzzz/markdown-photo/blob/learning-from-data/C1E7.png?raw=true)
 
 先看下题目的背景，给定$5$组训练数据和结果，让我们预测其余$3$组数据的表现结果，现在假设在$5$组数据上全部正确，那么一共就有$2^3$种可能的函数，如上图所示。
-现在题目分别给出$4$种假设空间和学习算法，这样可以得到结果$g$,我们需要给出和$g$在$3$个点均一致，$2$个点一致，$1$个点一致的的函数。
+现在题目分别给出$4$种假设空间和学习算法，这样可以得到结果$g$，我们需要给出和$g$在$3$个点均一致，$2$个点一致，$1$个点一致的的函数。
 
-(a) 假设空间为全$o$以及全$•$，学习的算法是取和训练数据集符合程度最多的假设，显然全$•$在$5$组训练数据上有$3$组正确，全$o$只有$2$组正确，所以这里取全$•$  
+(a) 假设空间为全$o​$以及全$•​$，学习的算法是取和训练数据集符合程度最多的假设，显然全$•​$在$5​$组训练数据上有$3​$组正确，全$o​$只有$2​$组正确，所以这里取全$•​$  
 
 (b) 假设空间为全$o$以及全$•$，学习的算法是取和训练数据集符合程度最少的假设，所以这里取全$o$  
 
 (c) 这里的假设空间只有一个元素，有奇数个$1$则取$•$，否则取$o$  
 
-(d) 这里的假设空间是所有假设，学习算法是在训练数据上结果全部正确，但是在预测数据上和$XOR$不符合度最高的的假设，因此这里取和条件c结果完全相反的结果  
+(d) 这里的假设空间是所有假设，学习算法是在训练数据上结果全部正确，但是在预测数据上和$\text {XOR}​$不符合度最高的的假设，因此这里取和条件c结果完全相反的结果  
 
 x |条件a下的g|条件b下的g|条件c下的g|条件d下的g
----|---|---|---|---|---
+---|---|---|---|---
 $1 0 1$|$•$|$o$|$o$|$•$
 $1 1 0$|$•$|$o$|$o$|$•$
 $1 1 1$|$•$|$o$|$•$|$o$
@@ -248,34 +263,50 @@ b|$f_1$|$f_2,f_3,f_5$|$f_4,f_6,f_7$
 c|$f_2$|$f_1,f_4,f_6$|$f_3,f_5,f_8$
 d|$f_7$|$f_3,f_5,f_8$|$f_1,f_4,f_6$
 
-#### Exercise 1.8 (Page 19)
-*If µ = 0 .9, what is the probability that a sample of 10 marbles will have v$\le$0.1? [Hints: 1. Use binomial distribution. 2. The answer is a very small number.]*
 
-二项分布的题目，盒子例一共有两种球，90%是红球，10%是绿球，现在取10个，问红球树小于等于1的概率。
+
+#### Exercise 1.8 (Page 19)
+
+If $\mu = 0 .9​$, what is the probability that a sample of 10 marbles will have $\nu \le 0.1​$? [Hints: 1. Use binomial distribution. 2. The answer is a very small number.]
+
+二项分布的题目，盒子例一共有两种球，90%是红球，10%是绿球，现在取10个，问红球数量小于等于1的概率。
 $$
 P=0.1^{10}+C^{1}_{10}\times 0.1^{9}\times 0.9 \approx  9\times 10^{-9}
 $$
 
-#### Exercise 1.9 (Page 19)
-*If µ = 0 .9, use the Hoeffding Inequality to bound the probability that a sample of 10 marbles will have v$\le$0.1 and compare the answer to the previous exercise.*
 
-回顾下$Hoeffding$不等式:
+
+#### Exercise 1.9 (Page 19)
+
+If $\mu = 0 .9$, use the Hoeffding Inequality to bound the probability that a sample of 10 marbles will have  $\nu \le 0.1​$ and compare the answer to the previous exercise.
+
+回顾下Hoeffding​不等式:
 $$
-P[| \mu-v|>\epsilon]\le 2e^{-2\epsilon ^2N}
+\mathbb P[| \mu-v|>\epsilon]\le 2e^{-2\epsilon ^2N}
 $$
 因此
 $$
-P[v\le 0.1]=P[0.9-v\ge 0.8]=P[\mu-v\ge 0.8]\le P[|\mu-v|\ge 0.8]\le 2e^{-2\times 0.8^2\times 10}\approx5.5215451440744015\times 10^{-6}
+\begin{aligned}
+\mathbb  P[v\le 0.1]
+&=\mathbb P[0.9-v\ge 0.8]\\
+&=\mathbb P[\mu-v\ge 0.8]\\
+&\le\mathbb P[|\mu-v|\ge 0.8]\\
+&\le 2e^{-2\times 0.8^2\times 10}\\
+&\approx5.5215451440744015\times 10^{-6}
+\end{aligned}
 $$
 这个比习题1.8的上界更松，因为Hoeffding不等式是通用的，所以上界肯定会更宽松一些
 
-#### Exercise 1.10 (Page 23)
-Here is an experiment that illustrates the difference between a single bin and multiple bins. Run a computer simulation for flipping 1000 fair coins.Flip each coin independently times. Let's focus on 3 coins as fllows:  
-$c_1$ is the first coin flipped; $c_{rand}$ is a coin you choose at random; $c_{min}$ is the coin that had the minimum frequency of heads (pick the earlier one in case of a tie). Let $v_1 , v_{rand}$ and $v_{min}$ be the fraction of heads you obtain for the respective three coins.  
 
-(a) What is µ for the three coins selected?  
-(b) Repeat this entire experiment a large number of times (e.g. , 100, 000 runs of the entire experiment) to get several instances of $v_1 , v_{rand}$ and $v_{min}$ and plot the histograms of the distributions of $v_1 , v_{rand}$ and $v_{min}$. Notice that which coins end up being $c_{rand}$ and $c_{min}$ may differ from one run to another.  
-(c) Using (b), plot estimates for $P[|\mu-v|>\epsilon]$ as a function of $\epsilon$, together with the Hoeffding bound $2e^{-2\epsilon ^2N}$ (on the same graph) .  
+
+#### Exercise 1.10 (Page 23)
+
+Here is an experiment that illustrates the difference between a single bin and multiple bins. Run a computer simulation for flipping 1000 fair coins.Flip each coin independently 10 times. Let's focus on 3 coins as follows:  
+$c_1​$ is the first coin flipped; $c_{\text{rand}}​$ is a coin you choose at random; $c_{\min}​$ is the coin that had the minimum frequency of heads (pick the earlier one in case of a tie). Let $v_1 , v_{\text{rand}}​$ and $v_{\min}​$ be the fraction of heads you obtain for the respective three coins.  
+
+(a) What is $\mu $ for the three coins selected?  
+(b) Repeat this entire experiment a large number of times (e.g. , 100, 000 runs of the entire experiment) to get several instances of $v_1 , v_{\text{rand}}$ and $v_{\min}$ and plot the histograms of the distributions of $v_1 , v_{\text{rand}}$ and $v_{\min}$. Notice that which coins end up being $c_{\text{rand}}$ and $c_{\min}$ may differ from one run to another.  
+(c) Using (b), plot estimates for $\mathbb P[|\mu-v|>\epsilon]$ as a function of $\epsilon$, together with the Hoeffding bound $2e^{-2\epsilon ^2N}$ (on the same graph) .  
 (d) Which coins obey the Hoeffding bound, and which ones do not? Explain why.  
 (e) Relate part (d) to the multiple bins in Figure 1.10
 
@@ -285,98 +316,101 @@ E_{in}(h)=(faction\ of\ D\ where\ f\ and\ h\ disagree)
 \\ =\frac 1N \sum_{i=1}^{n}[\![h(x_n)\neq  f(x_n)]\!],
 $$
 $$
-E_{out}(h)=P[\![h(x)\neq  f(x)]\!]
+E_{out}(h)=\mathbb P[\![h(x)\neq  f(x)]\!]
 $$
-这里$f$是原假设,$h$是我们得到的假设，其次：
+这里$f​$是原假设,$h​$是我们得到的假设，其次：
 $$
 [\![statement]\!]= 1\ if\ the\ statement\ is\ true
 $$
 $$
 [\![statement]\!]= 0\ if\ the\ statement \ is\ false
 $$
-$E_{in}(h)$就是我们得到的假设和目标假设在训练集上的误差，$E_{out}(h)$是实际误差，所以$E_{out}(h)$相当于$Hoeffding$不等式中的$\mu$,$E_{in}(h)$相当于$Hoeffding$不等式中的$v$。
+$E_{in}(h)$就是我们得到的假设和目标假设在训练集上的误差，$E_{out}(h)$是实际误差，所以$E_{out}(h)$相当于Hoeffding​不等式中的​$\mu$，$E_{in}(h)$相当于​Hoeffding​不等式中的​$v$。
 因此：
 $$
-P[|E_{in}(h)-E_{out}(h）|>\epsilon]\le 2e^{-2\epsilon ^2N}
+\mathbb P[|E_{in}(h)-E_{out}(h）|>\epsilon]\le 2e^{-2\epsilon ^2N}
 $$
-所以如果数据量够大，$E_{in}(h)$和$E_{out}(h)$的差距会越来越小。但之前的情况都是只有一个假设，如果只有一个假设，也就不需要学习了，所以这里考虑了一系列假设$H=\{h_1,h_2,...,h_M\}$，我们要从中挑选一个比较好的假设$g$。
+所以如果数据量够大，$E_{in}(h)$和$E_{out}(h)$的差距会越来越小。但之前的情况都是只有一个假设，如果只有一个假设，也就不需要学习了，所以这里考虑了一系列假设$\mathcal H=\{h_1,h_2,...,h_M\}$，我们要从中挑选一个比较好的假设$g$。
 这题希望解释的就是我们不能得出:
 $$
-P[|E_{in}(g)-E_{out}(g)|>\epsilon]\le 2e^{-2\epsilon ^2N}
+\mathbb P[|E_{in}(g)-E_{out}(g)|>\epsilon]\le 2e^{-2\epsilon ^2N}
 $$
 实际上我们只能得出:
 $$
-P[|E_{in}(g)-E_{out}(g)|>\epsilon]\le 2M e^{-2\epsilon ^2N}
+\mathbb P[|E_{in}(g)-E_{out}(g)|>\epsilon]\le 2M e^{-2\epsilon ^2N}
 $$
 更细节的部分可以参考书本。
 
-回到原题，$v_1,v_{rand},v_{min}$分别是第一个抛的硬币，随机抽取的硬币，抛十次之后得到正面数量最少的硬币（如果这样的硬币有多个，则取次序最前面的一个硬币）在十次投掷中正面的比例，$\mu$是抛以上三种硬币得到正面的概率。  
+回到原题，$v_1,v_{\text{rand}},v_{\min}​$分别是第一个抛的硬币，随机抽取的硬币，抛十次之后得到正面数量最少的硬币（如果这样的硬币有多个，则取次序最前面的一个硬币）在十次投掷中正面的比例，$\mu​$是抛以上三种硬币得到正面的概率。  
 
-(a) 因为硬币是公平的，所以$\mu=0.5$  
+(a) 因为硬币是公平的，所以$\mu=0.5​$  
 
 (b) 首先根据题目要求模拟结果:
 
 
 ```python
 # -*- coding: utf-8 -*-
+"""
+Created on Mon Feb 11 23:05:49 2019
 
-import random
+@author: qinzhen
+"""
+
+import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
-#首先模拟一次实验的结果,n表示硬币数量
+#首先模拟一次实验的结果，n表示硬币数量，1表示正面，0表示反面，最后返回的结果为正面的数量
 def simu(n):
-    #n个硬币
-    X=[[] for i in range (n)]
-    #记录正面硬币数最小值
-    m=n
-    for i in range(n):
-        for j in range(10):
-            #利用0,1随机树模拟,1表示正面,0表示反面
-            X[i].append(random.randint(0,1))
-        #最后一个元素记录正面数
-        fra=sum(X[i])
-        X[i].append(fra)
-        if(fra<m):
-            m=fra
+    #n个硬币，每个硬币投10次
+    X = np.random.randint(0, 2, (n, 10))
+    #计算每个硬币正面的数量
+    X1 = np.sum(X, axis=1)
     #第一个元素
-    y1=X[0][-1]
+    y1 = X1[0]
     #随机元素
-    y2=X[random.randint(0,n-1)][-1]
+    y2 = X1[np.random.randint(0, n)]
     #最小值
-    y3=m
-    return y1,y2,y3
+    y3 = np.min(X1)
+    return y1, y2, y3
 
 #记录正面硬币得分的具体情况，存入一个长度为11的列表，第i个元素表示得分为i的次数
-Y1=[0]*11
-Y2=[0]*11
-Y3=[0]*11
-n=1000
-for i in range(10000):
-    y1,y2,y3=simu(n)
-    Y1[y1]+=1
-    Y2[y2]+=1
-    Y3[y3]+=1
+Y1 = [0]*11
+Y2 = [0]*11
+Y3 = [0]*11
+#硬币数量
+n = 1000
+#实验次数
+m = 10000
+for i in range(m):
+    y1, y2, y3 = simu(n)
+    Y1[y1] += 1
+    Y2[y2] += 1
+    Y3[y3] += 1
+    
 
 #计算正面的次数
 def total(x):
-    s=0
+    s = 0
     for i in range(len(x)):
-        s+=i*x[i]
+        s += i*x[i]
     return s
+#投硬币的总次数
+t = m * 10
 
+####(b)
 #作图
 plt.bar(range(11),Y1)
-plt.title(u'C 1平均正面比例'+str(total(Y1)/100000.0))
+plt.title(u'C 1平均正面比例'+str(total(Y1) / t))
 plt.show()
 
 plt.bar(range(11),Y2)
-plt.title(u'C rand平均正面比例'+str(total(Y2)/100000.0))
+plt.title(u'C rand平均正面比例'+str(total(Y2) / t))
 plt.show()
 
 plt.bar(range(11),Y3)
-plt.title(u'C min平均正面比例'+str(total(Y3)/100000.0))
+plt.title(u'C min平均正面比例'+str(total(Y3) / t))
 plt.show()
 ```
 
@@ -391,54 +425,59 @@ plt.show()
 
 ![png](output_27_2.png)
 
-
-不出意外,$v_1,v_{rand}$的平均得分率为$0.5$左右,而$v_{min}$的平均得分率较低。事实上，我们可以求出$E(v_{min})$,这里来分析一下：
-这里有$1000$个得分率样本$X_1,X_2,...,X_{1000}$，所以这里
+不出意外,$v_1,v_{\text {rand}}​$的平均得分率为$0.5​$左右，而$v_{\min}​$的平均得分率较低。事实上，我们可以求出$\mathbb E[v_{\min}]​$,这里来分析一下：
+这里有$1000​$个得分率样本$X_1,X_2,...,X_{1000}​$，所以这里
 $$
-E(v_{min})=E(min(X_1,X_2,...,X_{1000}))
+\mathbb E[v_{\min}]=\mathbb E[\min(X_1,X_2,...,X_{1000})]
 $$
 下面计算数学期望,首先给出分布函数：
 $$
-P(v_{min}\le \frac k{10})=1-P(v_{min}\ge \frac{k+1}{10})
-\\ =1-P(min(X_1,X_2,...,X_{1000})\ge \frac{k+1}{10})
+\mathbb P(v_{\min}\le \frac k{10})=1-\mathbb P(v_{\min}\ge \frac{k+1}{10})
+\\ =1-\mathbb P(\min(X_1,X_2,...,X_{1000})\ge \frac{k+1}{10})
 \\ =1-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}
 $$
 所以：
 $$
-P(v_{min}=\frac k{10})=P(v_{min}\le \frac k{10})-P(v_{min}\le \frac {k-1}{10})
-\\ =1-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-[1-(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}]
-\\ =(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}
+\begin{aligned}
+\mathbb P(v_{\min}
+&=\frac k{10})=\mathbb P(v_{\min}\le \frac k{10})-
+\mathbb P(v_{\min}\le \frac {k-1}{10})\\
+&=1-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-[1-(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}]\\ 
+&=(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}
+\end{aligned}
 $$
 因此：
 $$
-E(v_{min})=\sum_{k=0}^{10}\frac k{10}\times P(v_{min}=k)
-\\ =\sum_{k=0}^{10}\frac k{10}\times[(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}]
+\begin{aligned}
+\mathbb E(v_{\min})
+&=\sum_{k=0}^{10}\frac k{10}\times P(v_{\min}=k)\\
+&=\sum_{k=0}^{10}\frac k{10}\times[(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}]
+\end{aligned}
 $$
-这里使用Python计算结果，最后得到$\mu\approx0.037644419141365526$，可以看到和之前模拟的结果一致
+这里使用Python计算结果，最后得到$\mu\approx0.037644419141365526​$，可以看到和之前模拟的结果一致
 
 
 ```python
 from scipy.special import comb
 
 #P(v<=k),n表示一共几个硬币
-def f(k,n):
-    s=0
-    for i in range(k+1,11):
-        s+=comb(10,i)/(2**10)
-    return 1-s**n
+def f(k, n):
+    s = 0
+    for i in range(k+1, 11):
+        s += comb(10,i) / (2**10)
+    return 1- s ** n
 
 #P(v=k)
-def g(k,n):
-    return f(k,n)-f(k-1,n)
+def g(k, n):
+    return f(k, n) - f(k-1, n)
 
 def h(n):
-    s=0
+    s = 0
     for k in range(11):
-        s+=k/10.0*g(k,n)
+        s += k / 10.0 * g(k, n)
     return s
 
 print(h(1000))
-#0.03764441914136553
 ```
 
     0.0376444191414
@@ -448,34 +487,32 @@ print(h(1000))
 
 
 ```python
-import math
-import numpy as np
+epsilon = np.arange(0, 2, 0.01)
+size = epsilon.shape[0]
 
-epsilon=np.arange(0,2,0.01)
-
-Z1=np.zeros(len(epsilon))
-Z2=np.zeros(len(epsilon))
-Z3=np.zeros(len(epsilon))
+Z1 = np.zeros(size)
+Z2 = np.zeros(size)
+Z3 = np.zeros(size)
 
 #计算P(|u-v|>epsilon)
-for i in range(len(epsilon)):
+for i in range(size):
     for j in range(11):
-        if abs((j-5)/10.0)>epsilon[i]:
-            Z1[i]+=Y1[j]
-            Z2[i]+=Y2[j]
-            Z3[i]+=Y3[j]
-Z1=Z1/10000
-Z2=Z2/10000
-Z3=Z3/10000
+        if abs((j - 5) / 10.0) > epsilon[i]:
+            Z1[i] += Y1[j]
+            Z2[i] += Y2[j]
+            Z3[i] += Y3[j]
+Z1 = Z1 / m
+Z2 = Z2 / m
+Z3 = Z3 / m
 
 #Hoeffding上界值
-Z=np.array([2*math.exp(-2*(i**2)*10) for i in epsilon])
+Z = np.array([2 * np.exp(-2*(i**2)*10) for i in epsilon])
 
 #作图
-plt.plot(epsilon,Z,label=u"Hoeffding上界")
-plt.plot(epsilon,Z1,label=u"P(|v1-u|)")
-plt.plot(epsilon,Z2,label=u"P(|vrand-u|)")
-plt.plot(epsilon,Z3,label=u"P(|vmin-u|)")
+plt.plot(epsilon, Z, label=u"Hoeffding上界")
+plt.plot(epsilon, Z1, label=u"P(|v1-u|)")
+plt.plot(epsilon, Z2, label=u"P(|vrand-u|)")
+plt.plot(epsilon, Z3, label=u"P(|vmin-u|)")
 plt.xlabel(u'epsilon')
 plt.ylabel(u'概率')
 plt.legend()
@@ -485,41 +522,73 @@ plt.show()
 
 ![png](output_31_0.png)
 
+(d) (e)首先由对称性不难发现$v_1,v_{\text{rand}}$实际上是等价的。从上图可以看到计算出来的$\mathbb P(|v_{\min}-\mu|>\epsilon)$比Hoeffding上界值大，所以​$v_{\min}$违背了​Hoeffding​不等式，这是因为得到$v_{\min}$的过程如下
+$$
+选择X_i如果X_i < X_j,i\neq j
+$$
+其中$X_1,...,X_{1000}$是每个硬币正面的比例。所以上述过程相当于$1000$个假设，因此不能使用不等式
+$$
+\mathbb P[|E_{in}(g)-E_{out}(g)|>\epsilon]\le 2e^{-2\epsilon ^2N}
+$$
+应该使用不等式
+$$
+\mathbb P[|E_{in}(g)-E_{out}(g)|>\epsilon]\le 2M e^{-2\epsilon ^2N}
+$$
+其中$M=1000​$。
 
-(d) 可以看到计算出来的$P(|v_{min}-\mu|>\epsilon)$比$Hoeffding$上界值大，所以$v_{min}$违背了$Hoeffding$不等式
+
 
 #### Exercise 1.11 (Page 25)
-We are given a data set $D$ of 25 training examples from an unknown target function $f:X\to Y$, where $X=R$ and $Y$= {-1, +1}. To learn $f$, we use a simple hypothesis set = ${h_1, h_2}$ where $h_1$ is the constant +1 function and $h_2$ is the constant -1.
 
-We consider two learning algorithms, $S$ (smart) and $C$ (crazy). $S$ chooses the hypothesis that agrees the most with $D$ and $C$ chooses the other hypothesis deliberately. Let us see how these algorithms perfrm out of sample from the deterministic and probabilistic points of view. Assume in the probabilistic view that there is a probability distribution on $X$ , and let $P[f(x) =+1] = p$.  
+We are given a data set $\mathcal D​$ of 25 training examples from an unknown target function $f:\mathcal X\to\mathcal Y​$, where $\mathcal X=\mathbb R​$ and $\mathcal Y​$= {-1, +1}. To learn $f​$, we use a simple hypothesis set $\mathcal H = \{h_1, h_2\}​$ where $h_1​$ is the constant +1 function and $h_2​$ is the constant -1.
+
+We consider two learning algorithms, $S​$ (smart) and $C​$ (crazy). $S​$ chooses the hypothesis that agrees the most with $\mathcal  D​$ and $C​$ chooses the other hypothesis deliberately. Let us see how these algorithms perfrm out of sample from the deterministic and probabilistic points of view. Assume in the probabilistic view that there is a probability distribution on $\mathcal X​$ , and let $\mathbb P[f(x) =+1] = p​$.  
 
 (a) Can S produce a hypothesis that is guaranteed to perform better than random on any point outside $D$?  
-(b) Assume for the rest of the exercise that all the examples in $D$ have $Y_n = +1$. Is it possible that the $C$ hypothesis that produces turns out to be better than the hypothesis that $S$ produces?  
+(b) Assume for the rest of the exercise that all the examples in $\mathcal D $ have $y_n = +1$. Is it possible that the $C$ hypothesis that produces turns out to be better than the hypothesis that $S$ produces?  
 (c) If $p = 0.9$, what is the probability that $S$ will produce a better hypothesis than $C$?  
-(d) Is there any value of $p$ for which it is more likely than not that $C$ will produce a better hypothesis than $S$? 
+(d) Is there any value of $p$ for which it is more likely than not that $C$ will produce a better hypothesis than $S​$? 
 
 (a) 利用S算法会选择在训练集上效果较好的假设，但是并不能保证在训练集以外的部分表现的很好  
 
-(b) 这题及之后的习题假设在训练集上的$Y_n = +1$均为1，利用C算法得到的假设在训练集上的准确率为0，利用D算法的假设在训练集上的准确率为1，在训练集以外的部分S算法得到的假设仍然有可能比D算法得到的假设表现好  
+(b) 这题及之后的习题假设在训练集上的$y_n = +1​$均为1，利用C算法得到的假设在训练集上的准确率为0，利用S算法得到的假设在训练集上的准确率为1，但是在训练集以外的部分未知，所以C算法得到的假设仍然有可能比S算法得到的假设表现好  
 
-(c) 令$S$产生的结果为$f_s$,$C$产生的结果为$f_c$，需要求得的概率为$P(P(f_s=f)>P(f_c=f))$  
-由$S,C$的特点我们知道$P(f_s=f)=0.9,P(f_c=f)=0.1$，因为$f_s(x)$恒等于1,$P[f(x) =+1] = 0.9$，所以$P(f_s=f)=0.9$,同理$P(f_c=f)=0.1$  
-所以$P(P(f_s=f)>P(f_c=f))=P(0.9>0.1)=1$  
-
-(d) 这题是上题的一般化结果,题目实际上问的是是否存在$p$,使得$P(P(f_s=f)>P(f_c=f))<0.5?$  
+(c) 令$S​$产生的结果为$f_s​$,$C​$产生的结果为$f_c​$，需要求得的概率为 
+$$
+\mathbb P(\mathbb P[f_s=f]>\mathbb P[f_c=f])
+$$
+因为$f_s(x)​$恒等于$1​$，$\mathbb P[f(x) =+1] = 0.9​$，所以
+$$
+\mathbb P[f_s=f]=\mathbb P[f(x) =+1] =p= 0.9 \\
+\mathbb P[f_c=f] = 1-\mathbb P[f_s=f]=0.1
+$$
+因此
+$$
+\mathbb P(\mathbb P[f_s=f]>\mathbb P[f_c=f]) = \mathbb P(0.9>0.1)=1
+$$
+(d) 这题是上题的一般化结果,题目实际上问的是是否存在$p$，使得
+$$
+\mathbb P(\mathbb P[f_s=f]>\mathbb P[f_c=f])<0.5
+$$
 因为
 $$
-P[f(x) =+1] = p
+\mathbb P[f(x) =+1] = p
 $$
 所以
 $$
-P(f_s=f)=p,P(f_c=f)=1-p,    
-P(P(f_s=f)>P(f_c=f))=P(p>1-p)
+\mathbb P[f_s=f]=p,\mathbb P[f_c=f]=1-p\\
+\mathbb P(\mathbb P[f_s=f]>\mathbb P[f_c=f])=\mathbb P(p>1-p)
 $$
-所以当$p<0.5$时，$P(P(f_s=f)>P(f_c=f))=P(p>1-p)=0$  
-因此本题结果为$p<0.5$
+所以当$p<0.5$时，
+$$
+\mathbb P(\mathbb P[f_s=f]>\mathbb P[f_c=f]) =0<0.5
+$$
+因此本题结果为$p<0.5​$
+
+
 
 #### Exercise 1.12 (Page 26)
+
 A friend comes to you with a learning problem. She says the target function is completely unknown, but she has 4, 000 data points. She is willing to pay you to solve her problem and produce for her a $g$ which approximates  $f$. What is the best that you can promise her among the following:  
 
 (a) After learning you will provide her with a $g$ that you will guarantee approximates $f$ well out of sample.  
@@ -531,7 +600,10 @@ A friend comes to you with a learning problem. She says the target function is c
 
 这里选(c),因为不能保证学习出一个比较好的假设
 
+
+
 #### Exercise 1.13 (Page 31)
+
 Consider the bin model for a hypothesis $h$ that makes an error with probability $\mu$ in approximating a deterministic target function $f$(both $h$ and $f$ are binary functions).If we use the same $h$ to approximate a noisy version of $f$ given by
 $$
 P(y|x)=\begin{cases}
@@ -550,7 +622,9 @@ $$
 $$
 P=\lambda\mu+(1-\lambda)(1-\mu)=\lambda\mu+1-\mu-\lambda+\lambda\mu=1-\lambda+(2\lambda-1)\mu
 $$
-所以当$\lambda=\frac 1 2$，$P=1-\lambda$，因此和$\mu$独立
+所以当$\lambda=\frac 1 2​$，$P=1-\lambda​$，因此和$\mu​$独立
+
+
 
 ### Part 2:Problems
 
@@ -1192,7 +1266,7 @@ P[t \ge \alpha]&=\int _{\alpha}^{+\infty}f(t)dt
 \\&= \frac {E(t)}\alpha
 \end{aligned}
 $$
-(b)在(a)中取$t=u-\mu$，注意此处$u$是随机变量，且
+(b)在(a)中取$t=(u-\mu)^2$，注意此处$u$是随机变量，且
 $$
 E(u)=\mu,Var(u)=E(u-\mu)^2=\sigma^2
 $$
