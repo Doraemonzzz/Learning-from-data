@@ -68,6 +68,10 @@ http://book.caltech.edu/bookforum/index.php
 
 - 从今天开始优化笔记内容，今天对第一章Exercise部分进行改正以及代码优化。
 
+2019/2/12
+
+- 完成Chapter 1章节的优化，补充了Hoeffding不等式的初等证明。
+
 <br/>
 
 ### 总结：
@@ -84,16 +88,16 @@ http://book.caltech.edu/bookforum/index.php
 
 ### 习题完成情况：
 
-| 章节      | 总共习题 | 完成习题 | 剩余部分                        |
-| --------- | -------- | -------- | ------------------------------- |
-| Chapter 1 | 25       | 25       | 无                              |
-| Chapter 2 | 32       | 32       | 无                              |
-| Chapter 3 | 35       | 35       | 无                              |
-| Chapter 4 | 38       | 38       | 无                              |
-| Chapter 5 | 11       | 11       | 无                              |
-| Chapter 6 | 43       | 36       | Problem 12,13,14,16,17,24,25    |
-| Chapter 7 | 35       | 35       | 无                              |
-| Chapter 8 | 35       | 31       | Problem 15-18                   |
-| Chapter 9 | 46       | 41       | Exercise 18,Problem 17,26,27,28 |
-| 总计      | 300      | 284      |                                 |
+| 章节      | 总共习题 | 完成习题 | 剩余部分                        | 优化情况   |
+| --------- | -------- | -------- | ------------------------------- | ---------- |
+| Chapter 1 | 25       | 25       | 无                              | 已完成优化 |
+| Chapter 2 | 32       | 32       | 无                              |            |
+| Chapter 3 | 35       | 35       | 无                              |            |
+| Chapter 4 | 38       | 38       | 无                              |            |
+| Chapter 5 | 11       | 11       | 无                              |            |
+| Chapter 6 | 43       | 36       | Problem 12,13,14,16,17,24,25    |            |
+| Chapter 7 | 35       | 35       | 无                              |            |
+| Chapter 8 | 35       | 31       | Problem 15-18                   |            |
+| Chapter 9 | 46       | 41       | Exercise 18,Problem 17,26,27,28 |            |
+| 总计      | 300      | 284      |                                 |            |
 
