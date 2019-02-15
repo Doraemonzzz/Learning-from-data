@@ -21,7 +21,8 @@ def Judge(X, y, w):
 
 def data(N, d, rnd, t=0.1):
     """
-    生成N个d维点（不包括偏置项1），x1+...+xd>=t的点标记为+1，x1+...+xd<=-t的点标记为-1
+    生成N个d维点（不包括偏置项1），x1+...+xd>=t的点标记为+1，x1+...+xd<=-t的点标记为-1，
+	rnd为随机数生成器，形式为rnd = np.random.RandomState(seed)，seed为随机种子
     """
     X = []
     w = np.ones(d)
@@ -40,7 +41,8 @@ def data(N, d, rnd, t=0.1):
 def f(N, d, rnd, t=0.1, r=1):
     """
     生成N个d维点（不包括偏置项1），x1+...+xd>=t的点标记为+1，x1+...+xd<=-t的点标记为-1，
-    rnd为随机数生成器，利用PLA更新，如果r=1，那么按照顺序取点，否则随机取点
+    rnd为随机数生成器，形式为rnd = np.random.RandomState(seed)，seed为随机种子
+	利用PLA更新，如果r=1，那么按照顺序取点，否则随机取点
     """
     X, y = data(N, d, rnd, t=t)
     
