@@ -70,7 +70,11 @@ http://book.caltech.edu/bookforum/index.php
 
 2019/2/12
 
-- 完成Chapter 1章节的优化，补充了Hoeffding不等式的初等证明。
+- 完成Chapter 1的优化，补充了Hoeffding不等式的初等证明。
+
+2019/2/20
+
+- 完成Chapter 2的优化.
 
 <br/>
 
@@ -91,7 +95,7 @@ http://book.caltech.edu/bookforum/index.php
 | 章节      | 总共习题 | 完成习题 | 剩余部分                        | 优化情况   |
 | --------- | -------- | -------- | ------------------------------- | ---------- |
 | Chapter 1 | 25       | 25       | 无                              | 已完成优化 |
-| Chapter 2 | 32       | 32       | 无                              |            |
+| Chapter 2 | 32       | 32       | 无                              | 已完成优化 |
 | Chapter 3 | 35       | 35       | 无                              |            |
 | Chapter 4 | 38       | 38       | 无                              |            |
 | Chapter 5 | 11       | 11       | 无                              |            |
