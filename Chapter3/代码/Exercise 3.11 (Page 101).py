@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun 13 16:07:25 2018
+Created on Sun Mar  3 09:51:21 2019
 
-@author: Administrator
+@author: qinzhen
 """
 
 #隐函数作图库

@@ -736,14 +736,14 @@ plt.show()
 
 Prove that the PLA eventually converges to a linear separator for separable data. The following steps will guide you through the proof. Let $w^*$ be an optimal set of weights (one which separates the data).The essential idea in this proof is to show that the PLA weights $w(t$) get "more aligned" with $w^*$ with every iteration . For simplicity, assume that $w(0) = 0$.  
 
-(a) Let $\rho = {\min}_{1\le n\le N} y_n(w^{*T} x_n )$ . Show that $\rho > 0$.  
+(a) Let $\rho = {\min}_{1\le n\le N} y_n(w^{*T} x_n )​$ . Show that $\rho > 0​$.  
 
-(b) Show that $w^T (t)w^*\ge w^T(t- 1)w^*+\rho$, and conclude that $w^T(t)w^* \ge t\rho$.[Hint: Use induction.]  
+(b) Show that $w^T (t)w^*\ge w^T(t- 1)w^*+\rho​$, and conclude that $w^T(t)w^* \ge t\rho​$.[Hint: Use induction.]  
 
 (c) Show that $||w (t) ||^2 \le  ||w(t - 1) ||^2 + ||x(t - 1) ||^2.​$  
 [Hint: $y(t - 1) · (w^T(t - l)x(t - 1)) \le 0​$ because $x(t - 1)​$ was misclassified by $w (t - 1 )​$].  
 
-(d) Show by induction that $||w(t) ||^2 \le tR^2$ , where$ R = {\max}_{1\le n\le N} ||xn ||$ ·  
+(d) Show by induction that $||w(t) ||^2 \le tR^2​$ , where$ R = {\max}_{1\le n\le N} ||xn ||​$ ·  
 
 (e) Using (b) and (d), show that 
 $$
@@ -756,7 +756,7 @@ $$
 [Hint: $\frac {w (t)w^*} {||w(t)||\ ||w^*||}\le 1​$ . Why?]  
 In practice, PLA converges more quickly than the bound $\frac {R^2||w^*||^2} {\rho^2}​$ suggests.Nevertheless, because we do not know $\rho​$ in advance, we can 't determine the number of iterations to convergence, which does pose a problem if the data is non-separable.
 
-(a) 因为可分,所以$\forall\ n(1\le n \le N)，y_n(w^{*T} x_n )>0$，然后因为$N$有限，所以$\rho = {\min}_{1\le n\le N} y_n(w^{*T} x_n )>0$
+(a) 因为可分,所以$\forall\ n(1\le n \le N)，y_n(w^{*T} x_n )>0​$，然后因为$N​$有限，所以$\rho = {\min}_{1\le n\le N} y_n(w^{*T} x_n )>0​$
 
 (b)先回顾下更新规则:
 $$
@@ -768,15 +768,15 @@ $$
 $$
 \begin{aligned}
 w^T (t)w^*
-&=(w^T (t-1)+y(t)x^T(t))w^*\\
-&=w^T (t-1)w^*+y(t)x^T(t)w^*\\
-&=w^T (t-1)w^*+y(t)x(t)w^{*T}\\
+&=(w^T (t-1)+y(t-1)x^T(t-1))w^*\\
+&=w^T (t-1)w^*+y(t-1)x^T(t-1)w^*\\
+&=w^T (t-1)w^*+y(t-1)x(t-1)w^{*T}\\
 &\ge w^T(t- 1)w^*+\rho
 \end{aligned}
 $$
-这里$y(t)x^T(t)w^*=y(t)x(t)w^{*T}$是因为$x^T(t)w^*$是一个实数，所以它的转置$x(t)w^{*T}$等于它本身，最后一步是因为
+这里$y(t-1)x^T(t-1) w^*=y(t-1)x(t-1)w^{*T}$是因为$x^T(t-1)w^*$是一个实数，所以它的转置$x(t-1)w^{*T}$等于它本身，最后一步是因为
 $$
-y(t)x(t)w^{*T}\ge {\min}_{1\le n\le N} y_n(w^{*T} x_n )=\rho
+y(t-1)x(t-1)w^{*T}\ge {\min}_{1\le n\le N} y_n(w^{*T} x_n )=\rho
 $$
 再来证明 $w^T(t)w^* \ge t\rho​$，利用数学归纳法
 $t=0​$时,$w^T(t)w^*=w^T(0)w^*=0,t\rho=0​$，因此$t=0​$时结论成立  
@@ -786,7 +786,7 @@ w^T (k+1)w^*\ge w^T(k)w^*+\rho\ge k\rho +\rho=(k+1)\rho
 $$
 所以$t=k+1​$时结论成立
 
-(c)对$w(t + 1) = w(t) + y(t)x(t)$两边取模的平方，注意这里$||x||^2=x^Tx,x\in R^n$
+(c)对$w(t + 1) = w(t) + y(t)x(t)$两边取模的平方，注意这里$||x||^2=x^Tx,x\in \mathbb R^n$
 $$
 \begin{aligned}
 ||w(t + 1)||^2 
@@ -848,7 +848,7 @@ $$
 \sqrt t \frac {\rho}R\le||w^*||
 \\ t\le \frac {||w^*||^2R^2}{\rho^2}
 $$
-这意味着$t$是一个有限的数，所以PLA​一定会收敛
+这意味着$t​$是一个有限的数，所以PLA​一定会收敛
 
 
 
