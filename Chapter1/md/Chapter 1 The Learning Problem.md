@@ -140,7 +140,7 @@ def Judge(X, y, w):
 def data(N, d, rnd, t=0.1):
     """
     生成N个d维点（不包括偏置项1），x1+...+xd>=t的点标记为+1，x1+...+xd<=-t的点标记为-1，
-	rnd为随机数生成器，形式为rnd = np.random.RandomState(seed)，seed为随机种子，
+	rnd为随机数生成器，形式为rnd = np.random.RandomState(seed)，seed为随机种子
     """
     X = []
     w = np.ones(d)
@@ -159,7 +159,7 @@ def data(N, d, rnd, t=0.1):
 def f(N, d, rnd, t=0.1, r=1):
     """
     生成N个d维点（不包括偏置项1），x1+...+xd>=t的点标记为+1，x1+...+xd<=-t的点标记为-1，
-    rnd为随机数生成器，形式为rnd = np.random.RandomState(seed)，seed为随机种子，
+    rnd为随机数生成器，形式为rnd = np.random.RandomState(seed)，seed为随机种子
 	利用PLA更新，如果r=1，那么按照顺序取点，否则随机取点
     """
     X, y = data(N, d, rnd, t=t)
@@ -185,13 +185,26 @@ def f(N, d, rnd, t=0.1, r=1):
                 
     #直线方程为w0+w1*x1+w2*x2=0,根据此生成点
     a = np.arange(-1, 1, 0.1)
-    b = np.array([(i * w[1] + w[0]) / (-w[2]) for i in a])
+    b = (a * w[1] + w[0]) / (- w[2])
     
     #原直线方程为x1+x2 = 0
-    c = t - a
+    c = - a
     
     #返回数据
     return a, b, c, X, y, s, w
+
+def plot_helper(a, b, c, X, y, s, w, t=0):
+    """
+    作图函数
+    """
+    #画出图像
+    plt.scatter(X[y == 1][:, 1], X[y == 1][:, 2], c='r', s=1)
+    plt.scatter(X[y == -1][:, 1], X[y == -1][:, 2], c='b', s=1)
+    plt.plot(a, b, label="("+str(w[0])+")+("+str(w[1])+")x1+("+str(w[2])+")x2=0")
+    plt.plot(a, c, label="x1+x2="+str(t))
+    plt.title(u"经过"+str(s)+u"次迭代收敛")
+    plt.legend()
+    plt.show()
 ```
 
 最后的代码如下
@@ -349,13 +362,13 @@ $c_1​$ is the first coin flipped; $c_{\text{rand}}​$ is a coin you choose at
 
 介绍下这题的背景,先定义几个概念:
 $$
-E_{\text{in}}(h)=(faction\ of\ D\ where\ f\ and\ h\ disagree)
+E_{\text{in}}(h)=(fraction\ of\ D\ where\ f\ and\ h\ disagree)
 \\ =\frac 1N \sum_{i=1}^{n}[\![h(x_n)\neq  f(x_n)]\!],
 $$
 $$
 E_{\text{out}}(h)=\mathbb P[\![h(x)\neq  f(x)]\!]
 $$
-这里$f​$是原假设,$h​$是我们得到的假设，其次：
+这里$f$是原假设,$h​$是我们得到的假设，其次：
 $$
 [\![statement]\!]= 1\ if\ the\ statement\ is\ true
 $$
@@ -1340,7 +1353,7 @@ What is $E_{oﬀ} (h, f)$?
 (b) We say that a target function $f$ can 'generate' $\mathcal D$ in a noiseless setting if  $y_n = f(x_n)$ for all $(x_n, y_n)\in\mathcal  D$ . For a fixed $\mathcal D$ of size $N$, how many possible $f : \mathcal X \to \mathcal Y$ can generate $\mathcal D$ in a noiseless setting?
 (c) For a given hypothesis $h$ and an integer $k$ between $0$ and $M$, how many of those $f$ in (b) satisfy $E_{oﬀ} (h, f)=\frac k M$ ? 
 (d) For a given hypothesis $h$, if all those $f$ that generate $\mathcal  D$ in a noiseless setting are equally likely in probability, what is the expected off trainingset error $\mathbb E_f[E_{oﬀ} (h, f)]$?  
-(e) A deterministic algorithm $A$ is defined as a procedure that takes $\mathcal D$ as an input, and outputs a hypothesis $h = A(\mathcal D)$. Argue that for any two deterministic algorithms $A_1$ and $A_2$
+(e) A deterministic algorithm $A$ is defined as a procedure that takes $\mathcal D$ as an input, and outputs a hypothesis $h = A(\mathcal D)$. Argue that for any two deterministic algorithms $A_1$ and $A_2​$
 $$
 \mathbb E_f[E_{oﬀ} (A_1(D), f)]=\mathbb E_f[E_{oﬀ} (A_2(D), f)]
 $$

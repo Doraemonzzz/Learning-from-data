@@ -1,26 +1,36 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jun 29 09:07:19 2018
+Created on Fri Mar  8 11:06:45 2019
 
-@author: Administrator
+@author: qinzhen
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
 
-def L(k,x):
-    if(k==0):
-        return 1
-    elif(k==1):
-        return x
+def L(k, x):
+    if k == 0:
+        return [1]
+    elif k == 1:
+        return [1, x]
     else:
-        return (2*k-1)/k*(x*L(k-1,x))-(k-1)/k*L(k-2,x)
+        temp = L(k-1, x)
+        lkx = (2 * k - 1) / k * x * temp[-1] - (k - 1) / k * temp[-2]
+        temp.append(lkx)
+        return temp
 
-x=np.arange(-1,1,0.05)
-y=[[] for i in range(6)]
-for k in range(6):
-    y[k]=[L(k,i) for i in x]
-    plt.plot(x,y[k],label="L"+str(k)+"(x)")
+X = np.arange(-1, 1, 0.05)
+Y = []
+for x in X:
+    y = L(6, x)
+    Y.append(y)
+Y = np.array(Y)
+
+for k in range(7):
+    plt.plot(X, Y[:, k], label="L"+str(k)+"(x)")
+    plt.legend()
+
 plt.legend()
+plt.xlabel("degree")
 plt.title("Legendre Polynomial")
 plt.show()

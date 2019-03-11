@@ -67,15 +67,15 @@ def f(N, d, rnd, t=0.1, r=1):
                 
     #直线方程为w0+w1*x1+w2*x2=0,根据此生成点
     a = np.arange(-1, 1, 0.1)
-    b = np.array([(i * w[1] + w[0]) / (-w[2]) for i in a])
+    b = (a * w[1] + w[0]) / (- w[2])
     
     #原直线方程为x1+x2 = 0
-    c = t - a
+    c = - a
     
     #返回数据
     return a, b, c, X, y, s, w
 
-def plot_helper(a, b, c, X, y, s, w, t=0.1):
+def plot_helper(a, b, c, X, y, s, w, t=0):
     """
     作图函数
     """

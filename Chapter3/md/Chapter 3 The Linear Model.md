@@ -425,7 +425,8 @@ $$
 \mathbb E_{\mathcal D}[E_{\text{in}}(w_{\text{lin}})]&=\frac 1N E_{\mathcal D}( \epsilon^T(I-H)\epsilon)
 \\&=\frac 1N\mathbb  E_{\mathcal D}\text{trace}( \epsilon^T(I-H)\epsilon)(这一步是由于\epsilon^T(I-H)\epsilon是一个实数，对于实数a,a=\text{trace}(a))
 \\&=\frac 1N\mathbb  E_{\mathcal D}\text{trace}( \epsilon^T\epsilon-\epsilon^TH\epsilon))
-\\&=\frac 1N [\mathbb E_{\mathcal D}(\sum_{i=1}^N\epsilon_i^2)-\mathbb E_{\mathcal D}(\sum_{i=1}^N\epsilon_iH_{ii}\epsilon_i)](H_{ii}为H第(i,i)个元素)
+\\&=\frac 1N [\mathbb E_{\mathcal D}(\sum_{i=1}^N\epsilon_i^2)-\mathbb E_{\mathcal D}(\sum_{i=1}^N\sum_{j=1}^N\epsilon_iH_{ij}\epsilon_j)](H_{ij}为H第(i,j)个元素)\\
+&=\frac 1N [\mathbb E_{\mathcal D}(\sum_{i=1}^N\epsilon_i^2)-\mathbb E_{\mathcal D}(\sum_{i=1}^N\epsilon_i^2H_{ii})](\epsilon_i相互独立且期望为0)
 \\&=\frac 1N [N\sigma^2-(\sum_{i=1}^NH_{ii})\sigma^2]
 \\&=\frac 1N [N\sigma^2-\text{trace}(H)\sigma^2](注意上一题结论\text{trace}(H)=d+1)
 \\&=\frac 1N [N\sigma^2-(d+1)\sigma^2]
