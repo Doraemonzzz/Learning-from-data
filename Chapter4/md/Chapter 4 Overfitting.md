@@ -371,7 +371,7 @@ plt.show()
 ```
 
 
-![png](output_26_0.png)
+![png](output_1_0.png)
 
 
 
@@ -471,7 +471,7 @@ plt.show()
 ```
 
 
-![png](output_31_0.png)
+![png](output_3_0.png)
 
 
 (b)使用归纳法，显然对于$k=0,k=1$结论成立，假设对于$k\le n-1$结论成立，现在证明$k=n$时，结论也成立。
@@ -776,65 +776,68 @@ $$
 
 #### Problem 4.4 (Page 155)
 
-This problem is a detailed version of Exercise 4.2. We set up an experimental framework which the reader may use to study \text{Var}ious aspects of overfitting. The input space is $\mathcal X = [-1 , 1]​$ . with uniform input probability density, $P(x) = \frac 1 2​$ · We consider the two models $\mathcal H_2​$ and $\mathcal H_{10}​$ . The target function is a polynomial of degree $Q_f​$ , which we write as $f(x) =\sum_{q=0}^{Q_f} a_qL_q(x)​$ , where $L_q(x)​$ are the Legendre polynomials. We use the Legendre polynomials because they are a convenient orthogonal basis for the polynomials on $[-1 , 1]​$ (see Section 4.2 and Problem 4.3 for some basic information on Legendre polynomials). The data set is $\mathcal D = (x_1 , y_1 ) , . . . , (x_N , y_N)​$ , where $y_n = f(x_n) + \sigma \epsilon_n​$ and $\epsilon_n​$ are iid standard Normal random \text{Var}iates. 
+This problem is a detailed version of Exercise 4.2. We set up an experimental framework which the reader may use to study various aspects of overfitting. The input space is $\mathcal X = [-1 , 1]$ . with uniform input probability density, $P(x) = \frac 1 2$ · We consider the two models $\mathcal H_2$ and $\mathcal H_{10}$ . The target function is a polynomial of degree $Q_f$ , which we write as $f(x) =\sum_{q=0}^{Q_f} a_qL_q(x)$ , where $L_q(x)$ are the Legendre polynomials. We use the Legendre polynomials because they are a convenient orthogonal basis for the polynomials on $[-1 , 1]$ (see Section 4.2 and Problem 4.3 for some basic information on Legendre polynomials). The data set is $\mathcal D = (x_1 , y_1 ) , . . . , (x_N , y_N)$ , where $y_n = f(x_n) + \sigma \epsilon_n$ and $\epsilon_n$ are iid standard Normal random variates. 
 
-For a single experiment, with specified values for $Q_f , N, \sigma$, generate a random degree-$Q_f$ target function by selecting coefficients $a_q$ independently from a standard Normal , rescaling them so that $E_{a,x} [f^2] = 1$ . Generate a data set, selecting $x_1 , . . . , x_N$ independently from $P_(x)$ and $y_n = f(x_n) + \sigma \epsilon_n$ . Let $g_2$ and $g_{10}$ be the best fit hypotheses to the data from $\mathcal H_2$ and $\mathcal H_{10}$  respectively, with respective out of-sample errors $E_{\text{out}} (g_2)$ and $E_{\text{out}} (g_{10})$.    
+For a single experiment, with specified values for $Q_f , N, \sigma$, generate a random degree-$Q_f$ target function by selecting coefficients $a_q$ independently from a standard Normal , rescaling them so that $\mathbb E_{a,x} [f^2] = 1$ . Generate a data set, selecting $x_1 , . . . , x_N$ independently from $P(x)$ and $y_n = f(x_n) + \sigma \epsilon_n$ . Let $g_2$ and $g_{10}$ be the best fit hypotheses to the data from $\mathcal H_2$ and $\mathcal H_{10}$  respectively, with respective out of-sample errors $E_{\text{out}} (g_2)$ and $E_{\text{out}} (g_{10})$.    
 
-(a) Why do we normalize $f$? [Hint: how would you interpret $\sigma$ ?] 
+(a) Why do we normalize $f​$? [Hint: how would you interpret $\sigma​$ ?] 
 
-(b) How can we obtain $g_2 , g_{10}$? [Hint: pose the problem as linear regression and use the technology from Chapter 3.]
+(b) How can we obtain $g_2 , g_{10}​$? [Hint: pose the problem as linear regression and use the technology from Chapter 3.]
 
 (c) How can we compute $E_{\text{out}}$ analytically for a given $g_{10}$?    
 
-(d) \text{Var}y $Q_f , N, \sigma$ and for each combination of parameters, run a large number of experiments, each time computing $E_{\text{out}} (g_2 )$ and $E_{\text{out}} (g_{10} )$ . Averaging these out-of-sample errors gives estimates of the expected out-of sample error for the given learning scenario ($Q_f , N, \sigma$) using $\mathcal H_2$ and $\mathcal H_{10}$ . Let 
+(d) Vary $Q_f , N, \sigma$ and for each combination of parameters, run a large number of experiments, each time computing $E_{\text{out}} (g_2 )$ and $E_{\text{out}} (g_{10} )$ . Averaging these out-of-sample errors gives estimates of the expected out-of sample error for the given learning scenario ($Q_f , N, \sigma$) using $\mathcal H_2$ and $\mathcal H_{10}$ . Let 
 $$
 E_{\text{out}} (\mathcal H_{2} )=\text{average over experiments}(E_{\text{out}} (g_{2}) )  ,\\
  E_{\text{out}} (\mathcal H_{10} )=\text{average over experiments}(E_{\text{out}} (g_{10}) )
 $$
-Define the overfit measure $ E_{\text{out}} (\mathcal H_{10} )- E_{\text{out}} (\mathcal H_{2} )$ . When is the over fit measure {\text{sign}}ificantly positive (i .e. , overfitting is serious) as opposed to {\text{sign}}ificantly negative? Try the choices $Q_f\in \{ 1 , 2, . . . , 100\}$, $N \in \{20, 25, . . . , 120\}$, $\sigma^2 \in \{0, 0.05, 0. 1 , . . . , 2\}$. Explain your observations. 
+Define the overfit measure $ E_{\text{out}} (\mathcal H_{10} )- E_{\text{out}} (\mathcal H_{2} )$ . When is the over fit measure significantly positive (i .e. , overfitting is serious) as opposed to significantly negative? Try the choices $Q_f\in \{ 1 , 2, . . . , 100\}$, $N \in \{20, 25, . . . , 120\}$, $\sigma^2 \in \{0, 0.05, 0. 1 , . . . , 2\}$. Explain your observations. 
 
-(e) Why do we take the average over many experiments? Use the \text{Var}iance to select an acceptable number of experiments to average over. 
+(e) Why do we take the average over many experiments? Use the variance to select an acceptable number of experiments to average over. 
 
-(f) Repeat this experiment for classification, where the target function is a noisy perceptron , $$f(x) ={\text{sign}}(\sum_{q=1}^{Q_f} a_qL_q(x)+\epsilon)$$ . Notice that $a_0 = 0$, and the $a_q$ 's should be normalized so that $E_{a,x}[\sum_{q=1}^{Q_f} a_qL_q(x)]^2=1$ . For classification, the models $\mathcal H_2$ , $\mathcal H_{10}$ contain the {\text{sign}} of the 2nd and 10th order polynomials respectively. You may use a learning algorithm for non-separable data from Chapter 3.    
+(f) Repeat this experiment for classification, where the target function is a noisy perceptron , $$f(x) ={\text{sign}}(\sum_{q=1}^{Q_f} a_qL_q(x)+\epsilon)$$ . Notice that $a_0 = 0$, and the $a_q$ 's should be normalized so that $E_{a,x}[\sum_{q=1}^{Q_f} a_qL_q(x)]^2=1$ . For classification, the models $\mathcal H_2$ , $\mathcal H_{10}$ contain the sign of the 2nd and 10th order polynomials respectively. You may use a learning algorithm for non-separable data from Chapter 3.    
 
-(a)将$L_0(x),...,L_{Q_f}(x)$理解向量，由上一题我们知道$L_0(x),...,L_{Q_f}(x)$是正交的，$f(x) =\sum_{q=0}^{Q_f} a_qL_q(x)$为正交向量的线性组合，$Q_f$可以理解为自由度，标准化$f$使得$f$的模为$1$之后相当于控制了变量，才能更好地比较不同$Q_f$的拟合效果。（这题定性理解了，可能表述的不是很好）
+(a)将$L_0(x),...,L_{Q_f}(x)$理解向量，由上一题我们知道$L_0(x),...,L_{Q_f}(x)$是正交的，$f(x) =\sum_{q=0}^{Q_f} a_qL_q(x)$为正交向量的线性组合，$Q_f$可以理解为自由度，标准化$f$使得$f$的模为$1$之后相当于控制了变量，才能更好地比较不同$Q_f​$的拟合效果。（这题定性理解了，可能表述的不是很好。）
 
-下面看一下如何进行标准化，利用4.3的公式
+下面讨论如何进行标准化，利用4.3的公式
 $$
 \int_{-1}^{1}dx\ L_k(x)L_{ l}(x)=\begin{cases}
 0 & {l \neq k}\\
 \frac{2}{2k+1} & {l=k}
 \end{cases}
 $$
-计算$E_{a,x}[f^2]$
+接着计算$\mathbb E_{a,x}[f^2]$
 $$
 \begin{aligned}
-E_{a,x}[f^2]&=E_{a,x}[\sum_{q=0}^{Q_f} a_qL_q(x)]^2\\
+\mathbb E_{a,x}[f^2]&=\mathbb E_{a,x}[\sum_{q=0}^{Q_f} a_qL_q(x)]^2\\
 &=\int_{-1}^{1}[\sum_{q=0}^{Q_f} a_qL_q(x)]^2dx\\
+&=\sum_{q=0}^{Q_f}\int_{-1}^{1} a_q^2L_q^2(x)dx\\
 &=\sum_{q=0}^{Q_f}  \frac {2a^2_q}{2q+1}\\
-&\overset{记为}{=}S
+&\triangleq S
 \end{aligned}
 $$
 所以
 $$
-E_{a,x}[(\frac{f}{\sqrt S})^2]=\frac {E_{a,x}[f^2]}{S}=1
+\mathbb E_{a,x}[(\frac{f}{\sqrt S})^2]=\frac {\mathbb E_{a,x}[f^2]}{S}=1
 $$
-所以要使得$E_{a,x}[f^2]=1$，只要对产生的$a_i$作如下变换即可
+所以要使得$\mathbb E_{a,x}[f^2]=1$，只要对产生的$a_i​$作如下变换即可
 $$
-a'_i=\frac {a_i}{\sqrt{S}}\\
-S=\sum_{q=0}^{Q_f}  \frac {2a^2_q}{2q+1}
+\begin{aligned}
+S&=\sum_{q=0}^{Q_f}  \frac {2a^2_q}{2q+1} \\
+a'_i&=\frac {a_i}{\sqrt{S}}
+\end{aligned}
 $$
-(b)获得$g_i$的方法是采用第三章的特征变换，计算出$(1,x,...,x^i)$之后对$(1,x,...,x^i)$做线性回归即可，利用公式
+(b)计算$g_i$的方法是采用第三章的特征变换，计算出$(1,x,...,x^i)$之后对$(1,x,...,x^i)$做线性回归即可，利用公式
 $$
 w=(X^TX)^{-1}X^Ty
 $$
-(c)直接考虑$g_i$，如果$g_{i}$给定了，计算$E_{\text{out}}(g_{i})$直接利用公式，
+(c)直接考虑$g_i​$，如果$g_{i}​$给定了，计算$E_{\text{out}}(g_{i})​$直接利用公式，
 $$
 \begin{aligned}
 E_{\text{out}}(g_{i})
-&=E[g_{i}(x)-f(x)-\sigma \epsilon]^2\\
-&=E[(g_{i}(x)-f(x))^2]-E[2\sigma \epsilon(g_{i}(x)-f(x))]+E[\sigma^2 \epsilon^2](注意\epsilon与x独立且\epsilon服从标准正态分布) \\
-&=E[(g_{i}(x)-f(x))^2]+\sigma ^2\\
+&=\mathbb E[g_{i}(x)-f(x)-\sigma \epsilon]^2\\
+&=\mathbb E[(g_{i}(x)-f(x))^2]-\mathbb E[2\sigma \epsilon(g_{i}(x)-f(x))]+\mathbb E[\sigma^2 \epsilon^2](注意\epsilon与x独立且\epsilon服从标准正态分布) \\
+&=\mathbb E[(g_{i}(x)-f(x))^2]+\sigma ^2\\
 &=\frac 1 2 \int_{-1}^{1}(g_{i}(x)-f(x))^2dx+\sigma^2
 \end{aligned}
 $$
@@ -879,7 +882,9 @@ f(x)=L^T(x)a\\
  L_0(x_N)&...&L_{Q_f}(x_N)
   \end{matrix}
   \right)\\
-上式可化为\\
+$$
+上式可化为
+$$
 Y=Xa
 $$
 注意还有误差项
@@ -894,167 +899,170 @@ $$
 
 
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 13 17:35:52 2019
+
+@author: qinzhen
+"""
+
 import numpy as np
 from numpy.linalg import inv
 from scipy.integrate import quad
+from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
 #参数
-Qf=5
-N=100
-sigma2=1
+Qf = 5
+N = 100
+sigma2 = 1
 
 #### Step 1:数据准备
 
 #定义勒让德多项式，产生L(0,x),...,L(k,x),注意这里不要用递归
 def L(k,x):
-    if(k==0):
+    if(k == 0):
         return [1.0]
-    elif(k==1):
-        return [1.0,x*1.0]
+    elif(k == 1):
+        return [1.0, x * 1.0]
     else:
-        result=[1,x]
+        result = [1, x]
         for i in range(2,k+1):
-            s=(2*i-1)/i*(x*result[-1])-(i-1)/i*result[-2]
+            s = (2 * i - 1) / i * (x * result[-1]) - (i - 1) / i * result[-2]
             result.append(s)
         return result
 
 #系数ai
-a=np.random.normal(size=Qf+1)
+a = np.random.normal(size=Qf+1)
 
 #标准化
-k=np.arange(1,2*Qf+2,2)
-s=(2*a**2/k).sum()
-a=a/np.sqrt(s)
+k = np.arange(1, 2*Qf+2, 2)
+s = (2*a**2/k).sum()
+a = a / np.sqrt(s)
 
 #产生点集
-x=np.random.uniform(low=-1,high=1,size=N)
+x = np.random.uniform(low=-1, high=1, size=N)
 x.sort()
+x = x.reshape(-1, 1)
 #计算之前所述的X
-X=[]
+X = []
 for i in x:
-    temp=L(Qf,i)
+    temp = L(Qf, i)
     X.append(temp)
-X=np.array(X)
+X = np.array(X)
 #差生误差项
-epsilon=np.sqrt(sigma2)*np.random.normal(size=N)
+epsilon = np.sqrt(sigma2) * np.random.normal(size=N)
 #计算Y
-Y1=X.dot(a.T)
-Y=X.dot(a.T)+epsilon
+Y1 = X.dot(a.T)
+Y = Y1 + epsilon
 
 
 #### Step 2:拟合数据
 
 #对一个数据特征转换,将x转换为(1,x,...,x^k)
-def t(x,k):
-    result=[x**i for i in range(k+1)]
-    return result
-
-#对一组数据x=[x1,...xN]做特征转换
-def tranform(X,k):
-    result=[]
-    for x in X:
-        temp=t(x,k)
-        result.append(temp)
-    return np.array(result)
+poly2 = PolynomialFeatures(2)
+poly10 = PolynomialFeatures(10)
 
 #特征转换
-X2=tranform(x,2)
-X10=tranform(x,10)
+X2 = poly2.fit_transform(x)
+X10 = poly10.fit_transform(x)
 
 #计算结果
-w2=inv(X2.T.dot(X2)).dot(X2.T).dot(Y)
-w10=inv(X10.T.dot(X10)).dot(X10.T).dot(Y)
+w2 = inv(X2.T.dot(X2)).dot(X2.T).dot(Y)
+w10 = inv(X10.T.dot(X10)).dot(X10.T).dot(Y)
 
 
 #### Step 3:计算结果
 
 #构造被积函数,a为系数
-def E(x,w,a):
+def E(x, w, a, sigma2):
+    """
+    计算Eout的积分，
+    """
     #计算f(x)
     #n为勒让德多项式次数
-    n=len(a)-1
-    l=L(n,x)
-    f=a.dot(l)
+    n = len(a)-1
+    l = L(n, x)
+    f = a.dot(l)
     
     #计算g(x)
-    X=np.array([x**i for i in range(len(w))])
-    g=X.dot(w)
+    X = np.array([x**i for i in range(len(w))])
+    g = X.dot(w)
     
-    return (g-f)**2/2
+    return (g - f) ** 2 / 2 + sigma2
 
-E2=quad(E, -1, 1, args=(w2,a))[0]
-E10=quad(E, -1, 1, args=(w10,a))[0]
-print("E2="+str(E2))
-print("E10="+str(E10))
-print("E10-E2="+str(E10-E2))
+E2 = quad(E, -1, 1, args=(w2, a, sigma2))[0]
+E10 = quad(E, -1, 1, args=(w10, a, sigma2))[0]
 
+print("E2=" + str(E2))
+print("E10=" + str(E10))
+print("E10-E2=" + str(E10 - E2))
 
 #### Step 4:作图
-Y2=X2.dot(w2)
-Y10=X10.dot(w10)
+Y2 = X2.dot(w2)
+Y10 = X10.dot(w10)
 
-plt.plot(x,Y1,label='无噪音')
-plt.scatter(x,Y,label='有噪音',s=3)
-plt.plot(x,Y2,label='g2')
-plt.plot(x,Y10,label='g10')
+plt.plot(x, Y1, label='无噪音')
+plt.scatter(x, Y, label='有噪音',s=3)
+plt.plot(x, Y2, label='g2')
+plt.plot(x, Y10, label='g10')
 plt.legend()
 plt.show()
 ```
 
-    E2=0.19370102222376592
-    E10=0.09470662613678378
-    E10-E2=-0.09899439608698214
+    E2=2.082396716905117
+    E10=2.1130425056211815
+    E10-E2=0.03064578871606427
 
-
-
-![png](output_36_1.png)
+![png](output_5_1.png)
 
 
 重复这个过程，进行多次实验并作图，注意这里我没有完全按照题目的要求来做，取而代之的是模拟了课本124页的两个实验，因为运行时间比较久，所以我运行完之后保存为pickle文件，这里直接作图，代码在Problem 4.4 (d)(Page 155).py文件，这里我将数据保存在字典内，键为$(q,\sigma^2,n)$，所以作图前还要预处理一下。
 
-首先看下$Q_f=20$的情况。
+首先看下$Q_f=20$的情形：
 
 
 ```python
-import pickle
+E = {}
+t = 100
 
-pickle_in=open('Stochastic noise.pickle','rb')
-E=pickle.load(pickle_in)
+Qf = [20]
+N = np.arange(5, 122, 5)
+sigma2 = np.arange(0, 2.01, 0.05)
+q = 20
 
-c=[]
-q1=[]
-n1=[]
+#读取数据
+pickle_in = open('stochastic noise.pickle', 'rb')
+E = pickle.load(pickle_in)
+
+
+#读取后横坐标N以及纵坐标sigma2以及对应的差值c      
+c = []
+n1 = []
+s1 = []
 for i in E:
-    q1.append([i[1]])
-    n1.append([i[2]])
-    c.append([E[i]])
+    n1.append(i[1])
+    s1.append(i[2])
+    c.append(E[i])
 
-c=np.array(c)
-q1=np.array(q1)
-n1=np.array(n1)
+c = np.array(c)
+n1 = np.array(n1)
+s1 = np.array(s1)
 
-n1,q1=np.meshgrid(n1,q1)
-result=[]
-for i in range(len(q1)):
-    q=q1[i]
-    n=n1[i]
-    temp=[]
-    for j in range(len(q)):
-        temp.append(E[(20,q[j],n[j])])
+n1, s1 = np.meshgrid(n1, s1)
+result = []
+for i in range(len(n1)):
+    n = n1[i]
+    s = s1[i]
+    temp = []
+    for j in range(len(n)):
+        temp.append(E[(q, n[j], s[j])])
     result.append(temp)
-```
 
-作图
-
-
-```python
-import matplotlib.pyplot as plt
-
-cm=plt.cm.get_cmap('rainbow')
-plt.pcolormesh(q1,n1,result,cmap=cm,vmin=-0.2,vmax=0.2,shading='gouraud',edgecolors='face')
+cm = plt.cm.get_cmap('rainbow')
+plt.pcolormesh(n1, s1, result, cmap=cm, vmin=-0.2, vmax=0.2, shading='gouraud', edgecolors='face')
 plt.xlabel("Number of Data Points, N")
 plt.ylabel("Noise Level,sigma^2")
 plt.title("stochastic noise")
@@ -1063,48 +1071,56 @@ plt.show()
 ```
 
 
-![png](output_40_0.png)
+![png](output_6_0.png)
 
 
-看下老师的图。
+看下老师的图：
 
 ![](https://github.com/Doraemonzzz/Learning-from-data/blob/master/photo/Chapter4/Problem4.4a.png?raw=true)
 
-对比两张图可以发现，我的图虽然糙了一点，但是还是能看出整体趋势的，**数据越少，越容易overfit；Noise越多，越容易overfit**
+对比两张图可以发现，我的图虽然糙了一点，但是还是能看出整体趋势的，**数据越少，越容易overfit；Noise越多，越容易overfit**。
 
-再来看下$\sigma^2=0.1$的情形
+再来看下$\sigma^2=0.1$的情形：
 
 
 ```python
+Qf = np.arange(1, 31)
+N = np.arange(5, 121, 5)
+sigma2 = 0.1
+s = sigma2
+
+E = {}
+t = 150
+
 #读取数据
-pickle_in=open('Deterministic noise.pickle','rb')
-E=pickle.load(pickle_in)
+pickle_in = open('deterministic noise.pickle', 'rb')
+E = pickle.load(pickle_in)
 
-c=[]
-q1=[]
-n1=[]
+c = []
+q1 = []
+n1 = []
 for i in E:
-    q1.append([i[0]])
-    n1.append([i[1]])
-    c.append([E[i]])
+    q1.append(i[0])
+    n1.append(i[1])
+    c.append(E[i])
 
-c=np.array(c)
-q1=np.array(q1)
-n1=np.array(n1)
+c = np.array(c)
+q1 = np.array(q1)
+n1 = np.array(n1)
 
-n1,q1=np.meshgrid(n1,q1)
-result=[]
+n1, q1 = np.meshgrid(n1, q1)
+result = []
+
 for i in range(len(q1)):
-    q=q1[i]
-    n=n1[i]
-    temp=[]
+    q = q1[i]
+    n = n1[i]
+    temp = []
     for j in range(len(q)):
-        temp.append(E[(q[j],n[j],0.1)])
+        temp.append(E[(q[j], n[j], sigma2)])
     result.append(temp)
-
-        
-cm=plt.cm.get_cmap('rainbow')
-plt.pcolormesh(n1,q1,result,cmap=cm,vmin=-0.2,vmax=0.2,shading='gouraud',edgecolors='face')
+   
+cm = plt.cm.get_cmap('rainbow')
+plt.pcolormesh(n1, q1, result, cmap=cm, vmin=-0.2, vmax=0.2, shading='gouraud', edgecolors='face')
 plt.colorbar()
 plt.xlabel("Number of Data Points, N")
 plt.ylabel("Target Complexity, Qf")
@@ -1113,21 +1129,21 @@ plt.show()
 ```
 
 
-![png](output_43_0.png)
+![png](output_6_1.png)
 
 
-看下老师的图。
+看下老师的图：
 
 ![](https://github.com/Doraemonzzz/Learning-from-data/blob/master/photo/Chapter4/Problem4.4b.png?raw=true)
 
-我的图和老师的图有一些区别，因为我的横坐标是从0到120，而老师的图的横坐标是60到120（老师的图里的0应该是指纵坐标的0），此外，因为运行速度问题，我这里只运行到30次多项式，但是任然可以看出一个趋势，**目标函数越复杂，越容易overfit**
+我的图和老师的图有一些区别，因为我的横坐标是从0到120，而老师的图的横坐标是60到120（老师的图里的0应该是指纵坐标的0），此外，因为运行速度问题，我这里只运行到30次多项式，但是任然可以看出一个趋势，**目标函数越复杂，越容易overfit**。
 
 (e)多次实验取平均更接近真实结果，减少误差。题目还问了实验次数和方差的关系，感觉应该是应该利用如下公式
 $$
 x_1,...,x_n独立同分布，方差为\sigma^2，\overline{x}=\frac 1 n \sum_{i=1}^{n}x_i，那么\\
 \text{Var}(\overline{x})=\frac 1 n \sigma^2
 $$
-(f)这题是对刚刚的数据进行分类，注意a_0=0，在运行的过程中发现这部分耗时比较长，所以暂时略过。
+(f)这题是对刚刚的数据进行分类，注意$a_0=0$，在运行的过程中发现这部分耗时比较长，所以暂时略过。
 
 
 
@@ -1893,7 +1909,7 @@ $$
 \Gamma^T \Gamma+\lambda I&=\text{diag}\{(\sigma_1^2+\lambda),...,(\sigma_{d}^2+\lambda)\}\\
 \Gamma^T\Gamma(\Gamma^T \Gamma+\lambda I) ^{-1}
 &=\text{diag}\{\frac{\sigma_1^2}{\sigma_1^2+\lambda},...,\frac{\sigma_d^2}{\sigma_d^2+\lambda}\}
-\end{aligned}
+\end{aligned}
 $$
 从而
 $$
@@ -2277,158 +2293,127 @@ $$
 $$
 The model is called the lasso algorithm . 
 
-(a) Formulate and implement this as a quadratic program . Use the experimental de{\text{sign}} in Problem 4.4 to compare the lasso algorithm with the quadratic penalty by giving plots of $E_{\text{out}}$ versus regularization parameter.
+(a) Formulate and implement this as a quadratic program . Use the experimental design in Problem 4.4 to compare the lasso algorithm with the quadratic penalty by giving plots of $E_{\text{out}}$ versus regularization parameter.
 
 (b) What is the augmented error? Is it more convenient to optimize? 
 
 (c) With $d = 5$ and $N = 3$, compare the weights from the lasso versus the quadratic penalty. [Hint: Look at the number of non-zero weights.]    
 
-(a)这里我们要最小化
-$$
-\ E_{\text{in}}(w)=\ ||Xw-Y||^2
-$$
-将
+(a)这里我们在条件
 $$
 \sum_{i=0}^d|w_i|\le C
 $$
-去掉绝对值，拆成很多个线性约束条件，所以该问题可以化为二次规划问题。剩余部分同Problem 4.4，做实验即可。
+下求下式的最小值
+$$
+\ E_{\text{in}}(w)=\ ||Xw-Y||^2
+$$
+注意将约束条件的绝对值去掉，可以拆成很多个线性约束条件，所以该问题可以化为二次规划问题，为了方便起见，这里直接使用sklearn库进行拟合。
 
 
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 13 19:49:28 2019
+
+@author: qinzhen
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
 from sklearn import linear_model
+from sklearn.preprocessing import PolynomialFeatures
+from helper import L, E
 
 
-def process(l,Qf=5,N=100,sigma2=1,d=2):
+def process(Lambda, Qf=5, N=100, sigma2=1, d=2):
+    """
+    进行一次实验，Lambda为正则项的系数，Qf为勒让德多项式的次数，
+    N为数据数量，sigma2为方差，d为特征转换的次数
+    """
     #### Step 1:数据准备
-    
-    #定义勒让德多项式，产生L(0,x),...,L(k,x),注意这里不要用递归
-    def L(k,x):
-        if(k==0):
-            return [1.0]
-        elif(k==1):
-            return [1.0,x*1.0]
-        else:
-            result=[1,x]
-            for i in range(2,k+1):
-                s=(2*i-1)/i*(x*result[-1])-(i-1)/i*result[-2]
-                result.append(s)
-            return result
-    
     #系数ai
-    a=np.random.normal(size=Qf+1)
+    a = np.random.normal(size=Qf+1)
     
     #标准化
-    k=np.arange(1,2*Qf+2,2)
-    s=(2*a**2/k).sum()
-    a=a/np.sqrt(s)
+    k = np.arange(1, 2*Qf+2, 2)
+    s = (2*a**2/k).sum()
+    a = a / np.sqrt(s)
     
     #产生点集
-    x=np.random.uniform(low=-1,high=1,size=N)
+    x = np.random.uniform(low=-1, high=1, size=N)
     x.sort()
+    x = x.reshape(-1, 1)
     #计算之前所述的X
-    X=[]
+    X = []
     for i in x:
-        temp=L(Qf,i)
+        temp = L(Qf, i)
         X.append(temp)
-    X=np.array(X)
+    X = np.array(X)
     #差生误差项
-    epsilon=np.sqrt(sigma2)*np.random.normal(size=N)
+    epsilon = np.sqrt(sigma2) * np.random.normal(size=N)
     #计算Y
-    Y=X.dot(a.T)+epsilon
+    Y = X.dot(a.T) + epsilon
     
     #### Step 2:拟合数据
-    
-    #对一个数据特征转换,将x转换为(1,x,...,x^k)
-    def t(x,k):
-        result=[x**i for i in range(k+1)]
-        return result
-    
-    #对一组数据x=[x1,...xN]做特征转换
-    def tranform(X,k):
-        result=[]
-        for x in X:
-            temp=t(x,k)
-            result.append(temp)
-        return np.array(result)
+    polyd = PolynomialFeatures(d)
     
     #特征转换
-    X0=tranform(x,d)
+    Xd = polyd.fit_transform(x, d)
     
     #计算Lasso回归,Ridge回归
     #Lasso
-    lasso=linear_model.Lasso(alpha=l)
-    lasso.fit(X0,Y)
-    #print(lasso.coef_)
+    lasso=linear_model.Lasso(alpha=Lambda)
+    lasso.fit(Xd, Y)
     
     #Ridge
-    ridge=linear_model.Ridge(alpha=l)
-    ridge.fit(X0,Y)
-    
-    #print(ridge.coef_)
-    #r=np.linalg.inv((X0.T.dot(X0)+l*np.eye(d+1))).dot(X0.T.dot(Y))
+    ridge=linear_model.Ridge(alpha=Lambda)
+    ridge.fit(Xd, Y)
     
     #### Step 3:计算结果
     
-    #构造被积函数,a为系数
-    def E(x,w,a):
-        #计算f(x)
-        #n为勒让德多项式次数
-        n=len(a)-1
-        l=L(n,x)
-        f=a.dot(l)
-        
-        #计算g(x)
-        X=np.array([x**i for i in range(len(w))])
-        g=X.dot(w)
-        
-        return (g-f)**2/2
-    
-    El=quad(E, -1, 1, args=(lasso.coef_,a))[0]
-    Eq=quad(E, -1, 1, args=(ridge.coef_,a))[0]
-    #Eq=quad(E, -1, 1, args=(r,a))[0]
+    El=quad(E, -1, 1, args=(lasso.coef_, a, sigma2))[0]
+    Eq=quad(E, -1, 1, args=(ridge.coef_, a, sigma2))[0]
 
-    return El,Eq,lasso.coef_,ridge.coef_
+    return El, Eq, lasso.coef_, ridge.coef_
 
-L=np.arange(0.01,2.01,0.05)
-El=[]
-Eq=[]
-lasso=[]
-ridge=[]
-for l in L:
-    temp=process(l)
-    El.append(temp[0])
-    Eq.append(temp[1])
+#(a)
+Lambda = np.arange(0.01,2.01,0.05)
+El = []
+Eq = []
+lasso = []
+ridge = []
+for l in Lambda:
+    result = process(l)
+    El.append(result[0])
+    Eq.append(result[1])
     
-plt.plot(L,El,label='Lasso')
-plt.plot(L,Eq,label='Ridge')
+plt.plot(Lambda, El, label='Lasso')
+plt.plot(Lambda, Eq, label='Ridge')
 plt.xlabel('$\lambda$')
-plt.title('$E_{\text{out}}$')
+plt.title('$E_{out}$')
 plt.legend()
 plt.show()
 ```
 
 
-![png](output_76_0.png)
+![png](output_8_0.png)
 
 
-(b)相比于二次regulation，一次regulation的约束条件为绝对值，不可导，所以很难用拉格朗日乘子法，优化起来更困难一些。
+(b)相比于二次正则化，一次正则化的约束条件为绝对值，不可导，所以很难用拉格朗日乘子法，优化起来更困难一些。
 
 (c)这里比较非零系数的个数。
 
-
-
 ```python
-lasso=[]
-ridge=[]
-for l in L:
-    temp=process(l,Qf=20,N=3,d=5)
-    lasso.append(np.sum(temp[2]!=0))
-    ridge.append(np.sum(temp[3]!=0))
-plt.plot(L,lasso,label='lasso')
-plt.plot(L,ridge,label='ridge')
+#(c)
+lasso = []
+ridge = []
+for l in Lambda:
+    result = process(l, Qf=20, N=3, d=5)
+    lasso.append(np.sum(result[2] != 0))
+    ridge.append(np.sum(result[3] != 0))
+plt.plot(Lambda, lasso, label='lasso')
+plt.plot(Lambda, ridge, label='ridge')
 plt.title('number of non-zero weights')
 plt.legend()
 plt.xlabel('$\lambda$')
@@ -2436,7 +2421,7 @@ plt.show()
 ```
 
 
-![png](output_78_0.png)
+![png](output_8_1.png)
 
 
 可以看到Lasso algorithm会使得很多权重为0。
@@ -2739,21 +2724,21 @@ $$
 
 #### Problem 4.24 (Page 163)
 
-For $d = 3$, generate a random data set with $N$ points as follows. For each point, each dimension of $x$ has a standard Normal distribution. Similarly, generate a $(d+ 1)$ dimensional target weight vector $w_f$, and set $y_n = w_f^Tx_n + \sigma \epsilon_n$ where $\epsilon_n$ is noise (also from a standard Normal distribution) and $\sigma$ is the noise \text{Var}iance; set $\sigma$ to 0.5. 
+For $d = 3​$, generate a random data set with $N​$ points as follows. For each point, each dimension of $x​$ has a standard Normal distribution. Similarly, generate a $(d+ 1)​$ dimensional target weight vector $w_f​$, and set $y_n = w_f^Tx_n + \sigma \epsilon_n​$ where $\epsilon_n​$ is noise (also from a standard Normal distribution) and $\sigma​$ is the noise variance; set $\sigma​$ to 0.5. 
 
-Use linear regression with weight decay regularization to estimate $w_f$ with $w_{\text{reg}}$· Set the regularization parameter to $\frac{0.05}N$.    
+Use linear regression with weight decay regularization to estimate $w_f​$ with $w_{\text{reg}}​$· Set the regularization parameter to $\frac{0.05}N​$.    
 
-(a) For $N\in\{d+ 15, d+25, . . . , d+ 115\}$, compute the cross validation errors $e_1, . . . , e_N$ and $E_{cv}$· Repeat the experiment (say) $10^5$ times, maintaining the average and \text{Var}iance over the experiments of $e_1 , e_2$ and $E_{cv}$· 
+(a) For $N\in\{d+ 15, d+25, . . . , d+ 115\}$, compute the cross validation errors $e_1, . . . , e_N$ and $E_{cv}$· Repeat the experiment (say) $10^5$ times, maintaining the average and variance over the experiments of $e_1 , e_2$ and $E_{cv}$· 
 
-(b) How should your average of the $e_1$ 's relate to the average of the $E_{cv}$'s; how about to the average of the $e_2$'s? Support your claim using results from your experiment. 
+(b) How should your average of the $e_1​$ 's relate to the average of the $E_{cv}​$'s; how about to the average of the $e_2​$'s? Support your claim using results from your experiment. 
 
-(c) What are the contributors to the \text{Var}iance of the $e_1$'s? 
+(c) What are the contributors to the variance of the $e_1​$'s? 
 
-(d) If the cross validation errors were truly independent, how should the \text{Var}i ance of the $e_1$'s relate to the \text{Var}iance of the $E_{cv}$'s?
+(d) If the cross validation errors were truly independent, how should the variance of the $e_1​$'s relate to the variance of the $E_{cv}​$'s?
 
-(e) One measure of the effective number of fresh examples used in comput ing $E_{cv}$ is the ratio of the \text{Var}iance of the $e_1$'s to that of the $E_{cv}$'s. Explain why, and plot, versus $N$, the effective number of fresh examples ($ﬀN_{eﬀ}$) as a percentage of $N$. You should find that $ﬀN_{eﬀ}$ is close to $N$.
+(e) One measure of the effective number of fresh examples used in comput ing $E_{cv}​$ is the ratio of the variance of the $e_1​$'s to that of the $E_{cv}​$'s. Explain why, and plot, versus $N​$, the effective number of fresh examples ($N_{eﬀ}​$) as a percentage of $N​$. You should find that $ﬀN_{eﬀ}​$ is close to $N​$.
 
-(f) If you increase the amount of regularization , will $ﬀN_{eﬀ}$ go up or down? Explain your reasoning. Run the same experiment with $\lambda = \frac{2.5}N$ and compare your results from part (e) to verify your conjecture.   
+(f) If you increase the amount of regularization , will $N_{eﬀ}$ go up or down? Explain your reasoning. Run the same experiment with $\lambda = \frac{2.5}N$ and compare your results from part (e) to verify your conjecture.   
 
 (a)根据题目进行实验，然后做图即可，由于运行时间的问题，这里试验次数只取了3000次。
 
@@ -2763,67 +2748,79 @@ import numpy as np
 from numpy.linalg import inv
 import matplotlib.pyplot as plt
 
-d=3
-N=range(d+15,d+116,10)
+d = 3
+N = range(d+15, d+116, 10)
 
-def process(n,d=3,sigma=0.5,k=0.05):
-    x=np.random.normal(size=(n,d))
-    a=np.ones(n).reshape(n,1)
-    X=np.concatenate((a,x),axis=1)
-    k1=k/n
-    w=np.random.normal(size=d+1)
-    epsilon=np.random.normal(size=n)
-    y=X.dot(w)+sigma*epsilon
-    e1=0
-    e2=0
-    E=np.array([])
+#计算一次实验结果
+def process(n, d=3, sigma=0.5, k=0.05):
+    #生成点
+    X = np.random.normal(size=(n, d))
+    #偏置项
+    bias = np.ones(n)
+    #合并X和bias
+    X = np.c_[bias, X]
+    #正则项系数
+    k = k / n
+    #权重
+    w = np.zeros(d+1)
+    #生成噪声
+    epsilon = np.random.normal(size=n)
+    #生成y
+    y = X.dot(w) + sigma * epsilon
+    e1 = 0
+    e2 = 0
+    E = np.array([])
+    #交叉验证
     for i in range(n):
-        X1=np.concatenate((X[:i,:],X[i+1:,:]))
-        y1=np.append(y[:i],y[i+1:])
-        w=inv(X1.T.dot(X1)+k1*np.eye(d+1)).dot(X1.T.dot(y1))
-        e=(X[i].dot(w)-y[i])**2
-        E=np.append(E,e)
-        if(i==1):
-            e1=e
-        elif i==2:
-            e2=e
-    return e1,e2,np.mean(E)
+        X1 = np.r_[X[:i, :], X[i+1:, :]]
+        y1 = np.r_[y[:i], y[i+1:]]
+        w1 = inv(X1.T.dot(X1) + k * np.eye(d+1)).dot(X1.T.dot(y1))
+        e = (X[i].dot(w1) - y[i]) ** 2
+        E = np.append(E, e)
+        if(i == 1):
+            e1 = e
+        elif i == 2:
+            e2 = e
+    return e1, e2, np.mean(E)
 
+#(a)
 #记录每个N对应的e1,e2,ecv
-E={}
+E = {}
 for n in N:
-    E[n]=[]
+    E[n] = []
 
 for n in N:
-    E1=np.array([])
-    E2=np.array([])
-    Ecv=np.array([])
-    for i in range(1000):
-        e1,e2,ecv=process(n)
-        E1=np.append(E1,e1)
-        E2=np.append(E2,e2)
-        Ecv=np.append(Ecv,ecv)
-    mean=(E1.mean(),E2.mean(),Ecv.mean())
-    \text{Var}=(E1.\text{Var}(),E2.\text{Var}(),Ecv.\text{Var}())
+    E1 = np.array([])
+    E2 = np.array([])
+    Ecv = np.array([])
+    for i in range(3000):
+        e1, e2, ecv = process(n)
+        E1 = np.append(E1, e1)
+        E2 = np.append(E2, e2)
+        Ecv = np.append(Ecv, ecv)
+    #计算均值和方差
+    mean = (E1.mean(), E2.mean(), Ecv.mean())
+    var = (E1.var(), E2.var(), Ecv.var())
     E[n].append(mean)
-    E[n].append(\text{Var})
+    E[n].append(var)
 ```
 
 (b)$e_1,e_2$的均值和$E_{cv}$的均值非常接近，从图像中也可以看出。
 
 
 ```python
-E1=np.array([])
-E2=np.array([])
-Ecv=np.array([])
+#(b)
+meanE1 = np.array([])
+meanE2 = np.array([])
+meanEcv = np.array([])
 for n in N:
-    temp=E[n][0]
-    E1=np.append(E1,temp[0])
-    E2=np.append(E2,temp[1])
-    Ecv=np.append(Ecv,temp[2])
-plt.plot(N,E1,label='e1')
-plt.plot(N,E2,label='e2')
-plt.plot(N,Ecv,label='ecv')
+    mean = E[n][0]
+    meanE1 = np.append(meanE1, mean[0])
+    meanE2 = np.append(meanE2, mean[1])
+    meanEcv = np.append(meanEcv,mean[2])
+plt.plot(N, meanE1, label='e1')
+plt.plot(N, meanE2, label='e2')
+plt.plot(N, meanEcv, label='ecv')
 plt.title('mean')
 plt.xlabel('N')
 plt.legend()
@@ -2831,10 +2828,10 @@ plt.show()
 ```
 
 
-![png](output_4_0.png)
+![png](output_11_0.png)
 
 
-(c)对于此题来说，和$e_1$方差有关的量为$N$，因为其他参数都固定了
+(c)对于此题来说，和$e_1$方差有关的量为$N$，因为其他参数都固定了。
 
 (d)首先回顾$E_{cv}$
 $$
@@ -2848,80 +2845,40 @@ $$
 
 
 ```python
-\text{Var}E1=np.array([])
-\text{Var}E2=np.array([])
-\text{Var}Ecv=np.array([])
+#(e)
+varE1 = np.array([])
+varE2 = np.array([])
+varEcv = np.array([])
 for n in N:
-    temp=E[n][1]
-    \text{Var}E1=np.append(\text{Var}E1,temp[0])
-    \text{Var}E2=np.append(\text{Var}E2,temp[1])
-    \text{Var}Ecv=np.append(\text{Var}Ecv,temp[2])
-plt.plot(N,N,label='$N$')
-plt.plot(N,\text{Var}E1/\text{Var}Ecv,label='$N_{eff}$')
+    var = E[n][1]
+    varE1 = np.append(varE1, var[0])
+    varE2 = np.append(varE2, var[1])
+    varEcv = np.append(varEcv, var[2])
+plt.plot(N, N, label='$N$')
+plt.plot(N, varE1 / varEcv, label='$N_{eff}$')
 plt.legend()
-plt.show()
+plt.show()  
 ```
 
 
-![png](output_6_0.png)
+![png](output_12_0.png)
 
 
 可以看到$N_{eﬀ}$和$N$比较接近。
 
-(f)如果正规项增加，我认为$N_{eﬀ}$会减少，因为正规项增加相当于限制了参数的大小，对数据做了额外的限制，所以有效数据也会减少，下面作图看下。
-
-
-```python
-#记录每个N对应的e1,e2,ecv
-E={}
-for n in N:
-    E[n]=[]
-
-for n in N:
-    E1=np.array([])
-    E2=np.array([])
-    Ecv=np.array([])
-    for i in range(1000):
-        e1,e2,ecv=process(n,k=2.5)
-        E1=np.append(E1,e1)
-        E2=np.append(E2,e2)
-        Ecv=np.append(Ecv,ecv)
-    mean=(E1.mean(),E2.mean(),Ecv.mean())
-    \text{Var}=(E1.\text{Var}(),E2.\text{Var}(),Ecv.\text{Var}())
-    E[n].append(mean)
-    E[n].append(\text{Var})
-    
-\text{Var}E1=np.array([])
-\text{Var}E2=np.array([])
-\text{Var}Ecv=np.array([])
-for n in N:
-    temp=E[n][1]
-    \text{Var}E1=np.append(\text{Var}E1,temp[0])
-    \text{Var}E2=np.append(\text{Var}E2,temp[1])
-    \text{Var}Ecv=np.append(\text{Var}Ecv,temp[2])
-plt.plot(N,N,label='$N$')
-plt.plot(N,\text{Var}E1/\text{Var}Ecv,label='$N_{eff}$')
-plt.legend()
-plt.show()
-```
-
-
-![png](output_8_0.png)
-
-
-可能是由于实验次数太少，这里的$N_{eff}$减少趋势不是很明显。
+(f)如果正则项增加，我认为$N_{eﬀ}​$会减少，因为正规项增加相当于限制了参数的大小，对数据做了额外的限制，所以有效数据也会减少，图从略。
 
 
 
 #### Problem 4.25 (Page 163)
 
-When using a validation set for model selection, all models were learned on the same $D_{\text{train}}$ of size $N - K$, and validated on the same $D_{\text{val}}$ of size $K$. We have the VC bound (see Equation (4.12)) : 
+When using a validation set for model selection, all models were learned on the same $\mathcal D_{\text{train}}$ of size $N - K$, and validated on the same $\mathcal  D_{\text{val}}$ of size $K$. We have the VC bound (see Equation (4.12)) : 
 $$
-E_{\text{out}} (g_{m^*}^- ) \le E_{\text{val}} (g_{m^*}^- ) + O(\sqrt{\frac {lnM}{2K}})
+E_{\text{out}} (g_{m^*}^- ) \le E_{\text{val}} (g_{m^*}^- ) + O(\sqrt{\frac {\ln M}{2K}})
 $$
-Suppose that instead, you had no control over the validation process. So $M$ learners, each with their own models present you with the results of their val idation processes on different validation sets. Here is what you know about each learner: 
+Suppose that instead, you had no control over the validation process. So $M$ learners, each with their own models present you with the results of their validation processes on different validation sets. Here is what you know about each learner: 
 
-- Each learner $m$ reports to you the size of their validation set $K_m $, and the validation error $E_{\text{val}}(m)$. The learners 		may have used different data sets, except that they faithfully learned on a training set and validated on a held out validation set which was only used for validation purposes. 
+- Each learner $m​$ reports to you the size of their validation set $K_m ​$, and the validation error $E_{\text{val}}(m)​$. The learners may have used different data sets, except that they faithfully learned on a training set and validated on a held out validation set which was only used for validation purposes. 
 
 As the model selector, you have to decide which learner to go with.    
 
@@ -2931,107 +2888,111 @@ As the model selector, you have to decide which learner to go with.
 
 (c) After selecting learner $m ^*$ (say) , show that    
 $$
-P[E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon] \le Me^{-2\epsilon^2\kappa (\epsilon)}
+\mathbb P[E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon] \le Me^{-2\epsilon^2\kappa (\epsilon)}
 $$
-where $\kappa (\epsilon) = -\frac 1{2\epsilon^2}ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})$ is an "average" validation set size.    
+where $\kappa (\epsilon) = -\frac 1{2\epsilon^2}\ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})$ is an "average" validation set size.    
 
-(d) Show that with probability at least $1-\delta$, $E_{\text{out}} \le E_{\text{val}} + \epsilon^*$ , for any $\epsilon^*$ which satisfies $\epsilon^*\ge\sqrt{\frac{ln(M/\delta)}{2\kappa (\epsilon^*)}} $
+(d) Show that with probability at least $1-\delta$, $E_{\text{out}} \le E_{\text{val}} + \epsilon^*$ , for any $\epsilon^*$ which satisfies $\epsilon^*\ge\sqrt{\frac{\ln(M/\delta)}{2\kappa (\epsilon^*)}} $
 
-(e) Show that $\text{min}_m K_m \le \kappa({\epsilon}) \le \frac 1M\sum_{m=1}^MK_m$ . Is this bound better or worse than the bound when all models use the same validation set size (equal to the average validation set size $\frac 1M\sum_{m=1}^MK_m$)? 
+(e) Show that $\text{min}_m K_m \le \kappa({\epsilon}) \le \frac 1M\sum_{m=1}^MK_m​$ . Is this bound better or worse than the bound when all models use the same validation set size (equal to the average validation set size $\frac 1M\sum_{m=1}^MK_m​$)? 
 
 这题讨论的是验证集不一致的时候的一些性质。
 
 (a)先看下公式
 $$
-E_{\text{out}} (g_{m^*}^- ) \le E_{\text{val}} (g_{m^*}^- ) + O(\sqrt{\frac {lnM}{2K}})
+E_{\text{out}} (g_{m^*}^- ) \le E_{\text{val}} (g_{m^*}^- ) + O(\sqrt{\frac {\ln M}{2K}})
 $$
-由于此处验证集不一致，所以$K$不一致，选择最小的$E_{\text{val}} (g_{m^*}^- )$不能保证$E_{\text{val}} (g_{m^*}^- ) + O(\sqrt{\frac {lnM}{2K}})$最小，所以不能选择最小的$E_{\text{val}} (g_{m^*}^- )$
+由于此处验证集不一致，所以$K$不一致，选择最小的$E_{\text{val}} (g_{m^*}^- )$不能保证$E_{\text{val}} (g_{m^*}^- ) + O(\sqrt{\frac {\ln M}{2K}})$最小，所以不能选择最小的$E_{\text{val}} (g_{m^*}^- )$
 
-(b)如果验证集一致，那么$K$一样，所以选择最小的$E_{\text{val}} (g_{m^*}^- )$即为选择最小的$E_{\text{val}} (g_{m^*}^- ) + O(\sqrt{\frac {lnM}{2K}})$
+(b)如果验证集一致，那么$K$一样，所以选择最小的$E_{\text{val}} (g_{m^*}^- )$即为选择最小的$E_{\text{val}} (g_{m^*}^- ) + O(\sqrt{\frac {\ln  M}{2K}})$
 
 (c)回顾课本22页的Hoeffding不等式
 $$
-P[|E_{\text{in}}(h)-E_{\text{out}}(h)|>\epsilon]\le 2e^{-2\epsilon^2N}
+\mathbb P[|E_{\text{in}}(h)-E_{\text{out}}(h)|>\epsilon]\le 2e^{-2\epsilon^2N}
 $$
 由对称性可知
 $$
-P[|E_{\text{in}}(h)-E_{\text{out}}(h)|>\epsilon]=2P(E_{\text{out}}(h)-E_{\text{in}}(h)>\epsilon)\le 2e^{-2\epsilon^2N}\\
-P(E_{\text{out}}(h)-E_{\text{in}}(h)>\epsilon)\le e^{-2\epsilon^2N}
+\mathbb P[|E_{\text{in}}(h)-E_{\text{out}}(h)|>\epsilon]=2\mathbb P(E_{\text{out}}(h)-E_{\text{in}}(h)>\epsilon)\le 2e^{-2\epsilon^2N}\\
+\mathbb P(E_{\text{out}}(h)-E_{\text{in}}(h)>\epsilon)\le e^{-2\epsilon^2N}
 $$
-对于此题来说$E_{\text{out}}(h)=E_{\text{out}} (g_{m} ),E_{\text{in}}(h)=E_{\text{val}} (g_{m}) ,N=K_m$，带入可得
+对于此题来说$E_{\text{out}}(h)=E_{\text{out}} (g_{m} ),E_{\text{in}}(h)=E_{\text{val}} (g_{m}) ,N=K_m​$，带入可得
 $$
-P(E_{\text{out}} (g_{m} )-E_{\text{val}} (g_{m})>\epsilon)\le e^{-2\epsilon^2K_m}
+\mathbb P(E_{\text{out}} (g_{m} )-E_{\text{val}} (g_{m})>\epsilon)\le e^{-2\epsilon^2K_m}
 $$
 记$A_m$为事件$E_{\text{out}} (g_{m} )-E_{\text{val}} (g_{m})>\epsilon$，所以
 $$
-P(A_m)\le e^{-2\epsilon^2K_m}
+\mathbb P(A_m)\le e^{-2\epsilon^2K_m}
 $$
-当$\bigcup _{m=1}^MA_m​$发生时，题目中事件$E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon​$发生，从而
+如果事件$E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon$发生，那么$\bigcup _{m=1}^MA_m$必然发生，从而
 $$
 \begin{aligned}
-P[E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon]
-&\le P(\bigcup _{m=1}^MA_m)\\
-&\le \sum_{m=1}^MP(A_m)\\
+\mathbb P[E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon]
+&\le \mathbb  P(\bigcup _{m=1}^MA_m)\\
+&\le \sum_{m=1}^M\mathbb P(A_m)\\
 &\le \sum_{m=1}^Me^{-2\epsilon^2K_m} 
 \end{aligned}
 $$
-因为$\kappa (\epsilon) = -\frac 1{2\epsilon^2}ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})$，所以
+因为$\kappa (\epsilon) = -\frac 1{2\epsilon^2}\ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})$，所以
 $$
 \begin{aligned}
 Me^{-2\epsilon^2\kappa (\epsilon)}
-&=M e^{ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})}\\
+&=M e^{\ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})}\\
 &=M\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m}\\
 &=\sum_{m=1}^Me^{-2\epsilon^2K_m}
 \end{aligned}
 $$
 从而
 $$
-P[E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon] \le Me^{-2\epsilon^2\kappa (\epsilon)}
+\mathbb P[E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon] \le Me^{-2\epsilon^2\kappa (\epsilon)}
 $$
 (d)由(c)的结论可得
 $$
-P[E_{\text{out}}(m^*) \le E_{\text{val}}(m^*) + \epsilon]\ge 1- Me^{-2\epsilon^2\kappa (\epsilon)}
+\mathbb P[E_{\text{out}}(m^*) \le E_{\text{val}}(m^*) + \epsilon]\ge 1- Me^{-2\epsilon^2\kappa (\epsilon)}
 $$
-要使得$E_{\text{out}} \le E_{\text{val}} + \epsilon^*$的概率大于等于$1-\delta$，只要
+要使得$E_{\text{out}} \le E_{\text{val}} + \epsilon^*​$的概率大于等于$1-\delta​$，只要
 $$
 1- Me^{-2{\epsilon^*}^2\kappa (\epsilon^*)}\ge 1-\delta\\
 Me^{-2{\epsilon^*}^2\kappa (\epsilon^*)}\le \delta\\
 \frac M \delta \le e^{2{\epsilon^*}^2\kappa (\epsilon^*)}\\
-2{\epsilon^*}^2\kappa (\epsilon^*)\ge ln(\frac M \delta)\\
-\epsilon^*\ge\sqrt{\frac{ln(\frac M \delta)}{2\kappa (\epsilon^*)}}
+2{\epsilon^*}^2\kappa (\epsilon^*)\ge \ln(\frac M \delta)\\
+\epsilon^*\ge\sqrt{\frac{\ln(\frac M \delta)}{2\kappa (\epsilon^*)}}
 $$
 (e)原不等式等价于
 $$
 2\epsilon^2\text{min}_m K_m \le 2\epsilon^2\kappa({\epsilon}) \le2\epsilon^2 \frac 1M\sum_{m=1}^MK_m\\
-2\epsilon^2\text{min}_m K_m\le -ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})  \le2\epsilon^2 \frac 1M\sum_{m=1}^MK_m
+2\epsilon^2\text{min}_m K_m\le -\ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})  \le2\epsilon^2 \frac 1M\sum_{m=1}^MK_m
 $$
-由$ln(x)$的凸性，以及$Jensen$不等式可得
+由$\ln(x)​$的凸性，以及Jensen​不等式可得
 $$
-ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})\ge \frac 1 M \sum_{m=1}^Mln(e^{-2\epsilon^2K_m})\\
-ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})\ge  \frac 1 M  \sum_{m=1}^M (-2\epsilon^2K_m)\\
--ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})\le 2\epsilon^2\frac 1 M\sum_{m=1}^M K_m\\
+\ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})\ge \frac 1 M \sum_{m=1}^M\ln(e^{-2\epsilon^2K_m})\\
+\ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})\ge  \frac 1 M  \sum_{m=1}^M (-2\epsilon^2K_m)\\
+-\frac 1 { 2\epsilon^2}\ln (\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})\le\frac 1 M\sum_{m=1}^M K_m\\
 $$
+等号成立当且仅当$K_m$都相等。
+
 右边不等式得证，再看左边不等式
 $$
 \frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m}\le \frac 1M \sum_{m=1}^Me^{-2\epsilon^2\text{min}_m K_m}=e^{-2\epsilon^2\text{min}_m K_m}\\
-ln(\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})\le -2\epsilon^2\text{min}_m K_m\\
-2\epsilon^2\text{min}_m K_m\le -ln(\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})
+\ln(\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})\le -2\epsilon^2\text{min}_m K_m\\
+\text{min}_m K_m\le -\frac 1 { 2\epsilon^2}\ln(\frac 1M \sum_{m=1}^Me^{-2\epsilon^2K_m})
 $$
-所以不等式成立。如果验证集相等，那么验证集大小$K=\frac 1M\sum_{m=1}^MK_m$，由此不等式可得$\kappa(\epsilon)\le K$，从而
+所以不等式成立。
+
+注意到我们有
 $$
-Me^{-2\epsilon^2\kappa (\epsilon)}\ge Me^{-2\epsilon^2K} 
+Me^{-2\epsilon^2\kappa (\epsilon)}\ge Me^{-2\epsilon^2 \frac 1M \sum_{m=1}^M K_m}
 $$
-回忆不等式上界估计
+等号成立当且仅当$K_m$都相等（即所有验证集元素数量相等），结合
 $$
-P[E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon] \le Me^{-2\epsilon^2\kappa (\epsilon)}
+\mathbb P[E_{\text{out}}(m^*) > E_{\text{val}}(m^*) + \epsilon] \le Me^{-2\epsilon^2\kappa (\epsilon)}
 $$
-这说明验证集大小相等时，上界更紧，这或许能解释为什么我们要选择大小相等的验证集。
+说明当所有验证集元素数量相等时的上界更紧，这或许能解释为什么我们要选择元素数量相等的验证集。
 
 
 
 #### Problem 4.26 (Page 164)
 
-In this problem, derive the formula for the exact expression for the leave-one out cross validation error for linear regression. Let $Z$ be the data matrix whose rows correspond to the transformed data points $z_n = \Phi(x_n) $.    
+In this problem, derive the formula for the exact expression for the leave-one out cross validation error for linear regression. Let $Z​$ be the data matrix whose rows correspond to the transformed data points $z_n = \Phi(x_n) ​$.    
 
 (a) Show that: 
 $$
@@ -3156,11 +3117,11 @@ Cross validation gives an accurate estimate of $\overline E_{\text{out}} (N- 1)$
 
 (b) For linear models, show that $\sqrt N\sigma_{cv}=\frac 1 N \sum_{n=1}^N(\frac{\hat y_n-y_n}{1-H_{nn}})^4-E_{cv}^2$
 
-(c) 	(i) Given the best model $\mathcal H^*$ , the conservative one-sigma approach selects the simplest model within $\sigma_{cv} (\mathcal H^*)$ of the best. 
+(c) (i) Given the best model $\mathcal H^*$ , the conservative one-sigma approach selects the simplest model within $\sigma_{cv} (\mathcal H^*)$ of the best. 
 
-​	(ii) The bound minimizing approach selects the model which minimizes $E_{cv}(\mathcal H) + \sigma_{cv} (\mathcal H) $. 
+​     (ii) The bound minimizing approach selects the model which minimizes $E_{cv}(\mathcal H) + \sigma_{cv} (\mathcal H) $. 
 
-Use the experimental de{\text{sign}} in Problem 4.4 to compare these approaches with the 'unregularized' cross validation estimate as follows. Fix $Q_f= 15, Q = 20$, and $\sigma = 1$. Use each of the two methods proposed here as well as traditional cross validation to select the optimal value of the regularization parameter $\lambda$ in the range $\{0.05, 0.10, 0.15, . . . , 5\} $ using weight decay regularization, $\Omega(w) = \frac{\lambda}{N}w^Tw$. Plot the resulting out-of-sample error for the model selected using each method as a function of $N$, with $N$ in the range $\{2 \times Q, 3  \times  Q, . . . , 10  \times  Q\}$. 
+Use the experimental design in Problem 4.4 to compare these approaches with the 'unregularized' cross validation estimate as follows. Fix $Q_f= 15, Q = 20$, and $\sigma = 1$. Use each of the two methods proposed here as well as traditional cross validation to select the optimal value of the regularization parameter $\lambda$ in the range $\{0.05, 0.10, 0.15, . . . , 5\} $ using weight decay regularization, $\Omega(w) = \frac{\lambda}{N}w^Tw$. Plot the resulting out-of-sample error for the model selected using each method as a function of $N$, with $N$ in the range $\{2 \times Q, 3  \times  Q, . . . , 10  \times  Q\}$. 
 
 What are your conclusions?    
 
@@ -3169,7 +3130,7 @@ $$
 \text{Var}(e_1,...,e_n) \approx N \text{Var}(e_1)\\
 \frac 1 {\sqrt N}\sqrt{\text{Var}(e_1,...,e_n)}\approx \sqrt{\text{Var}(e_1)}
 $$
-所以$\sigma_{cv}\approx \frac 1{\sqrt N}\sqrt{\text{Var}(e_1,...,e_n)}​$除以$\sqrt N​$是为了正规化，方便不同的模型进行比较
+所以$\sigma_{cv}\approx \frac 1{\sqrt N}\sqrt{\text{Var}(e_1,...,e_n)}$除以$\sqrt N$是为了正规化，方便不同的模型进行比较。
 
 (b)个人感觉这题结论给错了，$\sqrt N\sigma_{cv}$相当于标准差，所以结论应该为
 $$

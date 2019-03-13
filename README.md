@@ -80,6 +80,10 @@ http://book.caltech.edu/bookforum/index.php
 
 - 完成Chapter 3的优化。
 
+2019/3/13
+
+- 完成Chapter 4的优化。
+
 <br/>
 
 ### 总结：
@@ -101,7 +105,7 @@ http://book.caltech.edu/bookforum/index.php
 | Chapter 1 | 25       | 25       | 无                              | 已完成优化 |
 | Chapter 2 | 32       | 32       | 无                              | 已完成优化 |
 | Chapter 3 | 35       | 35       | 无                              | 已完成优化 |
-| Chapter 4 | 38       | 38       | 无                              |            |
+| Chapter 4 | 38       | 38       | 无                              | 已完成优化 |
 | Chapter 5 | 11       | 11       | 无                              |            |
 | Chapter 6 | 43       | 36       | Problem 12,13,14,16,17,24,25    |            |
 | Chapter 7 | 35       | 35       | 无                              |            |
