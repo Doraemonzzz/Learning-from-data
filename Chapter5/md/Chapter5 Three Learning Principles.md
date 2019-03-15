@@ -22,7 +22,7 @@ http://beader.me/mlnotebook/
 
 #### Exercise 5.1 (Page 168)
 
-Consider hypothesis sets $\mathcal H_1$ and $\mathcal H_{100}$ that contain Boolean functions on $10$ Boolean variables, so $\mathcal X = \{-1, +1\}^{10}$. $\mathcal H_1$  contains all Boolean functions which evaluate to $+1$ on exactly one input point, and to $-1$ elsewhere; $\mathcal H_{100}$ contains all Boolean functions which evaluate to $+1$ on exactly $100$ input points, and to $-1$ elsewhere. 
+Consider hypothesis sets $\mathcal H_1​$ and $\mathcal H_{100}​$ that contain Boolean functions on $10​$ Boolean variables, so $\mathcal X = \{-1, +1\}^{10}​$. $\mathcal H_1​$  contains all Boolean functions which evaluate to $+1​$ on exactly one input point, and to $-1​$ elsewhere; $\mathcal H_{100}​$ contains all Boolean functions which evaluate to $+1​$ on exactly $100​$ input points, and to $-1​$ elsewhere. 
 
 (a) How big (number of hypotheses) are $\mathcal H_1$ and $\mathcal H_{100}$? 
 
@@ -30,19 +30,19 @@ Consider hypothesis sets $\mathcal H_1$ and $\mathcal H_{100}$ that contain Bool
 
 (c) How many bits are needed to specify one of the hypotheses in $\mathcal H_{100}$?    
 
-首先分析下题目，输入空间是$R^{10}$，每个分量为$-1,+1$，$\mathcal H_1$和 $\mathcal H_{100}$为布尔函数，将$\mathcal X = \{-1, +1\}^{10}$映射到$-1$或者$+1$，所以$\mathcal X = \{-1, +1\}^{10}$一共有$2^{10}$个输入空间，有了这些准备工作，可以看下后面的题目。
+首先分析下题目，输入空间是$\mathbb R^{10}$，每个分量为$-1,+1$，$\mathcal H_1$和 $\mathcal H_{100}$为布尔函数，将$\mathcal X = \{-1, +1\}^{10}$映射到$-1$或者$+1$，所以$\mathcal X = \{-1, +1\}^{10}$一共有$2^{10}$种可能的输入，有了这些准备工作，可以看下后面的题目。
 
-(a)$\mathcal H_1$可以理解为从$\mathcal X = \{-1, +1\}^{10}$挑1个点将其映射为$+1$，其余点映射为$-1$，所以$|\mathcal H_1 |=C_{2^{10}}^1=2^{10}$。$\mathcal H_1$可以理解为从$\mathcal X = \{-1, +1\}^{10}$挑100个点将其映射为$+1$，其余点映射为$-1$，所以$|\mathcal H_{100} |=C_{2^{10}}^{10}$。
+(a)$\mathcal H_1$可以理解为从$\mathcal X = \{-1, +1\}^{10}$挑$1$个点将其映射为$+1$，其余点映射为$-1$，所以$|\mathcal H_1 |=C_{2^{10}}^1=2^{10}$。$\mathcal H_{100}$可以理解为从$\mathcal X = \{-1, +1\}^{10}$挑$100$个点将其映射为$+1$，其余点映射为$-1$，所以$|\mathcal H_{100} |=C_{2^{10}}^{10}$。
 
-(b)$\mathcal H_1$只要记录那1个映射为$+1$的点即可，所以需要$10$ bits
+(b)$\mathcal H_1$只要记录那1个映射为$+1$的点即可，所以需要$10$ bits。
 
-(c)$\mathcal H_{100}$只要记录那100个映射为$+1$的点即可，所以需要$10\times 100=1000$ bits
+(c)$\mathcal H_{100}$只要记录那100个映射为$+1$的点即可，所以需要$10\times 100=1000$ bits。
 
 
 
 #### Exercise 5.2 (Page 170)
 
-Suppose that for 5 weeks in a row, a letter arrives in the mail that predicts the outcome of the upcoming Monday night fotball game. You keenly watch each Monday and to your surprise, the prediction is correct each time. On the day after the fifth game, a letter arrives, stating that if you wish to see next week's prediction, a payment of 50.00 is required. Should you pay? 
+Suppose that for 5 weeks in a row, a letter arrives in the mail that predicts the outcome of the upcoming Monday night football game. You keenly watch each Monday and to your surprise, the prediction is correct each time. On the day after the fifth game, a letter arrives, stating that if you wish to see next week's prediction, a payment of 50.00 is required. Should you pay? 
 
 (a)How many possible predictions of win-lose are there for 5 games? 
 
@@ -70,11 +70,11 @@ $$
 $$
 63\times 0.5=31.5
 $$
-如果别人寄送给50元，那么可以赚
+如果有人出了50元，那么可以赚
 $$
 50-31.5=18.5
 $$
-(f)这个问题说明，只要假设足够复杂，那么总能使得$E_{in}=0$
+(f)这个问题说明，只要假设足够多以及足够复杂，那么总能使得$E_{\text{in}}=0$。
 
 
 
@@ -88,29 +88,29 @@ In an experiment to determine the distribution of sizes of fish in a lake, a net
 
 #### Exercise 5.4 (Page 174) 
 
-Consider the following approach to learning. By looking at the data, it appears that the data is linearly separable, so we go ahead and use a simple perceptron, and get a training error of zero after determining the optimal set of weights. We now wish to make some generalization conclusions, so we look up the $d_{vc}$ for our learning model and see that it is $d+ 1$ . Therefore, we use this value of $d_{vc}$ to get a bound on the test error. 
+Consider the following approach to learning. By looking at the data, it appears that the data is linearly separable, so we go ahead and use a simple perceptron, and get a training error of zero after determining the optimal set of weights. We now wish to make some generalization conclusions, so we look up the $d_{\text{vc}}​$ for our learning model and see that it is $d+ 1​$ . Therefore, we use this value of $d_{\text{vc}}​$ to get a bound on the test error. 
 
 (a) What is the problem with this bound, is it correct? 
 
-(b) Do we know the $d_{vc}$ for the learning model that we actually used? It is this $d_{vc}$ that we need to use in the bound.    
+(b) Do we know the $d_{\text{vc}}​$ for the learning model that we actually used? It is this $d_{\text{vc}}​$ that we need to use in the bound.    
 
-(a)这题不是很确定，我的理解是，不能因为训练集看起来线性可分，就默认其线性可分，因而这样就人为加上了data snooping，因此这里计算$d_{vc}$也是意义不大的，因为默认了它为线性模型。从而我认为这题的回答为，这个上界是不正确的。
+(a)因为模型是在我们看了数据之后得到的，所以实际上进行了data snooping，因此这个上界不正确。
 
-(b)同之前所说，我们并不知道数据服从什么特点，所以$d_{vc}$是不知道的。
+(b)实际的$d_{\text{vc}}$无法得到。
 
 
 
 #### Exercise 5.5 (Page 176)
 
-Assume we set aside 100 examples from that will not be used in training, but will be used to select one of three final hypotheses $g_1 , g_2 , g_3$ produced by three different learning algorithms that train on the rest on the data. Each algorithm works with a different $\mathcal H$ of size 500. We would like to characterize the accuracy of estimating $E_{out}(g)$ on the selected final hypothesis if we use the same 100 examples to make that estimate.
+Assume we set aside 100 examples from that will not be used in training, but will be used to select one of three final hypotheses $g_1 , g_2 , g_3$ produced by three different learning algorithms that train on the rest on the data. Each algorithm works with a different $\mathcal H$ of size 500. We would like to characterize the accuracy of estimating $E_{\text{out}}(g)$ on the selected final hypothesis if we use the same 100 examples to make that estimate.
 
-(a) What is the value of $M$ that should be used in (1.6) in this situation? 
+(a) What is the value of $M​$ that should be used in (1.6) in this situation? 
 
 (b) How does the level of contamination of these 100 examples compare to the case where they would be used in training rather than in the final selection?    
 
-(a)公式1.6在课本的24页，$M$为假设的数量，这里为$3$
+(a)公式1.6在课本的24页，$M$为假设的数量，由之前的讨论可知，应该要把所有的假设都考虑进来，所以$M=500\times 3 = 1500​$
 
-(b)这题没有完全理解题目的意思，我的理解是，如果将这100个数据放到训练集中，那么相当于重复使用了这些数据，根据课本175页的描述，重复使用数据会产生data snooping，所以将数据放入训练集中会增加污染。
+(b)如果将测试集加入训练集，那么会增加污染。
 
 
 
@@ -128,9 +128,7 @@ Consider the proposition "There is $h\in \mathcal H$ that approximates $f$ as wo
 $$
 P[\text{falsification}]\ge 1-\frac {m_{\mathcal H}(N)}{2^N}
 $$
-(c) Suppose $d_{vc} = 10$ and $N = 100$. If you obtain a hypothesis $h$ with zero $E_{in}$ on your data, what can you 'conclude' from the result in part (b)?    
-
-
+(c) Suppose $d_{vc} = 10​$ and $N = 100​$. If you obtain a hypothesis $h​$ with zero $E_{in}​$ on your data, what can you 'conclude' from the result in part (b)?    
 
 首选看下题目中的命题
 $$
@@ -138,11 +136,11 @@ $$
 $$
 如果$\mathcal H$中没有假设$h$可以使得$E_{in}=0$则这个命题是可证伪的。
 
-(a)因为$\mathcal H$可以shatter $x_1 , · · · , x_N $，所以对于每个$f$，存在$h\in \mathcal H$，使得$E_{in}(h)=0$，从而题目中的命题是不可证伪的。
+(a)因为$\mathcal H$可以shatter $x_1 , · · · , x_N $，所以对于每个$f$，存在$h\in \mathcal H$，使得$E_{\text{in}}(h)=0​$，从而题目中的命题是不可证伪的。
 
 (b)我们知道$N$个点一共有$2^N$种表示方法，即一共有$2^N$种$f$。那么对于某个$h\in \mathcal H$，$h$正好等于$f$的概率为$\frac 1 {2^N}$，而$ \mathcal H$一共有$ {m_{\mathcal H}(N)}$个有效的$h$，所以$\mathcal H$中存在$h$正好等于$f$的概率小于等于$\frac {m_{\mathcal H}(N)}{2^N}$，即不可证伪的概率小于等于$\frac {m_{\mathcal H}(N)}{2^N}$，因此
 $$
-P[\text{falsification}]\ge 1-\frac {m_{\mathcal H}(N)}{2^N}
+\mathbb P[\text{falsification}]\ge 1-\frac {m_{\mathcal H}(N)}{2^N}
 $$
 (c)注意
 $$
@@ -150,11 +148,11 @@ m_{\mathcal H}(N)\le N^{d_{vc}}+1
 $$
 所以
 $$
-P[\text{falsification}]\ge 1-\frac {m_{\mathcal H}(N)}{2^N}\ge1-\frac {N^{d_{vc}}+1}{2^N}
+\mathbb P[\text{falsification}]\ge 1-\frac {m_{\mathcal H}(N)}{2^N}\ge1-\frac {N^{d_{vc}}+1}{2^N}
 $$
-将 $d_{vc} = 10$和 $N = 100$.带入可得
+将 $d_{vc} = 10​$和 $N = 100​$.带入可得
 $$
-P[\text{falsification}]\ge1-\frac {100^{10}+1}{2^{100}}\approx 0.9999999999211139
+\mathbb P[\text{falsification}]\ge1-\frac {100^{10}+1}{2^{100}}\approx 0.9999999999211139
 $$
 
 
@@ -167,17 +165,17 @@ Structural Risk Minimization (SRM) is a useful framework for model selection tha
 
 ![](https://github.com/Doraemonzzz/Learning-from-data/blob/master/photo/Chapter5/Problem5.2.png?raw=true)
 
-The SRM framework picks a hypothesis from each $\mathcal H_i$ by minimizmg $E_{in}$. That is, $g_i = \underset {h\in \mathcal H_i}{\text{argmin}}\ E_{in}(h)$ . Then, the framework selects the final hypothesis by minimizing $E_{in}$ and the model complexity penaltyn $\Omega$. That is, $g^* = \underset {i=1,2...}{\text{argmin}}(\ E_{in}(g_i)+\Omega(\mathcal H_i))$. Note that $\Omega(\mathcal H_i)$ should be non decreasing in $i$ because of the nested structure.    
+The SRM framework picks a hypothesis from each $\mathcal H_i$ by minimizmg $E_{in}$. That is, $g_i = \underset {h\in \mathcal H_i}{\text{argmin}}\ E_{\text{in}}(h)$ . Then, the framework selects the final hypothesis by minimizing $E_{\text{in}}$ and the model complexity penaltyn $\Omega$. That is, $g^* = \underset {i=1,2...}{\text{argmin}}(\ E_{\text{in}}(g_i)+\Omega(\mathcal H_i))$. Note that $\Omega(\mathcal H_i)$ should be non decreasing in $i$ because of the nested structure.    
 
-(a) Show that the in sample error $\ E_{in}(g_i)$ is non increasing in $i$.    
+(a) Show that the in sample error $E_{\text{in}}(g_i)$ is non increasing in $i$.    
 
 (b) Assume that the framework finds $g^*\in \mathcal H_i$ with probabiIity $p_i$ . How does $p_i$ relate to the complexity of the target function? 
 
-(c) Argue that the $p_i$'s are unknown but $p_0\le p_1\le p_2 \le· · · \le1 $. 
+(c) Argue that the $p_i​$'s are unknown but $p_0\le p_1\le p_2 \le· · · \le1 ​$. 
 
 (d) Suppose $g^* = g_i$.Show that    
 $$
-P [|E_{in} (g_i) - E_{out} (g_i) | > \epsilon |g^* = g_i] \le \frac{1}{p_i} 4m_{\mathcal H_i} (2N)e^{-\frac {\epsilon^2N}{8}}
+\mathbb P [|E_{\text{in}} (g_i) - E_{\text{out}} (g_i) | > \epsilon |g^* = g_i] \le \frac{1}{p_i} 4m_{\mathcal H_i} (2N)e^{-\frac {\epsilon^2N}{8}}
 $$
 Here, the conditioning is on selecting $g_i​$ as the final hypothesis by SRM. [Hint: Use the Bayes theorem to decompose the probability and then apply the VC bound on one of the terms]
 
@@ -189,15 +187,15 @@ $$
 $$
 由集合的性质可知
 $$
-\ E_{in}(g_0)\le \ E_{in}(g_1) \le \ E_{in}(g_2)\le ...
+E_{\text{in}}(g_0)\ge E_{\text{in}}(g_1) \ge E_{\text{in}}(g_2)\ge ...
 $$
-(b)这部分可以参考(d)，$p_i$越小，模型复杂度越大
+(b)这部分可以参考(d)，$p_i$越小，模型复杂度越大。
 
 (c)首先我们知道
 $$
 对于i<j，如果g^*\subset \mathcal H_i，那么g^*\subset \mathcal H_j\\
 即对于i<j，g^*\subset \mathcal H_i \Rightarrow g^*\subset \mathcal H_j\\
-从而p(g^*\subset \mathcal H_i )<p(g^*\subset \mathcal H_j)
+从而\mathbb P(g^*\subset \mathcal H_i )\le \mathbb P(g^*\subset \mathcal H_j)
 $$
 所以
 $$
@@ -206,9 +204,11 @@ $$
 (d)利用贝叶斯公式以及187页VC Bound
 $$
 \begin{aligned}
-P [|E_{in} (g_i) - E_{out} (g_i) | > \epsilon |g^* = g_i] 
-&=\frac{P [|E_{in} (g_i) - E_{out} (g_i) | > \epsilon ,g^* = g_i] }{P(g^* = g_i)}\\
-&\le \frac{P [|E_{in} (g_i) - E_{out} (g_i) | > \epsilon ]}{P(g^* = g_i)}\\
+\mathbb P [|E_{\text{in}} (g_i) - E_{\text{out}} (g_i) | > \epsilon |g^* = g_i]
+&=\frac{\mathbb P [|E_{\text{in}} (g_i) - E_{\text{out}} (g_i)  | > \epsilon ,g^* = g_i] }
+{\mathbb P(g^* = g_i)}\\
+&\le \frac{\mathbb P [|E_{\text{in}} (g_i) - E_{\text{out}} (g_i) | > \epsilon ]}
+{\mathbb P(g^* = g_i)}\\
 &\le \frac{1}{p_i} 4m_{\mathcal H_i} (2N)e^{-\frac {\epsilon^2N}{8}}
 \end{aligned}
 $$
@@ -225,27 +225,27 @@ Before you look at the data , you do mathematical derivations and come up with a
 
 (a) What is $M$, the size of your hypothesis set? 
 
-(b) With such an $M$, what does the Hoeffding bound say about the probability that the true performa nce is worse than $2\%$ error for $N = 10000$? 
+(b) With such an $M$, what does the Hoeffding bound say about the probability that the true performance is worse than $2\%$ error for $N = 10000$? 
 
 (c) You give your $g$ to the bank and assure them that the performance will be better than $2%$ error and your confidence is given by your answer to part (b) . The bank is thrilled and uses your $g$ to approve credit for new clients. To their dismay, more than half their credit cards are being defaulted on. Explain the possible reason(s) behind this outcome. 
 
 (d) Is there a way in which the bank could use your credit approval function to have your probabilistic guarantee? How? [Hint: The answer is yes!]       
 
-(a)因为我已经用数学推导了一个数学模型，所以此处$M=1$
+(a)因为已经用数学推导了一个数学模型，所以此处$M=1$
 
 (b)回顾Hoeffding不等式
 $$
-P[|E_{in}(g)-E_{out}(g)|>\epsilon]\le 2Me^{-2 \epsilon^2N}
+\mathbb P[|E_{\text{in}}(g)-E_{\text{out}}(g)|>\epsilon]\le 2Me^{-2 \epsilon^2N}
 $$
-此处$M=1,N=10000,\epsilon =0.02$
+此处$M=1,N=10000,\epsilon =0.02​$
 
 带入可得
 $$
-P[|E_{in}(g)-E_{out}(g)|>\epsilon]\le 2Me^{-2 \epsilon^2N} \approx0.000671
+\mathbb P[|E_{\text{in}}(g)-E_{\text{out}}(g)|>\epsilon]\le 2Me^{-2 \epsilon^2N} \approx0.000671
 $$
 (c)之所以结果那么差，问题在于我们使用的数据是在原有模型筛选过之后的，相当于data snooping。
 
-(d)如果要提升结果，可以参考原有的模型以及后来的到结果，假设原来的模型为$f$，我们要参考
+(d)如果要提升结果，可以参考原有的模型以及后来的到结果，假设原来的模型为$f​$，我们要参考
 $$
 f(x) \text{ AND }g(x)
 $$
@@ -263,7 +263,7 @@ Since it is not easy to get stock data , we will confine our analysis to today's
 
 ​	(i) Since we picked the best among 500, using the Hoeffding bound, 
 $$
-P[|E_{in}-E_{out}|>0.02]\le 2 \times 500 \times e^{-2\times 12500\times 0.02^2} \approx 0.045.
+\mathbb P[|E_{\text{in}}(g)-E_{\text{out}}(g)|>0.02]\le 2 \times 500 \times e^{-2\times 12500\times 0.02^2} \approx 0.045.
 $$
  	There is a greater than 95% chance this stock is profitable. Where did we go wrong? 
 
@@ -275,15 +275,15 @@ $$
 
 ​	(ii) Can we say anything about the perfrmance of buy and hold trading?    
 
-(a)/(i)我的理解是，这里我们人为把数据减少为500，这是一种data snooping，这里的$M$应该是历史上有交易的股票数量，所以$M=50000$。
+(a)(i)我的理解是，这里我们人为把数据减少为500，这是一种data snooping，这里的$M$应该是历史上有交易的股票数量，所以$M=50000$。
 
-(a)/(ii)将$M=50000$带入
+(a)(ii)将$M=50000$带入
 $$
-P[|E_{in}-E_{out}|>0.02]\le 2 \times 50000 \times e^{-2\times 12500\times 0.02^2} \approx 4.539992976248485
+\mathbb P[|E_{\text{in}}(g)-E_{\text{out}}(g)|>0.02]\le 2 \times 50000 \times e^{-2\times 12500\times 0.02^2} \approx 4.539992976248485
 $$
-(b)/(i)我感觉还是data snooping的问题，应该考虑全部股票，而不是只考虑这500个。
+(b)(i)我感觉还是data snooping的问题，应该考虑全部股票，而不是只考虑这500个。
 
-(b)/(ii)如果只考虑这500个股票，是无法做结论的，只有考虑全部股票才能下结论。
+(b)(ii)如果只考虑这500个股票，是无法做结论的，只有考虑全部股票才能下结论。
 
 
 
@@ -307,4 +307,4 @@ To test this hypothesis, you build a trading strategy that buys when the stocks 
 
 One often hears "Extrapolation is harder than interpolation." Give a possible explanation for this phenomenon using the principles in this chapter. [Hint: training distribution versus testing distribution.]
 
-之所以外推更难，因为测试数据和训练数据的分布不一定一致，或者训练数据有data snooping
+之所以外推更难，因为测试数据和训练数据的分布不一定一致，或者训练数据有data snooping。
