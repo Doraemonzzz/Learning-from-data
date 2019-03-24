@@ -1,108 +1,105 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jul 31 11:36:01 2018
+Created on Sun Mar 24 12:38:01 2019
 
-@author: Administrator
+@author: qinzhen
 """
 
 import numpy as np
-from sklearn import svm
 import matplotlib.pyplot as plt
 
 ####a,b
-def generate(n = 3):
-    """生成n个点"""
-    X1 = np.array([])
-    Y1 = np.array([])
-    X2 = np.array([])
-    Y2 = np.array([])
-    for i in range(n):
-        x1 = np.random.uniform(-1,1)
-        y1 = np.random.uniform(0,1)
-        x2 = np.random.uniform(-1,1)
-        y2 = np.random.uniform(-1,0)
-        X1 = np.append(X1,x1)
-        X2 = np.append(X2,x2)
-        Y1 = np.append(Y1,y1)
-        Y2 = np.append(Y2,y2)
-    return X1,Y1,X2,Y2
+def generate(n=3):
+    """
+    生成n个点
+    """
+    X1p = np.random.uniform(-1, 1, n)
+    X2p = np.random.uniform(0, 1, n)
+    X1n = np.random.uniform(-1, 1, n)
+    X2n = np.random.uniform(-1, 0, n)
+
+    return X1p, X2p, X1n, X2n
 
 #生成数据
-X1,Y1,X2,Y2 = generate()
-plt.scatter(X1,Y1)
-plt.scatter(X2,Y2)
+X1p, X2p, X1n, X2n = generate()
+plt.scatter(X1p, X2p)
+plt.scatter(X1n, X2n)
 plt.show()
 
 #产生结果
-def mysvm(Y1,Y2):
+def mysvm(X2p, X2n):
     """找到+1类中纵坐标最小的点，-1类中纵坐标最大的点"""
-    y1 = Y1.copy()
-    y2 = Y2.copy()
-    y1.sort()
-    y2.sort()
-    return (y1[0] + y2[-1])/2
+    return (np.min(X2p) + np.max(X2n)) / 2
 
-a_random = np.random.uniform(-1,1)
-a_svm = mysvm(Y1,Y2)
+a_random = np.random.uniform(-1, 1)
+a_svm = mysvm(X2p, X2n)
 
-plt.scatter(X1,Y1,label = "+")
-plt.scatter(X2,Y2,label = "-")
-plt.plot([-1,1],[a_random,a_random],label = "random")
-plt.plot([-1,1],[a_svm,a_svm],label = "svm")
+plt.scatter(X1p, X2p, label="+")
+plt.scatter(X1n, X2n, label="-")
+plt.plot([-1, 1], [a_random, a_random], label="random")
+plt.plot([-1, 1], [a_svm, a_svm], label="svm")
 plt.legend()
 plt.show()
 
-print("a_random =",a_random)
-print("a_svm =",a_svm)
+print("a_random = {}".format(a_random))
+print("a_svm = {}".format(a_svm))
 
-#c,d
+####c,d
 N = 100000
 A_random = []
 A_svm = []
 for i in range(N):
-    X1,Y1,X2,Y2 = generate()
-    a_random = np.random.uniform(-1,1)
-    a_svm = mysvm(Y1,Y2)
+    X1p, X2p, X1n, X2n = generate()
+    a_random = np.random.uniform(-1, 1)
+    a_svm = mysvm(X2p, X2n)
     A_random.append(a_random)
     A_svm.append(a_svm)
 
 #画直方图
-plt.hist(A_random,label = 'random')
-plt.hist(A_svm,label = 'svm')
+plt.hist(A_random, label='random')
+plt.hist(A_svm, label='svm')
 plt.legend()
 plt.show()
 
-#e
+####e
 #计算a_random_mean,a_svm_mean
+#根据之前模拟的结果得到随机选择以及svm算法对应的系数
 A_random = np.array(A_random)
 A_svm = np.array(A_svm)
 a_random_mean = np.mean(A_random)
 a_svm_mean = np.mean(A_svm)
-
-X_2 = np.random.uniform(-1,1,100000)
-Y = np.sign(X_2)
-Y_random_mean = np.sign(X_2 - a_random_mean)
-Y_svm_mean = np.sign(X_2 - a_svm_mean)
-
+#生成用于模拟的数据
+X2 = np.random.uniform(-1, 1, 100000)
+#计算标签
+Y = np.sign(X2)
+Y_random_mean = np.sign(X2 - a_random_mean)
+Y_svm_mean = np.sign(X2 - a_svm_mean)
+#计算平均值
 bias_random = np.mean(Y != Y_random_mean)
 bias_svm = np.mean(Y != Y_svm_mean)
-print("bias_random =",bias_random)
-print("bias_svm =",bias_svm)
+print("bias_random = {}".format(bias_random))
+print("bias_svm = {}".format(bias_svm))
 
 #计算var_random_mean,var_svm
 var_random = np.array([])
 var_svm = np.array([])
 for i in range(1000):
-    X1,Y1,X2,Y2 = generate()
-    a_random = np.random.uniform(-1,1)
-    a_svm = mysvm(Y1,Y2)
-    X = np.random.uniform(-1,1,1000)
-    Y_random = np.sign(X - a_random)
-    Y_svm = np.sign(X - a_svm)
-    Y_random_mean = np.sign(X - a_random_mean)
-    Y_svm_mean = np.sign(X - a_svm_mean)
-    var_random = np.append(var_random,np.mean(Y_random_mean != Y_random))
-    var_svm = np.append(var_svm,np.mean(Y_svm_mean != Y_svm))
+    #生成数据
+    X1p, X2p, X1n, X2n = generate()
+    #计算随机选择以及svm算法对应的系数
+    a_random = np.random.uniform(-1, 1)
+    a_svm = mysvm(X2p, X2n)
+    #生成用于模拟的数据
+    X2 = np.random.uniform(-1, 1, 1000)
+    #计算标签
+    Y_random = np.sign(X2 - a_random)
+    Y_svm = np.sign(X2 - a_svm)
+    #计算平均值
+    Y_random_mean = np.sign(X2 - a_random_mean)
+    Y_svm_mean = np.sign(X2 - a_svm_mean)
+    #计算样本方差
+    var_random = np.append(var_random, np.mean(Y_random_mean != Y_random))
+    var_svm = np.append(var_svm, np.mean(Y_svm_mean != Y_svm))
     
-print("var_svm =",np.mean(var_svm))
-print("var_random =",np.mean(var_random))
+print("var_svm = {}".format(np.mean(var_svm)))
+print("var_random = {}".format(np.mean(var_random)))

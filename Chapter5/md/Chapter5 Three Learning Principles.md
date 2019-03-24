@@ -165,9 +165,9 @@ Structural Risk Minimization (SRM) is a useful framework for model selection tha
 
 ![](https://github.com/Doraemonzzz/Learning-from-data/blob/master/photo/Chapter5/Problem5.2.png?raw=true)
 
-The SRM framework picks a hypothesis from each $\mathcal H_i$ by minimizmg $E_{in}$. That is, $g_i = \underset {h\in \mathcal H_i}{\text{argmin}}\ E_{\text{in}}(h)$ . Then, the framework selects the final hypothesis by minimizing $E_{\text{in}}$ and the model complexity penaltyn $\Omega$. That is, $g^* = \underset {i=1,2...}{\text{argmin}}(\ E_{\text{in}}(g_i)+\Omega(\mathcal H_i))$. Note that $\Omega(\mathcal H_i)$ should be non decreasing in $i$ because of the nested structure.    
+The SRM framework picks a hypothesis from each $\mathcal H_i$ by minimizmg $E_{\text{in}}$. That is, $g_i = \underset {h\in \mathcal H_i}{\text{argmin}}\ E_{\text{in}}(h)$ . Then, the framework selects the final hypothesis by minimizing $E_{\text{in}}$ and the model complexity penaltyn $\Omega$. That is, $g^* = \underset {i=1,2...}{\text{argmin}}(\ E_{\text{in}}(g_i)+\Omega(\mathcal H_i))$. Note that $\Omega(\mathcal H_i)$ should be non decreasing in $i$ because of the nested structure.    
 
-(a) Show that the in sample error $E_{\text{in}}(g_i)$ is non increasing in $i$.    
+(a) Show that the in sample error $E_{\text{in}}(g_i)​$ is non increasing in $i​$.    
 
 (b) Assume that the framework finds $g^*\in \mathcal H_i$ with probabiIity $p_i$ . How does $p_i$ relate to the complexity of the target function? 
 
