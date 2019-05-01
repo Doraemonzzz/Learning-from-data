@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Sep  7 11:19:57 2018
+Created on Sun Apr 14 15:45:18 2019
 
-@author: Administrator
+@author: qinzhen
 """
 
 from scipy.special import comb

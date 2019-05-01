@@ -25,7 +25,7 @@ def treat(x1,x2):
     b = (y1 * x2 - y2 * x1) / (x2 - x1)
     return k, b
 
-#产生-1到1的20个点，对每个点，求每个点与其后面一个点连线的直线
+#以0.05为间隔产生-1到1的点集，对每个点，求每个点与其后面一个点连线的直线
 x = np.arange(-1, 1, 0.05)
 
 #求出对应的k,b
@@ -42,7 +42,7 @@ for i in u:
 
 #y=sin(pix)
 X2 = np.arange(-1,1,0.01)
-Y2 = np.sin(2 * np.pi * X2)
+Y2 = np.sin(np.pi * X2)
 
 #作图
 for i in Y1:
@@ -112,7 +112,7 @@ def var(x, x1, x2):
     except:
         k = (y2 - y1) / (x2 - x1 + 10 ** (-10))
         b = (y1 * x2 - y2 * x1) / (x2 - x1 + 10 ** (-10))
-    #之前计算的平均洗漱
+    #之前计算的平均系数
     yavg= a1 * x + b1
     #真实值
     yrea = k * x + b
@@ -237,4 +237,4 @@ def var_c(x, x1, x2):
     yrea = b 
     return 1 / 8 * (yavg - yrea) ** 2
 
-print(integrate.tplquad(var_b, -1, 1, lambda x: -1, lambda x: 1,lambda x, y: -1, lambda x, y: 1))
+print(integrate.tplquad(var_c, -1, 1, lambda x: -1, lambda x: 1,lambda x, y: -1, lambda x, y: 1))

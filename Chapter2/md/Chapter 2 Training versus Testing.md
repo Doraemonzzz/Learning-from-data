@@ -22,7 +22,7 @@ http://beader.me/mlnotebook/
 
 #### Exercise 2.1 (Page 45)
 
-By inspection , find a break point $k​$ for each hypothesis set in Example 2.2(if there is one). Verify that $m_{\mathcal H} (k) < 2^k​$ using the formulas derived in that Example.
+By inspection , find a break point $k$ for each hypothesis set in Example 2.2(if there is one). Verify that $m_{\mathcal H} (k) < 2^k​$ using the formulas derived in that Example.
 
  Example 2.2可以参考课本43页，这里直接给出结果
  对例(1)来说，$m_{\mathcal H} (N)=N+1​$
@@ -51,12 +51,12 @@ By inspection , find a break point $k​$ for each hypothesis set in Example 2.2
 #### Exercise 2.2 (Page 50)
 
 (a) Verify the bound of Theorem 2.4 in the three cases of Example 2.2:  
-  (i) Positive rays: $\mathcal  H$ consists of all hypotheses in one dimension of the form $h(x) = \text{sign}(x - a)$.  
-  (ii) Positive intervals: $\mathcal  H$ consists of all hypotheses in one dimension that are positive within some interval and negative elsewhere.  
-  (iii) Convex sets: $\mathcal  H$ consists of all hypotheses in two dimensions that are positive inside some convex set and negative elsewhere.  
+  (i) Positive rays: $\mathcal  H​$ consists of all hypotheses in one dimension of the form $h(x) = \text{sign}(x - a)​$.  
+  (ii) Positive intervals: $\mathcal  H​$ consists of all hypotheses in one dimension that are positive within some interval and negative elsewhere.  
+  (iii) Convex sets: $\mathcal  H​$ consists of all hypotheses in two dimensions that are positive inside some convex set and negative elsewhere.  
   (Note: you can use the break points you found in Exercise 2.1)  
-(b) Does there exist a hypothesis set for which $ m_{\mathcal N}(N) = N+ 2^{\lfloor \frac N 2 \rfloor}$  
-(where $\lfloor \frac N 2 \rfloor$ is the largest integer $\le \frac N 2​$)?
+(b) Does there exist a hypothesis set for which $ m_{\mathcal N}(N) = N+ 2^{\lfloor \frac N 2 \rfloor}​$  
+(where $\lfloor \frac N 2 \rfloor​$ is the largest integer $\le \frac N 2​$)?
 
 这题是让我们在具体例子下验证下之前的理论。
 先回顾下之前的理论：
@@ -91,7 +91,29 @@ $$
 $$
 m_{\mathcal N}(N) = N+ 2^{\lfloor \frac N 2 \rfloor}\le\sum_{i=0}^{k-1}\binom{N}{i}
 $$
-不等式左边是$N​$的指数函数,右边是$N​$的多项式，所以当$N​$充分大时不可能成立。
+不等式左边是$N$的指数函数,右边是$N$的多项式，所以当$N$充分大时不可能成立。
+
+另解：计算$N=1,2,3$的$m_{\mathcal N}(N)$：
+$$
+\begin{aligned}
+m_{\mathcal N}(1) &= 2=2^1\\
+m_{\mathcal N}(2) &=4=2^2\\
+m_{\mathcal N}(3) &=5<2^3
+\end{aligned}
+$$
+所以break point为$3$，由课本49页的公式可得
+$$
+N+ 2^{\lfloor \frac N 2 \rfloor}=m_{\mathcal{H}}(N) \leq \sum_{i=0}^{2} \left( \begin{array}{c}{N} \\ {i}\end{array}\right)
+=1+N +\frac 1 2 N(N-1)=\frac 1 2N^2 + \frac 1 2 N +1 \tag 1
+$$
+分别作出函数
+$$
+\begin{aligned}
+f(N)&= N+ 2^{\lfloor \frac N 2 \rfloor}\\
+g(N)&= \frac 1 2N^2 + \frac 1 2 N +1
+\end{aligned}
+$$
+不难发现$f(N)$为超过$g(N)$。
 
 
 
@@ -99,31 +121,31 @@ $$
 
 Compute the VC dimension of $\mathcal H​$ for the hypothesis sets in parts (i), (ii),(iii) of Exercise 2.2(a).
 
-这题需要计算VC维，由公式$k = d_{vc} + 1$，$k$为最小的break point，可以轻松得到。
+这题需要计算VC维，由公式$k = d_{\text{vc}} + 1$，$k$为最小的break point，可以轻松得到。
 
-(i)$k=2,d_{vc}=1​$  
-(ii)$k=3,d_{vc}=2​$  
-(iii)$k=+ \infty,d_{vc}=+ \infty​$
+(i)$k=2,d_{\text{vc}}=1​$  
+(ii)$k=3,d_{\text{vc}}=2​$  
+(iii)$k=+ \infty,d_{\text{vc}}=+ \infty​$
 
 
 
 #### Exercise 2.4 (Page 52)
 Consider the input space $\mathcal X=\{1\}\times \mathbb R^d ​$(including the constant coordinate $x_0 = 1​$). Show that the VC dimension of the perceptron (with $d+1​$ parameters, counting $w_0​$) is exactly $d+1​$ by showing that it is at least $d+1​$ and at most $d+1​$, as follows.
 
-(a) To show that $d_{vc}\ge d+1​$, find $d+1​$ points in $\mathcal  X​$ that the perceptron can shatter. [Hint: Construct a nonsingular $(d+1) \times (d+1)​$ matrix whose rows represent the $d+1​$ points, then use the nonsingularity to argue that the perceptron can shatter these points.]
+(a) To show that $d_{\text{vc}}\ge d+1​$, find $d+1​$ points in $\mathcal  X​$ that the perceptron can shatter. [Hint: Construct a nonsingular $(d+1) \times (d+1)​$ matrix whose rows represent the $d+1​$ points, then use the nonsingularity to argue that the perceptron can shatter these points.]
 
-(b) To show that $d_{vc}\le d+1$, show that no set of $d+2$ points in $X$ can be shattered by the perceptron. [Hint: Represent each point in as a vector of length $d+1$, then use the fact that any $d+2$ vectors of length $d+1$ have to be linearl dependent. This means that some vector is a linear combination of all the other vectors.
+(b) To show that $d_{\text{vc}}\le d+1$, show that no set of $d+2$ points in $X$ can be shattered by the perceptron. [Hint: Represent each point in as a vector of length $d+1$, then use the fact that any $d+2$ vectors of length $d+1$ have to be linearl dependent. This means that some vector is a linear combination of all the other vectors.
 Now, if you choose the cass of these other vectors carefully then the classification of the dependent vector will be dictated. Conclude that there is some dichotomy that cannot be implemented, and therefre that for $N\ge d+ 2, m_{\mathcal H} (N) < 2^N$
 
-这题实际上给出了证明$d_{vc}=d$的一般思路：证明
+这题实际上给出了证明$d_{\text{vc}}=d$的一般思路：证明
 $$
-d_{vc}\le d
+d_{\text{vc}}\le d
 $$
 以及
 $$
-d_{vc}\ge d
+d_{\text{vc}}\ge d
 $$
-证明$d_{vc} \ge d$只要找出$d$个点可以被shattered就可以，证明$d_{vc}\le  d$则需要说明任何$d+1$个点都不能被shattered
+证明$d_{\text{vc}} \ge d$只要找出$d$个点可以被shattered就可以，证明$d_{\text{vc}}\le  d$则需要说明任何$d+1$个点都不能被shattered
 
 回到原题，先看(a)，构造一个$(d+1)\times(d+1)​$矩阵
 $$
@@ -171,7 +193,7 @@ y_{d+1}
 $$
 换句话说，这$d+1$个特殊的点可以被shattered，因此
 $$
-d_{vc}\ge d+1
+d_{\text{vc}}\ge d+1
 $$
 (b)不妨设感知机的模型为
 $$
@@ -189,15 +211,15 @@ $$
 $$
 这种情形必然无法被划分出来，因此
 $$
-d_{vc}\le d+1
+d_{\text{vc}}\le d+1
 $$
-综上所述$d_{vc}=d+1​$
+综上所述$d_{\text{vc}}=d+1​$
 
 
 
 #### Exercise 2.5 (Page 56)
 
-Suppose we have a simple learning model whose growth function is $m_{\mathcal H}(N) = N+1​$ , hence $d_{vc} =1​$. Use the VC bound (2.12) to estimate the probability that $E_{\text{out}}​$ will be within 0.1 of $E_{\text{in}}​$ given 100 training examples. [Hint: The estimate wil be ridiculous.}
+Suppose we have a simple learning model whose growth function is $m_{\mathcal H}(N) = N+1​$ , hence $d_{\text{vc}} =1​$. Use the VC bound (2.12) to estimate the probability that $E_{\text{out}}​$ will be within 0.1 of $E_{\text{in}}​$ given 100 training examples. [Hint: The estimate wil be ridiculous.}
 
 这里回顾下(2.12) (Page 53)  
 Theorem 2.5 (VC generalization bound) . For any tolerance $\delta > 0​$,
@@ -277,14 +299,14 @@ $$
 $$
 而
 $$
-\mathbb E[(h(x)-f(x)^2]=1\times \mathbb P(|h(x)-f(x)|=1)+0\times\mathbb  P(|h(x)-f(x)|=0)=\mathbb P(|h(x)-f(x)|=1)
+\mathbb E[(h(x)-f(x))^2]=1\times \mathbb P(|h(x)-f(x)|=1)+0\times\mathbb  P(|h(x)-f(x)|=0)=\mathbb P(|h(x)-f(x)|=1)
 $$
 所以
 $$
 \mathbb P[h(x)\ne  f(x)]=\mathbb E[(h(x)-f(x))^2]
 $$
 
-(a)注意此时$h(x)\ne  f(x)​$要么是$h(x)=1,f(x)=-1​$或者$h(x)=-1,f(x)=1​$
+(a)注意此时$h(x)\ne  f(x)$要么是$h(x)=1,f(x)=-1$或者$h(x)=-1,f(x)=1$
 因此
 $$
 \mathbb P[h(x)\ne  f(x)]=\mathbb P(|h(x)-f(x)|=2)
@@ -389,13 +411,13 @@ print(f(10000, 0.05))
 
 #### Problem 2.2 (Page 69)
 
-Show that for the learning model of positive rectangles (aligned horizontally or vertically), $m_{\mathcal H} (4) = 2^4$ and $m_{\mathcal H} (5) < 2^5$ . Hence, give a bound for $ m_{\mathcal H} (N)$ .
+Show that for the learning model of positive rectangles (aligned horizontally or vertically), $m_{\mathcal H} (4) = 2^4​$ and $m_{\mathcal H} (5) < 2^5​$ . Hence, give a bound for $ m_{\mathcal H} (N)​$ .
 
 ![](01.jpg)
 
-题目中的$\mathcal H ​$如上图所示，其实就是边平行于$x​$轴$y​$轴的矩形区域。$m_{\mathcal H} (4) = 2^4​$这个比较简单，画图就可以了。对于$m_{\mathcal H} (5) ​$，我们可以按如下方式考虑：
+题目中的$\mathcal H $如上图所示，其实就是边平行于$x$轴$y$轴的矩形区域。$m_{\mathcal H} (4) = 2^4$这个比较简单，画图就可以了。对于$m_{\mathcal H} (5) $，给出两个解法，解法1运用代数证明，比较复杂，解法2运用几何证明，非常简洁，对代数没有兴趣的读者可以直接查看解法2。
 
-假设$5$个点为$(x_i,y_i),i=1,...,5$，不失一般性，我们假设
+解法1：假设$5$个点为$(x_i,y_i),i=1,...,5$，不失一般性，我们假设
 $$
 x_i \le x_{i+1}, i=1,...,4
 $$
@@ -527,24 +549,26 @@ $$
 $$
 m_{\mathcal H} (5) < 2^5
 $$
-结合以上两点可得$d_{vc}=4​$，所以
+结合以上两点可得$d_{\text{vc}}=4​$，所以
 $$
- m_{\mathcal H} (N) \le N^{d_{vc}}+1 =N^4+1
+ m_{\mathcal H} (N) \le N^{d_{\text{vc}}}+1 =N^4+1
 $$
+
+解法2：依旧假设$5$个点为$(x_i,y_i),i=1,...,5 $。找到$4$个点：纵坐标最大和最小的点，横坐标做大和最小的点，注意这四个点可能部分重合，但是至少能找到$2$个点。将这些点标记为$+1$，其余的点标记为$-1$，那么这种情形必然无法用positive rectangle分类。
 
 
 
 #### Problem 2.3 (Page 69) 
 
-Compute the maximum number of dichotomies, $m_{\mathcal H} (N)$,for these learning models, and consequently compute $d_{vc}$ , the VC dimension.  
+Compute the maximum number of dichotomies, $m_{\mathcal H} (N)$,for these learning models, and consequently compute $d_{\text{vc}}$ , the VC dimension.  
 (a) Positive or negative ray: $\mathcal H$ contains the functions which are + 1​ on ​$[a, +\infty)$(for some a) together with those that are +1 on ​$( - \infty , a]$ (for some a).  
 (b) Positive or negative interval : ​$\mathcal  H$ contains the functions which are + 1 on an interval ​$[a, b]$ and -1 elsewhere or -1 on an interval ​$[a, b]$ and +1 elsewhere.  
 (c) Two concentric spheres in ​$\mathbb R^d$: ​$\mathcal H $ contains the functions which are +1 for ​$a \le \sqrt {x_1^2 + . . . + x_d^2}\le b$.
 
-计算$m_{\mathcal H} (N)$以及$d_{vc}$  
+计算$m_{\mathcal H} (N)$以及$d_{\text{vc}}$  
 (a)这题其实就相当于在$N$个点中画了一条直线，左边的为-1，右边的为1，或者左边的为1，右边的为-1，除去全1和全-1的情形，一共有$2(N-1)$种，那么加上全-1和全1，一共有$2N-2+2=2N$种情形。因此
 $$
-m_{\mathcal H} (N)=2N,d_{vc}=2
+m_{\mathcal H} (N)=2N,d_{\text{vc}}=2
 $$
 (b)分两种情形考虑，第一种如下
 
@@ -590,12 +614,12 @@ m_{\mathcal H}(N)=(N-1)(N-2) + 2N = N^2 -N+2
 $$
 因此
 $$
-d_{vc}=3
+d_{\text{vc}}=3
 $$
 (c)做映射$y=\sqrt {x_1^2 + . . . + x_d^2}​$，所以这个问题可以化为类似(b)的问题(注意这里不同之处在于$[a,b]​$区间内的元素只能为$+1​$)。注意这里两圆之间的部分为$+1​$，因此问题为$d​$个点之间以及两侧共$d+1​$个间隔中挑选$2​$个，最后要需要考虑全$-1​$的情形，因此
 $$
 m_{\mathcal H} (N)=C_{N+1}^2+1=\frac{N(N+1)}2+1\\
-d_{vc}=2
+d_{\text{vc}}=2
 $$
 
 
@@ -623,7 +647,7 @@ $$
 
 Prove by induction that $\sum_{i=0}^{D}\binom N i\le N^D+1$ , hence
 $$
-m_{\mathcal H}(N)\le N^{d_{vc}}+1
+m_{\mathcal H}(N)\le N^{d_{\text{vc}}}+1
 $$
 
 使用数学归纳法。  
@@ -652,11 +676,11 @@ $$
 所以对$D=k+1​$时不等式也成立。
 由之前结论我们知道
 $$
-m_{\mathcal H}(N)\le \sum_{i=0}^{d_{vc}}\binom N i
+m_{\mathcal H}(N)\le \sum_{i=0}^{d_{\text{vc}}}\binom N i
 $$
 那么
 $$
-m_{\mathcal H}(N)\le \sum_{i=0}^{d_{vc}}\binom N i\le N^{d_{vc}}+1
+m_{\mathcal H}(N)\le \sum_{i=0}^{d_{\text{vc}}}\binom N i\le N^{d_{\text{vc}}}+1
 $$
 
 
@@ -670,7 +694,7 @@ $$
 We suggest you first show the following intermediate steps.  
 (a) $\sum_{i=0}^{d}\binom N i\le \sum_{i=0}^{d}\binom N i(\frac N d)^{d-i}\le (\frac N d)^d\sum_{i=0}^{N}\binom N i(\frac d N)^i$  
 (b) $\sum_{i=0}^{N}\binom N i(\frac d N)^i\le e^d$[Hints: Binomial theorem;$(1+\frac 1 x)^x \le e$ for $x\ge 0$
-Hence, argue that $m_{\mathcal H}(N)\le (\frac {eN}{d_{vc}} )^{d_{vc}}$
+Hence, argue that $m_{\mathcal H}(N)\le (\frac {eN}{d_{\text{vc}}} )^{d_{\text{vc}}}$
 
 (a)因为$N\ge d,d\ge i$，所以$(\frac N d)^{d-i}\ge 1$
 那么
@@ -695,11 +719,11 @@ $$
 
 由之前结论我们知道
 $$
-m_{\mathcal H}(N)\le \sum_{i=0}^{d_{vc}}\binom N i
+m_{\mathcal H}(N)\le \sum_{i=0}^{d_{\text{vc}}}\binom N i
 $$
 那么由这题的结论可得
 $$
-m_{\mathcal H}(N)\le (\frac {eN}{d_{vc}} )^{d_{vc}}
+m_{\mathcal H}(N)\le (\frac {eN}{d_{\text{vc}}} )^{d_{\text{vc}}}
 $$
 
 这题和之前一题都是对$m_{\mathcal H}(N)$给出一个多项式上界。
@@ -708,7 +732,7 @@ $$
 
 #### Problem 2.7 (Page 70)
 
-Plot the bounds for $m_{\mathcal H} (N)$ given in Problems 2.5 and 2.6 for $d_{vc} = 2$ and $d_{vc} = 5$. When do you prefer one bound over the other?
+Plot the bounds for $m_{\mathcal H} (N)$ given in Problems 2.5 and 2.6 for $d_{\text{vc}} = 2$ and $d_{\text{vc}} = 5$. When do you prefer one bound over the other?
 
 作图题
 
@@ -760,19 +784,19 @@ draw(5)
 ![png](output_12_0.png)
 
 
-上图中，f1表示2.5得到的上界，f2表示2.6得到的上界，可以看到，当$d_{vc}=2$时，2.5得到的上界要明显好于2.6得到的上界，而当$d_{vc}=5$时，2.6得到的上界要明显好于2.5得到的上界，我们来简单分析下原因。  
+上图中，f1表示2.5得到的上界，f2表示2.6得到的上界，可以看到，当$d_{\text{vc}}=2$时，2.5得到的上界要明显好于2.6得到的上界，而当$d_{\text{vc}}=5$时，2.6得到的上界要明显好于2.5得到的上界，我们来简单分析下原因。  
 2.5得到的上界
 $$
-N^{d_{vc}}+1
+N^{d_{\text{vc}}}+1
 $$
 2.6得到的上界
 $$
-(\frac {eN}{d_{vc}} )^{d_{vc}}
+(\frac {eN}{d_{\text{vc}}} )^{d_{\text{vc}}}
 $$
-当$d_{vc}=2$时，$\frac {e}{d_{vc}}>1$，所以当$N$充分大时，$(\frac {eN}{d_{vc}} )^{d_{vc}}$明显大于$N^{d_{vc}}+1$
-而当$d_{vc}=5$时，$\frac {e}{d_{vc}}<1$，所以当$N$充分大时，$(\frac {eN}{d_{vc}} )^{d_{vc}}$明显小于$N^{d_{vc}}+1$
+当$d_{\text{vc}}=2$时，$\frac {e}{d_{\text{vc}}}>1$，所以当$N$充分大时，$(\frac {eN}{d_{\text{vc}}} )^{d_{\text{vc}}}$明显大于$N^{d_{\text{vc}}}+1$
+而当$d_{\text{vc}}=5$时，$\frac {e}{d_{\text{vc}}}<1$，所以当$N$充分大时，$(\frac {eN}{d_{\text{vc}}} )^{d_{\text{vc}}}$明显小于$N^{d_{\text{vc}}}+1$
 
-所以当$d_{vc}\le 2$时，选$N^{d_{vc}}+1$作为上界，其余情形选择$(\frac {eN}{d_{vc}} )^{d_{vc}}$作为上界。
+所以当$d_{\text{vc}}\le 2$时，选$N^{d_{\text{vc}}}+1$作为上界，其余情形选择$(\frac {eN}{d_{\text{vc}}} )^{d_{\text{vc}}}$作为上界。
 
 
 
@@ -794,7 +818,7 @@ $$
 m_{\mathcal H}(N)=2\sum_{i=0}^d \binom {N-1} i\\
 \text {Hint: Cover(1965) in Further Reading.}
 $$
-Use this formula to verify that $d_{vc} = d + 1​$ by evaluating $m_{\mathcal H}(d + 1)​$ and $m_{\mathcal H}(d + 2)​$ . Plot $m_{\mathcal H}(N)/2N​$ for $d = 10​$ and $N \in [1, 40]​$ . If you generate a random dichotomy on $N​$ points in 10 dimensions, give an upper bound on the probability that the dichotomy will be separable for N = 10, 20, 40.
+Use this formula to verify that $d_{\text{vc}} = d + 1​$ by evaluating $m_{\mathcal H}(d + 1)​$ and $m_{\mathcal H}(d + 2)​$ . Plot $m_{\mathcal H}(N)/2N​$ for $d = 10​$ and $N \in [1, 40]​$ . If you generate a random dichotomy on $N​$ points in 10 dimensions, give an upper bound on the probability that the dichotomy will be separable for N = 10, 20, 40.
 
 这题比较难，我也是查阅了网上资料才思考出来。[参考资料](http://web.mit.edu/course/other/i2course/www/vision_and_learning/perceptron_notes.pdf)
 
@@ -862,12 +886,12 @@ f(N+1,d)&=2\sum_{i=0}^d \binom {N-1}i+2\sum_{i=0}^{d-1} \binom {N-1}i\\
 $$
 因此结论成立。
 
-下面计算下$d_{vc}$
+下面计算下$d_{\text{vc}}$
 $$
 m_{\mathcal H}(d+1)=2\sum_{i=0}^d \binom {d} i=2^{d+1}\\
 m_{\mathcal H}(d+2)=2\sum_{i=0}^d \binom {d+1} i=2(2^{d+1}-1)=2^{d+2}-2<2^{d+2}
 $$
-所以$d_{vc}=d+1$，这也符合我们之前的论述。
+所以$d_{\text{vc}}=d+1$，这也符合我们之前的论述。
 
 剩余部分是作图，注意这里的概率其实就是$\frac {m_{\mathcal H}(N)} {2^N}$，因为一共有$2^N$种，而可表示出来的一共有$m_{\mathcal H}(N)$种
 
@@ -927,7 +951,7 @@ $$
 
 #### Problem 2.11 (Page 70)
 
-Suppose $m_{\mathcal H}(N) = N + 1$, so $d_{vc} = 1$ . You have 100 training examples. Use the generalization bound to give a bound for $E_{\text{out}}$ with confidence 90%. Repeat for $N = 10, 000$.    
+Suppose $m_{\mathcal H}(N) = N + 1$, so $d_{\text{vc}} = 1$ . You have 100 training examples. Use the generalization bound to give a bound for $E_{\text{out}}$ with confidence 90%. Repeat for $N = 10, 000$.    
 
 这题要使用上面证明的不等式，先回顾下书本第58页的公式
 $$
@@ -972,13 +996,13 @@ print(f(10000, delta))
 
 #### Problem 2.12 (Page 71)
 
-For an $\mathcal  H$ with $d_{vc} = 10$, what sample size do you need (as prescribed by the generalization bound) to have a 95% confidence that your generalization error is at most 0.05? 
+For an $\mathcal  H$ with $d_{\text{vc}} = 10$, what sample size do you need (as prescribed by the generalization bound) to have a 95% confidence that your generalization error is at most 0.05? 
 
 在此回顾下课本58页的公式
 $$
-E_{\text{out}}(g)\le E_{\text{in}}(g)+\sqrt {\frac 8 N \ln(\frac {4({(2N)}^{d_{vc}}+1)} \delta )}的概率大于等于1-\delta
+E_{\text{out}}(g)\le E_{\text{in}}(g)+\sqrt {\frac 8 N \ln\left(\frac {4\left({(2N)}^{d_{\text{vc}}}+1\right)} \delta \right)}的概率大于等于1-\delta
 $$
-回到这题，题目中$\delta =0.05,\sqrt {\frac 8 N \ln(\frac {4({(2N)}^{d_{vc}}+1)} \delta )}=0.05​$
+回到这题，题目中$\delta =0.05,\sqrt {\frac 8 N \ln\left(\frac {4\left({(2N)}^{d_{\text{vc}}}+1\right)} \delta \right)}=0.05$
 这个方程直接解的话不好解，可以作图看一下
 
 
@@ -993,8 +1017,8 @@ Created on Sun Feb 17 23:20:11 2019
 import numpy as np
 import matplotlib.pyplot as plt
 
-delta=0.05
-dvc=10
+delta = 0.05
+dvc = 10
 
 def f(N):
     return (8 / N * np.log(4 * ((2 * N) ** dvc + 1) / delta)) ** 0.5 - 0.05
@@ -1031,46 +1055,46 @@ plt.show()
 
 #### Problem 2.13 (Page 71)
 
- (a) Let $\mathcal H = \{h_1 , h_2 , . . . , h_M\}$ with some finite $M$. Prove that $d_{vc}(\mathcal H) \le \log_2 M. $
+ (a) Let $\mathcal H = \{h_1 , h_2 , . . . , h_M\}$ with some finite $M$. Prove that $d_{\text{vc}}(\mathcal H) \le \log_2 M. $
 
-(b) For hypothesis sets $\mathcal H_1,\mathcal H_2,...\mathcal H_k​$ with finite VC dimensions $d_{vc}(\mathcal H_k)​$, derive and prove the tightest upper and lower bound that you can get on $d_{vc} (\bigcap _{k=1}^K \mathcal H_k) ​$· 
+(b) For hypothesis sets $\mathcal H_1,\mathcal H_2,...\mathcal H_k​$ with finite VC dimensions $d_{\text{vc}}(\mathcal H_k)​$, derive and prove the tightest upper and lower bound that you can get on $d_{\text{vc}} (\bigcap _{k=1}^K \mathcal H_k) ​$· 
 
-(c) For hypothesis sets $\mathcal H_1,\mathcal H_2,...,\mathcal H_k$ with finite VC dimensions $d_{vc}(\mathcal H_k)$, derive and prove the tightest upper and lower bounds that you can get on $d_{vc} (\bigcup _{k=1}^K\mathcal H_k) $·   
+(c) For hypothesis sets $\mathcal H_1,\mathcal H_2,...,\mathcal H_k$ with finite VC dimensions $d_{\text{vc}}(\mathcal H_k)$, derive and prove the tightest upper and lower bounds that you can get on $d_{\text{vc}} (\bigcup _{k=1}^K\mathcal H_k) $·   
 
-(a)因为有$M$个假设，所以一共能区分$M$ 种情况。$d_{vc}(\mathcal H)$表示对于$n=d_{vc}(\mathcal H)$组数据，这$M$个假设可以区分出来所有$2^{d_{vc}(\mathcal H)}$种情形，而一共最多能区分$M$种情形，因此
+(a)因为有$M$个假设，所以一共能区分$M$ 种情况。$d_{\text{vc}}(\mathcal H)$表示对于$n=d_{\text{vc}}(\mathcal H)$组数据，这$M$个假设可以区分出来所有$2^{d_{\text{vc}}(\mathcal H)}$种情形，而一共最多能区分$M$种情形，因此
 $$
-2^{d_{vc}(\mathcal H)}\le M\\
-d_{vc}(\mathcal H)\le \log_2(M)
+2^{d_{\text{vc}}(\mathcal H)}\le M\\
+d_{\text{vc}}(\mathcal H)\le \log_2(M)
 $$
 (b)首先有直觉反应：
 $$
-如果A\subseteq B,那么d_{vc}(A)\le d_{vc}(B)
+如果A\subseteq B,那么d_{\text{vc}}(A)\le d_{\text{vc}}(B)
 $$
 所以猜测
 $$
-0\le d_{vc} (\bigcap _{k=1}^K\mathcal H_k)\le {\min}\{(d_{vc}(\mathcal H_k))\}_{k=1}^K
+0\le d_{\text{vc}} (\bigcap _{k=1}^K\mathcal H_k)\le {\min}\{(d_{\text{vc}}(\mathcal H_k))\}_{k=1}^K
 $$
-$0\le d_{vc} (\bigcap _{k=1}^K\mathcal H_k)$是显然的，另一边使用反证法，记
+$0\le d_{\text{vc}} (\bigcap _{k=1}^K\mathcal H_k)$是显然的，另一边使用反证法，记
 $$
-d_1=d_{vc} (\bigcap _{k=1}^K \mathcal H_k),d_2={\min}\{(d_{vc}(\mathcal H_k))\}_{k=1}^K
+d_1=d_{\text{vc}} (\bigcap _{k=1}^K \mathcal H_k),d_2={\min}\{(d_{\text{vc}}(\mathcal H_k))\}_{k=1}^K
 $$
 若$d_1\ge d_2+1​$，那么$\bigcap _{k=1}^K\mathcal H_k​$可以shatter $d_2+1​$个点，那么至少存在一个$\mathcal H_i(i=1...k)​$，使得$\mathcal H_i​$也可以shatter $d_2+1​$个点，这就与$d_2={\min}\{(d_{(vc)}(H_k))\}_{k=1}^K​$相矛盾了，所以
 $$
-d_{vc} (\bigcap _{k=1}^K\mathcal H_k)\le {\min}\{(d_{vc}(\mathcal H_k))\}_{k=1}^K
+d_{\text{vc}} (\bigcap _{k=1}^K\mathcal H_k)\le {\min}\{(d_{\text{vc}}(\mathcal H_k))\}_{k=1}^K
 $$
 并且该上界是最强上界。
 
 接着这个思路，也可以证明以下结论：
 $$
-如果A\subseteq B,那么d_{vc}(A)\le d_{vc}(B)
+如果A\subseteq B,那么d_{\text{vc}}(A)\le d_{\text{vc}}(B)
 $$
-反证法，如果$d_{vc}(A)\ge d_{vc}(B)+1$，那么$A$可以shatter $d_{vc}(B)+1$个点，由$A\subseteq B$。那么$B$也可以shatter $d_{vc}(B)+1$个点，矛盾。因此该结论成立。
+反证法，如果$d_{\text{vc}}(A)\ge d_{\text{vc}}(B)+1$，那么$A$可以shatter $d_{\text{vc}}(B)+1$个点，由$A\subseteq B$。那么$B$也可以shatter $d_{\text{vc}}(B)+1$个点，矛盾。因此该结论成立。
 
 (c)这题参考了别人的笔记，[笔记地址](http://beader.me/mlnotebook/section2/vc-dimension-three.html)
 
 这题说实话要不是之前做过林老师的作业，结论我是猜不出的，所以这里就直接证明了，先上结论。
 $$
-{\max}\{d_{vc}(\mathcal H_k)\}_{k=1}^K\le d_{vc} (\bigcup _{k=1}^K\mathcal H_k)\le K-1+\sum_{k=1}^K d_{vc} (\mathcal H_k)
+{\max}\{d_{\text{vc}}(\mathcal H_k)\}_{k=1}^K\le d_{\text{vc}} (\bigcup _{k=1}^K\mathcal H_k)\le K-1+\sum_{k=1}^K d_{\text{vc}} (\mathcal H_k)
 $$
 左边比较简单，由之前的结论即可。
 
@@ -1080,15 +1104,15 @@ H_k \subseteq \bigcup _{k=1}^KH_k
 $$
 所以
 $$
-d_{vc}(\mathcal H_k)\le d_{vc} (\bigcup _{k=1}^K\mathcal H_k)(k=1...K)\\
+d_{\text{vc}}(\mathcal H_k)\le d_{\text{vc}} (\bigcup _{k=1}^K\mathcal H_k)(k=1...K)\\
 
-{\max}\{d_{vc}(\mathcal H_k)\}_{k=1}^K\le d_{vc} (\bigcup _{k=1}^K\mathcal H_k)
+{\max}\{d_{\text{vc}}(\mathcal H_k)\}_{k=1}^K\le d_{\text{vc}} (\bigcup _{k=1}^K\mathcal H_k)
 $$
 观察下右边的形式，其实只要证明$K=2$的情形然后使用数学归纳法即可，$K=2$时的结论为
 $$
-d_{vc}(\mathcal H_1 \bigcup \mathcal H_2)\le 1+d_{vc}(\mathcal H_1)+d_{vc}(\mathcal H_2)
+d_{\text{vc}}(\mathcal H_1 \bigcup \mathcal H_2)\le 1+d_{\text{vc}}(\mathcal H_1)+d_{\text{vc}}(\mathcal H_2)
 $$
-下面记$d_1=d_{vc}(\mathcal H_1),d_2=d_{vc}(\mathcal H_2)$，考虑成长函数$m_{\mathcal H}(N)​$，首先
+下面记$d_1=d_{\text{vc}}(\mathcal H_1),d_2=d_{\text{vc}}(\mathcal H_2)$，考虑成长函数$m_{\mathcal H}(N)​$，首先
 $$
 m _ {\mathcal H_1\bigcup \mathcal H_2}(N) \le m_{\mathcal H_1}(N)+ m_{\mathcal H_2}(N)
 $$
@@ -1100,11 +1124,11 @@ m _ {\mathcal H_1\bigcup \mathcal H_2}(N) \le m_{\mathcal H_1}(N)+ m_{\mathcal H
 $$
 接着我们使用反证法证明
 $$
-d_{vc}(\mathcal H_1 \bigcup \mathcal H_2)\le 1+d_{vc}(\mathcal H_1)+d_{vc}(\mathcal H_2)
+d_{\text{vc}}(\mathcal H_1 \bigcup \mathcal H_2)\le 1+d_{\text{vc}}(\mathcal H_1)+d_{\text{vc}}(\mathcal H_2)
 $$
 如果
 $$
-d_{vc}(\mathcal H_1 \bigcup \mathcal H_2)\ge 2+d_{vc}(\mathcal H_1)+d_{vc}(\mathcal H_2)=d_1+d_2+2
+d_{\text{vc}}(\mathcal H_1 \bigcup \mathcal H_2)\ge 2+d_{\text{vc}}(\mathcal H_1)+d_{\text{vc}}(\mathcal H_2)=d_1+d_2+2
 $$
 那么
 $$
@@ -1127,17 +1151,17 @@ m _ {\mathcal H_1 \bigcup \mathcal H_2}(d_1+d_2+2)\le\sum _ {i=0} ^ {d_1} \binom
 $$
 与之前所述矛盾。因此
 $$
-d_{vc}(\mathcal H_1 \bigcup \mathcal H_2)\le 1+d_{vc}(\mathcal H_1)+d_{vc}(\mathcal H_2)=d_1+d_2+1
+d_{\text{vc}}(\mathcal H_1 \bigcup \mathcal H_2)\le 1+d_{\text{vc}}(\mathcal H_1)+d_{\text{vc}}(\mathcal H_2)=d_1+d_2+1
 $$
 因此当$K=2​$时，结论成立。
 
 假设$K=n$时不等式成立，$K=n+1$时
 $$
 \begin{aligned}
-d_{vc} (\bigcup _{k=1}^{n+1}\mathcal H_k)&=d_{vc} ((\bigcup _{k=1}^{n}\mathcal H_k)\bigcup \mathcal H_{n+1})
-\\&\le1+d_{vc} (\bigcup _{k=1}^{n}\mathcal H_k)+d_{vc}(\mathcal  H_{n+1})
-\\&\le1+n-1+\sum_{k=1}^n d_{vc} (\mathcal H_k)+d_{vc}(\mathcal  H_{n+1})
-\\&=n+\sum_{k=1}^{n+1} d_{vc} (\mathcal H_k)
+d_{\text{vc}} (\bigcup _{k=1}^{n+1}\mathcal H_k)&=d_{\text{vc}} ((\bigcup _{k=1}^{n}\mathcal H_k)\bigcup \mathcal H_{n+1})
+\\&\le1+d_{\text{vc}} (\bigcup _{k=1}^{n}\mathcal H_k)+d_{\text{vc}}(\mathcal  H_{n+1})
+\\&\le1+n-1+\sum_{k=1}^n d_{\text{vc}} (\mathcal H_k)+d_{\text{vc}}(\mathcal  H_{n+1})
+\\&=n+\sum_{k=1}^{n+1} d_{\text{vc}} (\mathcal H_k)
 \end{aligned}
 $$
 因此$K=n+1​$时不等式也成立。
@@ -1146,33 +1170,33 @@ $$
 
 #### Problem 2.14 (Page 71)
 
-Let $\mathcal{H}_1 , \mathcal{H}_2, . . . , \mathcal{H}_K​$ be $K​$ hypothesis sets with finite VC dimension $d_{vc}​$· Let $\mathcal{H}=\mathcal{H}_1 \cup \mathcal{H}_2\cup . . . \cup\mathcal{H}_K​$ be the union of these models.
+Let $\mathcal{H}_1 , \mathcal{H}_2, . . . , \mathcal{H}_K​$ be $K​$ hypothesis sets with finite VC dimension $d_{\text{vc}}​$· Let $\mathcal{H}=\mathcal{H}_1 \cup \mathcal{H}_2\cup . . . \cup\mathcal{H}_K​$ be the union of these models.
 
-(a) Show that $d_{vc}(\mathcal{H}) < K(d_{vc} + 1)​$. 
+(a) Show that $d_{\text{vc}}(\mathcal{H}) < K(d_{\text{vc}} + 1)​$. 
 
-(b) Suppose that $l$ satisfies $2^l > 2Kl^{d_{vc}}$ . Show that $d_{vc}(\mathcal{H})\le l$. 
+(b) Suppose that $l$ satisfies $2^l > 2Kl^{d_{\text{vc}}}$ . Show that $d_{\text{vc}}(\mathcal{H})\le l$. 
 
 (c) Hence, show that 
 $$
-d_{vc}(\mathcal{H})\le \min(K(d_{vc} + 1), 7(d_{vc} + K) \log_2 (d_{vc}K))
+d_{\text{vc}}(\mathcal{H})\le \min(K(d_{\text{vc}} + 1), 7(d_{\text{vc}} + K) \log_2 (d_{\text{vc}}K))
 $$
-That is, $d_{vc}(H) = O(\max(d_{vc}, K)\log_2 \max(d_{vc}, K)) $is not too bad .    
+That is, $d_{\text{vc}}(H) = O(\max(d_{\text{vc}}, K)\log_2 \max(d_{\text{vc}}, K)) $is not too bad .    
 
 (a)使用上题证明的结论
 $$
-d_{vc} (\bigcup _{k=1}^K \mathcal H_k)\le K-1+\sum_{k=1}^K d_{vc} (\mathcal H_k)
+d_{\text{vc}} (\bigcup _{k=1}^K \mathcal H_k)\le K-1+\sum_{k=1}^K d_{\text{vc}} (\mathcal H_k)
 $$
-将 $\mathcal{H}=\mathcal{H}_1 \cup {H}_2\cup . . . \cup{H}_K,d_{vc}(H_k)=d_{vc}(k=1,2...K)​$带入得
+将 $\mathcal{H}=\mathcal{H}_1 \cup {H}_2\cup . . . \cup{H}_K,d_{\text{vc}}(H_k)=d_{\text{vc}}(k=1,2...K)​$带入得
 $$
-d_{vc}(\mathcal{H})\le K-1+Kd_{vc} < K(d_{vc} + 1)
+d_{\text{vc}}(\mathcal{H})\le K-1+Kd_{\text{vc}} < K(d_{\text{vc}} + 1)
 $$
 (b)先回顾一个不等式
 $$
-m_\mathcal{H}(N)\le N^{d_{vc}}+1
+m_\mathcal{H}(N)\le N^{d_{\text{vc}}}+1
 $$
 这里对这个不等式再加个更宽的上界
 $$
-m_\mathcal{H}(N)\le N^{d_{vc}}+1\le 2N^{d_{vc}}
+m_\mathcal{H}(N)\le N^{d_{\text{vc}}}+1\le 2N^{d_{\text{vc}}}
 $$
 在Problem 2.13中我们说过一个结论
 $$
@@ -1184,39 +1208,39 @@ m _ {\bigcup_{i=1}^K \mathcal{H}_i}(N) \le \sum _{i=1}^Km_{\mathcal{H}_i}(N)
 $$
 因此对这题来说，我们取$N​$为条件中的$l​$
 $$
-m_{\mathcal{H}}(l)=m _ {\bigcup_{i=1}^K \mathcal{H}_i}(l)\le\sum _{i=1}^Km_{\mathcal{H}_i}(l)\le\sum _{i=1}^K2l^{d_{vc}}=2Kl^{d_{vc}}
+m_{\mathcal{H}}(l)=m _ {\bigcup_{i=1}^K \mathcal{H}_i}(l)\le\sum _{i=1}^Km_{\mathcal{H}_i}(l)\le\sum _{i=1}^K2l^{d_{\text{vc}}}=2Kl^{d_{\text{vc}}}
 $$
-最后一个不等号是因为$m_\mathcal{H}(N)\le N^{d_{vc}}+1\le 2N^{d_{vc}}$，以及这题中的每个$\mathcal{H_i}$的 VC dimension均为$d_{vc}​$。这时我们来看下题目给的条件
+最后一个不等号是因为$m_\mathcal{H}(N)\le N^{d_{\text{vc}}}+1\le 2N^{d_{\text{vc}}}$，以及这题中的每个$\mathcal{H_i}$的 VC dimension均为$d_{\text{vc}}​$。这时我们来看下题目给的条件
 $$
-2^l > 2Kl^{d_{vc}}
+2^l > 2Kl^{d_{\text{vc}}}
 $$
 那么
 $$
-m_{\mathcal{H}}(l)\le2Kl^{d_{vc}}<2^l
+m_{\mathcal{H}}(l)\le2Kl^{d_{\text{vc}}}<2^l
 $$
 所以$\mathcal{H}$无法shatter $l$个点，因此我们可以得到比题目中更强的结论
 $$
-d_{vc}(\mathcal{H}) <l
+d_{\text{vc}}(\mathcal{H}) <l
 $$
 (c)由(a)我们知道
 $$
-d_{vc}(\mathcal{H}) < K(d_{vc} + 1)
+d_{\text{vc}}(\mathcal{H}) < K(d_{\text{vc}} + 1)
 $$
 由(b)我们知道，要证明
 $$
-d_{vc}(\mathcal{H}) \le7(d_{vc} + K) \log_2 (d_{vc}K)\triangleq s
+d_{\text{vc}}(\mathcal{H}) \le7(d_{\text{vc}} + K) \log_2 (d_{\text{vc}}K)\triangleq s
 $$
 我们只要验证
 $$
-2^s > 2Ks^{d_{vc}}
+2^s > 2Ks^{d_{\text{vc}}}
 $$
 或者取对数之后的情形
 $$
-s>1+\log_2K+d_{vc}\log_2s
+s>1+\log_2K+d_{\text{vc}}\log_2s
 $$
-为了叙述方便，这里令$d_{vc}=x,K=y​$，从而
+为了叙述方便，这里令$d_{\text{vc}}=x,K=y​$，从而
 $$
-s=7(d_{vc} + K) \log_2 (d_{vc}K)=7(x+y)\log_2 (xy)
+s=7(d_{\text{vc}} + K) \log_2 (d_{\text{vc}}K)=7(x+y)\log_2 (xy)
 $$
 所以上述式子化为
 $$
@@ -1225,7 +1249,7 @@ s>1+\log_2y+x\log_2s
 $$
 不失一般性，这里只考虑$K=y\ge2​$的情形。
 
-先考虑$d_{vc}=x=1​$的情形，那么此时$s=7(1+y)\log_2(y)​$，我们只要验证$2^s>2ys​$即可。由二项式定理
+先考虑$d_{\text{vc}}=x=1​$的情形，那么此时$s=7(1+y)\log_2(y)​$，我们只要验证$2^s>2ys​$即可。由二项式定理
 $$
 2^s=(1+1)^s\ge s+\frac {s(s-1)}2>\frac {s^2}2=\frac {s(7(1+y)\log_2(y))}2
 $$
@@ -1233,9 +1257,9 @@ $$
 $$
 2^s>\frac {s(7(1+y)\log_2(y))}2\ge \frac{s(7(1+y))}2> \frac{s(4y)}2=2ys
 $$
-因此$d_{vc}=x=1​$时结论成立。
+因此$d_{\text{vc}}=x=1​$时结论成立。
 
-接下来考虑$d_{vc}=x\ge2$的情形，此时$s=7(x + y) \log_2 (xy)$，接下来我们要验证
+接下来考虑$d_{\text{vc}}=x\ge2$的情形，此时$s=7(x + y) \log_2 (xy)$，接下来我们要验证
 $$
 s>1+\log_2y+x\log_2s
 $$
@@ -1311,28 +1335,28 @@ $$
 $$
 因此结论成立，所以
 $$
-d_{vc}(\mathcal{H}) \le7(d_{vc} + K) \log_2 (d_{vc}K)
+d_{\text{vc}}(\mathcal{H}) \le7(d_{\text{vc}} + K) \log_2 (d_{\text{vc}}K)
 $$
 综上所述
 $$
-d_{vc}(\mathcal{H})\le \min(K(d_{vc} + 1), 7(d_{vc} + K) \log_2 (d_{vc}K))
+d_{\text{vc}}(\mathcal{H})\le \min(K(d_{\text{vc}} + 1), 7(d_{\text{vc}} + K) \log_2 (d_{\text{vc}}K))
 $$
 接着验证下推论
 $$
-d_{vc}(\mathcal H) = O(\max(d_{vc}, K) \log_2 \max(d_{vc}, K))
+d_{\text{vc}}(\mathcal H) = O(\max(d_{\text{vc}}, K) \log_2 \max(d_{\text{vc}}, K))
 $$
 由之前的结论我们可得
 $$
 \begin{aligned}
-d_{vc}
-&\le7(d_{vc} + K) \log_2 (d_{vc}K)\\
-&\le 7\max(d_{vc}, K)\times2\log_2(\max(d_{vc}, K)^2)\\
-&=28\max(d_{vc}, K) \log_2 \max(d_{vc}, K)
+d_{\text{vc}}
+&\le7(d_{\text{vc}} + K) \log_2 (d_{\text{vc}}K)\\
+&\le 7\max(d_{\text{vc}}, K)\times2\log_2(\max(d_{\text{vc}}, K)^2)\\
+&=28\max(d_{\text{vc}}, K) \log_2 \max(d_{\text{vc}}, K)
 \end{aligned}
 $$
 所以推论成立。
 
-总结下，这题是对并集的VC dimension证明一些不等式，进行放缩，技巧性比较强，但是放缩的过程中发现$7(d_{vc} + K) \log_2 (d_{vc}K)$其实是一个很宽松的上界，完全可以取一个更小的下界，不过这里最终的结论应该是要得出$d_{vc}(\mathcal H) = O(\max(d_{vc}, K) \log_2 \max(d_{vc}, K))​$，因此更小的下界其实也不一定有必要了。
+总结下，这题是对并集的VC dimension证明一些不等式，进行放缩，技巧性比较强，但是放缩的过程中发现$7(d_{\text{vc}} + K) \log_2 (d_{\text{vc}}K)$其实是一个很宽松的上界，完全可以取一个更小的下界，不过这里最终的结论应该是要得出$d_{\text{vc}}(\mathcal H) = O(\max(d_{\text{vc}}, K) \log_2 \max(d_{\text{vc}}, K))​$，因此更小的下界其实也不一定有必要了。
 
 
 
@@ -1501,13 +1525,13 @@ $$
 $$
 (\text{sign}(z_1),\text{sign}(z_2)...\text{sign}(z_{D+1}),-\text{sign}(z_{D+2}))
 $$
-这种情形必然无法被划分出来，因此$d_{vc}\le D+1$
+这种情形必然无法被划分出来，因此$d_{\text{vc}}\le D+1$
 
 结合(a),(b)我们可得
 $$
-d_{vc}=D+1
+d_{\text{vc}}=D+1
 $$
-回顾书上的说明，$d_{vc}$可以理解为自由分量的个数，对于$D$次多项式，显然有$D+1$个自由分量。
+回顾书上的说明，$d_{\text{vc}}$可以理解为自由分量的个数，对于$D$次多项式，显然有$D+1$个自由分量。
 
 
 
@@ -1517,9 +1541,9 @@ The VC dimension depends on the input space as well as $\mathcal{H}$. For a fixe
 
 How can the result of this problem be used to answer part (b) in Problem 2.16? [Hint: How is Problem 2.16 related to a perceptron in D dimensions?}    
 
-反正法，假设$d_1=d_{vc}(\mathcal{X1},\mathcal{H})> d_{vc}(\mathcal{X2},\mathcal{H})=d_2$。那么在$\mathcal{X_1}$中必然有$d_1$个点可以被shatter，由$\mathcal{X_1} \subseteq \mathcal{X_2} $我们知道这$d_1$个点也在$\mathcal{X_2}$中，因为假设空间均为$\mathcal{H}$，我们知道$\mathcal{X_2}$中这$d_1$个点也可以被shatter，这就与$d_1=d_{vc}(\mathcal{X1},\mathcal{H})> d_{vc}(\mathcal{X2},\mathcal{H})=d_2$矛盾。因此$d_{vc}(\mathcal{X1},\mathcal{H})\le d_{vc}(\mathcal{X2},\mathcal{H})$
+反正法，假设$d_1=d_{\text{vc}}(\mathcal{X1},\mathcal{H})> d_{\text{vc}}(\mathcal{X2},\mathcal{H})=d_2$。那么在$\mathcal{X_1}$中必然有$d_1$个点可以被shatter，由$\mathcal{X_1} \subseteq \mathcal{X_2} $我们知道这$d_1$个点也在$\mathcal{X_2}$中，因为假设空间均为$\mathcal{H}$，我们知道$\mathcal{X_2}$中这$d_1$个点也可以被shatter，这就与$d_1=d_{\text{vc}}(\mathcal{X1},\mathcal{H})> d_{\text{vc}}(\mathcal{X2},\mathcal{H})=d_2$矛盾。因此$d_{\text{vc}}(\mathcal{X1},\mathcal{H})\le d_{\text{vc}}(\mathcal{X2},\mathcal{H})$
 
-回到上题的(b)部分，我们知道$z_j=(1,x_j,x_j^2...x_j^{D})\in \mathbb R^{D+1}$，所以整个输入空间的集合构成了整个$ \mathbb R^{D+1}$的子集，而我们知道维度为$D$（不包括偏置项）的感知机的VC dimension 为$D+1$，因此$d_{vc}\le D+1$。
+回到上题的(b)部分，我们知道$z_j=(1,x_j,x_j^2...x_j^{D})\in \mathbb R^{D+1}$，所以整个输入空间的集合构成了整个$ \mathbb R^{D+1}$的子集，而我们知道维度为$D$（不包括偏置项）的感知机的VC dimension 为$D+1$，因此$d_{\text{vc}}\le D+1$。
 
 
 
@@ -1575,15 +1599,15 @@ m_{\mathcal H}(N)\le m_\tilde{\mathcal H}(N) \prod _{i=1}^{K}m_{\mathcal{H_i}} (
 $$
 [Hint: Fix $N​$ points $x_1 , . . . , x_N​$ and fix $h_1, . . . , h_K​$ . This generates $N​$ transformed points $z_1 , . . . , z_N​$ . These $z_1, . . . , z_N​$ can be dichotomized in at most $m_\tilde{\mathcal{h}}(N)​$ ways, hence for fixed $(h_1 , . . . , h_k), (x_1 , . . . , x_N)​$ can be dichotomized in at most $m_\tilde{\mathcal{H}}(N)​$ ways. Through the eyes of $x_1 , . . . , x_N​$, at most how many hypotheses are there (eﬀectively) in $\mathcal{H_i}​$? Use this bound to bound the effective number of K-tuples $(h_1, . . . , h_K)​$ that need to be considered. Finally, argue that you can bound the number of dichotomies that can be implemented by the product of the number of possible K-tuples $(h_1, . . . , h_K)​$ and the number of dichotomies per K-tuple.]
 
-(b) Use the bound $m(N)\le(\frac{eN}{d_{vc}})^{d_{vc}}$ to get a bound for $m_{\mathcal H}(N) $in terms of $\tilde{d}, d_1, . . . , d_K$ . 
+(b) Use the bound $m(N)\le(\frac{eN}{d_{\text{vc}}})^{d_{\text{vc}}}$ to get a bound for $m_{\mathcal H}(N) $in terms of $\tilde{d}, d_1, . . . , d_K$ . 
 
 (c) Let $D = \tilde{d}+ \sum _{i=1}^{K}d_i $, and assume that $D > 2e \log_2 D$. Show that 
 $$
-d_{vc}(\mathcal{H})\le 2D\log_2D.
+d_{\text{vc}}(\mathcal{H})\le 2D\log_2D.
 $$
 (d) If $\mathcal{H_i}​$ and $\tilde{H}​$ are all perceptron hypothesis sets, show that 
 $$
-d_{vc} (\mathcal{H}) = O(dK \log(dK)).
+d_{\text{vc}} (\mathcal{H}) = O(dK \log(dK)).
 $$
 In the next chapter, we will further develop the simple linear model. This linear model is the building block of many other models, such as neural networks. The results of this problem show how to bound the VC dimension of the more complex models built in this manner.  
 
@@ -1593,13 +1617,13 @@ In the next chapter, we will further develop the simple linear model. This linea
 
 首先对于固定的$N$个点 $x_1 , . . . , x_N$和固定的 $h_1, . . . , h_K$，我们可以得到$N$个转换后的点$z_1 , . . . , z_N$，那么对于这$N$个点和假设$\tilde{\mathcal{H}}$，最多可以可以表示$m_\tilde{\mathcal H}(N)$种组合。因此对于固定的$(x_1 , . . . , x_N)$和$(h_1, . . . , h_K)$最多可以表示$m_\tilde{\mathcal  H}(N)$种组合，所以接下来只要看$(h_1, . . . , h_K)$可以表示出多少种有效的组合，这部分可以用数学公式写下来：
 $$
-m_{\mathcal H}(N)\le m_\tilde{h}(N)((h_1, . . . , h_K)最多可以表示的组合数量)
+m_{\mathcal H}(N)\le m_\tilde{\mathcal H}(N)((h_1, . . . , h_K)最多可以表示的组合数量)
 $$
 我们还是用之前类似的思路考虑，对于固定的$h_2,h_3,...,h_K$，$(h_1(x_1),h_1(x_2),...,h_1(x_N))$最多可以表示出$m_{\mathcal{H_1}}(N)$种组合，同理对于任意$h_i$，固定其他的$h_j(i\neq j)$，最多可以表示出$m_{\mathcal{\mathcal{H}_i}}$种组合，因此由乘法原理可得：
 $$
 m_{\mathcal H}(N)\le m_\tilde{\mathcal H}(N) \prod _{i=1}^{K}m_{\mathcal{H_i}} (N)
 $$
-(b)这个就比较简单了，题目中的不等式可以查看Problem 2.6。由$m(N)\le(\frac{eN}{d_{vc}})^{d_{vc}}​$，我们可得:
+(b)这个就比较简单了，题目中的不等式可以查看Problem 2.6。由$m(N)\le(\frac{eN}{d_{\text{vc}}})^{d_{\text{vc}}}​$，我们可得:
 $$
 \begin{aligned}
 m_{\mathcal H}(N)&\le m_\tilde{H}(N) \prod _{i=1}^{K}m_{\mathcal{H_i}} (N) 
@@ -1615,12 +1639,12 @@ $$
 $$
 m_{\mathcal H}(N)\le  \frac{(eN)^{\tilde d+\sum_{i=1}^Kd_i}}{{\tilde d}^{\tilde d}\prod_{i=1}^Kd_i^{d_i}}=\frac{(eN)^D}{{\tilde d}^{\tilde d}\prod_{i=1}^Kd_i^{d_i}}=\frac{(eN)^D}{e^{\tilde d \ln(\tilde d)+\sum_{i=1}^Kd_i\ln(d_i)}}
 $$
-下面对分母${e^{\tilde d \ln(\tilde d)+\sum_{i=1}^Kd_ln(d_i)}}​$进行估计，首先介绍**琴生不等式（Jensen's inequality）**
+下面对分母${e^{\tilde d \ln(\tilde d)+\sum_{i=1}^Kd_i\ln(d_i)}}$进行估计，首先介绍**琴生不等式（Jensen's inequality）**
 $$
 若f(x)是下凸函数(f^{''}(x)\ge0),那么对于任意\lambda_1+\lambda_2+...+\lambda_n=1(\lambda_i\ge0)有
 \\\sum_{i=1}^n \lambda_if(x_i)\ge f(\sum_{i=1}^n\lambda_i x_i)
 \\特别的，取\lambda_i=\frac 1 n时可得
-\\ \frac{\sum_{i=1}^nf(x_i)}{n}\ge f(\frac {\sum_{i=1}^n x_i}n)
+\\ \frac{\sum_{i=1}^nf(x_i)}{n}\ge f\left(\frac {\sum_{i=1}^n x_i}n\right)
 $$
 回到原题，我们令$f(x)=x\ln x​$，那么
 $$
@@ -1659,7 +1683,7 @@ m_{\mathcal H}(2D\log_2D)=m_{\mathcal H}(N)\le\frac{(eN)^D}{(\frac {D}{K+1})^D}=
 $$
 因此当$N=2D\log_2D$时，$m_{\mathcal H}(N)<2^N​$，所以
 $$
-d_{vc}(\mathcal{H})\le 2D\log_2D.
+d_{\text{vc}}(\mathcal{H})\le 2D\log_2D.
 $$
 这题总体来说还是有一定难度的，比较难的一点是琴生不等式。
 
@@ -1674,9 +1698,9 @@ D& = \tilde{d}+ \sum _{i=1}^{K}di
 $$
 带入(c)中可得
 $$
-d_{vc}(\mathcal{H})\le 2D\log_2D=2(Kd+2K+1)\log_2(Kd+2K+1)
+d_{\text{vc}}(\mathcal{H})\le 2D\log_2D=2(Kd+2K+1)\log_2(Kd+2K+1)
 $$
-因此$d_{vc}= O(dK \log(dK))$
+因此$d_{\text{vc}}= O(dK \log(dK))$
 
 可能有人会说(c)需要$D > 2e \log_2 D$成立，这个不等式左边是一次式，右边是对数式，所以只要$D$取较大的数，例如32，这个不等式就必然成立。由$D = \tilde{d}+ \sum _{i=1}^{K}d_i $可得$D\ge K+1$，所以只要$K$稍大一些就能满足不等式。
 
@@ -1704,11 +1728,11 @@ $$
 $$
 \epsilon\le \sqrt{{\frac 1{2N}}(4\epsilon(1+\epsilon)+\ln{\frac {4m_{\mathcal H}(N^2)}\delta})}
 $$
-Note that (c) and (d) are implicit bounds in $\epsilon​$. Fix $d_{vc} = 50​$ and $ \delta = 0.05​$ and plot these bounds as a function of $N​$. Which is best? 
+Note that (c) and (d) are implicit bounds in $\epsilon​$. Fix $d_{\text{vc}} = 50​$ and $ \delta = 0.05​$ and plot these bounds as a function of $N​$. Which is best? 
 
 这题就是按照公式估计上界并作图，注意这里我们对${m}_\mathcal{H }(N)$的估计为
 $$
-{m}_\mathcal{H }(N) \le \sum_{i=0}^{d_{vc}}\binom{N}{i} 
+{m}_\mathcal{H }(N) \le \sum_{i=0}^{d_{\text{vc}}}\binom{N}{i} 
 $$
 但(c),(d)左右两边都有$\epsilon​$，应该要处理一下。
 
@@ -1991,11 +2015,17 @@ For each of the following learning models, find (analytically or numerically) (i
 
 (iii)(ii)已经求出$E_{\text{out}}(g^{(D)})$,只要求$\text{var,bias}$
 
-下面分别做一下，这里统一假设两个样本点为$(x_1,y_1),(x_2,y_2),y_i=\sin(\pi x_i)$
-
+下面分别做一下，这里统一假设两个样本点为$(x_1,y_1),(x_2,y_2),y_i=\sin(\pi x_i)$，不难看出我们有
+$$
+x_i \sim  U[-1, 1]
+$$
+即
+$$
+p(x_i) =\frac {1\{-1\le x_i\le 1\}}2
+$$
 (a)
 
-(i)平方误差$S_1=(ax_1+b-y_1)^2+(ax_2+b-y_2)^2$，这个实际上就是一元线性回归的特殊情形，这里直接套公式了
+(i)平方误差$S_1=(ax_1+b-y_1)^2+(ax_2+b-y_2)^2$，这个实际上就是一元线性回归的特殊情形，这里直接使用如下结论：
 $$
 \\使得\sum_{i=1}^n(ax_i+b-y_i)^2最小的a,b满足
 \\\tilde{a}=\frac {l_{xy}}{l_{xx}}
@@ -2074,13 +2104,14 @@ plt.scatter(X2, Y2, c='BLACK')
 plt.show()
 ```
 
-
 ![png](output_30_0.png)
 
-计算$E_{out}​$的公式如下
+
+
+计算$E_{\text{out}}$的公式如下，注意$x_i \sim  U[-1, 1]​$
 $$
 \begin{aligned}
-E_{out}&=
+E_{\text{out}}&=
 \mathbb E_{x,x_1,x_2} 
 \Big[\sin(\pi x) - \frac{y_2-y_1}{x_2-x_1}x -\frac{y_1x_2-y_2x_1}{x_2-x_1}\Big]^2 \\
 &=\frac 1 8\int _{-1}^{1}\int _{-1}^{1}\int _{-1}^{1}
@@ -2196,7 +2227,7 @@ def var(x, x1, x2):
     except:
         k = (y2 - y1) / (x2 - x1 + 10 ** (-10))
         b = (y1 * x2 - y2 * x1) / (x2 - x1 + 10 ** (-10))
-    #之前计算的平均洗漱
+    #之前计算的平均系数
     yavg= a1 * x + b1
     #真实值
     yrea = k * x + b
@@ -2427,11 +2458,11 @@ def var_c(x, x1, x2):
     yrea = b 
     return 1 / 8 * (yavg - yrea) ** 2
 
-print(integrate.tplquad(var_b, -1, 1, lambda x: -1, lambda x: 1,lambda x, y: -1, lambda x, y: 1))
+print(integrate.tplquad(var_c, -1, 1, lambda x: -1, lambda x: 1,lambda x, y: -1, lambda x, y: 1))
 ```
 
 
-    (0.2365806067772056, 1.4880304077628016e-08)
+    (0.25000295694094804, 8.968429668237291e-11)
 
 和书上基本一致。
 

@@ -18,9 +18,9 @@ http://beader.me/mlnotebook/
 
 
 
-#### SVD补充
+### SVD补充
 
-课本中$11$页的SVD和平常见到的不大一样，这里做下注解，常见的SVD形式如下
+课本中$11​$页的SVD和平常见到的不大一样，这里做下注解，常见的SVD形式如下
 $$
 A=U \left[
  \begin{matrix}
@@ -29,13 +29,13 @@ A=U \left[
    &&\sigma_r&  \\
       &&&0
   \end{matrix}
-  \right] V^T=U\sum V^T\\
-  A\in \mathbb R^{N\times d} , U\in \mathbb R^{N\times N} ,\sum \in \mathbb R^{N\times d},
+  \right] V^T=U\Sigma V^T\\
+  A\in \mathbb R^{N\times d} , U\in \mathbb R^{N\times N} ,\Sigma \in \mathbb R^{N\times d},
   V\in \mathbb R^{d\times d}
 $$
-注意$d\ge r$，我们补充$\sigma_{r+1},...,\sigma_n=0$，那么
+课本中假设$N\ge d$，所以$N\ge d\ge r$，我们补充$\sigma_{r+1},...,\sigma_d=0$，那么
 $$
-U\sum=
+U\Sigma=
 (\sigma_1 u_1,...,\sigma_d u_d)=
 (u_1,...,u_d)\left[
  \begin{matrix}
@@ -43,14 +43,14 @@ U\sum=
    & \ddots   \\
    &&\sigma_d  \\
   \end{matrix}
-  \right]=U_1 {\sum}_1\\
-  U_1 \in \mathbb R^{N\times d} ,{\sum}_{1} \in R^{d\times d},U_1 ^T U_1 = I_d
+  \right]=U_1 {\Sigma}_1\\
+  U_1 \in \mathbb R^{N\times d} ,{\Sigma}_{1} \in \mathbb R^{d\times d},U_1 ^T U_1 = I_d
 $$
 于是
 $$
-A=U_1 {\sum}_1 V^T 
+A=U_1 {\Sigma}_1 V^T
 $$
-为课本第10页的形式
+为课本第10页的形式。
 
 
 
@@ -68,16 +68,26 @@ Mr. Good paid off his credit card bill, but Mr. Bad defaulted. Mr. Unknown who h
 
 分别计算距离
 $$
-d_1 = \sqrt{(47 -21)^2 + (36-35)^2} = \sqrt{677} \\
-d_2 = \sqrt{(22 -21)^2 + (40-35)^2} =\sqrt{26}\\
+\begin{aligned}
+d_1 &= \sqrt{(47 -21)^2 + (36-35)^2} = \sqrt{677} \\
+d_2 &= \sqrt{(22 -21)^2 + (40-35)^2} =\sqrt{26}
+\end{aligned}
+$$
+所以
+$$
 d_1 > d_2
 $$
 根据KNN算法可得，应该不批准。
 
 如果收入的单位换为K，那么
 $$
-d_1 = \sqrt{(47 -21)^2 + (36-35)^2 \times 1000^2} = \sqrt{1000676} \\
-d_2 = \sqrt{(22 -21)^2 + (40-35)^2 \times 1000^2} =\sqrt{25000001} \\
+\begin{aligned}
+d_1 &= \sqrt{(47 -21)^2 + (36-35)^2 \times 1000^2} = \sqrt{1000676} \\
+d_2 &= \sqrt{(22 -21)^2 + (40-35)^2 \times 1000^2} =\sqrt{25000001} 
+\end{aligned}
+$$
+所以
+$$
 d_2 > d_1
 $$
 根据KNN算法可得，应该批准。
@@ -88,12 +98,17 @@ $$
 
 #### Exercise 9.2 (Page 3)
 
-Define the matrix $γ = \mathbb I - \frac 1 N 11^T$. Show that $Z = γX$. ($γ$ is called the centering operator (see Appendix B.3) which projects onto the space orthogonal to $1$.)
+Define the matrix $γ =I- \frac 1 N 11^T$. Show that $Z = γX$. ($γ$ is called the centering operator (see Appendix B.3) which projects onto the space orthogonal to $1$.)
+
+因为
 $$
-Z = X − 1\overline x^T, \overline x =\frac 1 N X^T 1\\
-Z = (\mathbb I - \frac 1 N 1 1^T) X = \gamma X
+Z = X − 1\overline x^T, \overline x =\frac 1 N X^T 1
 $$
 
+所以
+$$
+Z = ( I - \frac 1 N 1 1^T) X = \gamma X
+$$
 
 
 #### Exercise 9.3 (Page 3)
@@ -153,25 +168,28 @@ Let $\hat x_1$ and $\hat x_2$ be independent with zero mean and unit variance. Y
 
 (a)
 $$
-\text{Var}(x_1) = 1,\mathbb E (x_1) = 0\\
-\text{Var}(x_2) = \text{Var}(\sqrt{1- \epsilon^2 }\hat x_1 + \epsilon \hat x_2)
-= 1- \epsilon^2 + \epsilon^2 = 1
-,\mathbb E (x_2) = 0 \\
 \begin{aligned}
+\text{Var}(x_1) &= 1\\
+\mathbb E [x_1] &= 0\\
+\text{Var}(x_2) &= \text{Var}\left(\sqrt{1- \epsilon^2 }\hat x_1 + \epsilon \hat x_2\right)\\
+&= 1- \epsilon^2 + \epsilon^2 = 1\\
+\mathbb E [x_2] &= 0 \\
 \text{Cov}(x_1,x_2) 
-&= \mathbb E(x_1x_2) - \mathbb E (x_1)\mathbb E (x_2) \\
+&= \mathbb E[x_1x_2] - \mathbb E [x_1]\mathbb E [x_2] \\
 &=\mathbb E[(\sqrt{1- \epsilon^2 }\hat x_1 + \epsilon \hat x_2)\hat x_1] 
--\mathbb E(\sqrt{1- \epsilon^2 }\hat x_1 + \epsilon \hat x_2) \mathbb E(x_1)\\
-&= \sqrt {1- \epsilon^2} \mathbb E(\hat x_1^2)+ \epsilon \mathbb E (\hat x_1 \hat x_2)\\
+-\mathbb E[\sqrt{1- \epsilon^2 }\hat x_1 + \epsilon \hat x_2] \mathbb E[x_1]\\
+&= \sqrt {1- \epsilon^2} \mathbb E[\hat x_1^2]+ \epsilon \mathbb E [\hat x_1 \hat x_2]\\
 &=\sqrt {1- \epsilon^2}
 \end{aligned}
 $$
-(b)解出$x_1, x_2$
+(b)解出$x_1, x_2​$
 $$
-\hat x_1 =  x_1 \\
-\hat x_2 = \frac{x_2 -\sqrt{1- \epsilon^2 }\hat x_1}{\epsilon} =\frac{x_2 -\sqrt{1- \epsilon^2 } x_1}{\epsilon}
+\begin{aligned}
+\hat x_1 &=  x_1 \\
+\hat x_2 &= \frac{x_2 -\sqrt{1- \epsilon^2 }\hat x_1}{\epsilon} =\frac{x_2 -\sqrt{1- \epsilon^2 } x_1}{\epsilon}
+\end{aligned}
 $$
-带入得
+带入原式可得
 $$
 \begin{aligned}
 f(\hat x)& = \hat w_1 \hat x_1 + \hat w_2 \hat x_2 \\
@@ -182,25 +200,29 @@ f(\hat x)& = \hat w_1 \hat x_1 + \hat w_2 \hat x_2 \\
 $$
 因此
 $$
-w_1 = \hat w_1 -\frac{\sqrt{1- \epsilon^2 }}{\epsilon}\hat w_2 \\
-w_2 = \frac{\hat w_2}{\epsilon}
+\begin{aligned}
+w_1& = \hat w_1 -\frac{\sqrt{1- \epsilon^2 }}{\epsilon}\hat w_2 \\
+w_2&= \frac{\hat w_2}{\epsilon}
+\end{aligned}
 $$
-(c)将$\hat w_1 = 1,\hat w_2=1$带入上式可得
+(c)将$\hat w_1 = 1,\hat w_2=1​$带入上式可得
 
 $$
-w_1= 1 - \frac{\sqrt{1- \epsilon^2 }}{\epsilon} \\
-w_2 = \frac{1}{\epsilon}
+\begin{aligned}
+w_1&= 1 - \frac{\sqrt{1- \epsilon^2 }}{\epsilon} \\
+w_2&= \frac{1}{\epsilon}
+\end{aligned}
 $$
 因此
 $$
 \begin{aligned}
 w_1^2 + w_2 ^2 
-&= ( 1 - \frac{\sqrt{1- \epsilon^2 }}{\epsilon} )^2 + \frac{1}{\epsilon^2} \\
+&=\left( 1 - \frac{\sqrt{1- \epsilon^2 }}{\epsilon} \right)^2 + \frac{1}{\epsilon^2} \\
 &=1 +  \frac{{1- \epsilon^2 }}{\epsilon^2} -\frac{2\sqrt{1- \epsilon^2 }}{\epsilon} +\frac{1}{\epsilon^2} \\
 &=\frac{2}{\epsilon^2} -\frac{2\sqrt{1- \epsilon^2 }}{\epsilon}
 \end{aligned}
 $$
-令$\epsilon = \cos {\theta},\theta \in [0, \frac \pi 2]$，带入可得
+令$\epsilon = \cos {\theta},\theta \in [0, \frac \pi 2]​$，带入可得
 $$
 \begin{aligned}
 w_1^2 + w_2 ^2 
@@ -216,7 +238,7 @@ $$
 $$
 w_1^2 + w_2 ^2 =2(\tan \theta -\frac 1 2 )^2  +\frac 3 2 \to \infty
 $$
-这说明当$\epsilon \to 0$时，$C$的最小值会趋于无穷，从而正则化没有效果
+这说明当$\epsilon \to 0$时，$C$的最小值会趋于无穷，从而正则化没有效果。
 
 (e)如果数据中有噪音，那么偏差方差都会变大。
 
@@ -233,10 +255,12 @@ What happens if there is a third data point ($x^T_3 = [1, c_1, . . . , c_d], y_3
 
 由nearest neighbor方法可知，分类正确当且仅当
 $$
-d(x_1, x_{\text {test}}) < d(x_2,  x_{\text {test}}) \\
-\sum_{i=1}^d(a_i +1)^2 < 4+  \sum_{i=1}^d(b_i +1)^2
+\begin{aligned}
+d(x_1, x_{\text {test}}) &< d(x_2,  x_{\text {test}}) \\
+\sum_{i=1}^d(a_i +1)^2 &< 4+  \sum_{i=1}^d(b_i +1)^2
+\end{aligned}
 $$
-因为$a_i, b_i \in \{1,-1\}$，所以$(a_i+1)^2, (b_i+1)^2 \in \{0,4\}$，所以上式成立当且仅当$b_i$中取$1$的个数大于等于$a_i$中取$1$的个数，因为取$1,-1$的概率相同，所以该事件发生的概率为：
+因为$a_i, b_i \in \{1,-1\}​$，所以$(a_i+1)^2, (b_i+1)^2 \in \{0,4\}​$，所以上式成立当且仅当$b_i​$中取$1​$的个数大于等于$a_i​$中取$1​$的个数，因为取$1,-1​$的概率相同，所以该事件发生的概率为：
 $$
 \sum_{j=0}^d\sum_{i=0}^j C_{d}^i \frac 1 {2^d} C_d^j \frac 1 {2^d} 
 = \frac{1}{4^d}\sum_{j=0}^d\sum_{i=0}^j C_{d}^i  C_d^j
@@ -256,7 +280,7 @@ $$
 \sum_{i=1}^{d+1}\sum_{j=1}^{d+1}C_{d}^{i-1}  C_d^{j-1} 
 = \sum_{i=1}^{d+1}C_{d}^{i-1}  2^d = 2^{2d}
 $$
-我们要计算的是对角线及其上方元素的和，由对称性可知，除去对角线下方以及对角线上方的元素和相等，而对角线上元素和为
+我们要计算的是对角线及其上方元素的和，由对称性可知，对角线下方以及对角线上方的元素和相等，而对角线上元素和为
 $$
 \sum_{i=1}^{d+1}C_{d}^{i-1}  C_d^{i-1}  
 = \sum_{i=1}^{d+1}C_{d}^{i-1}  C_d^{d-i+1} 
@@ -277,9 +301,9 @@ $$
 $$
 概率为
 $$
-P= \frac 1 {4^d}(\frac {4^d} 2 +\frac{C_{2d}^d}{2}) =\frac 1 2 + \frac{{C_{2d}^d}}{2\times4^d }
+P= \frac 1 {4^d}\left(\frac {4^d} 2 +\frac{C_{2d}^d}{2}\right) =\frac 1 2 + \frac{{C_{2d}^d}}{2\times4^d }
 $$
-由斯特林公式$n!\approx \sqrt{2\pi n}(\frac{n}{e})^n$
+由斯特林公式$n!\approx \sqrt{2\pi n}(\frac{n}{e})^n​$
 $$
 {C_{2d}^d} =\frac{(2d)!}{d! d!} \approx\frac{\sqrt{2\pi \times2d} \times(\frac{2d}{e})^{2d}}
 {2\pi d \times(\frac{d}{e})^{2d}}= \frac{4^d  }{\sqrt{\pi d}}
@@ -294,10 +318,11 @@ $$
 \sum_{i=1} ^d (a_i+1)^2 < 4 +\sum_{i=1} ^d (b_i+1)^2 \\
 \sum_{i=1} ^d (a_i+1)^2 < 4 +\sum_{i=1} ^d (c_i+1)^2
 $$
-所以概率为
+由独立性，概率为
 $$
-P= (\frac 1 2 + \frac{{C_{2d}^d}}{2\times4^d })^2 =\frac 1 4 +O( \frac{1}{\sqrt d} )
+P= \left(\frac 1 2 + \frac{{C_{2d}^d}}{2\times4^d }\right)^2 =\frac 1 4 +O( \frac{1}{\sqrt d} )
 $$
+
 
 
 #### Exercise 9.6 (Page 8)
@@ -310,11 +335,11 @@ Try to build some intuition for what the rotation is doing by using the illustra
 (b) If one dimension (say $x_1$) is inflated disproportionately (e.g., income is measured in dollars instead of thousands of dollars). How will this affect the ‘natural axes’, the ones to which the data should be rotated?Should you perform input normalization before doing PCA?
 (c) If you do input whitening, what will the ‘natural axes’ for the inputs be? Should you perform input whitening before doing PCA? 
 
-(a)PCA相当于旋转坐标轴，如果有较大的偏差，中心就不在原点，则旋转坐标轴之后无法使得数据落在坐标轴上，没有达到PCA的目的
+(a)PCA相当于旋转坐标轴，如果有较大的偏差，中心就不在原点，则旋转坐标轴之后无法使得数据落在坐标轴上，没有达到PCA的目的。
 
-(b)如果数据不成比例的膨胀，例如$x_1$非常大，那么$x_1$就会占主导成分，PCA无法萃取有效的信息，所以PCA之前要进行input whitening
+(b)如果数据不成比例的膨胀，例如$x_1$非常大，那么$x_1$就会占主导成分。如果PCA之前使用了input whitening，那么每个维度的方差相同，就无法萃取有效信息，无法达到PCA的目的，所以我认为PCA之前不应该进行input whitening。
 
-(c)如果做了input whitening，自然坐标轴依旧不变，具体可以参考图片9.1，我认为绝大多数情形下在SVD之前使用PCA是有必要的
+(c)如果做了input whitening，图像对应一个圆，无论如何旋转坐标轴结果都不变，无法达到PCA的效果，所以PCA之前不应该使用input whitening。
 
 
 
@@ -322,12 +347,44 @@ Try to build some intuition for what the rotation is doing by using the illustra
 #### Exercise 9.7 (Page 10)
 (a) Show that $z$ is a linear transformation of $x$, $z = V^Tx$. What are the dimensions of the matrix $V$ and what are its columns?
 (b) Show that the transformed data matrix is $Z = XV$.
-(c) Show that $\sum_{ i=1}^d z_i^2 = \sum_{ i=1}^d x_i^2$  and hence that $||z|| ≤ ||x||$.
+(c) Show that $\sum_{ i=1}^d z_i^2 = \sum_{ i=1}^d x_i^2$  and hence that $\|z\| ≤ \|x\|$.
 
-(a)
+(a)因为
 $$
-z_i = x^T v_i = v_i^T x,V=[v_1...v_k], v_i,x \in \mathbb R^d\\
-z =  V^T x,V\in \mathbb R ^{d\times k}
+\begin{aligned}
+z_i&= x^T v_i = v_i^T x\in \mathbb R
+\end{aligned}
+$$
+记
+$$
+V=[v_1,\ldots, v_k]\in \mathbb R^{d\times k}, v_i,x \in \mathbb R^d
+$$
+那么
+$$
+\begin{aligned}
+z&=  \left[
+ \begin{matrix}
+z_1 \\
+ \vdots \\
+   z_d
+  \end{matrix}
+  \right]\\
+&= \left[
+ \begin{matrix}
+v_1^T x \\
+ \vdots \\
+  v_d^T x
+  \end{matrix}
+  \right]\\
+&=\left[
+ \begin{matrix}
+v_1^T  \\
+ \vdots \\
+  v_d^T 
+  \end{matrix}
+  \right]x \\
+  &=V^T x
+\end{aligned}
 $$
 注意$v_i $是正交向量，所以
 $$
@@ -378,24 +435,18 @@ x_n^T \\
   \end{matrix}
   \right]V= XV
 $$
-(c)注意$z_i= x^Tv_i$
-
+(c)因为
 $$
-\sum_{ i=1}^d z_i^2 = \sum_{ i=1}^d  z_iz_i^T =x^T \sum_{ i=1}^d (v_i v_i^T) x\\
-\sum_{ i=1}^d x_i^2 = ||x||^2= x^T x\\
+x = \sum_{i=1}^d x_i u_i = \sum_{i=1}^d z_i v_i
 $$
-因为$v_i$为正交向量，所以
+以及$u_i, v_i$为正交向量，所以
 $$
-(v_1,...,v_d) (v_1,...,v_d) ^T = I_{d}
-$$
-从而
-$$
-\sum_{ i=1}^d z_i^2 =x^T x =\sum_{ i=1}^d x_i^2
+\| x\|^2 =\sum_{i=1}^d x_i^2 = \sum_{i=1}^d z_i^2
 $$
 因为$k\le d$，所以
 $$
-||z||^2 =\sum_{ i=1}^k z_i^2 \le \sum_{ i=1}^d z_i^2 =x^T x=||x||^2 \\
-||z||\le ||x||
+\|z\|^2 =\sum_{ i=1}^k z_i^2 \le \sum_{ i=1}^d z_i^2 =\sum_{i=1}^d x_i^2=\|x\|^2 \\
+\|z\|\le \|x\|
 $$
 
 
@@ -406,18 +457,20 @@ $$
 Show $U^TX = ΓV^T$ and $XV = UΓ$, and hence $X^Tu_i = γ_iv_i$ and $Xv_i = γ_iu_i$.
 (The $i$th singular vectors and singular value $(u_i, v_i, γ_i)$ play a similar role to eigenvector-eigenvalue pairs.) 
 
-因为$X= U\Gamma V^T$，$U,V$都为正交矩阵，左乘$U^T$，右乘$V$可得
+因为$X= U\Gamma V^T​$，$U,V​$都为正交矩阵，左乘$U^T​$，右乘$V​$可得
 $$
-U^T X= \Gamma V^T\\
-XV = U\Gamma
+\begin{aligned}
+U^T X&= U^TU\Gamma V^T= \Gamma V^T\\
+XV &=  U\Gamma V^T V =U\Gamma
+\end{aligned}
 $$
-比较第二个式子左右两边第$i$列可得
+比较第二个式子左右两边第$i​$列可得
 $$
 Xv_i=  \gamma_i u_i
 $$
 对第一个式子取转置可得
 $$
-X^T U = V \Gamma^T
+X^T U = V \Gamma^T =V\Gamma
 $$
 比较这个式子左右两边第$i$列可得
 $$
@@ -429,13 +482,13 @@ $$
 #### Exercise 9.9 (Page 12)
 
 Consider an arbitrary matrix $A$, and any matrices $U$,$V$ with orthonormal columns ($U^TU = I$ and $V^TV = I$).
-(a) Show that $||A||^2_F = \text{trace}(AA^T) = \text{trace}(A^TA)$.
-(b) Show that $||UAV^T||^2_F = ||A||^2_F$ (assume all matrix products exist).
+(a) Show that $\|A\|^2_F = \text{trace}(AA^T) = \text{trace}(A^TA)$.
+(b) Show that $\|UAV^T\|^2_F = \|A\|^2_F$ (assume all matrix products exist).
 [Hint: Use part (a).]
 
 (a)由定义可知
 $$
-||A||^2_F = \sum_{i=1}^n \sum_{j=1}^n  a_{ij}^2
+\|A\|^2_F = \sum_{i=1}^n \sum_{j=1}^n  a_{ij}^2
 $$
  由trace的性质可知$ \text{trace}(AA^T) = \text{trace}(A^TA)$，所以只计算第一项，$AA^T$第$(i,i)$个元素为：
 $$
@@ -443,51 +496,104 @@ $$
 $$
 所以
 $$
-\text{trace}(AA^T) = \sum_{i=1}^n \sum_{j=1}^n  a_{ij}^2=||A||^2_F
+\text{trace}(AA^T) = \sum_{i=1}^n \sum_{j=1}^n  a_{ij}^2=\|A\|^2_F
 $$
 
 
 (b)由(a)可知
 $$
-||UAV^T||^2_F =  \text{trace}(UAV^TVA^T U^T) = \text{trace}(UAA^T U^T)
+\|UAV^T\|^2_F =  \text{trace}(UAV^TVA^T U^T) = \text{trace}(UAA^T U^T)
 $$
 接着利用trace的性质$\text{trace}(AB) = \text{trace}(BA)$可得
 $$
-||UAV^T||^2_F  = \text{trace}(UAA^T U^T) = \text{trace}(U^TUAA^T ) = \text{trace}(AA^T)
+\|UAV^T\|^2_F  = \text{trace}(UAA^T U^T) = \text{trace}(U^TUAA^T ) = \text{trace}(AA^T)
 $$
 
 
 
 #### Exercise 9.10 (Page 16)
 
-以下均假设$X$的奇异值分解为$X= U\Gamma V^T$
+Assume that the data matrix $X$ is centered, and define the covariance matrix $\Sigma = \frac 1 N X^T X$. Assume all the singular values of $X$ are distinct. (What does this mean for the eigenvalues of $\Sigma  $?) For a potential principal direction $v$, we defined $z_n = x^T_nv$ and showed that $\text{Var}(z_1, . . . , z_N) = v^T\Sigma v$.
 
-(a)注意$Z=XV$，那么
-$$
-Z^T Z = V^TX^TXV =   V^TV\Gamma^T U^TU\Gamma V^T V=\Gamma^T \Gamma =\Gamma^2
-$$
-所以$Z$的方差为
-$$
-\frac 1 N Z^T Z = \frac 1 N \Gamma^2
-$$
-根据奇异值分解的定义可知，$Z$的分量的最大方差为$\Gamma_{11}^2$，对应的分量为
-$$
-z_1 = X v_1
-$$
-从而结论成立
+(a) Show that the direction which results in the highest variance is $v_1$,the top right singular vector of $X$.
+(b) Show that we obtain the top-$k$ principal directions, $v_1, . . . , v_k$, by selecting $k$ directions sequentially, each time obtaining the direction with highest variance that is orthogonal to all previously selected directions.This shows that the top-$k$ principal directions are the directions of highest variance.
+(c) If you don’t the data matrix $X$, but only know the covariance matrix $\Sigma $, can you obtain the principal directions? If so, how?
 
-(b)继续(a)的讨论可知，如果选取$v_1,...,v_k$，那么我们实际上选择的是方差最大的$k$个方向
+以下均假设$X$的奇异值分解为$X= U\Gamma V^T​$，那么
+$$
+\begin{aligned}
+\Sigma &= \frac 1 N X^T X\\
+&= \frac 1 N V \Gamma^T U^T  U\Gamma V^T\\
+&=\frac 1 N V \Gamma^T\Gamma V^T\\
+&=\frac 1 N V \Gamma^2 V^T
+\end{aligned}
+$$
+任取$V$的列向量$v_i $，由题意可得
+$$
+Z_i =  \left[
+ \begin{matrix}
+z_1^T \\
+  ... \\
+z_n^T \\
+  \end{matrix}
+  \right] =
+  \left[
+ \begin{matrix}
+x_1^Tv_i \\
+  ... \\
+x_n^Tv_i\\
+  \end{matrix}
+  \right] =
+    \left[
+ \begin{matrix}
+x_1^T \\
+  ... \\
+x_n^T \\
+  \end{matrix}
+  \right]v_i= Xv_i
+$$
+所以
+$$
+\begin{aligned}
+\text{Cov}(Z_i,Z_i)
+&= v_i^T \text{Cov}(X,X)v_i\\
+&= \frac 1 N v_i^TV \Gamma^2 V^Tv_i \\
+&=\frac 1 N (V^Tv_i)^T \Gamma^2 (V^Tv_i)\\
+&= \frac 1 N e_i^T \Gamma^2 e_i\\
+&= \frac 1 N \gamma_{ii}^2
+\end{aligned}
+$$
+其中$e_i $为第$i$个元素为$1$，其余元素为$0​$的列向量。
 
-(c)我们来计算方差$\sum$
+(a)由之前讨论可知，当$v= v_1$时，$Z_1 =Xv_1$的方差最大。
+
+(b)任取$k$个方向$v_{a_1},\ldots ,v_{a_k}$，结合(a)的讨论可得方差为
 $$
-\sum = \frac 1 N X^T X = \frac 1 N V \Gamma^T U^T  U\Gamma V^T=\frac 1 N V \Gamma^T\Gamma V^T
+\frac 1 N \sum_{i=1}^k \gamma_{a_i a_i}^2
 $$
-做PCA实际上关注的是$V$，如果我们只知道$\sum$，那么从上式可知对$\sum$做奇异值分解即可，可以获得$X$对应的$V$
+由奇异值的定义可得当且仅当如下条件满足时
+$$
+a_i =i
+$$
+方差最大。
+
+(c)回顾方差$\Sigma$的计算式
+$$
+\begin{aligned}
+\Sigma 
+&=\frac 1 N V \Gamma^2 V^T
+\end{aligned}
+$$
+做PCA实际上关注的是$V$，如果我们只知道$\Sigma $，那么从上式可知对$\Sigma $做奇异值分解即可，可以获得$X$对应的$V$。
 
 
 
 #### Exercise 9.11 (Page 18)
 
+Using thet feature transform $\Phi : \left[ \begin{array}{c}{x_{1}} \\ {x_{2}}\end{array}\right] \mapsto \left[ \begin{array}{c}{x_{1}} \\ {x_{2}} \\ {x_{1}+x_{2}}\end{array}\right]$, you have run top-1 PCA on your data $z_1, \ldots , z_n$ in $\mathcal Z$ space to obtain $V_{1}=\left[ \begin{array}{l}{0} \\ {0} \\ {1}\end{array}\right]$ and $\bar z =0$.
+
+For the test point $x=\left[ \begin{array}{l}{1} \\ {1}\end{array}\right]$, compute $z, \hat z ,\hat x$.
+($z$ is the test point in $\mathcal  Z$ space; $\hat z$ is the reconstructed test point in $\mathcal Z$ space using top-$1$ PCA; $\hat x $ is the reconstructed test point in $\mathcal  X​$ space.)
 $$
 z =  \left[
  \begin{matrix}
@@ -506,13 +612,23 @@ z =  \left[
   \right]
 $$
 
-由于变换不可逆，所以不存在$\hat x $
+由于变换不可逆，所以不存在$\hat x $。
 
 
 
 #### Exercise 9.12 (Page 20)
 
-(a)$\mathcal H$为一维感知机，由第二章可知其VC dimensions为$2$，$\mathcal H_+$表示分界线的斜率大于$0$的感知机，作图不难看出其VC dimensions为$1$，同理可知$\mathcal H_-$的VC dimensions为$1$
+Consider the following three hypothesis sets,
+$$
+\begin{aligned}
+\mathcal{H}_{+} &=\left\{h | h(x)=\operatorname{sign}\left(w x+w_{0}\right) ; w \geq 0\right\} \\ \mathcal{H}_{-} &=\left\{h | h(x)=\operatorname{sign}\left(w x+w_{0}\right) ; w<0\right\} 
+\end{aligned}
+$$
+and $\mathcal H = \mathcal H^+ ∪ \mathcal H^−$. The task is to perform credit approval based on the income $x$. The weights $w$ and $w_0$ must be learned from data.
+(a) What are the VC dimensions of $\mathcal H $ and $\mathcal  H_±$?
+(b) Which model will you pick (before looking at data)? Explain why.
+
+(a)$\mathcal H$为一维感知机，由第二章可知其VC dimensions为$2$，$\mathcal H_+$表示分界线的斜率大于$0$的感知机，作图不难看出其VC dimensions为$1$，同理可知$\mathcal H_-$的VC dimensions为$1$。
 
 (b)由题目背景不难知道收入$x$越大，信用卡越有可能被批准，所以$h(x)$应该和$x$成正关系，所以选择$\mathcal H_+$
 
@@ -520,20 +636,37 @@ $$
 
 #### Exercise 9.13 (Page 21)
 
-这种混合过程的使用的假设实际上是$\mathcal H$，所以VC dimensions为$2$，不能使用$\mathcal H_-$的VC dimensions
+For the problem in Exercise 9.12, why not try a hybrid procedure:
+
+Start with $\mathcal H_+$. If $\mathcal H_+$ gives low $E_{\text{in}}$, stop; if not, use $H_−$.
+If your hybrid strategy stopped at  $\mathcal H_+$, can you use the VC bound for  $\mathcal H_+$?Can you use the VC-bound for $\mathcal  H​$?
+(Problem 9.20 develops a VC-type analysis of such hybrid strategies within a framework called Structural Risk Minimization (SRM).)
+
+这种混合过程的使用的假设实际上是$\mathcal H$，所以VC dimensions为$2$，不能使用$\mathcal H_-$的VC dimensions。
 
 
 
 #### Exercise 9.14 (Page 22)
 
+Consider the linear model with the quadratic transform in two dimensions.So, the hypothesis set contains functions of the form
+$$
+h(x)=\operatorname{sign}\left(w_{0}+w_{1} x_{1}+w_{2} x_{2}+w_{3} x_{1}^{2}+w_{4} x_{2}^{2}+w_{5} x_{1} x_{2}\right)
+$$
+Determine constraints on $w$ so that:
+(a) $h(x)$ is monotonically increasing in $x$.
+(b) $h(x)$ is invariant under an arbitrary rotation of $x$.
+(c) The positive set $\{x : h(x) = +1\}​$ is convex.
+
 设
 $$
 f(x) = w_0+w_1x_1 + w_2x_2 +w_3 x_1^2+w_4x_2^2+w_5x_1x_2
 $$
-(a)对$f(x)$求偏导
+(a)对$f(x)​$求偏导
 $$
-\frac{\partial f}{\partial x_1} =w_1 + 2w_3x_1 +w_5x_2\\
-\frac{\partial f}{\partial x_2} =w_2 + 2w_4x_2 +w_5x_1
+\begin{aligned}
+\frac{\partial f}{\partial x_1} &=w_1 + 2w_3x_1 +w_5x_2\\
+\frac{\partial f}{\partial x_2}&=w_2 + 2w_4x_2 +w_5x_1
+\end{aligned}
 $$
 $h(x)$关于$x$单调递增等价于$f(x)$关于$x$单调递增，所以$\frac{\partial f}{\partial x_1}\ge 0,\frac{\partial f}{\partial x_2}\ge0$恒成立，因此
 $$
@@ -552,36 +685,48 @@ $$
 
 #### Exercise 9.15 (Page 24)
 
-用数据计算hint error的目的类似于用$E_{in}$估计$E_{out}$，如果我们更关注hint error时，我们需要更多的数据
+Why might it be a good idea to use the data points to compute the hint error? When might it be better to use more hint examples?
+[Hint : Do you care if a hypothesis violates the hint in a part of the input space that has very low probability?]
+
+用数据计算hint error的目的类似于用$E_{\text{val}}$估计$E_{\text{out}}$，如果我们更关注hint error时，我们需要更多的数据。
 
 
 
 #### Exercise 9.16 (Page 24)
 
+Give hint errors for rotational invariance, convexity and perturbation hints.
+
 rotational invariance：
 
-选择$x_n'$使得$||x_n '|| =||x_n||$，计算如下损失函数
 $$
 E_{\text{hint}} = \frac 1 N \sum_{n=1}^N (h(x_n) - h(x_n'))^2
+[\![ \|x_n '\|=\|x_n\| ]\!]
 $$
 convexity ：
 
-对于$x_n$，选择$x_{n1} = x_n -\Delta x_n,x_{n2} = x_n +\Delta x_n$，计算如下损失函数
+这里的convexity是指下凸，所以对于$x_n$，选择$x_{n1} = x_n -\Delta x_n,x_{n2} = x_n +\Delta x_n$，计算如下损失函数
 $$
-E_{\text{hint}} = \frac 1 N \sum_{n=1}^N (h(x_n) - \frac{h(x_{n1})+h(x_{n2})}{2})^2
-[[h(x_n) >\frac{h(x_{n1})+h(x_{n2})}{2}]]
+E_{\text{hint}} = \frac 1 N \sum_{n=1}^N \left(h(x_n) - \frac{h(x_{n1})+h(x_{n2})}{2}\right)^2
+[\![ h(x_n)<\frac{h(x_{n1})+h(x_{n2})}{2}]\!]
 $$
 perturbation：
 
 选择一个阈值$\epsilon >0$，$x_n' = x_n + \Delta x_n$，计算如下损失函数
 $$
-E_{\text{hint}} = \frac 1 N \sum_{n=1}^N (h(x_n) - h(x_n'))^2
-[[|h(x_n) - h(x_n')| > \epsilon]]
+E_{\text{hint}} = \frac 1 N \sum_{n=1}^N 
+\left(h(x_n) - h(x_n')\right)^2
+[\![|h(x_n) - h(x_n')| > \epsilon]\!]
 $$
 
 
 
 #### Exercise 9.17 (Page 31)
+
+After you perform in-sample minimization to get $g_r$, show that the Rademacher penalty for $E_{\mathrm{in}}(g)$ is given by
+$$
+\frac{1}{2}-E_{\mathrm{in}}^{\prime}\left(g_{\mathrm{r}}\right)=\max _{h \in \mathcal{H}}\left\{\frac{1}{2 N} \sum_{n=1}^{N} r_{n} h\left(\mathbf{x}_{n}\right)\right\}
+$$
+which is proportional to the maximum correlation you can obtain with random signs using hypotheses in the data set.
 
 由定义，不难看出损失函数为
 $$
@@ -589,9 +734,9 @@ $$
 $$
 从而
 $$
-E_{in}'(g_r ) =\min_{\mathcal H} \Big\{ \frac 1 N \sum_{n=1}^N \frac{1- r_n h(x_n)}{2} \Big\}
+E_{\text{in}}'(g_r ) =\min_{\mathcal H} \Big\{ \frac 1 N \sum_{n=1}^N \frac{1- r_n h(x_n)}{2} \Big\}
 = \frac 1 2- \max_{\mathcal H} \Big\{ \frac 1 {2N} \sum_{n=1}^N r_n h(x_n) \Big\} \\
-\frac 1 2 - E_{in}'(g_r ) = \max_{\mathcal H} \Big\{ \frac 1 {2N} \sum_{n=1}^N r_n h(x_n) \Big\}
+\frac 1 2 - E_{\text{in}}'(g_r ) = \max_{\mathcal H} \Big\{ \frac 1 {2N} \sum_{n=1}^N r_n h(x_n) \Big\}
 $$
 
 
@@ -600,7 +745,7 @@ $$
 
 (a)(b)这两问尝试做了实验，但是效果不太好这里暂时不帖出来。
 
-(c)如果数据量够大，那么交叉验证集来估计$E_{out}$效果也不错
+(c)如果数据量够大，那么交叉验证集来估计$E_{\text{out}}$效果也不错
 
 (d)这题暂时略过
 
@@ -609,6 +754,11 @@ $$
 ### Part 2:Problems
 
 #### Problem 9.1 (Page 38)
+
+Consider data $(0, 0,+1), (0, 1,+1), (5, 5,−1)$ (in 2-D), where the first two entries are $x_1,  x_2$ and the third is $y$.
+(a) Implement the nearest neighbor method on the raw data and show the decision regions of the final hypothesis.
+(b) Transform to whitened coordinates and run the nearest neighbor rule, showing the final hypothesis in the original space.
+(c) Use principal components analysis and reduce the data to $1​$ dimension for your nearest neighbor classifier. Again, show the decision regions of the final hypothesis in the original space.
 
 ```python
 import numpy as np
@@ -726,6 +876,14 @@ knn_with_pca(X, y, 2)
 
 
 #### Problem 9.2 (Page 38)
+
+We considered three forms of input preprocessing: centering, normalization and whitening. The goal of input processing is to make the learning robust to unintentional choices made during data collection.
+Suppose the data are $x_ n$ and the transformed vectors $z_ n$. Suppose that during data collection, $x′_n$, a mutated version of $x_ n$, were measured, and input preprocessing on $x′_ n$ produces $z'_ n$. We would like to study when the $z′_ n$ would be the same as the $z_n$. In other words, what kinds of mutations can the data vectors be subjected to without changing the result of your input processing.The learning will be robust to such mutations.
+Which input processing methods are robust to the following mutations:
+(a) Bias: $x′_n = x_n + b$ where $b$ is a constant vector.
+(b) Uniform scaling: $x′_n = αx_n$, where $α > 0$ is a constant.
+(c) Scaling: $x′_n = Ax_n$ where $A$ is a diagonal non-singular matrix.
+(d) Linear transformation:$x′_n = Ax_n$ where $A$ is a non-singular matrix.
 
 (a)center：
 
@@ -900,7 +1058,13 @@ $$
 
 #### Problem 9.3 (Page 38)
 
-直接验证即可
+Let $\Sigma   $ be a symmetric positive definite matrix with eigendecomposition $\Sigma =  U\Gamma U^T$ (see the Appendix), where $U$ is orthogonal and $\Gamma  $ is positive diagonal. Show that
+$$
+\Sigma^{\frac{1}{2}}=\mathrm{U} \Gamma^{\frac{1}{2}} U^{\mathrm{T}} \quad \text { and } \quad \Sigma^{-\frac{1}{2}}=\mathrm{U} \Gamma^{-\frac{1}{2}} \mathrm{U}^{T}
+$$
+What are  $\Gamma^{\frac{1}{2}}$ and $\Gamma^{- \frac{1}{2}}$
+
+接验证即可
 $$
 {\sum}^{\frac 1 2 }{\sum}^{\frac 1 2 }=U\Gamma^{\frac 1 2 } U^TU\Gamma^{\frac 1 2 } U^T
 =U\Gamma^{\frac 1 2 } \Gamma^{\frac 1 2 } U^T = U \Gamma U^T = \sum \\
@@ -912,6 +1076,8 @@ $$
 
 
 #### Problem 9.4 (Page 38)
+
+If $A$ and $V$ are orthonormal bases, and $A = Vψ$, show that $ψ = V^TA$ and hence that $ψ$ is an orthogonal matrix.
 
 因为
 $$
@@ -931,9 +1097,18 @@ $$
 
 #### Problem 9.5 (Page 39)
 
-以下都对照课本第11页，假设$A \in \mathbb R^{N \times d}$
+Give the SVD of matrix $A$ defined in each case below.
+(a) $A$ is a diagonal matrix.
+(b) $A$ is a matrix with pairwise orthogonal rows.
+(c) $A$ is a matrix with pairwise orthogonal columns.
+(d) Let $A$ have SVD $U\Gamma V^T$ and $Q^TQ = I$. What is the SVD of $QA$.
+(e) $A$ has blocks $A_i$ along the diagonal, where $A_ i$ has SVD $U_i\Gamma V_i^T$.
 
-(a)此时为对角阵，所以$N=d$，比较第11页的形式不难发现
+![](./Problem 9.5.jpg)
+
+以下都对照课本第11页，假设$A \in \mathbb R^{N \times d}​$
+
+(a)此时为对角阵，所以$N=d​$，比较第11页的形式不难发现
 $$
 U= V= I_N, A =\Gamma
 $$
@@ -1057,7 +1232,7 @@ $$
 
 #### Problem 9.6 (Page 39)
 
-
+For the digits data, suppose that the data were not centered first in Example 9.2. Perform PCA and obtain a 2-dimensional feature vector (give a plot). Are the transformed data whitened?
 
 ```python
 import numpy as np
@@ -1085,7 +1260,9 @@ plt.show()
 
 #### Problem 9.7 (Page 39)
 
-因为
+Assume that the input matrix $X$ is centered, and construct the reduced feature vector $z_n =\Gamma_k^{-1}V_k^T x_n$ where $V_k$ is the matrix of top-$k$ right singular vectors of $X$. Show that the feature vectors $z_ n $ are whitened.
+
+因为 
 $$
 z_n = \Gamma_k^{-1}V_k^T x_n
 $$
@@ -1201,6 +1378,22 @@ $$
 
 #### Problem 9.8 (Page 39)
 
+One critique of PCA is that it selects features without regard to target values. Thus, the features may not be so useful in solving the learning problem, even though they represent the input data well.
+One heuristic to address this is to do a PCA separately for each class, and use the top principal direction for each class to construct the features. Use the digits data. Construct a two dimensional feature as follows.
+
+![](./Problem 9.8.jpg)
+
+We applied the algorithm to the digits data, giving the features shown above.
+
+(a) Give a scatter plot of your resulting two features.
+(b) Are the directions $v_1$ and $v_2$ necessarily orthogonal?
+(c) Let $Z = X\hat V$ be the feature matrix, where $\hat V = [v_1, v_2]$. Show that the best reconstruction of $X$ from $Z$ is
+$$
+\hat{{X}}={Z} \hat{{V}}^{\dagger}={X} \hat{{V}} \hat{{V}}^{\dagger}
+$$
+where $\hat{{V}}^{\dagger}$ is the pseudo-inverse of $\hat{{V}}​$.
+(d) Is this method of constructing features supervised or unsupervised?
+
 (a)无法画出和教材中一样的图片，暂时没有找到问题在哪
 
 ```python
@@ -1245,11 +1438,24 @@ $$
 
 #### Problem 9.9 (Page 40)
 
-(a)因为$\hat X$是由$X$投影到$k$个基向量得到的矩阵，所以$\text{rank}(\hat X) = k$
+Let $X=U\Gamma V^T $ be the SVD of $X$. Give an alternative proof of the Eckart-Young theorem by showing the following steps.
+
+(a) Let $\hat  X$ be a reconstruction of $X$ whose rows are the data points in $X$ projected onto $k$ basis vectors. What is the rank($\hat   X$)?
+(b) Show that 
+$$
+\|{X}-\hat{{X}}\|_{F}^{2} \geq\left\|{U}^{{T}}({X}-\hat{{X}}) {V}\right\|_{F}^{2}=\left\|\Gamma-{U}^{{r}} \hat{{X}} {V}\right\|_{F}^{2}
+$$
+(c) Let $\hat{\Gamma}=U^{\tau} \hat{X} V$. Show that $\text{rank}(\hat \Gamma)\le k $
+(d) Argue that the optimal choice for $\hat \Gamma  $ must have all off-diagonal elements zero. [Hint: What is the definition of the Frobenius norm?]
+(e) How many non-zero diagonals can $\hat \Gamma  $ have.
+(f) What is the best possible choice for $\hat \Gamma  $.
+(g) Show that $\hat X = XVV^T $ results in such an optimal choice for $\hat X$
+
+(a)因为$\hat X​$是由$X​$投影到$k​$个基向量得到的矩阵，所以$\text{rank}(\hat X) = k​$
 
 (b)此处原题有误，根据课本12页的Exercise 9.9可知
 $$
-||X-\hat X ||_F^2 =||U^T(X-\hat X)V ||_F^2 =||\Gamma - U^T\hat XV ||_F^2
+\|X-\hat X \|_F^2 =\|U^T(X-\hat X)V \|_F^2 =\|\Gamma - U^T\hat XV \|_F^2
 $$
 (c)利用秩不等式
 $$
@@ -1259,9 +1465,9 @@ $$
 $$
 \text{rank}(\hat\Gamma) =\text{rank}(U^T\hat XV)  \le \text{rank}(\hat X) =k
 $$
-(d)我们的目标是最小化$||\Gamma - U^T\hat XV ||_F^2= ||\Gamma - \Gamma' ||_F^2$，由定义可知
+(d)我们的目标是最小化$\|\Gamma - U^T\hat XV \|_F^2= \|\Gamma - \Gamma' \|_F^2$，由定义可知
 $$
-||\Gamma - \Gamma' ||_F^2 =\sum_{i=1}^d \sum_{j=1}^d (\gamma_{ij}- \gamma_{ij}')^2
+\|\Gamma - \Gamma' \|_F^2 =\sum_{i=1}^d \sum_{j=1}^d (\gamma_{ij}- \gamma_{ij}')^2
 =\sum_{i=1}^d (\gamma_{ii}- \gamma_{ii}')^2 + \sum_{i\ne j}  \gamma_{ij}'^2 \ge \sum_{i=1}^d (\gamma_{ii}- \gamma_{ii}')^2
 $$
 上述等式利用了$\Gamma$为对角阵，不难看出上述不等式当且仅当$\gamma_{ij}'=0$时才成立，所以$\hat \Gamma$的最优选择为非对角线元素全为$0$
@@ -1270,7 +1476,7 @@ $$
 
 (f)继续利用定义，注意$\Gamma$和$\hat \Gamma$为对角矩阵
 $$
-||\Gamma - \Gamma' ||_F^2 =\sum_{i=1}^d (\gamma_{ii}- \gamma_{ii}')^2 
+\|\Gamma - \Gamma' \|_F^2 =\sum_{i=1}^d (\gamma_{ii}- \gamma_{ii}')^2 
 =\sum_{i=1}^k (\gamma_{ii}- \gamma_{ii}')^2 + \sum_{i=k+1}^d \gamma_{ii}^2 
 \ge  \sum_{i=k+1}^d \gamma_{ii}^2
 $$
@@ -1344,9 +1550,29 @@ $$
 
 #### Problem 9.10 (Page 40)
 
+Data Snooping with Input Preprocessing. You are going to run PCA on your data $X$ and select the top-$k$ PCA features. Then, use linear regression with these $k$ features to produce your final hypothesis. You want to estimate $E_{\text{out}}$ using cross validation. Here are two possible algorithms for getting a cross-validation error.
+
+![](./Problem 9.10.jpg)
+
+In both cases, your final hypothesis is $g(x) = x^TV_kw​$ where $w​$ is learned from $Z = XV_k​$ form Algorithm 1 and $y​$. (Recall $V_ k​$ is the matrix of top-$k​$ singular singular vectors.) We want to estimate $E_{\text{out}}(g)​$ using either $E_1​$ or $E_2​$.
+
+(a) What is the difference between Algorithm 1 and Algorithm 2?
+
+(b) Run an experiment to determine which is a better estimate of $E_{\text{out}}(g)$.
+	(i) Set the dimension $d = 5$, the number of data points $N = 40$ and
+$k = 3$. Generate random target function weights $w_f$ , normally distributed.Generate $N$ random normally distributed $d$-dimensional
+inputs $x_1, . . . , x_N$. Generate targets $y_n = w^T_f
+x_n + \epsilon_n$ where $\epsilon_ n$ is independent Gaussian noise with variance $0.5$.
+	(ii) Use Algorithm 1 and 2 to compute estimates of $E_{\text{out}}(g)$.
+	(iii) Compute $E_{\text{out}}(g)$.
+	(iv) Report $E_1, E_2, E_{\text{out}}(g)$.
+	(v) Repeat parts (i)–(iv) $10^6$ times and report averages $\bar E_1, \bar E_2,\bar  E_{\text{out}}(g)$.
+(c) Explain your results from (b) part (v).
+(d) Which is the correct estimate for $E_{\text{out}}(g)$.
+
 (a)算法1是先进行SVD然后再进划分数据，算法2是先划分数据再进行SVD
 
-(b)$E_1,E_2$均值比$E_{out}$大，这是因为PCA降维后减少了一些信息，从而误差会变大；$E_1$均值比$E_{2}$小，这是因为算法1是先进行SVD，这时候会利用到交叉验证集的数据，从而整体误差会小一些
+(b)$E_1,E_2$均值比$E_{\text{out}}$大，这是因为PCA降维后减少了一些信息，从而误差会变大；$E_1$均值比$E_{2}​$小，这是因为算法1是先进行SVD，这时候会利用到交叉验证集的数据，从而整体误差会小一些。
 
 ```python
 #### (b)
@@ -1492,7 +1718,7 @@ $$
 (a)
 $$
 \begin{aligned}
-E_{out}^{\pi} (h)
+E_{\text{out}}^{\pi} (h)
 &=  \frac 1 4 \mathbb E_{x,\pi}[(h(x) - f_{\pi}(x))^2]\\
 &= \frac 1 4\sum_{n=1}^N \mathbb E_{\pi}[(h(x) - f_{\pi}(x))^2|x =x _n]P(x=x_n) \\
 &=\frac 1 4\sum_{n=1}^N \mathbb E_{\pi}[(h(x_n) - f_{\pi}(x_n))^2]\frac 1 N \\
@@ -1502,7 +1728,7 @@ $$
 (b)注意$f_{\pi}(x_n) =y_{\pi_n}$
 $$
 \begin{aligned}
-E_{out}^{\pi} (h)
+E_{\text{out}}^{\pi} (h)
 &=\frac 1 {4N} \sum_{n=1}^N \mathbb E_{\pi}[(h(x_n) - f_{\pi}(x_n))^2] \\
 &=\frac 1 {4N} \sum_{n=1}^N \mathbb E_{\pi}[(h(x_n) -\overline y+\overline y- y_{\pi_n})^2]\\
 &=\frac 1 {4N} \sum_{n=1}^N 
@@ -1547,16 +1773,16 @@ $$
 $$
 综上可得
 $$
-E_{out}^{\pi}(h)  = \frac{s_y^2}{4}+ \frac 1 {4N} \sum_{n=1}^N (h(x_n) -\overline y)^2
+E_{\text{out}}^{\pi}(h)  = \frac{s_y^2}{4}+ \frac 1 {4N} \sum_{n=1}^N (h(x_n) -\overline y)^2
 $$
 (c)由定义可知
 $$
-E_{in}^{\pi} (h) = \frac 1 {4N} \sum_{n=1}^N (h(x_n) -y_{\pi_n})^2
+E_{\text{in}}^{\pi} (h) = \frac 1 {4N} \sum_{n=1}^N (h(x_n) -y_{\pi_n})^2
 $$
 为了计算(d)，对上式进行处理，注意$f_{\pi}(x_n) =y_{\pi_n}$
 $$
 \begin{aligned}
-E_{in}^{\pi} (h) 
+E_{\text{in}}^{\pi} (h) 
 &= \frac 1 {4N} \sum_{n=1}^N (h(x_n) -y_{\pi_n})^2 \\
 &= \frac 1 {4N} \sum_{n=1}^N (h(x_n) -\overline y + \overline y -y_{\pi_n})^2 \\
 &= \frac 1 {4N} \sum_{n=1}^N \Big[(h(x_n) -\overline y)^2 + (\overline y -y_{\pi_n})^2  
@@ -1568,7 +1794,7 @@ $$
 (d)不难看出相减的结果为
 $$
 \begin{aligned}
-E_{out}^{\pi}(h)-E_{in}^{\pi} (h) 
+E_{\text{out}}^{\pi}(h)-E_{\text{in}}^{\pi} (h) 
 &= -\frac 1 {2N} \sum_{n=1}^N  (h(x_n) -\overline y) (\overline y -y_{\pi_n})\\
 &=-\frac 1 {2N}\sum_{n=1}^N  h(x_n)(\overline y -y_{\pi_n})
 +\frac 1 {2N} \overline y\sum_{n=1}^N  (\overline y -y_{\pi_n}) \\
@@ -1655,8 +1881,8 @@ plt.show()
 
 由第二章可知
 $$
-P(|E'_{out}(g_r) -E'_{in}(g_r)| > \epsilon ) \le 2 m_{\mathcal H }(N)e^{-2N\epsilon^2}\\
-P(|E'_{out}(g_r) -E'_{in}(g_r)| \le \epsilon )\ge 1- 2 m_{\mathcal H }(N)e^{-2N\epsilon^2}
+P(|E'_{\text{out}}(g_r) -E'_{\text{in}}(g_r)| > \epsilon ) \le 2 m_{\mathcal H }(N)e^{-2N\epsilon^2}\\
+P(|E'_{\text{out}}(g_r) -E'_{\text{in}}(g_r)| \le \epsilon )\ge 1- 2 m_{\mathcal H }(N)e^{-2N\epsilon^2}
 $$
 令$\delta =2 m_{\mathcal H }(N)e^{-2N\epsilon^2} $，可得
 $$
@@ -1666,7 +1892,7 @@ e^{2N\epsilon^2} =  \frac{2 m_{\mathcal H }(N)}{\delta}\\
 $$
 所以上式可以理解为至少有$1-\delta$概率
 $$
-|E'_{out}(g_r) -E'_{in}(g_r)| \le \sqrt{ \frac {1}{2N} \ln (\frac{2 m_{\mathcal H }(N)}{\delta})} 
+|E'_{\text{out}}(g_r) -E'_{\text{in}}(g_r)| \le \sqrt{ \frac {1}{2N} \ln (\frac{2 m_{\mathcal H }(N)}{\delta})} 
 $$
 即至少有$1-\delta$概率
 $$
@@ -1681,8 +1907,8 @@ $$
 
 (i)
 $$
-E_{out}(g) = E_{in}(g)+E_{out}(g) - E_{in}(g) 
-\le E_{in}(g)  + \max_{h\in \mathcal H}(E_{out}(h) - E_{in}(h) )
+E_{\text{out}}(g) = E_{\text{in}}(g)+E_{\text{out}}(g) - E_{\text{in}}(g) 
+\le E_{\text{in}}(g)  + \max_{h\in \mathcal H}(E_{\text{out}}(h) - E_{\text{in}}(h) )
 $$
 (ii)不难发现，误差函数为
 $$
@@ -1690,9 +1916,9 @@ $$
 $$
 所以
 $$
-E_{out}(h) =\frac 1 2 (1- \mathbb E_{x}[f(x)h(x)])\\
-E_{in}(h) =\frac 1 {2N} \sum_{n=1}^N(1- y_n h(x_n))\\
-\max_{h\in \mathcal H}(E_{out}(h) - E_{in}(h) )=
+E_{\text{out}}(h) =\frac 1 2 (1- \mathbb E_{x}[f(x)h(x)])\\
+E_{\text{in}}(h) =\frac 1 {2N} \sum_{n=1}^N(1- y_n h(x_n))\\
+\max_{h\in \mathcal H}(E_{\text{out}}(h) - E_{\text{in}}(h) )=
 \frac 1 {2}\max_{h\in \mathcal H} 
 \Big\{ 
 \frac 1 N \sum_{n=1}^N y_n h(x_n)  - \mathbb E_{x}[f(x)h(x)]
@@ -1747,8 +1973,8 @@ $$
 $$
 从而有$1-\delta$的概率
 $$
-\mathbb  E_{out}(g) 
-\le\mathbb  E_{in}(g)  + \frac 12  \mathbb E_{\mathcal D,\mathcal D'}
+\mathbb  E_{\text{out}}(g) 
+\le\mathbb  E_{\text{in}}(g)  + \frac 12  \mathbb E_{\mathcal D,\mathcal D'}
 \Big[
 \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N (y_n h(x_n)  -y_n'h(x_n'))
 \Big]
@@ -1785,8 +2011,8 @@ $$
 $$
 最后一步是因为期望内部和$\mathcal D'$无关，因此至少有$1-\delta$的概率
 $$
-\mathbb  E_{out}(g) 
-\le\mathbb  E_{in}(g)  + \mathbb E_{\mathcal D}
+\mathbb  E_{\text{out}}(g) 
+\le\mathbb  E_{\text{in}}(g)  + \mathbb E_{\mathcal D}
 \Big[
 \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n y_n h(x_n)
 \Big]
@@ -1814,8 +2040,8 @@ $$
 $$
 因此至少有$1-\delta$的概率
 $$
-\mathbb  E_{out}(g) 
-\le\mathbb  E_{in}(g)  + \mathbb E_{r,\mathcal D}
+\mathbb  E_{\text{out}}(g) 
+\le\mathbb  E_{\text{in}}(g)  + \mathbb E_{r,\mathcal D}
 \Big[
 \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n)
 \Big]
@@ -1855,8 +2081,8 @@ P(A\le C) \ge  1 -\delta
 $$
 注意我们已有的结论为，至少有$\ge 1-\delta/ 2$的概率
 $$
-\mathbb  E_{out}(g) 
-\le\mathbb  E_{in}(g)  + \mathbb E_{r,\mathcal D}
+\mathbb  E_{\text{out}}(g) 
+\le\mathbb  E_{\text{in}}(g)  + \mathbb E_{r,\mathcal D}
 \Big[
 \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n)
 \Big]
@@ -1873,13 +2099,13 @@ $$
 
 所以这里
 $$
-A=\mathbb  E_{out}(g) \\
-B= \mathbb  E_{in}(g)  + \mathbb E_{r,\mathcal D}
+A=\mathbb  E_{\text{out}}(g) \\
+B= \mathbb  E_{\text{in}}(g)  + \mathbb E_{r,\mathcal D}
 \Big[
 \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n)
 \Big]
 + \sqrt{\frac 1 {2N}  \ln \frac 2 {\delta/ 2}} \\
-C= \mathbb  E_{in}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) +\sqrt{\frac 2 {N}  \ln \frac 2 {\delta /2}}
+C= \mathbb  E_{\text{in}}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) +\sqrt{\frac 2 {N}  \ln \frac 2 {\delta /2}}
 + \sqrt{\frac 1 {2N}  \ln \frac 2 {\delta / 2}}
 $$
 注意到
@@ -1892,8 +2118,8 @@ $$
 
 所以至少有$1-\delta$的概率
 $$
-\mathbb  E_{out}(g) \le
-\mathbb  E_{in}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) 
+\mathbb  E_{\text{out}}(g) \le
+\mathbb  E_{\text{in}}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) 
 +\sqrt{\frac 9 {2N}  \ln \frac 4 {\delta}}
 $$
 
@@ -2391,18 +2617,18 @@ $$
 
 #### Problem 9.25 (Page 49)
 
-(a)由之前几章的讨论可知$E_{in}$是对$E_{out}$较小的估计，当模型的方差不大时，可以认为是渐近无偏的
+(a)由之前几章的讨论可知$E_{\text{in}}$是对$E_{\text{out}}$较小的估计，当模型的方差不大时，可以认为是渐近无偏的
 
 (b)这个两个结论由定义以及上一题即可得到
 (c)由定义不难看出
 $$
-\mathbb E_{\mathcal D} [ E_{in}(g^{\mathcal D_n}) ]=
+\mathbb E_{\mathcal D} [ E_{\text{in}}(g^{\mathcal D_n}) ]=
 \epsilon_{\text{out}}(N-1)
 +\frac{a_1}{ N-1}+\frac{a_2}{(N-1)^2}+...
 $$
 注意
 $$
-\mathbb E_{\mathcal D} [ E_{in}(g^{\mathcal D}) ]=
+\mathbb E_{\mathcal D} [ E_{\text{in}}(g^{\mathcal D}) ]=
 \epsilon_{\text{out}}(N)
 +\frac{a_1}{ N}+\frac{a_2}{N^2}+...
 $$

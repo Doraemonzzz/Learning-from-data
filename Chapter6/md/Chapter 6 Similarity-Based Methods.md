@@ -68,13 +68,23 @@ $$
 $$
 如果$\pi (x)\ge \frac 1 2 $，那么$f(x)=1$，所以此时
 $$
-e(f(x)) = \mathbb P[f(x) \neq  y]=\mathbb P[y\ne 1]=\mathbb P[y=-1] = 1-\pi(x) \le \pi(x)\\
-说明e(f(x)) =\text{min}\{π(x), 1 - π(x)\}
+\begin{aligned}
+e(f(x)) &= \mathbb P[f(x) \neq  y]\\
+&=\mathbb P[y\ne 1]\\
+&=\mathbb P[y=-1]\\
+&= 1-\pi(x)\\
+&=\text{min}\{π(x), 1 - π(x)\}
+\end{aligned}
 $$
 如果$\pi (x)<\frac 1 2 $，那么$f(x)=-1$，所以此时
 $$
-e(f(x)) = \mathbb P[f(x) \neq  y]=\mathbb P[y\ne -1]=\mathbb P[y=+1] = \pi(x) \le 1 -  \pi(x) \\
-说明e(f(x)) =\text{min}\{π(x), 1 - π(x)\}
+\begin{aligned}
+e(f(x)) &= \mathbb P[f(x) \neq  y]\\
+&=\mathbb P[y\ne -1]\\
+&=\mathbb P[y=1]\\
+&=\pi(x)\\
+&=\text{min}\{π(x), 1 - π(x)\}
+\end{aligned}
 $$
 综上，无论$\pi (x)$的大小如何
 $$
@@ -101,72 +111,92 @@ $$
 
 #### Exercise 6.3 (Page 9) 
 
-Fix an odd $k ≥ 1$. For $N = 1, 2, . . .$ and data sets ${\mathcal D_N }$ of size $N$, let $g_N$ be the $k-NN$ rule derived from ${\mathcal D_N }$, with out-of-sample error $E_{out}(g_N)$. 
+Fix an odd $k ≥ 1​$. For $N = 1, 2, . . .​$ and data sets ${\mathcal D_N }​$ of size $N​$, let $g_N​$ be the $k-NN​$ rule derived from ${\mathcal D_N }​$, with out-of-sample error $E_{\text{out}}(g_N)​$. 
 
-(a) Argue that $E_{out}(g_N ) = \mathbb E_x[Q_k(η(x))] +  \mathbb E_x[\epsilon_N (x)]$ for some error term $\epsilon_N (x)$ which converges to zero, and where
+(a) Argue that $E_{\text{out}}(g_N ) = \mathbb E_x[Q_k(η(x))] +  \mathbb E_x[\epsilon_N (x)]$ for some error term $\epsilon_N (x)$ which converges to zero, and where
 $$
 Q_k(η) =\sum_{i=0}^{(k-1)/2} \binom k i \Big(\eta^{i+1}(1 - η)^{k-i} + (1 - η)^{i+1}η^{k-i} \Big)
 $$
 and $η(x) = \text{min}\{π(x), 1 - π(x)\}$. 
 
-(b) Plot $Q_k(η)$ for $η ∈ [0, \frac1 2 ]$ and $k = 1, 3, 5$. 
+(b) Plot $Q_k(η)​$ for $η ∈ [0, \frac1 2 ]​$ and $k = 1, 3, 5​$. 
 
 (c) Show that for large enough $N$, with probability at least $1 - δ$, 
 $$
-k = 3 : E_{out}(g_N) ≤ E_{out}^∗ + 3 \mathbb E [η^2(x)] \\
-k = 5 : E_{out}(g_N) ≤ E_{out}^∗ + 10\mathbb E [η^3(x)].
+k = 3 : E_{\text{out}}(g_N) ≤ E_{\text{out}}^∗ + 3 \mathbb E [η^2(x)] \\
+k = 5 : E_{\text{out}}(g_N) ≤ E_{\text{out}}^∗ + 10\mathbb E [η^3(x)].
 $$
-(d) [Hard] Show that $E_{out}(g_N)$ is asymptotically $E_{out}^∗ (1 + O(k^{-1/2}))$. [Hint: Use your plot of $Q_k$ to argue that there is some $a(k)$ such that $Q_k ≤ η(1 + a(k))$, and show that the best such $a(k)$ is $O(1/\sqrt k)$.]
+(d) [Hard] Show that $E_{\text{out}}(g_N)$ is asymptotically $E_{\text{out}}^∗ (1 + O(k^{-1/2}))$. [Hint: Use your plot of $Q_k$ to argue that there is some $a(k)$ such that $Q_k ≤ η(1 + a(k))$, and show that the best such $a(k)$ is $O(1/\sqrt k)$.]
 
 (a)将点集重新排列为$x_1,...,x_N$，满足以下条件
 $$
 d(x,x_1)\le ...\le d(x,x_N)
 $$
-那么$P[g_N(x)= -1] $等价于
+那么$\mathbb P[g_N(x)= -1] ​$等价于
 $$
-x_1,...,x_k中最多有\frac{k-1}{2}个标记为+1\\
-记A_i=\{j_0,...,j_i\},\overline A_i=\{1,...,N\}-A_i\\
-那么该事件发生的概率为 \sum_{i=0}^{\frac{k-1}{2}} \sum_{j_0,...,j_i} \prod_{k\in A_i}  \pi(x_k)\prod_{k\notin A_i} (1- \pi(x_k))
+x_1,...,x_k中最多有\frac{k-1}{2}个标记为+1
+$$
+记
+$$
+A_i=\{j_0,...,j_i\},\overline A_i=\{1,...,N\}-A_i
+$$
+那么该事件发生的概率为
+$$
+ \sum_{i=0}^{\frac{k-1}{2}} \sum_{j_0,...,j_i} \prod_{k\in A_i}  \pi(x_k)\prod_{k\notin A_i} (1- \pi(x_k))
+$$
+用如下记号表示依概率收敛：
+$$
+g_N(x)\underset{N\to \infty}{\overset{\mathbb P}\to} g(x)
 $$
 注意随着$N$增加，$x_k$和$x$会无限接近，从而
 $$
-\pi(x_k) =\pi(x)+f_N(x,x_k) ,随着N增加，f_N(x,x_k)依概率收敛到0
+\pi(x_k) =\pi(x)+f_N(x,x_k) \\
+f_N(x,x_k)\underset{N\to \infty}{\overset{\mathbb P}\to} 0
 $$
-而$ \sum_{j_0,...,j_i}$一共有$ \binom k i $项，所以带入上式可得事件发生的概率为
+而$ \sum_{j_0,...,j_i}​$一共有$ \binom k i ​$项，所以带入上式可得事件发生的概率为
 $$
 \sum_{i=0}^{\frac{k-1}{2}} \binom k i  \pi(x)^i(1- \pi(x))^{k-i} +F_N(x,x_1,...,x_N)\\
-随着N增加，F_N(x,x_1,...,x_N)依概率收敛到0
+F_N(x,x_1,...,x_N)\underset{N\to \infty}{\overset{\mathbb P}\to} 0
 $$
-同理$P[g_N(x)= +1] $发生的概率为
+同理$\mathbb P[g_N(x)= +1] $发生的概率为
 $$
 \sum_{i=0}^{\frac{k-1}{2}}\binom k i(1- \pi(x))^{i}   \pi(x)^{k-i}+G_N(x,x_1,...,x_N)\\
-随着N增加，G_N(x,x_1,...,x_N)依概率收敛到0
+G_N(x,x_1,...,x_N)\underset{N\to \infty}{\overset{\mathbb P}\to} 0
 $$
-记$η(x) = \text{min}\{π(x), 1 - π(x)\}$，从而犯错的概率为
+记$η(x) = \text{min}\{π(x), 1 - π(x)\}​$，从而犯错的概率为
 $$
 \begin{aligned}
 \mathbb P[g_N(x)\ne y] 
-&=\mathbb P(y=+1|x)P[g_N(x)= -1] +\mathbb P(y=-1|x)P[g_N(x)= +1]\\
+&=\mathbb P(y=+1|x)\mathbb P[g_N(x)= -1] +\mathbb P(y=-1|x)\mathbb P[g_N(x)= +1]\\
 &=\pi(x)\sum_{i=0}^{\frac{k-1}{2}} \binom k i  \pi(x)^i(1- \pi(x))^{k-i} +
 (1- \pi(x))\sum_{i=0}^{\frac{k-1}{2}}\binom k i(1- \pi(x))^{i}   \pi(x)^{k-i}+\epsilon_N(x) \\
 &=\sum_{i=0}^{\frac{k-1}{2}}  \binom k i \Big(\pi(x)^{i+1}(1- \pi(x))^{k-i} +(1- \pi(x))^{i+1}   \pi(x)^{k-i}\Big)+\epsilon_N(x)\\
 &=\sum_{i=0}^{\frac{k-1}{2}}  \binom k i \Big(\eta^{i+1}(1- \eta)^{k-i} +(1- \eta)^{i+1}   \eta^{k-i}\Big) +\epsilon_N(x)
 \end{aligned}\\
-随着N增加，\epsilon_N(x)依概率收敛到0
+\epsilon_N(x,x_k)\underset{N\to \infty}{\overset{\mathbb P}\to} 0
 $$
 
 两边取极限可得
 $$
-E_{out}(g_N ) = \mathbb E_x[Q_k(η(x))] +  \mathbb E_x[\epsilon_N (x)]\\
+E_{\text{out}}(g_N ) = \mathbb E_x[Q_k(η(x))] +  \mathbb E_x[\epsilon_N (x)]\\
 Q_k(η) =\sum_{i=0}^{(k-1)/2} \binom k i \Big(\eta^{i+1}(1 - η)^{k-i} + (1 - η)^{i+1}η^{k-i} \Big)
 $$
 (b)作图
 
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Apr 14 15:45:18 2019
+
+@author: qinzhen
+"""
+
 from scipy.special import comb
 import matplotlib.pyplot as plt
 import numpy as np
 
+#(b)
+#计算Qk
 def Q(k, x):
     s = 0
     for i in range(0, (k+1)//2):
@@ -195,28 +225,31 @@ $$
 Q_3(η) 
 &=\sum_{i=0}^{1} \binom 3i \Big(\eta^{i+1}(1 - η)^{3-i} + (1 - η)^{i+1}η^{3-i} \Big)\\
 &=  \binom 30 \Big(\eta^{1}(1 - η)^{3}+ \eta^{3}(1 - η)^{1} \Big)+ \binom 31\Big( \eta^{2}(1 - η)^{2}+ \eta^{2}(1 - η)^{2} \Big)\\
-&= \eta(\eta^3-3\eta^2+3\eta-1) +\eta^3 -\eta^4 + 6\eta^2(\eta^2-2\eta+1) \\
+&= \eta(-\eta^3+3\eta^2-3\eta+1) +\eta^3 -\eta^4 + 6\eta^2(\eta^2-2\eta+1) \\
+&=4\eta^4 -8\eta^3+ 3\eta^2 +\eta  \\
+&=\eta(4\eta^3-8\eta^2+3\eta+1)  \\
 &=6\eta^4-14\eta^3 +9\eta^2-\eta\\
 &= \eta(6\eta^3-14\eta^2 +9\eta-1)
 \end{aligned}
 $$
 注意到
 $$
-6\eta^3-14\eta^2 +9\eta-1 \le 1 +3\eta \Leftrightarrow \\
-6\eta^3-14\eta^2+6\eta-2 \le 0 \Leftrightarrow\\
-6\eta^3-13\eta^2+6\eta-\eta^2-2 \le 0 \Leftrightarrow\\
-\eta(3\eta -2)(2\eta-3) -\eta^2-2 \le 0
+\begin{aligned}
+4\eta^3-8\eta^2+3\eta+1 \le 1+3\eta &\Leftrightarrow \\
+4\eta^3-8\eta^2\le 0&\Leftrightarrow \\
+\eta^2(\eta-2)\le 0
+\end{aligned}
 $$
-由$\eta \le \frac 1 2 $可知最后一个不等式成立，从而第一个不等式成立，因此
+由$\eta \le \frac 1 2 ​$可知最后一个不等式成立，从而原不等式成立，因此
 $$
 Q_3(η) \le \eta(1+3\eta) =\eta+3\eta^2
 $$
-因为$\epsilon_N(x)$依概率收敛到$0$，从而有至少$1-\delta$的概率
+因为$\epsilon_N(x)​$依概率收敛到$0​$，从而有至少$1-\delta​$的概率
 $$
 \begin{aligned}
-E_{out}(g_N ) &= \mathbb E_x[Q_3(η(x))] +  \mathbb E_x[\epsilon_N (x)]\\
+E_{\text{out}}(g_N ) &= \mathbb E_x[Q_3(η(x))] +  \mathbb E_x[\epsilon_N (x)]\\
 &\le \mathbb E [\eta]+3\mathbb E[\eta^{2}]\\
-&=E_{out}^∗ + 3 \mathbb E [η^2(x)]
+&=E_{\text{out}}^∗ + 3 \mathbb E [η^2(x)]
 \end{aligned}
 $$
 $k=5$时
@@ -229,19 +262,25 @@ Q_5(η)
 \binom 52 \Big( \eta^{3}(1 - η)^{3}+\eta^{3}(1 - η)^{3}  \Big) \\
 &=  \eta\Big(\binom 50  (1 - η)^{5}+ \binom 51 \eta(1 - η)^{4} + \binom 52  \eta^{2}(1 - η)^{3} 
 +\binom 53\eta^{3}(1 - η)^{2} +\binom 54\eta^{4}(1 - η)^{1}  + \binom 55  \eta^{5} \Big)\\
-&\ \ \ \ -\binom 53  \eta^{4}(1 - η)^{2} -\binom 54\eta^{4}(1 - η)^{2} -   \eta^{6} +\binom 51 \eta^{4}(1 - η)^{2} +\binom 52 \eta^{3}(1 - η)^{3}+ \binom 50\eta^{5}(1 - η)^{1} \\
-&=\eta  - 5\eta^{4}(1 - η)^{2} + \eta^{5}(1-2\eta)+10 \eta^{3}(1 - η)^{3}\\
-&= \eta  -\eta^{4}(5-10\eta +5\eta^2 -\eta +2\eta^2)+10 \eta^{3}(1 - η)^{3}\\
-&= \eta  -\eta^{4}(7\eta^2 -11\eta +5)+10 \eta^{3}(1 - η)^{3}\\
+&\ \ \ \ -\binom 53  \eta^{4}(1 - η)^{2} -\binom 54\eta^{5}(1 - η) -   \eta^{6} +\binom 51 \eta^{4}(1 - η)^{2} +\binom 52 \eta^{3}(1 - η)^{3}+ \binom 50\eta^{5}(1 - η)^{1} \\
+&=\eta -10\eta^{4}(1 - η)^{2} -5 \eta^{5}(1 - η) -\eta^6 +5\eta^{4}(1 - η)^{2}
++10 \eta^{3}(1 - η)^{3}+\eta^{5}(1 - η)^{1}\\
+&=\eta  - 5\eta^{4}(1 - η)^{2} - \eta^{5}(4-3\eta)+10 \eta^{3}(1 - η)^{3}\\
+&=\eta - \eta^4\left(5-10\eta+\eta^2+4\eta-3\eta^2\right)+10 \eta^{3}(1 - η)^{3}\\
+&=\eta - \eta^4\left(5-10\eta+\eta^2+4\eta-3\eta^2\right)+10 \eta^{3}(1 - η)^{3}\\
+&=\eta - \eta^4\left(-2\eta^2 -6\eta+5 \right)+10 \eta^{3}(1 - η)^{3}\\
+&=\eta + \eta^4\left(2\eta^2 +6\eta-5 \right)+10 \eta^{3}(1 - η)^{3} \\
+&\le \eta + \eta^4\left(2(\frac 1 2) ^2 +6(\frac 1 2)-5 \right)+10 \eta^{3} \\
+
 &\le \eta+10\eta^{3}
 \end{aligned}
 $$
-因为$\epsilon_N(x)$依概率收敛到$0$，从而有至少$1-\delta$的概率
+因为$\epsilon_N(x)​$依概率收敛到$0​$，从而有至少$1-\delta​$的概率
 $$
 \begin{aligned}
-E_{out}(g_N ) &= \mathbb E_x[Q_5(η(x))] +  \mathbb E_x[\epsilon_N (x)]\\
+E_{\text{out}}(g_N ) &= \mathbb E_x[Q_5(η(x))] +  \mathbb E_x[\epsilon_N (x)]\\
 &\le \mathbb E [\eta]+10\mathbb E[\eta^{3}]\\
-&=E_{out}^∗ + 10 \mathbb E [η^3(x)]
+&=E_{\text{out}}^∗ + 10 \mathbb E [η^3(x)]
 \end{aligned}
 $$
 (d)需要利用如下等式
@@ -266,14 +305,42 @@ $$
 $$
 对积分项进行处理，利用$1-x\le e^{-x}$
 $$
-x(1-x)=\frac 1 4(4-4x^2)=\frac 1 4 (1-(4x^2-4x+1))=\frac 1 4(1-(2x-1)^2) \le \frac 1 4 e^{-(2x-1)^2}\\
- x^{\frac{k-1} 2}(1-x)^{\frac{k-1} 2} =\Big(x(1-x)\Big)^{\frac {k-1}{2}} \le \frac{1}{2^{k-1} }e^{-\frac{(2x-1)^2(k-1)}{2}}\\
+\begin{aligned}
+
+x(1-x)&=\frac 1 4(4-4x^2)\\
+&=\frac 1 4 (1-(4x^2-4x+1))\\
+&=\frac 1 4(1-(2x-1)^2)\\
+&\le \frac 1 4 e^{-(2x-1)^2}\\
+ x^{\frac{k-1} 2}(1-x)^{\frac{k-1} 2}
+ &=\Big(x(1-x)\Big)^{\frac {k-1}{2}}\\
+ &\le \frac{1}{2^{k-1} }e^{-\frac{(2x-1)^2(k-1)}{2}}
+ \end{aligned}
+$$
+所以
+$$
+\\
 \int _{0}^{\eta} x^{\frac{k-1} 2}(1-x)^{\frac{k-1} 2}dx \le \frac{1}{2^{k-1}} \int _{0}^{\eta} e^{-\frac{(2x-1)^2(k-1)}{2}} dx 
-=   \frac{1}{2^{k-1}}\eta e^{-\frac{(2\epsilon -1)^2(k-1)}{2}}\\
-这一步是利用了积分中值定理， \epsilon \in (0,\eta)\\
-因为\epsilon < \eta\le \frac 1 2，所以(2\epsilon -1)^2 \neq 0\\
-从而当k充分大时，e^{-\frac{(2\epsilon -1)^2(k-1)}{2}} \le \frac 1 k,\\
-所以当k充分大时\int _{0}^{\eta} x^{\frac{k-1} 2}(1-x)^{\frac{k-1} 2}dx  \le \frac{\eta }{k2^{k-1}}
+=   \frac{1}{2^{k-1}}\eta e^{-\frac{(2\epsilon -1)^2(k-1)}{2}}
+$$
+最后一步是利用了积分中值定理， 其中
+$$
+\epsilon \in (0,\eta)
+$$
+因为
+$$
+\epsilon < \eta\le \frac 1 2
+$$
+所以
+$$
+(2\epsilon -1)^2 \neq 0
+$$
+从而当$k$充分大时
+$$
+e^{-\frac{(2\epsilon -1)^2(k-1)}{2}} \le \frac 1 k
+$$
+此时
+$$
+\int _{0}^{\eta} x^{\frac{k-1} 2}(1-x)^{\frac{k-1} 2}dx  \le \frac{\eta }{k2^{k-1}}
 $$
 接着使用斯特林公式
 $$
@@ -312,7 +379,7 @@ $$
 因此
 $$
 Q_k ≤ η(1 + O(k^{-\frac 1 2 }))\\
-E_{out}(g_N ) = \mathbb E_x[Q_k(η(x))] +  \mathbb E_x[\epsilon_N (x)] \approx E^*_{out}(1+O(k^{-\frac 1 2}))
+E_{\text{out}}(g_N ) = \mathbb E_x[Q_k(η(x))] +  \mathbb E_x[\epsilon_N (x)] \approx E^*_{\text{out}}(1+O(k^{-\frac 1 2}))
 $$
 
 
@@ -321,23 +388,23 @@ $$
 
 Consider the task of selecting a nearest neighbor rule. What’s wrong with the following logic applied to selecting $k$? (Limits are as $N → ∞$.) 
 
-Consider the hypothesis set $\mathcal H_{NN}$ with $N$ hypotheses, the $k-NN$ rules using $k = 1, . . . , N$. Use the in-sample error to choose a value of $k$ which minimizes $E_{in}$. Using the generalization error bound in Equation (2.1), conclude that $E_{in} → E_{out}$ because $\text{log} N/N → 0$. Hence conclude that asymptotically, we will be picking the best value of $k$, based on $E_{in}$ alone. 
+Consider the hypothesis set $\mathcal H_{NN}​$ with $N​$ hypotheses, the $k-NN​$ rules using $k = 1, . . . , N​$. Use the in-sample error to choose a value of $k​$ which minimizes $E_{\text{in}}​$. Using the generalization error bound in Equation (2.1), conclude that $E_{\text{in}} → E_{\text{out}}​$ because $\text{log} N/N → 0​$. Hence conclude that asymptotically, we will be picking the best value of $k​$, based on $E_{\text{in}}​$ alone. 
 
-[Hints: What value of $k$ will be picked? What will $E_{in}$ be? Does your ’hypothesis set’ depend on the data?]
+[Hints: What value of $k​$ will be picked? What will $E_{\text{in}}​$ be? Does your ’hypothesis set’ depend on the data?]
 
-如果取$k=1$，那么离自己最近的点就是本身（距离为$0$），所以$E_{in}=0$，从而最佳的$k$为$1$，但这个不是模型选择，因为和数据无关，所以这种方式是错误的。
+如果取$k=1$，那么离自己最近的点就是本身（距离为$0$），所以$E_{\text{in}}=0$，从而最佳的$k$为$1$，但这个不是模型选择，因为和数据无关，所以这种方式是错误的。
 
 
 
 #### Exercise 6.5 (Page 11) 
 
-Consider using validation to select a nearest neighbor rule (hypothesis $g^-$ from $\mathcal H_{\text{train}}$). Let $g_∗^-$ be the hypothesis in $\mathcal H_{\text{train}}$ with minimum $E_{\text{out}}$. 
+Consider using validation to select a nearest neighbor rule (hypothesis $g^-$ from $\mathcal H_{\text{train}}$). Let $g_∗^-$ be the hypothesis in $\mathcal H_{\text{train}}$ with minimum $E_{\text{out}}​$. 
 
-(a) Show that if $K/ \text{log}(N - K) → ∞$ then validation chooses a good hypothesis, $E_{\text{out}}(g^{-} ) ≈ E_{\text{out}}(g_*^- ) $. Formally state such a result and show it to be true. [Hint: The statement has to be probabilistic; use the Hoeffding bound and the fact that choosing $g^{-}$ amounts to selecting a hypothesis from among $N - K$ using a data set of size $K$.] 
+(a) Show that if $K/ \text{log}(N - K) → ∞$ then validation chooses a good hypothesis, $E_{\text{out}}(g^{-} ) ≈ E_{\text{out}}(g_*^- ) $. Formally state such a result and show it to be true. [Hint: The statement has to be probabilistic; use the Hoeffding bound and the fact that choosing $g^{-}$ amounts to selecting a hypothesis from among $N - K$ using a data set of size $K​$.] 
 
 (b) If also $N - K → ∞$, then show that $E_{\text{out}}(g^{-} ) →E_{\text{out}}^∗$ (validation results in near optimal performance). [Hint: Use (a) together with Theorem 6.2 which shows that some value of $k$ is good.] 
 
-Note that the selected $g^-$ is not a nearest neighbor rule on the full data $\mathcal D$; it is a nearest neighbor rule using data $\mathcal D_{\text{train}}$, and $k$ neighbors. Would the performance improve if we used the $k^- \text{-NN}$ rule on the full data set $\mathcal D$?    
+Note that the selected $g^-​$ is not a nearest neighbor rule on the full data $\mathcal D​$; it is a nearest neighbor rule using data $\mathcal D_{\text{train}}​$, and $k​$ neighbors. Would the performance improve if we used the $k^- -NN​$ rule on the full data set $\mathcal D​$?    
 
 (a)利用Hoeffding不等式
 $$
@@ -350,7 +417,7 @@ $$
 $$
 因为$K/ \text{log}(N - K) → ∞$，所以$1-2\frac{\epsilon^2 K}{\text{log}(N-K)}\to - \infty$，从而$2e^{\text{log}(N-K)(1-2\frac{\epsilon^2 K}{\text{log}(N-K)})}\to 0$，因此结论成立。
 
-(b)由于$N - K → ∞$，$K/ \text{log}(N - K) → ∞$，所以$K\to \infty$，取$k=\sqrt{K}$，那么这些数据满足定理6.2的条件，从而
+(b)由于$N - K → ∞​$，$K/ \text{log}(N - K) → ∞​$，所以$K\to \infty​$，取$k=\sqrt{K}​$，那么这些数据满足定理6.2的条件，从而
 $$
 E_{\text{out}}(g_*^- ) \to E_{\text{out}}^∗
 $$
@@ -358,7 +425,7 @@ $$
 $$
 E_{\text{out}}(g^{-} ) ≈ E_{\text{out}}(g_*^- )  \approx E_{\text{out}}^∗
 $$
-如果我们在全数据集上使用$k^- \text{-NN}$，那么效果未必会提高，因为我们的$k^-$只是训练集上效果不错。
+如果我们在全数据集上使用$k^-  -NN$，那么效果未必会提高，因为该模型只是训练集上效果不错。
 
 
 
@@ -381,13 +448,13 @@ $$
 
 Show the following properties of the $\text{CNN}$ heuristic. Let $S$ be the current set of points selected by the heuristic. 
 
-(a) If $S$ is not training set consistent, and if $x_∗$ is a point which is not training set consistent, show that the $\text{CNN}$ heuristic will always find a point to add to $S$. 
+(a) If $S​$ is not training set consistent, and if $x_∗​$ is a point which is not training set consistent, show that the $\text{CNN}​$ heuristic will always find a point to add to $S​$. 
 
-(b) Show that the point added will ‘help’ with the classification of $x_∗$ by $S$; it suffices to show that the new $k$ nearest neighbors to $x_∗$ in $S$ will contain the point added. 
+(b) Show that the point added will ‘help’ with the classification of $x_∗​$ by $S​$; it suffices to show that the new $k​$ nearest neighbors to $x_∗​$ in $S​$ will contain the point added. 
 
-(c) Show that after at most $N - k$ iterations the $\text{CNN}$ heuristic must terminate with a training set consistent $S$.
+(c) Show that after at most $N - k​$ iterations the $\text{CNN}​$ heuristic must terminate with a training set consistent $S​$.
 
-(a)如果$x_∗$与训练集不一致，那么
+(a)如果$x_∗​$与训练集不一致，那么
 $$
 g_S(x_*)\ne g_{\mathcal D}(x_*)
 $$
@@ -395,22 +462,20 @@ $$
 $$
 d(x_*,x_1)\le d(x_*,x_2)\le...\le d(x_*,x_N)
 $$
-因此决定了$ g_{\mathcal D}(x_*)$的$k$个点为
+因此决定了$ g_{\mathcal D}(x_*)​$的$k​$个点为
 $$
 x_1,...,x_k
 $$
-设$S$中距离$x_*$最近的$k$个点为
+设$S$中决定了$ g_{\mathcal S}(x_*)$的$k$个点为
 $$
 x_{f_1},...,x_{f_k}
 $$
-这$k$个点决定了$g_S(x_*)$。
-
 因为$g_S(x_*)\ne g_{\mathcal D}(x_*)$，所以
 $$
 \{x_1,...,x_k\} \ne \{x_{f_1},...,x_{f_k}\}\\
 f_k>k
 $$
-根据定义可知$x_1,...,x_k$中至少有大于$\frac k 2$个点的标记为$g_{\mathcal D}(x_*)$，$x_{f_1},...,x_{f_k}$最多有小于$\frac k 2$个点标记为$g_{\mathcal D}(x_*)$，考虑如下点集
+根据定义可知$x_1,...,x_k​$中至少有大于$\frac k 2​$个点的标记为$g_{\mathcal D}(x_*)​$，$x_{f_1},...,x_{f_k}​$最多有小于$\frac k 2​$个点标记为$g_{\mathcal D}(x_*)​$，考虑如下点集
 $$
 \{x_1,...,x_{f_k}\}
 $$
@@ -419,9 +484,9 @@ $$
 \{x_1,...,x_k\} \subset \{x_1,...,x_{f_k}\}\\
 \{x_{f_1},...,x_{f_k}\}\subset \{x_1,...,x_{f_k}\}
 $$
-结合之前论述，这说明$\{x_1,...,x_{f_k}\}$中至少有大于$\frac k 2$个点的标记为$g_{\mathcal D}(x_*)$，而$\{x_{f_1},...,x_{f_k}\}$只选择了其中小于$\frac k 2$个，所以这$f_k$个点中必然存在标记为$g_{\mathcal D}(x_*)$的点并且这个点属于$\{x_1,...,x_k\}$，从而$\text{CNN}$ heuristic算法可以继续。
+结合之前论述，这说明$\{x_1,...,x_{f_k}\}​$中至少有大于$\frac k 2​$个点的标记为$g_{\mathcal D}(x_*)​$，而$\{x_{f_1},...,x_{f_k}\}​$只选择了其中小于$\frac k 2​$个，所以这$f_k​$个点中必然存在标记为$g_{\mathcal D}(x_*)​$的点并且这个点属于$\{x_1,...,x_k\}​$，从而$\text{CNN}​$ heuristic算法可以继续。
 
-(b)根据(a)可知，我们选择的点属于$\{x_1,...,x_k\}$，为$\mathcal D$中离$x_*$最近的$k$个点之一，这个点也必然属于$S$中距离$x_*$最近的$k$个点，这说明新增加的点会“帮助”$x_*$的分类。
+(b)根据(a)可知，我们选择的点属于$\{x_1,...,x_k\}​$，为$\mathcal D​$中离$x_*​$最近的$k​$个点之一，这个点也必然属于$S​$中距离$x_*​$最近的$k​$个点，这说明新增加的点会“帮助”$x_*​$的分类。
 
 (c)初始的$S$至少有$k$个点，$S$最多会变为$\mathcal D$，而每一轮增加$1$个点，所以最多经过$N-k$轮迭代。
 
@@ -433,38 +498,37 @@ $$
 
 (b) Assume the sub-clusters of a cluster are balanced, i.e. contain exactly half the points in the cluster. What is the maximum depth of the recursive search for a nearest neighbor. (Assume the number of data points is a power of $2$). 
 
-(c) Assume balanced sub-clusters and that the bound condition always holds. Show that the time to find the nearest neighbor is $O(d log N)$. 
+(c) Assume balanced sub-clusters and that the bound condition always holds. Show that the time to find the nearest neighbor is $O(d \log N)$. 
 
-(d) How would you apply the branch and bound technique to finding the $k$-nearest neighbors as opposed to the single nearest neighbor?    
+(d) How would you apply the branch and bound technique to finding the $k​$-nearest neighbors as opposed to the single nearest neighbor?    
 
-注意$d$为点集的维度
+注意$d​$为点集的维度。
 
 (a)
 
-- 如果所属的cluster中点的个数小于等于$1$，终止。
-- 如果$||x-\mu_1|| \le ||x-\mu_2|| $，那么在$S_1$上继续这个算法。
-- - 如果$||x-\mu_1|| +r_1 > ||x-\mu_2|| -r_2$，那么在$S_2$上继续这个算法。
-- 如果$||x-\mu_1|| > ||x-\mu_2|| $，那么在$S_2$上继续这个算法。
-- - 如果$||x-\mu_2|| +r_2 > ||x-\mu_1|| -r_1$，那么在$S_1$上继续这个算法
+- 如果所属的聚类中点的个数等于$1$，返回该点。
+- 如果$||x-\mu_1|| \le ||x-\mu_2|| ​$，那么在$S_1​$上继续这个算法，得到$\hat x_{[1]}​$。
+  - 如果$\left\|{x}-\hat{{x}}_{[1]}\right\| \leq\left\|{x}-\mu_{2}\right\|-r_{2}​$，那么返回$\hat x_{[1]}​$。
+  - 否则在$S_2​$上继续这个算法，得到$\hat x_{[1]}'​$。
+    - 如果$\left\|{x}-\hat{{x}}_{[1]}\right\| \leq\left\|{x}-\hat x_{[1]}'\right\|​$，那么返回$\hat x_{[1]}​$。
+    - 否则返回$\hat x_{[1]}' $
+- 如果$||x-\mu_2|| \le ||x-\mu_1|| ​$，那么在$S_2​$上继续这个算法，得到$\hat x_{[1]}​$。
+  - 如果$\left\|{x}-\hat{{x}}_{[1]}\right\| \leq\left\|{x}-\mu_{1}\right\|-r_{1}$，那么返回$\hat x_{[1]}$。
+  - 否则在$S_1​$上继续这个算法，得到$\hat x_{[1]}'​$。
+    - 如果$\left\|{x}-\hat{{x}}_{[1]}\right\| \leq\left\|{x}-\hat x_{[1]}'\right\|$，那么返回$\hat x_{[1]}$。
+    - 否则返回$\hat x_{[1]}' ​$
 
-(b)设$n$个点时上述算法的平均时间为$T(n)$，所以如果是平衡的，那么
-$$
-T(n) \le 2 T(\frac n 2) + \theta(d)\\
-这里\theta(d)表示的是计算||x-\mu_1||, ||x-\mu_2|| 的时间
-$$
-做树状图，可知上述递推关系最多迭代的次数为
-$$
-\sum_{i=1}^{\log_2 n} 2^i =2(2^{\log_2 n}-1)=2(n-1)
-$$
-(c)因为branch bound一直成立，所以每次可以将数据规模缩小一半，有以下递推关系
+(b)因为每次规模减少一半，所以最多递归$\log_2 N$次。
+
+(c)设$n​$个点时上述算法的最坏时间复杂度为$T(n)​$，因为branch bound一直成立，所以每次可以将数据规模缩小一半，因此有以下递推关系
 $$
 T(n) \le T(\frac n 2) + \theta(d)
 $$
-这样最多迭代$\log_2 N$次，运行时间为
+因为最多迭代$\log_2 N$次，所以运行时间为
 $$
-O(d \log N)
+O(d \log_2 N)
 $$
-(d)如果要使用$k$-nearest neighbors，那么可以将终止条件由所属的cluster中点的个数小于等于$1$修改为所属的cluster中点的个数小于等于$k$
+(d)推广部分比较复杂，可以查阅相关文献。
 
 
 
@@ -472,11 +536,11 @@ $$
 
 With $C$ classes labeled $1, . . . , C$, define $π_c(x) = \mathbb P[c|x]$ (the probability to observe class $c$ given $x$, analogous to $π(x)$). Let $η(x) = 1 - \text{max}_c π_c(x)$. 
 
-​(a) Define a target $f(x) = \text{argmax}_c π_c(x)$. Show that, on a test point $x$, $f$ attains the minimum possible error probability of 
+(a) Define a target $f(x) = \text{argmax}_c π_c(x)$. Show that, on a test point $x$, $f$ attains the minimum possible error probability of 
 $$
 e(f(x)) = \mathbb P[f(x) \neq  y] = η(x).
 $$
-(b) Show that for the nearest neighbor rule $(k = 1)$, with high probability, the final hypothesis $g_N$ achieves an error on the test point $x$ that is 
+(b) Show that for the nearest neighbor rule $(k = 1)​$, with high probability, the final hypothesis $g_N​$ achieves an error on the test point $x​$ that is 
 $$
 e(g_N(x)) \overset {N→∞}{\longrightarrow}  \sum_{c=1}^C π_c(x)(1 - π_c(x)).
 $$
@@ -502,10 +566,10 @@ $$
 $$
 \begin{aligned}
 e(g_N(x)) &=\sum_{c=1}^C \mathbb P[g_N(x) \neq  c]  \mathbb P[c|x]\\
-&=\sum_{c=1}^C  (1-π_c(x))  π_c(x_{[1]})
+&=\sum_{c=1}^C  (1-π_c(x_{[1]}))  π_c(x)
 \end{aligned}
 $$
-当$N→∞$，有很高的概率，$π_c(x_{[1]})\to π_c(x)$，所以
+当$N→∞​$，有很高的概率，$π_c(x_{[1]})\to π_c(x)​$，所以
 $$
 e(g_N(x)) \overset {N→∞}{\longrightarrow}  \sum_{c=1}^C π_c(x)(1 - π_c(x)).
 $$
@@ -515,7 +579,7 @@ $$
 $$
 利用柯西不等式即可
 $$
-\sum_{i=2}^C a^2_i \sum_{i=2}^C 1 \ge (\sum_{i=2}^C a_i)^2=(1-a_1)^2\\
+\left(\sum_{i=2}^C a^2_i\right) \left(\sum_{i=2}^C 1\right) \ge \left(\sum_{i=2}^C a_i\right)^2=(1-a_1)^2\\
 \sum_{i=2}^C a^2_i \ge \frac{(1-a_1)^2}{C-1}
 $$
 所以
@@ -542,9 +606,19 @@ e(g_N(x)) \overset {N→∞}{\longrightarrow}  \sum_{c=1}^C π_c(x)(1 - π_c(x))
 $$
 两边取期望可得
 $$
-E_{\text{out}}(g_N) ≤ 2E_{\text{out}}^ ∗ - \frac{C} {C - 1} (E_{\text{out}}^∗ )^2
+\begin{aligned}
+E_{\text{out}}(g_N)
+&=\mathbb E[e(g_N(x))] \\
+&\le 2\mathbb E[\eta(x)] -\frac{C}{C-1} \mathbb E[\eta(x)^2]\\
+&\le  2\mathbb E[\eta(x)] -\frac{C}{C-1} \mathbb E[\eta(x)]^2\\
+&=2E_{\text{out}}^ ∗ - \frac{C} {C - 1} (E_{\text{out}}^∗ )^2
+\end{aligned}
 $$
 
+即
+$$
+E_{\text{out}}(g_N) ≤  2E_{\text{out}}^ ∗ - \frac{C} {C - 1} (E_{\text{out}}^∗ )^2
+$$
 
 
 #### Exercise 6.10 (Page 23)
@@ -583,15 +657,15 @@ When $r → 0$, show that for the Gaussian kernel, the RBF final hypothesis is $
 
 [Hint: $g(x) =\frac {\sum_{n=1}^Ny_{[n]}α_{[n]}/α_{[1]}} {\sum_{m=1}^N α_{[m]}/α_{[1]}}$ and show that $α_{[n]}/α_{[1]} → 0$ for $n \ne 1$.]    
 
-原有的式子为
+原始的式子为
 $$
 g(x) =\frac {\sum_{n=1}^Ny_{n}α_{n}} {\sum_{m=1}^N α_{m}}
 $$
 将$||x-x_n||$按从小到大排序为
 $$
-||x-x_{[1]}|| < ...< ||x-x_{[N]}||
+||x-x_{[1]}||\le  \ldots\le  ||x-x_{[N]}||
 $$
-$||x-x_{[n]}||$对应的$\alpha_n,y_n$记为$\alpha_{[n]},y_{[n]}$，所以原式可以改写为
+将$||x-x_{[n]}||$对应的$\alpha_n,y_n$记为$\alpha_{[n]},y_{[n]}$，所以原式可以改写为
 $$
 g(x) =\frac {\sum_{n=1}^Ny_{[n]}α_{[n]}} {\sum_{m=1}^N α_{[m]}}
 $$
@@ -601,21 +675,22 @@ g(x) =\frac {\sum_{n=1}^Ny_{[n]}α_{[n]}/α_{[1]}} {\sum_{m=1}^N α_{[m]}/α_{[1
 $$
 回顾$\alpha_n$的计算公式
 $$
-\alpha_n = \phi (\frac{||x-x_n||}{r})
+\alpha_n = \phi \left(\frac{||x-x_n||}{r}\right)
 $$
-此处为高斯核，将$ \phi(z) =e^{- \frac  1 2 z^2}$带入可得
+此处为高斯核，将$ \phi(z) =e^{- \frac  1 2 z^2}​$带入可得
 $$
-\alpha_n = \phi (\frac{||x-x_n||}{r}) =e^{-\frac{||x-x_n||^2}{2r^2}}
+\alpha_n = \phi \left(\frac{||x-x_n||}{r}\right) =e^{-\frac{||x-x_n||^2}{2r^2}}
 $$
 从而
 $$
 \begin{aligned}
 \frac{α_{[n]}}{α_{[1]}} 
-&= \frac{e^{-\frac{||x-x_{[n]}||^2}{2r^2}} }{e^{-\frac{||x-x_{[1]}||^2}{2r^2}}}\\
-&=e^{\frac{||x-x_{[1]}||^2-||x-x_{[n]}||^2}{2r^2}}
+&= \frac{\exp \left({-\frac{||x-x_{[n]}||^2}{2r^2}} \right)}
+{\exp \left({-\frac{||x-x_{[1]}||^2}{2r^2}}\right)}\\
+&=\exp \left({\frac{||x-x_{[1]}||^2-||x-x_{[n]}||^2}{2r^2}}\right)
 \end{aligned}
 $$
-由于$||x-x_{[1]}||< ||x-x_{[n]}||​$，所以$||x-x_{[1]}||^2-||x-x_{[n]}||^2 <0​$，从而当$r\to 0​$时，$\frac{||x-x_{[1]}||^2-||x-x_{[n]}||^2}{2r^2} \to -\infty​$，从而
+因为$||x-x_{[1]}||< ||x-x_{[n]}||$，所以$||x-x_{[1]}||^2-||x-x_{[n]}||^2 <0$，那么当$r\to 0$时，$\frac{||x-x_{[1]}||^2-||x-x_{[n]}||^2}{2r^2} \to -\infty$，从而
 $$
 \frac{α_{[n]}}{α_{[1]}} 
 =e^{\frac{||x-x_{[1]}||^2-||x-x_{[n]}||^2}{2r^2}} \to 0 (n\ne 1) \\
@@ -635,31 +710,62 @@ $$
 (a)对于高斯核的非参数RBF，有如下计算公式
 $$
 g(x) =\frac {\sum_{n=1}^Ny_{n}α_{n}} {\sum_{m=1}^N α_{m}}\\
-\alpha_n = \phi (\frac{||x-x_n||}{r}) =e^{-\frac{||x-x_n||^2}{2r^2}}
+\alpha_n = \phi\left (\frac{||x-x_n||}{r}\right) =e^{-\frac{||x-x_n||^2}{2r^2}}
 $$
-因为$||x||\to \infty$，所以
+因为$||x||\to \infty​$，所以
 $$
 e^{-\frac{||x-x_n||^2}{2r^2}} \approx e^{-\frac{||x||^2}{2r^2}} \\
 g(x) =\frac {\sum_{n=1}^Ny_{n}α_{n}} {\sum_{m=1}^N α_{m}}\approx  \frac {\sum_{n=1}^Ny_{n} e^{-\frac{||x||^2}{2r^2}} } {\sum_{m=1}^N  e^{-\frac{||x||^2}{2r^2}} } =\frac{1 }{N}  \sum_{n=1}^Ny_{n}
 $$
 对于高斯核的参数RBF，有如下计算公式
 $$
-g(x) ={\sum_{n=1}^Nw_{n}(x)α_{n}}\phi (\frac{||x-x_n||}{r})  ={\sum_{n=1}^Nw_{n}(x)}e^{-\frac{||x-x_n||^2}{2r^2}}
+g(x) ={\sum_{n=1}^Nw_{n}(x)}\phi \left(\frac{||x-x_n||}{r}\right)  ={\sum_{n=1}^Nw_{n}(x)}e^{-\frac{||x-x_n||^2}{2r^2}}
 $$
-因为$||x||\to \infty$，所以
+因为$||x||\to \infty​$，所以
 $$
 e^{-\frac{||x-x_n||^2}{2r^2}} \to 0 \\
 g(x) ={\sum_{n=1}^Nw_{n}(x)}e^{-\frac{||x-x_n||^2}{2r^2}} \to 0
 $$
-(b)只要求解满足以下条件的$w$即可
+(b)只要求解满足以下条件的$w​$即可
 $$
 Zw = y
 $$
-所以$w = Z^{-1}y$，因此
+所以$w = Z^{-1}y$。注意
+$$
+\Phi(x)=\left[ \begin{array}{c}{\Phi_{1}({x})} \\ {\vdots} \\ {\Phi_{N}({x})}\end{array}\right],
+Z= \left[ \begin{array}{c}
+{\Phi^T(x_1)} \\ 
+{\vdots} \\ 
+\Phi^T(x_N)
+\end{array}\right]
+$$
+其中
+$$
+\Phi_{n}({x})=\phi\left(
+\frac{\left\|{x}-{x}_{n}\right\|} {r}
+\right)
+$$
+所以
+$$
+Zw
+=\left[ \begin{array}{c}
+{\Phi^T(x_1)}w \\ 
+{\vdots} \\ 
+\Phi^T(x_N)w
+\end{array}\right]=\left[ \begin{array}{c}
+w^T{\Phi(x_1)} \\ 
+{\vdots} \\ 
+w^T\Phi(x_N)
+\end{array}\right]=\left[ \begin{array}{c}
+{y_1} \\ 
+{\vdots} \\ 
+{y_N}\end{array}\right]
+$$
+因此
 $$
 g(x_n) =w^TΦ(x_n)= y_n,  E_{\text{in}}(g) = 0
 $$
-(c)对于非参数RBF，不能保证$E_{\text{in}}= 0$，因为非参数RBF根本没有考虑$g(x_n)$是否等于$y_n$
+(c)对于非参数RBF，不能保证$E_{\text{in}}= 0$，因为非参数RBF根本没有考虑$g(x_n)$是否等于$y_n$。
 
 
 
@@ -681,13 +787,15 @@ E_{\text{in}}(S_1, . . . , S_k; \mu_1, . . . , \mu_k)
 &=\sum_{j=1}^k \sum_{n=1}^{N} ||x_n- \mu_j||^2 I\{ x_n\in  S_j\}
 \end{aligned}
 $$
-现在对于$\sum_{n=1}^{N} ||x_n- \mu_j||^2 I\{ x_n\in  S_j\}$求最优的$\mu_j$，
+现在对于$\sum_{n=1}^{N} ||x_n- \mu_j||^2 I\{ x_n\in  S_j\}​$求最优的$\mu_j​$，
 $$
-\sum_{n=1}^{N} ||x_n- \mu_j||^2 I\{ x_n\in  S_j\} = \sum_{n=1}^{N} (x_n- \mu_j)^T (x_n- \mu_j) I\{ x_n\in  S_j\} \\
-\nabla  \sum_{n=1}^{N} (x_n- \mu_j)^T (x_n- \mu_j) I\{ x_n\in  S_j\} = 2  \sum_{n=1}^{N}(x_n- \mu_j) I\{ x_n\in  S_j\}=0\\
-\mu _j = \frac 1 {|S_j|} \sum_{x_n∈S_j} x_n
+\begin{aligned}
+\sum_{n=1}^{N} ||x_n- \mu_j||^2 I\{ x_n\in  S_j\} &= \sum_{n=1}^{N} (x_n- \mu_j)^T (x_n- \mu_j) I\{ x_n\in  S_j\} \\
+\nabla  \sum_{n=1}^{N} (x_n- \mu_j)^T (x_n- \mu_j) I\{ x_n\in  S_j\} &= 2  \sum_{n=1}^{N}(x_n- \mu_j) I\{ x_n\in  S_j\}=0\\
+\mu _j& = \frac 1 {|S_j|} \sum_{x_n∈S_j} x_n
+\end{aligned}
 $$
-(b)此时$\mu_1, . . . , \mu_k$固定，直接利用定义即可，回顾计算公式
+(b)此时$\mu_1, . . . , \mu_k​$固定，直接利用定义即可，回顾计算公式
 $$
 E_{\text{in}}(S_1, . . . , S_k; \mu_1, . . . , \mu_k)  =  \sum_{n=1}^N ||x_n- \mu(x_n)||^2
 $$
@@ -712,19 +820,23 @@ What would happen in the E-M algorithm described above if you initialized the bu
 
 回顾课本的公式
 $$
-N_j =\sum_{n=1}^N \gamma_{nj}\\
-w_j= \frac{N_j}{N}\\
-\mu_j= \frac 1{N_j} \sum_{n=1}^N \gamma_{nj}x_n\\
-{\sum}_j = \frac 1{N_j}\sum_{n=1}^N \gamma_{nj}x_nx_n^T - \mu_j\mu_j^T
+\begin{aligned}
+N_j &=\sum_{n=1}^N \gamma_{nj}\\
+w_j&= \frac{N_j}{N}\\
+\mu_j&= \frac 1{N_j} \sum_{n=1}^N \gamma_{nj}x_n\\
+{\Sigma}_j&= \frac 1{N_j}\sum_{n=1}^N \gamma_{nj}x_nx_n^T - \mu_j\mu_j^T
+\end{aligned}
 $$
-将$γ_{nj} = 1/k$带入可得
+将$γ_{nj} = 1/k​$带入可得
 $$
-N_j =\sum_{n=1}^N \frac 1 k =\frac N k\\
-w_j= \frac{N_j}{N}=\frac 1 k \\
-\mu_j= \frac 1{N_j} \sum_{n=1}^N \gamma_{nj}x_n=\frac 1 N \sum_{n=1}^Nx_n\\
-{\sum}_j = \frac 1{N_j}\sum_{n=1}^N \gamma_{nj}x_nx_n^T - \mu_j\mu_j^T = \frac 1 N \sum_{n=1}^N x_nx_n^T -\frac 1 {N^2}(\sum_{n=1}^Nx_n)(\sum_{n=1}^Nx_n)^T
+\begin{aligned}
+N_j &=\sum_{n=1}^N \frac 1 k =\frac N k\\
+w_j&= \frac{N_j}{N}=\frac 1 k \\
+\mu_j&= \frac 1{N_j} \sum_{n=1}^N \gamma_{nj}x_n=\frac 1 N \sum_{n=1}^Nx_n\\
+{\Sigma}_j &= \frac 1{N_j}\sum_{n=1}^N \gamma_{nj}x_nx_n^T - \mu_j\mu_j^T = \frac 1 N \sum_{n=1}^N x_nx_n^T -\frac 1 {N^2}\left(\sum_{n=1}^Nx_n\right)\left(\sum_{n=1}^Nx_n\right)^T
+\end{aligned}
 $$
-这说明$\mu_j,{\sum}_j $为常量。
+这说明$\mu_j,{\sum}_j ​$为常量。
 
 现在回顾更新公式
 $$
@@ -750,138 +862,263 @@ $$
 \Big( \left[ \begin{matrix}0 \\ 2 \end{matrix}\right] , +1\Big)\Big( \left[ \begin{matrix}0 \\ -2 \end{matrix}\right] , +1\Big)
 \Big( \left[ \begin{matrix}-2 \\0 \end{matrix}\right] , +1\Big)
 $$
-(a) Show the decision regions for the $1$-NN and $3$-NN rules. 
+(a) Show the decision regions for the $1​$-NN and $3​$-NN rules. 
 
 (b) Consider the non-linear transform 
 $$
 \left[ \begin{matrix}x_1 \\ x_2 \end{matrix}\right] →\left[ \begin{matrix}z_1 \\ z_2 \end{matrix}\right]  = 
 \left[ \begin{matrix}\sqrt{x_1^2+x_2^2} \\ \arctan (x_2/x_1) \end{matrix}\right] 
 $$
-which maps $x$ to $z$. Show the classification regions in the $x$-space for the $1$-NN and $3$-NN rules implemented on the data in the $z​$-space.
+which maps $x$ to $z$. Show the classification regions in the $x$-space for the $1$-NN and $3$-NN rules implemented on the data in the $z$-space.
 
-(a)利用sklearn的函数包
+注意KNN中我们需要计算每个$||x^{(i)} - x^{(j)} ||^2$，这就涉及到计算效率的问题，下面介绍如何使用向量化的方法来实现knn。
+
+我们假设
+$$
+X = \left[
+ \begin{matrix}
+  — (x^{(1)})^T— \\
+— (x^{(2)})^T— \\
+\vdots\\
+— (x^{(m)})^T— 
+  \end{matrix}
+  \right] \in \mathbb R^{m \times d}, Y =  \left[
+ \begin{matrix}
+  — (y^{(1)})^T— \\
+— (y^{(2)})^T— \\
+\vdots\\
+— (y^{(n)})^T— 
+  \end{matrix}
+  \right] \in \mathbb R^{n \times d}
+$$
+其中$x^{(i)} ,y^{(i)} \in \mathbb R^d$，现在的问题是如何高效计算矩阵$D \in \mathbb R^{m\times n}$，其中
+$$
+D_{i,j} = ||x^{(i)} -y^{(j)} ||^2
+$$
+首先对$D_{i,j}$进行处理
+$$
+\begin{aligned}
+D_{i,j} &= ||x^{(i)} -y^{(j)} ||^2 \\
+&= (x^{(i)} -y^{(j)})^T (x^{(i)} -y^{(j)})\\
+&=(x^{(i)})^T x^{(i)} -2(x^{(i)})^Ty^{(j)} +(y^{(j)})^T y^{(j)}
+\end{aligned}
+$$
+那么
+$$
+\begin{aligned}
+D &=  \left[
+ \begin{matrix}
+   D_{1,1} & ... & D_{1,n} \\
+  ... &  ... &  ... \\
+   D_{m,1} &  ... & D_{m,n} 
+  \end{matrix}
+  \right]  \\
+  &= \left[
+ \begin{matrix}
+   (x^{(1)})^T x^{(1)} -2(x^{(1)})^Ty^{(1)} +(y^{(1)})^T y^{(1)} & ... & 
+     (x^{(1)})^T x^{(1)} -2(x^{(1)})^Ty^{(n)} +(y^{(n)})^T y^{(n)}\\
+  ... &  ... &  ... \\
+   (x^{(m)})^T x^{(m)} -2(x^{(m)})^Ty^{(1)} +(y^{(1)})^T y^{(1)}  &  ... & 
+    (x^{(m)})^T x^{(m)} -2(x^{(m)})^Ty^{(n)} +(y^{(n)})^T y^{(n)} 
+  \end{matrix}
+  \right] \\
+  &= \left[
+ \begin{matrix}
+   (x^{(1)})^T x^{(1)} & ... & 
+     (x^{(1)})^T x^{(1)} \\
+  ... &  ... &  ... \\
+   (x^{(m)})^T x^{(m)}  &  ... & 
+    (x^{(m)})^T x^{(m)} 
+  \end{matrix}
+  \right] +\left[
+ \begin{matrix}
+   (y^{(1)})^T y^{(1)} & ... & 
+     (y^{(n)})^T y^{(n)} \\
+  ... &  ... &  ... \\
+  (y^{(1)})^T y^{(1)} & ... & 
+     (y^{(n)})^T y^{(n)}
+  \end{matrix}
+  \right]-
+  2\left[
+ \begin{matrix}
+   (x^{(1)})^T y^{(1)} & ... & 
+     (x^{(1)})^T y^{(n)} \\
+  ... &  ... &  ... \\
+  (x^{(m)})^T y^{(1)} & ... & 
+     (x^{(m)})^T y^{(n)}
+  \end{matrix}
+  \right]\\
+  &=\left[
+ \begin{matrix}
+   (x^{(1)})^T x^{(1)} \\
+  ...  \\
+   (x^{(m)})^T x^{(m)}  
+  \end{matrix}
+  \right]\underbrace{\left[
+ \begin{matrix}
+1&...&1
+  \end{matrix}
+  \right]}_{1\times n矩阵}  +\underbrace{\left[
+ \begin{matrix}
+1\\ 
+\vdots \\
+1
+  \end{matrix}
+  \right]}_{m\times 1矩阵} \left[
+ \begin{matrix}
+   (y^{(1)})^T y^{(1)}  &
+  \ldots  &
+  (y^{(n)})^T y^{(n)} 
+  \end{matrix}
+  \right] -2XY^T
+\end{aligned}
+$$
+利用numpy的广播机制上式可以简写如下：
 
 ```python
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from sklearn import neighbors, datasets
-from numpy import pi
+#计算距离矩阵
+d1 = np.sum(X ** 2, axis=1).reshape(-1, 1)
+d2 = np.sum(Y ** 2, axis=1).reshape(1, -1)
+dist = d1 + d2 - 2 * X.dot(Y.T)
+```
 
-def knn(X, y, k):
+完整代码如下：
+
+```python
+class KNeighborsClassifier_():
+    def __init__(self, n_neighbors):
+        self.n_neighbors = n_neighbors
+        
+        
+    def fit(self, X, y):
+        self.X = X
+        self.y = y
+        
+    def predict(self, X):
+        #计算距离矩阵
+        d1 = np.sum(X ** 2, axis=1).reshape(-1, 1)
+        d2 = np.sum(self.X ** 2, axis=1).reshape(1, -1)
+        dist = d1 + d2 - 2 * X.dot(self.X.T)
+        
+        #找到最近的k个点的索引
+        index = np.argsort(dist, axis=1)[:, :self.n_neighbors]
+        #计算预测结果
+        y = np.sign(np.sum(self.y[index], axis=1))
+        
+        return y
+```
+
+后续作图需要计算每个格子点的预测值，代码如下
+
+```python
+def predict(a, b, model):
+    """
+    预测每个网格点的输出
+    输入: a, b为两个m*n的矩阵, model为模型
+    输出: 每个(a[i][j], b[i][j])的输出构成的矩阵
+    """
+    #将网格拉直并拼接
+    X = np.c_[a.reshape(-1, 1), b.reshape(-1, 1)]
+    #预测
+    label = model.predict(X)
+    #恢复成网格形状
+    label = np.reshape(label, np.shape(a))
+    
+    return label
+```
+
+最后是作图函数：
+
+```python
+def draw(X, y, model, n=500, flag=1):
+    """
+    作图函数, flag=1表示不使用特征转换，其余情况使用特征转换
+    """
     # Create color maps
     cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA'])
     cmap_bold = ListedColormap(['#FF0000', '#00FF00'])
     
-    h = .02  # step size in the mesh
+    x1_min, x1_max = X[:, 0].min() - 2, X[:, 0].max() + 2
+    x2_min, x2_max = X[:, 1].min() - 2, X[:, 1].max() + 2
     
-    # we create an instance of Neighbours Classifier and fit the data.
-    clf = neighbors.KNeighborsClassifier(k, weights='uniform')
-    clf.fit(X, y)
-
-    # Plot the decision boundary. For that, we will assign a color to each
-    # point in the mesh [x_min, x_max]x[y_min, y_max].
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    #将meshgrid转换为[x,y]的坐标
-    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
-
-    # Put the result into a color plot
-    Z = Z.reshape(xx.shape)
-    plt.figure()
-    plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
-
-    # Plot also the training points
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold,
-                edgecolor='k', s=20)
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
-    plt.title("2-Class classification (k = %i)"
-              % (k))
+    #生成网格数据
+    a, b = np.meshgrid(np.linspace(x1_min, x1_max, n),
+                       np.linspace(x2_min, x2_max, n))
+    if flag==1:
+        #计算输出
+        c = predict(a, b, model)
+    else:
+        aa = np.sqrt(a * a + b * b)
+        bb = np.arctan(b / (a + 10**(-8)))
+        #计算输出
+        c = predict(aa, bb, model)
+        
+    #作图
+    plt.pcolormesh(a, b, c, cmap=cmap_light)
     
+    plt.scatter(X[:, 0], X[:, 1], edgecolor='k', c=y, cmap=cmap_bold)
+    plt.title("2-Class classification (k = %i)" % (model.n_neighbors))
     plt.show()
-    
-X = np.array([[1, 0], [0, 1], [0, -1], [-1, 0], [0, 2], [0, -2], [-2, 0]])
-y = np.array([-1, -1, -1, -1, 1, 1, 1])
 ```
 
+这三个函数由于需要复用，所以均存在helper.py文件中。
+
+(a)
 
 ```python
-knn(X, y, 1)
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Apr 20 12:48:23 2019
+
+@author: qinzhen
+"""
+
+#(a)
+import numpy as np
+import helper as hlp
+
+X = np.array([[1, 0], [0, 1], [0, -1], [-1, 0], [0, 2], [0, -2], [-2, 0]])
+y = np.array([-1, -1, -1, -1, 1, 1, 1])
+
+knn = hlp.KNeighborsClassifier_(1)
+knn.fit(X, y)
+hlp.draw(X, y, knn)
 ```
 
 
 ![png](output_3_0.png)
 
-
-
 ```python
-knn(X, y, 3)
+knn = hlp.KNeighborsClassifier_(3)
+knn.fit(X, y)
+hlp.draw(X, y, knn)
 ```
 
 
 ![png](output_4_0.png)
 
-(b)进行特征转换，注意$\arctan(1,0)$我取了$\frac \pi 2$
+(b)进行特征转换
 
 ```python
-def knn_with_transform(X, Xtrans, y, k):
-    # Create color maps
-    cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA'])
-    cmap_bold = ListedColormap(['#FF0000', '#00FF00'])
-    
-    h = .02  # step size in the mesh
-    
-    # we create an instance of Neighbours Classifier and fit the data.
-    clf = neighbors.KNeighborsClassifier(k, weights='uniform')
-    clf.fit(Xtrans, y)
-
-    # Plot the decision boundary. For that, we will assign a color to each
-    # point in the mesh [x_min, x_max]x[y_min, y_max].
-    x_min, x_max = X[:, 0].min() - 2, X[:, 0].max() + 2
-    y_min, y_max = X[:, 1].min() - 2, X[:, 1].max() + 2
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    xx1 = np.sqrt(xx*xx + yy*yy)
-    yy1 = np.arctan(yy//(xx + 10**(-8)))
-    #将meshgrid转换为[x,y]的坐标
-    Z = clf.predict(np.c_[xx1.ravel(), yy1.ravel()])
-
-    # Put the result into a color plot
-    Z = Z.reshape(xx.shape)
-    plt.figure()
-    plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
-
-    # Plot also the training points
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold,
-                edgecolor='k', s=20)
-    #plt.xlim(xx.min() , xx.max() )
-    #plt.ylim(yy.min() , yy.max() )
-    plt.title("2-Class classification (k = %i)"
-              % (k))
-    
-    plt.show()
-Z = np.array([[1, 0], [1, pi/2], [1, -pi/2], [1, 0], [2, pi/2], [2, -pi/2], [2, 0]])
+#(b)
+#特征转换
+Z = np.c_[np.sqrt(X[:, 0] ** 2 + X[:, 1] ** 2), np.arctan(X[:, 1] / (X[:, 0]  + 10**(-8)))]
+knn = hlp.KNeighborsClassifier_(1)
+knn.fit(Z, y)
+hlp.draw(X, y, knn, flag=0)
 ```
 
 
+![png](output_5_0.png)
+
 ```python
-knn_with_transform(X, Z, y, 1)
+knn = hlp.KNeighborsClassifier_(3)
+knn.fit(Z, y)
+hlp.draw(X, y, knn, flag=0)
 ```
 
 
-![png](output_7_0.png)
-
-
-
-```python
-knn_with_transform(X, Z, y, 3)
-```
-
-
-![png](output_8_0.png)
+![png](output_6_0.png)
 
 [代码参考地址](http://sklearn.apachecn.org/cn/0.19.0/auto_examples/neighbors/plot_classification.html#sphx-glr-auto-examples-neighbors-plot-classification-py)
 
@@ -895,111 +1132,95 @@ Use the same data from the previous problem.
 
 (b) Consider the following approach to condensing the data. At each step, merge the two closest points of the same class as follows: 
 $$
-(x, c) + (x′, c) → ( \frac 1 2 (x + x′), c)
+(x, c) + (x′, c) → \left( \frac 1 2 (x + x′), c\right)
 $$
 Again, this method of condensing produces prototypes. Continue con densing until you have two points remaining (of different classes). Plot the $1$-NN rule with the condensed data. What is the in-sample error? 
 
 (a)
 
 ```python
-def knn_condense(X, X1, y, y1, k):
-    # Create color maps
-    cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA'])
-    cmap_bold = ListedColormap(['#FF0000', '#00FF00'])
-    
-    h = .02  # step size in the mesh
-    
-    # we create an instance of Neighbours Classifier and fit the data.
-    clf = neighbors.KNeighborsClassifier(k, weights='uniform')
-    clf.fit(X, y)
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Apr 20 14:00:50 2019
 
-    # Plot the decision boundary. For that, we will assign a color to each
-    # point in the mesh [x_min, x_max]x[y_min, y_max].
-    x_min, x_max = X1[:, 0].min() - 1, X1[:, 0].max() + 1
-    y_min, y_max = X1[:, 1].min() - 1, X1[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    #将meshgrid转换为[x,y]的坐标
-    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
+@author: qinzhen
+"""
 
-    # Put the result into a color plot
-    Z = Z.reshape(xx.shape)
-    plt.figure()
-    plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
-
-    # Plot also the training points
-    plt.scatter(X1[:, 0], X1[:, 1], c=y1, cmap=cmap_bold,
-                edgecolor='k', s=20)
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
-    plt.title("2-Class classification (k = %i)"
-              % (k))
-    
-    plt.show()
+import numpy as np
+import helper as hlp
     
 X = np.array([[1, 0], [0, 1], [0, -1], [-1, 0], [0, 2], [0, -2], [-2, 0]])
-Y = np.array([-1, -1, -1, -1, 1, 1, 1])
+y = np.array([-1, -1, -1, -1, 1, 1, 1])
 
-x = np.array([[np.mean(X[Y>0][:, 0]), np.mean(X[Y>0][:, 1])], [np.mean(X[Y<0][:, 0]), np.mean(X[Y<0][:, 1])]])
-y = np.array([1, -1])
+#(a)
+X1 = np.array([[np.mean(X[y>0][:, 0]), np.mean(X[y>0][:, 1])], [np.mean(X[y<0][:, 0]), np.mean(X[y<0][:, 1])]])
+y1 = np.array([1, -1])
+
+knn = hlp.KNeighborsClassifier_(1)
+knn.fit(X1, y1)
+hlp.draw(X, y, knn)
 ```
 
 
-```python
-knn_condense(x, X, y, Y, 1)
-```
+![png](output_8_0.png)
 
-
-![png](output_11_0.png)
-
-可以看出in-sample error为$\frac 3 7$
+可以看出in-sample error为$\frac 3 7$。
 
 (b)写一个处理函数
 
 
 ```python
-def f(x):
-    while(len(x) >1):
+#(b)
+def f(X):
+    while(len(X) >1):
+        #记录当前距离
         d = float('inf')
-        n = len(x)
+        #元素数量
+        n = len(X)
+        #记录最优元素的下标
         k = 0
         l = 0
         for i in range(n):
             for j in range(i+1, n):
-                d1 = np.sum((x[i] - x[j])**2)
+                d1 = np.sum((X[i] - X[j])**2)
                 if(d > d1):
                     d = d1
                     k = i
                     l = j
-        data = (x[k] + x[l])/2
-        x = np.delete(x, k, axis = 0)
-        x = np.delete(x, l-1, axis = 0)
-        x = np.append(x, data.reshape(-1, 2), axis = 0)
-    return x[0]
+        #生成新的元素
+        data = (X[k] + X[l]) / 2
+        #删除元素
+        X = np.delete(X, l, axis=0)
+        X = np.delete(X, k, axis=0)
+        #增加新元素
+        X = np.append(X, data.reshape(-1, 2), axis=0)
+    return X[0]
 
-x1 = X[Y>0]
-x2 = X[Y<0]
+#划分数据
+X_pos = X[y>0]
+X_neg = X[y<0]
 
-data = np.array([f(x1), f(x2)])
-label = [1, -1]
+#新数据
+X2 = np.array([f(X_pos), f(X_neg)])
+y2 = np.array([1, -1])
 
-knn_condense(data, X, label, Y, 1)
+knn = hlp.KNeighborsClassifier_(1)
+knn.fit(X2, y2)
+hlp.draw(X, y, knn)
 ```
 
 
-![png](output_14_0.png)
+![png](output_9_0.png)
 
-可以看出in-sample error为$\frac 3 7$
-
-[代码参考地址](http://sklearn.apachecn.org/cn/0.19.0/auto_examples/neighbors/plot_classification.html#sphx-glr-auto-examples-neighbors-plot-classification-py)
+可以看出in-sample error为$\frac 3 7$。
 
 
 
 #### Problem 6.3 (Page 42) 
 
-Show that the k-nearest neighbor rule with distance de fined by $d(x, x′) = (x - x′)^TQ(x - x′)$, where $Q$ is positive semi-definite, is equivalent to the k-nearest neighbor rule with the standard Euclidean distance in some transformed feature space. Explicitly construct this space. What is the dimension of this space. [Hint: Think about the rank of $Q$.]
+Show that the k-nearest neighbor rule with distance de fined by $d(x, x′) = (x - x′)^TQ(x - x′)​$, where $Q​$ is positive semi-definite, is equivalent to the k-nearest neighbor rule with the standard Euclidean distance in some transformed feature space. Explicitly construct this space. What is the dimension of this space. [Hint: Think about the rank of $Q​$.]
 
-设$Q$为$n$阶半正定矩阵，且秩为$r$，所以$Q$可以表达为
+设$Q​$为$n​$阶半正定矩阵，且秩为$r​$，所以$Q​$可以表达为
 $$
 Q=P^T\text{diag}\{ \lambda_1^2,...,\lambda_r^2,0,...,0\}P\\
 P为正交矩阵
@@ -1032,65 +1253,39 @@ $$
 For the double semi-circle problem in Problem 3.1, plot the decision regions for the $1$-NN and $3$-NN rules.
 
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Apr 20 14:16:19 2019
+
+@author: qinzhen
+"""
+
+import helper as hlp
+
 #Step1 产生数据
 #参数
-rad=10
-thk=5
-sep=5
-
-#n为产生点的个数,x1,y1为上半个圆环的坐标
-def generatedata(rad,thk,sep,n,x1=0,y1=0):
-    #上半个圆的圆心
-    X1=x1
-    Y1=y1
-
-    #下半个圆的圆心
-    X2=X1+rad+thk/2
-    Y2=Y1-sep
-    
-    #上半个圆环的点
-    top=[]
-    #下半个圆环的点
-    bottom=[]
-    
-    #后面要用到的参数
-    r1=rad+thk
-    r2=rad
-    
-    cnt=1
-    while(cnt<=n):
-        #产生均匀分布的点
-        x=np.random.uniform(-r1,r1)
-        y=np.random.uniform(-r1,r1)
-        
-        d=x**2+y**2
-        if(d>=r2**2 and d<=r1**2):
-            if (y>0):
-                top.append([X1+x,Y1+y])
-                cnt+=1
-            else:
-                bottom.append([X2+x,Y2+y])
-                cnt+=1
-        else:
-            continue
-
-    return top,bottom
+rad = 10
+thk = 5
+sep = 5
 
 #产生数据
-top, bottom = generatedata(rad,thk,sep,100)
-X = np.append(top, bottom, axis = 0)
-y = np.array([1]*len(top) + [-1] * len(bottom))
+X, y = hlp.generatedata(rad, thk, sep, 100)
 
-knn(X, y, 1)
-knn(X, y, 3)
+knn = hlp.KNeighborsClassifier_(1)
+knn.fit(X, y)
+hlp.draw(X, y, knn)
 ```
 
 
-![png](output_16_0.png)
+![png](output_11_0.png)
 
+```python
+knn = hlp.KNeighborsClassifier_(3)
+knn.fit(X, y)
+hlp.draw(X, y, knn)
+```
 
-
-![png](output_16_1.png)
+![png](output_12_0.png)
 
 [代码参考地址](http://sklearn.apachecn.org/cn/0.19.0/auto_examples/neighbors/plot_classification.html#sphx-glr-auto-examples-neighbors-plot-classification-py)
 
@@ -1102,53 +1297,63 @@ Show that each of the Voronoi regions in the Voronoi diagram for any data set is
 
 这里只对$d(x,x^{'})=(x-x^{'})^T(x-x^{'})$讨论。
 
-设某个Voronoi regions的中心为$x_0$，记该区域为$\mathcal C$，其余任意一个Voronoi regions的中心记为$x_1$，现在任取$\mathcal C$中一点$x$，那么必然满足如下条件
+设某个Voronoi regions的中心为$x_0​$，记该区域为$\mathcal C​$，其余任意一个Voronoi regions的中心记为$x_1​$，现在任取$\mathcal C​$中一点$x​$，那么必然满足如下条件
 $$
 d(x_0,x) \le d(x_1,x）
 $$
 将距离公式带入可得
 $$
-d(x_0,x) =(x-x_0)^T(x-x_0)\le d(x_1,x）=(x-x_1)^T(x-x_1)\\
-x^Tx-2x_0^Tx+x_0^Tx_0 \le x^Tx-2x_1^Tx+x_1^Tx_1\\
--2x_0^Tx+x_0^Tx_0\le -2x_1^Tx+x_1^Tx_1
+\begin{aligned}
+d(x_0,x) =(x-x_0)^T(x-x_0)&\le d(x_1,x)=(x-x_1)^T(x-x_1)\\
+x^Tx-2x_0^Tx+x_0^Tx_0 &\le x^Tx-2x_1^Tx+x_1^Tx_1\\
+-2x_0^Tx+x_0^Tx_0&\le -2x_1^Tx+x_1^Tx_1
+\end{aligned}
 $$
-任取$\mathcal C​$中两点$x,x^{'}​$，计算$d(x_0,λx + (1 - λ)x′),d(x_1,λx + (1 - λ)x′)​$
+任取$\mathcal C$中两点$x,x'$，计算$d(x_0,λx + (1 - λ)x′),d(x_1,λx + (1 - λ)x′)$
 $$
 \begin{aligned}
-d(x_0,λx + (1 - λ)x′)
-&=(x_0-λx - (1 - λ)x′)^T(x_0-λx - (1 - λ)x′)\\
-&= x_0^Tx_0 -2\lambda x^T x_0 -2 (1 - λ){x^{'}}^Tx_0+\lambda ^2 x^Tx+ (1-\lambda )^2 {x^{'}}^Tx^{'} +2 λ(1 - λ) x^Tx^{'}\\
-&= x_0^Tx_0 - 2\lambda x_0^Tx-2 (1 - λ)x_0^T{x^{'}}+\lambda ^2 x^Tx+(1-\lambda )^2 {x^{'}}^Tx^{'}+2 λ(1 - λ) x^Tx^{'}
+d(x_0,λx + (1 - λ)x')
+&=(x_0-λx - (1 - λ)x')^T(x_0-λx - (1 - λ)x')\\
+
+&= x_0^Tx_0 - 2\lambda x_0^Tx-2 (1 - λ)x_0^T{x{'}}+\lambda ^2 x^Tx+(1-\lambda )^2 {x{'}}^Tx{'}+2 λ(1 - λ) x^Tx{'}\\
+d(x_1,λx + (1 - λ)x′)&=  x_1^Tx_1 - 2\lambda x_1^Tx-2 (1 - λ)x_1^T{x{'}}+\lambda ^2 x^Tx+(1-\lambda )^2 {x{'}}^Tx{'}+2 λ(1 - λ) x^Tx{'}
 \end{aligned}\\
-d(x_1,λx + (1 - λ)x′)=  x_1^Tx_1 - 2\lambda x_1^Tx-2 (1 - λ)x_1^T{x^{'}}+\lambda ^2 x^Tx+(1-\lambda )^2 {x^{'}}^Tx^{'}+2 λ(1 - λ) x^Tx^{'}
 $$
 接着计算$d(x_0,λx + (1 - λ)x′)-d(x_1,λx + (1 - λ)x′)​$
 $$
 \begin{aligned}
-d(x_0,λx + (1 - λ)x′)-d(x_1,λx + (1 - λ)x′)
-&=x_0^Tx_0 - 2\lambda x_0^Tx-2 (1 - λ)x_0^T{x^{'}} -   x_1^Tx_1 + 2\lambda x_1^Tx+2 (1 - λ)x_1^T{x^{'}}\\
-&=x_0^Tx_0 -x_1^Tx_1+2\lambda( x_1^Tx- x_0^Tx) +2(1-\lambda)(x_1^Tx^{'}-x_0^Tx^{'})
+d(x_0,λx + (1 - λ)x')-d(x_1,λx + (1 - λ)x')
+&=x_0^Tx_0 - 2\lambda x_0^Tx-2 (1 - λ)x_0^T{x'} -   x_1^Tx_1 + 2\lambda x_1^Tx+2 (1 - λ)x_1^T{x'}\\
+&=x_0^Tx_0 -x_1^Tx_1+2\lambda( x_1^Tx- x_0^Tx) +2(1-\lambda)(x_1^Tx'-x_0^Tx')
 \end{aligned}
 $$
 现在已有的条件为
 $$
--2x_0^Tx+x_0^Tx_0\le -2x_1^Tx+x_1^Tx_1\\
--2x_0^Tx^{'}+x_0^Tx_0\le -2x_1^Tx^{'}+x_1^Tx_1
+\begin{aligned}
+-2x_0^Tx+x_0^Tx_0&\le -2x_1^Tx+x_1^Tx_1\\
+-2x_0^Tx'+x_0^Tx_0&\le -2x_1^Tx'+x_1^Tx_1
+\end{aligned}
 $$
 所以
 $$
-2x_1^Tx-2x_0^Tx\le x_1^Tx_1-x_0^Tx_0\\
- 2\lambda(x_1^Tx-x_0^Tx) \le \lambda( x_1^Tx_1-x_0^Tx_0)\\
+\begin{aligned}
+2x_1^Tx-2x_0^Tx&\le x_1^Tx_1-x_0^Tx_0\\
+ 2\lambda(x_1^Tx-x_0^Tx)& \le \lambda( x_1^Tx_1-x_0^Tx_0)\\
  
-2x_1^Tx^{'} -2x_0^Tx^{'}\le x_1^Tx_1-x_0^Tx_0\\
-2(1-\lambda)(x_1^Tx^{'} -x_0^Tx^{'}) \le (1-\lambda)(x_1^Tx_1-x_0^Tx_0)
+2x_1^Tx' -2x_0^Tx'&\le x_1^Tx_1-x_0^Tx_0\\
+2(1-\lambda)(x_1^Tx' -x_0^Tx') &\le (1-\lambda)(x_1^Tx_1-x_0^Tx_0)
+\end{aligned}
 $$
 带入可得
 $$
-d(x_0,λx + (1 - λ)x′)-d(x_1,λx + (1 - λ)x′) \le x_0^Tx_0 -x_1^Tx_1+ \lambda( x_1^Tx_1-x_0^Tx_0)+  (1-\lambda)(x_1^Tx_1-x_0^Tx_0)=0 \\
-d(x_0,λx + (1 - λ)x′) \le  d(x_1,λx + (1 - λ)x′)
+d(x_0,λx + (1 - λ)x')-d(x_1,λx + (1 - λ)x') \le x_0^Tx_0 -x_1^Tx_1+ \lambda( x_1^Tx_1-x_0^Tx_0)+  (1-\lambda)(x_1^Tx_1-x_0^Tx_0)=0
 $$
-这说明$λx + (1 - λ)x′$离$x_0$最近，从而$λx + (1 - λ)x′ \in \mathcal C$
+所以
+$$
+\\
+d(x_0,λx + (1 - λ)x') \le  d(x_1,λx + (1 - λ)x')
+$$
+这说明$λx + (1 - λ)x′$离$x_0$最近，从而$λx + (1 - λ)x'\in \mathcal C$
 
 
 
@@ -1162,13 +1367,13 @@ A kernel representation of a hypothesis g is a representation of the form
 $$
 g(x) =\sum_{n =1}^NK(x, x_n)y_n
 $$
-where $K(x, x′)$ is the kernel function. What is the kernel function in this case? One can interpret the kernel representation of the final hypothesis from linear regression as a similarity method, where $g$ is a weighted sum of the target values $\{y_n\}$, weighted by the “similarity” $K(x, x_n)$ between the point $x$ and the data point $x_n$. Does this look similar to RBFs?    
+where $K(x, x′)​$ is the kernel function. What is the kernel function in this case? One can interpret the kernel representation of the final hypothesis from linear regression as a similarity method, where $g​$ is a weighted sum of the target values $\{y_n\}​$, weighted by the “similarity” $K(x, x_n)​$ between the point $x​$ and the data point $x_n​$. Does this look similar to RBFs?    
 
 构造函数
 $$
-K(x,x^{'})=x^T (Z^TZ + λΓ^TΓ)^{-1} x^{'}
+K(x,x^{'})=x^T (Z^TZ + λΓ^TΓ)^{-1} x{'}
 $$
-$ (Z^TZ + λΓ^TΓ)^{-1}$为半正定对称矩阵，从而$K(x,x^{'})$为kernel
+因为$ (Z^TZ + λΓ^TΓ)^{-1}$为半正定对称矩阵，从而$K(x,x^{'})$为kernel。
 
 现在得到的形式
 $$
@@ -1176,9 +1381,9 @@ g(x) =\sum_{n =1}^NK(x, x_n)y_n
 $$
 与RBF的形式
 $$
-g(x) =\frac {\sum_{n=1}^Ny_{n}α_{n}} {\sum_{m=1}^N α_{m}}
+g(x) =\frac {\sum_{n=1}^Ny_{n}α_{n}} {\sum_{m=1}^N α_{m}}=\sum_{n=1}^N\frac {α_{n}} {\sum_{m=1}^N α_{m}}y_{n}
 $$
-非常接近
+非常接近。
 
 
 
@@ -1199,11 +1404,11 @@ Suppose the target function is deterministic, so $π(x)=0$ or $π(x) = 1$. The d
 
 Suppose the decision boundary (a set of points) has probability zero. Show that the simple nearest neighbor rule will asymptotically (in $N$) converge to optimal error $E_{\text{out}}^∗$ (with probability $1$).    
 
-如果$x\notin 边界$，那么存在一个半径为$r$的邻域，使得这个邻域内的所有点全部标记为$a,a\in \{+1,-1\}$，无论那种情形，使用nearest neighbor法则会使得$x$也标记为$a$，这种分类方法对应了一个函数$f$，从而
+如果$x\notin $边界，那么存在一个半径为$r$的邻域，使得这个邻域内的所有点全部标记为$a,a\in \{+1,-1\}$，所以使用nearest neighbor法则会使得$x$也标记为$a$，因此只要$x$不落在边界上，那么必然有
 $$
-E_{\text{out}}^∗ = E_x [f(x)\ne y]
+f(x) =\text{Knn}(x)
 $$
-随着$N$增加，不属于边界的概率$\to  1$，从而
+因为随着$N$增加，不属于边界的概率$\to  1$，所以
 $$
 E_{\text{out}} \to E_{\text{out}}^∗
 $$
@@ -1212,7 +1417,7 @@ $$
 
 #### Problem 6.9 (Page 43) 
 
-Assume that the support of $P$ is the unit cube in $d$ dimensions. Show that for any $\epsilon, δ > 0$, there is a sufficiently large $N$ for which, with probability at least $1 - δ$, 
+Assume that the support of $P​$ is the unit cube in $d​$ dimensions. Show that for any $\epsilon, δ > 0​$, there is a sufficiently large $N​$ for which, with probability at least $1 - δ​$, 
 $$
 \underset {x∈\mathcal X} {\text{sup }}  ||x - x_{(k)}(x)|| ≤ \epsilon
 $$
@@ -1220,17 +1425,22 @@ $$
 
 $[0,1]^d$中的点服从均匀分布，所以给定一个点$x$，任取一个点$y$
 $$
-P[||x-y||\le \epsilon] =S_d(\epsilon) \overset {记为}=p\\
+\mathbb P[||x-y||\le \epsilon] =S_d(\epsilon) \triangleq p\\
 S_d(r)表示d维空间中半径为r的球的体积
 $$
-现在考虑事件$||x - x_{(k)}(x)|| ≤ \epsilon$发生的概率，这个事件发生当且仅当$x_1,...,x_N$中至少有$k$个点满足$||x - y|| ≤ \epsilon$，而$P[||x - y|| ≤ \epsilon]=p$，所以这个概率可以写为
+现在考虑事件$||x - x_{(k)}(x)|| ≤ \epsilon$发生的概率，这个事件发生当且仅当$x_1,...,x_N$中至少有$k$个点满足$||x - y|| ≤ \epsilon$，而$\mathbb P[||x - y|| ≤ \epsilon]=p$，所以这个概率可以写为
 $$
 P=\sum_{i=k}^ Np^i(1-p)^{N-i}=1- \sum_{i=0}^{k-1}p^i(1-p)^{N-i}
 $$
-$k$为固定的数，所以随着$N$增加
+因为$k$为固定的数，所以随着$N$增加
 $$
-p^i(1-p)^{N-i} \to 0(i=0,...,k-1)\\
-\sum_{i=0}^{k-1}p^i(1-p)^{N-i}\to 0\\
+\begin{aligned}
+p^i(1-p)^{N-i} &\to 0(i=0,...,k-1)\\
+\sum_{i=0}^{k-1}p^i(1-p)^{N-i}&\to 0
+\end{aligned}
+$$
+因此
+$$
 P=\sum_{i=k}^ Np^i(1-p)^{N-i}=1- \sum_{i=0}^{k-1}p^i(1-p)^{N-i} \to 1
 $$
 所以
@@ -1248,63 +1458,88 @@ $$
 E_{\text{out}}^* ≤E_{\text{out}}(k) ≤E_{\text{out}}(k-2) ≤ · · · ≤ E_{\text{out}}(1)≤ 2E_{\text{out}}^*
 $$
 
-因为$E_{\text{out}}^* ≤E_{\text{out}}(k) \le 2E_{\text{out}}^* $在课本中已经说明，所以只要证明$E_{\text{out}}(k)$关于$k$单调递减即可，这个证明思路非常巧妙，参考[A Probabilistic Theory of Pattern Recognition](https://book.douban.com/subject/1465496/)第73页。
+课本第六页已经说明了
+$$
+E_{\text{out}}(1) \le 2E_{\text{out}}^*
+$$
+所以接下来只要证明$E_{\text{out}}(k)$关于$k$单调递减即可，这个证明思路非常巧妙，参考[A Probabilistic Theory of Pattern Recognition](https://book.douban.com/subject/1465496/)第73页。
 
-证明前先介绍加权$k-$NN，即
+证明前先介绍加权$k-​$NN，即
 $$
-g_k(x) =\text{sign}(\sum_{i=1}^k w_iy_{[i]}(x))，其中\sum_{i=1}^kw_{i}=1
+g_{w,k}(x) =\text{sign}\left(\sum_{i=1}^k w_iy_{[i]}(x)\right)，其中\sum_{i=1}^kw_{i}=1
 $$
-不难看出，我们常用的$k-$NN即为上式中$w_i=\frac 1 k $的特殊情形，不仅如此，加权$k -$NN给我们一种看待$k-j-$NN的新视角：即$k-j-$NN为加权$k-$NN在$w_i = \frac{1}{k-j},i=1,...j$的特殊情形，所以我们要证明的结论相当于$E_{\text{out}}(k) $取最小值当且仅当
+不难看出，我们常用的$k-$NN即为上式中$w_i=\frac 1 k $的特殊情形，不仅如此，加权$k -$NN给我们一种看待$(k-j)-$NN的新视角：即$(k-j)-$NN为加权$k-$NN在$w_i = \frac{1}{k-j},i=1,...j$的特殊情形，所以我们要证明的结论相当于$E_{\text{out}}(k) $取最小值当且仅当
 $$
-g_k(x) =\text{sign}(\sum_{i=1}^k\frac 1 k y_{[i]}(x))
+g_k(x) =\text{sign}\left (\sum_{i=1}^k\frac 1 k y_{[i]}(x)\right)
 $$
 下面开始证明：
 
 假设
 $$
-P(y=1|x) = p,P(y=-1|x) = 1-p
+\mathbb P(y=1|x) = p,\mathbb P(y=-1|x) = 1-p
 $$
 所以
 $$
-E_{\text{out}}(k) 
-= P(\sum_{i=1}^k w_iy_{[i]}(x)>0)(1-p) + 
-P(\sum_{i=1}^k w_iy_{[i]}(x)\le 0) p
+E_{\text{out}}(g_{w,k}(x)) 
+= \mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)(1-p) + 
+\mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)\le 0\right) p
 $$
-如果$p=\frac 1 2$，所以
+如果$p=\frac 1 2$，那么
 $$
-E_{\text{out}}(k) =P(\sum_{i=1}^k w_iy_{[i]}(x)>0)\times \frac 12  + 
-P(\sum_{i=1}^k w_iy_{[i]}(x)\le 0)\times \frac 12  = \frac 12
+E_{\text{out}}(g_{w,k}(x)) = \mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)\times \frac 12  + 
+ \mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)\le 0\right)\times \frac 12  = \frac 12
 $$
-结论平凡，所以只考虑$p\neq \frac 1 2$的情形，又由对称性，我们假设$p < \frac 1 2$，将上式化为
+此时
 $$
-E_{\text{out}}(k) =p+(1-2p)P(\sum_{i=1}^k w_iy_{[i]}(x)>0)
+E_{\text{out}}(g_{w,k-2i}(x))=E_{\text{out}}(k-2i)=\frac 12 , 1\le k-2i \le k
 $$
-我们假设$P(\sum_{i=1}^k w_iy_{[i]}(x)=0)=0$，记$N_l$为$\sum I_{y_{[i]}(x)=1}=l$且$\sum_{i=1}^k w_iy_{[i]}(x)>0$的数量，注意到
+
+
+结论平凡。所以只需要考虑$p\neq \frac 1 2$的情形，又由对称性，我们假设$p < \frac 1 2​$，将上式化为
 $$
-\sum I_{y_{[i]}(x)=1}=l,\sum_{i=1}^k w_iy_{[i]}(x)<0 \Leftrightarrow \\
-\sum I_{y_{[i]}(x)=-1}=k-l,\sum_{i=1}^k w_i(-y_{[i]}(x))>0 \Leftrightarrow \\
-\sum I_{-y_{[i]}(x)=1}=k-l,\sum_{i=1}^k w_i(-y_{[i]}(x))>0
+\begin{aligned}
+E_{\text{out}}(g_{w,k}(x))
+&= \mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)(1-p) + 
+\mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)\le 0\right) p\\
+&=  \mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)(1-p) +  
+\left(1- \mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)\right)p\\
+&=p+(1-2p) \mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)
+\end{aligned}
+$$
+因为边界情形可以忽略，所以我们假设
+$$
+\mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)=0\right)=0
+$$
+记$N_l$为$\sum I_{y_{[i]}(x)=1}=l$且$\sum_{i=1}^k w_iy_{[i]}(x)>0$的数量，注意到
+$$
+\begin{aligned}
+&\sum I_{y_{[i]}(x)=1}=l,\sum_{i=1}^k w_iy_{[i]}(x)<0 \Leftrightarrow \\
+&\sum I_{y_{[i]}(x)=-1}=k-l,\sum_{i=1}^k w_i(-y_{[i]}(x))>0 \Leftrightarrow \\
+&\sum I_{-y_{[i]}(x)=1}=k-l,\sum_{i=1}^k w_i(-y_{[i]}(x))>0
+\end{aligned}
 $$
 这说明使得$\sum I_{y_{[i]}(x)=1}=l$且$\sum_{i=1}^k w_iy_{[i]}(x)<0$的数量为$N_{k-l}$，注意到$\sum I_{y_{[i]}(x)=1}=l$的数量为$\binom k l$，所以
 $$
 N_l + N_{k-l} =\binom k l
 $$
-特别的，如果$k$为偶数，那么对上式令$l=\frac  k 2$
-$$
-N_{\frac k 2 } + N_{\frac k 2 } =\binom k {\frac k 2 } \\
- N_{\frac k 2 } =\frac 1  2\binom k {\frac k 2 }
-$$
-利用该记号对$P(\sum_{i=1}^k w_iy_{[i]}(x)>0)$进行处理
+特别的，如果$k$为偶数，那么对上式令$l=\frac  k 2$可得
 $$
 \begin{aligned}
-P(\sum_{i=1}^k w_iy_{[i]}(x)>0)
+N_{\frac k 2 } + N_{\frac k 2 }&=\binom k {\frac k 2 } \\
+ N_{\frac k 2 }& =\frac 1  2\binom k {\frac k 2 }
+\end{aligned}
+$$
+利用该记号对$\mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)​$进行处理
+$$
+\begin{aligned}
+\mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)
 &= \sum_{l=0}^k  N_l p^{l}(1-p)^{k-l} \\
 &= \sum_{l< \frac k 2 }N_l p^{l}(1-p)^{k-l} +
 \sum_{l> \frac k 2 }N_l p^{l}(1-p)^{k-l} +
  \frac 1  2\binom k {\frac k 2 }p^{\frac k 2 }(1-p)^{\frac k 2}I_{k为偶数} \\
  &=\sum_{l< \frac k 2 }N_l p^{l}(1-p)^{k-l} +
 \sum_{l< \frac k 2 }N_{k-l} p^{k-l}(1-p)^{l} +
- \frac 1  2\binom k {\frac k 2 }p^{\frac k 2 }(1-p)^{\frac k 2}I_{k为偶数}(对第二项令l'=k-l) \\
+ \frac 1  2\binom k {\frac k 2 }p^{\frac k 2 }(1-p)^{\frac k 2}I_{k为偶数}&对第二项令l'=k-l \\
  &=\sum_{l< \frac k 2 }N_l p^{l}(1-p)^{k-l} +
 \sum_{l< \frac k 2 }\Big(\binom k l-N_l\Big) p^{k-l}(1-p)^{l} +
  \frac 1  2\binom k {\frac k 2 }p^{\frac k 2 }(1-p)^{\frac k 2}I_{k为偶数}\\
@@ -1313,7 +1548,7 @@ P(\sum_{i=1}^k w_iy_{[i]}(x)>0)
  &=I + II+III
 \end{aligned}
 $$
-注意到$I,III$和权重$w_i$无关，所以只要考虑第二项即可，注意$p<\frac 1 2$，所以
+注意到$I,III​$和权重$w_i​$无关，所以只要考虑第二项即可，注意$p<\frac 1 2​$，所以
 $$
 (1-p)^i > p^i
 $$
@@ -1327,32 +1562,513 @@ $$
  &\ge 0
 \end{aligned}
 $$
-等号成立当且仅当$N_l =0(l<\frac k 2)$，即$\sum I_{y_{[i]}(x)=1}=l$且$\sum_{i=1}^k w_iy_{[i]}(x)>0$的数量为$0$，这种情形只可能在一种状况下发生——每一项的权重相等，所以等号成立当且仅当$w_i =\frac 1 k$，即我们证明了如下结论：
+等号成立当且仅当$N_l =0(\forall l<\frac k 2)$，即
 $$
-E_{\text{out}}(k)取最小值当且仅当每一项的权重都为\frac 1 k
+\forall l<\frac k 2,\sum I_{y_{[i]}(x)=1}=l且\sum_{i=1}^k w_iy_{[i]}(x)>0的数量为0
 $$
-由之前描述可知$E_{\text{out}}(k-2)$可以理解为$E_{\text{out}}(k)$的特殊情形，所以
+注意当$w_i =\frac 1 k,1\le i \le k$时，上述命题成立，所以
+$$
+\begin{aligned}
+E_{\text{out}}(g_{w,k}(x))
+&=p+(1-2p) \mathbb P\left(\sum_{i=1}^k w_iy_{[i]}(x)>0\right)\\
+&\ge p+(1-2p) \mathbb P\left(\frac 1 k\sum_{i=1}^k y_{[i]}(x)>0\right)\\
+&=E_{\text{out}}(k)
+\end{aligned}
+$$
+由之前描述可知$E_{\text{out}}(k-2)$可以理解为$E_{\text{out}}(k)$的加权情形，所以
 $$
 E_{\text{out}}^* ≤E_{\text{out}}(k) ≤E_{\text{out}}(k-2) ≤ · · · ≤ E_{\text{out}}(1)≤ 2E_{\text{out}}^*
 $$
 
 
+
 #### Problem 6.11 (Page 44)
 
-For the $1$-NN rule in two dimensions ($d = 2$) and data set $(x_1, y_1), . . . , (x_N, y_N)$, consider the Voronoi diagram and let $V_n$ be the Voronoi region containing the point $x_n$. Two Voronoi regions are adjacent if they have a face in common (in this case an edge). Mark a point $x_n$ if the classification of every Voronoi region neighboring $V_n$ is the same as $y_n$. Now condense the data by removing all marked points. 
+For the $1​$-NN rule in two dimensions ($d = 2​$) and data set $(x_1, y_1), . . . , (x_N, y_N)​$, consider the Voronoi diagram and let $V_n​$ be the Voronoi region containing the point $x_n​$. Two Voronoi regions are adjacent if they have a face in common (in this case an edge). Mark a point $x_n​$ if the classification of every Voronoi region neighboring $V_n​$ is the same as $y_n​$. Now condense the data by removing all marked points. 
 
-(a) Show that the condensed data is consistent with the full data for the $1$-NN rule. 
+(a) Show that the condensed data is consistent with the full data for the $1​$-NN rule. 
 
 (b) How does the out-of-sample error for the $1$-NN rule using condensed data compare with the $1$-NN rule on the full data (worst case and on average)?    
 
-(a)假设被condense的区域为$V_1,...,V_k$，现在任取一点$x$，如果$x \notin V_i,(i=1,...,k)$，那么和原数据的分类结果显然一致，如果$x \in V_i,(i=1,...,k)$，那么离$x$最近的点必然为$V_i$的邻居，由定义可知，$V_i$的邻居的分类和$V_i$一致，所以$x​$的分类结果与原数据的分类结果一致，从而结论成立。
+(a)假设删除的点为$x_1 ,\ldots ,x_k$，由定义可知删除$x_i$这些点当且仅当$V_i$的邻居和$x_i$的分类一致，而离$x_i$最近的点必然在这些邻居区域内，所以分类结果与原数据的分类结果一致。
 
 (b)回顾课本第$7$页的公式
 $$
-E_{\text {out}}(g_N) = 2\mathbb E[\eta(x)] -2 \mathbb E[\eta^2(x)]+  \mathbb E_x[\epsilon_N(x)]\\
-\epsilon_N(x)=(2\pi (x) -1)(\pi (x)-\pi (x_{[1]}))
+\begin{aligned}
+E_{\text {out}}(g_N) &= 2\mathbb E[\eta(x)] -2 \mathbb E[\eta^2(x)]+  \mathbb E_x[\epsilon_N(x)]\\
+\epsilon_N(x)&=(2\pi (x) -1)(\pi (x)-\pi (x_{[1]}))
+\end{aligned}
 $$
-从均值角度考虑，condensed data和原数据应该基本一致（能力有限，严谨证明不大会），从最坏情况考虑，condensed data减少了$N$，所以$x_{[1]}$和$x$的距离会更大一些，从而$\pi (x)-\pi (x_{[1]})$绝对值会更大，从而condensed data的误差更大（这里我只能这样简单分析，不会严谨证明）
+从均值角度考虑，condensed data和原数据应该基本一致，从最坏情况考虑，condensed data减少了$N$，所以$x_{[1]}$和$x$的距离会更大一些，从而$\pi (x)-\pi (x_{[1]})$绝对值会更大，从而condensed data的误差更大（这里我只能这样简单分析，不会严谨证明。）
+
+
+
+#### Problem 6.12 (Page 44)
+
+For the 1-NN rule, define the influence set $S_n​$ of point $x_n ​$ as the set of points of the same class as $x_n​$ which are closer to $x_ n ​$ than to a  point of a different class. So $x_m ∈ S_n​$ if
+$$
+\left\|{x}_{n}-{x}_{m}\right\|<\left\|{x}_{m^{\prime}}-{x}_{m}\right\| \text { for all } m^{\prime} \text { with } y_{m^{\prime}} \neq y_{m}
+$$
+We do not allow $x_n$ to be in $S_n$. Suppose the largest influence set is $S_{n^∗}$ , the influence set of $x_{n^∗}$ (break ties according to the data point index). Remove all points in $S_{n^∗}$ . Update the remaining influence sets by deleting $x_{n^∗}$ and $S_{n^∗}$ from them. Repeat this process until all the influence sets are empty. The set of points remaining is a condensed subset of $\mathcal  D$.
+
+(a) Show that the remaining condensed set is training set consistent.
+(b) Do you think this will give a smaller or larger condensed set than the CNN algorithm discussed in the text. Explain your intuition?
+(c) Give an efficient algorithm to implement this greedy condensing. What is your run time.
+
+(a)假设第一步删除的点为$x_1​$，对应的influence set为$S_1​$，$\forall x_{i} \in S_1​$，由定义可知$\forall x_j , y_j \neq y_{i} ​$，我们必然有
+$$
+\| x_i - x_1 \|<\| x_i - x_j \|, y_i =y_1
+$$
+由算法步骤，$x_1$会从其他点的influence set集合中删除，所以$x_1$会**一直保留**，因此算法结束后，我们依然有
+$$
+\| x_i - x_1 \|<\| x_i - x_j \|,y_i =y_1,\forall x_j , y_j \neq y_{i}
+$$
+所以$x_i$的分类不会变，所以剩余的集合是training set consistent。
+
+(b)我认为这种算法最后的condensed set会更小，因为一次删除的点可能较多。
+
+(c)见下一题的实验部分。
+
+
+
+#### Problem 6.13 (Page 45)
+
+Problem 6.13 Construct a data set with 1,000 points as shown. The data are generated from a 4-center GMM.The centers are equally spaced on the unit circle,and covariance matrices all equal to $σI$ with $σ = 0.15$. The weight of each Gaussian bump is $\frac 1 4$.Points generated from the first and third centers have $y_n = +1$ and the other two centers
+are $−1$. To generate a point, first determine a bump (each has probability $\frac 14$ ) and then generate a point from the Gaussian for that bump.
+
+(a) Implement the CNN algorithm in the text and the condensing algorithm from the previous problem.
+(b) Run your algorithm on your generated data and give a plot of the condensed data in each case.
+(c) Repeat this experiment 1,000 times and compute the average sizes of the condensed sets for the two algorithms.
+
+![](Problem 6.13.jpg)
+
+根据课本中的图像，推测标准差应该不是$0.15$，经过尝试后，这里取$\sigma =0.5$。
+
+(a)按照题目要求实现算法，这个算法实现的不够简洁。
+
+```python
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Apr 21 13:19:20 2019
+
+@author: qinzhen
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+import helper as hlp
+
+
+#### (a)
+def Data(n, flag=1, scale=0.15):
+    """
+    生成n个点，flag=1表示圆心固定
+    """
+    if flag:
+        #中心
+        center = np.array([[0, 1, 0, -1], [1, 0, -1, 0]]).T
+    else:
+        #按极坐标方式生成点
+        theta = np.random.uniform(0, 2 * np.pi, size=4)
+        center = np.c_[np.cos(theta), np.sin(theta)]
+    #生成X
+    X = np.random.normal(scale=scale, size=(n, 2))
+    #生成每个数据对应的分类
+    index = np.random.randint(0, 4, size=n)
+    #增加中心
+    X += center[index] 
+    #生成标签
+    y = np.copy(index)
+    y[y%2==1] = -1
+    y[y%2==0] = 1
+    
+    return X, y
+
+# =============================================================================
+# CNN1
+# =============================================================================
+def CNN1(X, y, k=1):
+    n = X.shape[0]
+    #初始化
+    index = np.random.choice(np.arange(n), size=k, replace=False)
+    #condense data
+    X_cd = X[index, :]
+    y_cd = y[index]
+    #剩余的点
+    X1 = np.delete(X, index, axis=0)
+    y1 = np.delete(y, index, axis=0)
+    
+    Ein = []
+    while True:
+        #训练knn
+        nn = hlp.KNeighborsClassifier_(1)
+        nn.fit(X_cd, y_cd)
+        #预测结果
+        y_pred = nn.predict(X)
+        #错误率
+        ein = np.mean(y_pred != y)
+        Ein.append(ein)
+        
+        if ein != 0:
+            #找到分类错误的点
+            i1 = np.where(y_pred != y)[0][0]
+            #找到y1中和y[ii]相同的点的索引
+            i2 = np.where(y1 == y[i1])[0][0]
+            #添加至condese data
+            X_cd = np.r_[X_cd, X1[i2, :].reshape(1, 2)]
+            y_cd = np.r_[y_cd, y1[i2]]
+            #删除该数据
+            X1 = np.delete(X1, i2, axis=0)
+            y1 = np.delete(y1, i2, axis=0)
+        else:
+            break
+        
+    return X_cd, y_cd
+
+# =============================================================================
+# CNN2
+# =============================================================================
+def dist(X1, X2):
+    """
+    计算X1, X2每一项之间的距离
+    """
+    d1 = np.sum(X1 ** 2, axis=1).reshape(-1, 1)
+    d2 = np.sum(X2 ** 2, axis=1).reshape(1, -1)
+    dist = d1 + d2 - 2 * X1.dot(X2.T)
+    
+    return dist
+
+def influence_set(d1, d2):
+    """
+    根据距离生成全体influence_set, 用字典存储
+    d1为标签相同的点的距离, d2为标签不同的点的距离
+    """
+    #计算不同标签的最短距离
+    d3 = np.min(d2, axis=1)
+    #找到相同标签中小于最短距离的部分
+    i1 = d1 < d3
+    #找到influence set对应的索引
+    u, v = np.where(i1)
+    #生成influence set
+    influe_set = {}
+    for i in np.unique(u):
+        #使用集合
+        influe_set[i] = set(v[u==i])
+        
+    return influe_set
+
+def influe_set_helper(i, key, X, influe_set):
+    """
+    删除元素最多的influence set并返回对应的x
+    key为influence set所在字典的键，i为元素最多的influence set的索引，
+    X为点集，influe_set为influence set所在字典
+    """
+    
+    index = key[i]
+    #需要删除的集合
+    x_del = influe_set[index]
+    x_del.add(index)
+    #influence set所在的字典
+    for j in key:
+        #如果索引不是influence set对应的x，则更新其influence set
+        if j != index:
+            #删除公共元素
+            influe_set[j] -= x_del
+            #如果为空，则删除该influence set
+            if influe_set[j] == set():
+                influe_set.pop(j)
+        #如果索引是influence set对应的x，则删除influence set
+        else:
+            influe_set.pop(j)
+    
+    return influe_set, X[index]
+
+def CNN2(X, y):
+    #将数据分为两类
+    X_pos = X[y==1]
+    X_neg = X[y==-1]
+    
+    #计算距离矩阵
+    dist_pos = dist(X_pos, X_pos)
+    
+    #设置对角线的值
+    np.fill_diagonal(dist_pos, np.inf)
+    dist_neg = dist(X_neg, X_neg)
+    
+    #设置对角线的值
+    np.fill_diagonal(dist_neg, np.inf)
+    dist_pos2neg = dist(X_pos, X_neg)
+    
+    #influcence set
+    influe_set_pos = influence_set(dist_pos, dist_pos2neg) 
+    influe_set_neg = influence_set(dist_neg, dist_pos2neg.T)
+
+    #condense data
+    X_cd = []
+    y_cd = []
+    while True:
+        #计算influence set非空的数量
+        len_pos = np.array([len(influe_set_pos[i]) for i in influe_set_pos])
+        len_neg = np.array([len(influe_set_neg[i]) for i in influe_set_neg])
+        #得到键
+        pos_key = [i for i in influe_set_pos]
+        neg_key = [i for i in influe_set_neg]
+
+        
+        if (len(len_pos) > 0 and len(len_neg) > 0):
+            #找到最多元素的influence set
+            i1 = np.argmax(len_pos)
+            i2 = np.argmax(len_neg)
+            if len_pos[i1] > len_neg[i2]:
+                influe_set_pos, x = influe_set_helper(i1, pos_key, X_pos, influe_set_pos)
+                X_cd.append(x)
+                y_cd.append(1)
+            else:
+                influe_set_neg, x = influe_set_helper(i2, neg_key, X_neg, influe_set_neg)
+                X_cd.append(x)
+                y_cd.append(-1)
+        elif len(len_pos) > 0:
+            i1 = np.argmax(len_pos)
+            influe_set_pos, x = influe_set_helper(i1, pos_key, X_pos, influe_set_pos)
+            X_cd.append(x)
+            y_cd.append(1)
+        elif len(len_neg) > 0:
+            i2 = np.argmax(len_neg)
+            influe_set_neg, x = influe_set_helper(i2, neg_key, X_neg, influe_set_neg)
+            X_cd.append(x)
+            y_cd.append(-1)
+        else:
+            break
+        
+    return np.array(X_cd), np.array(y_cd)
+```
+
+(b)首先查看原始数据的分类结果
+
+```python
+n = 1000
+X, y = Data(n, 1, scale=0.5) 
+plt.scatter(X[:, 0], X[:, 1], edgecolor='k', c=y)
+plt.show()
+#原始数据的分类结果
+nn = hlp.KNeighborsClassifier_(1)
+nn.fit(X, y)
+hlp.draw(X, y, nn, n=500, flag=1)
+```
+
+![png](output_16_0.png)
+
+![png](output_16_1.png)
+
+CNN1的算法结果
+
+```python
+#### CNN1
+#condense data的分类结果
+X_cd, y_cd = CNN1(X, y)
+nn = hlp.KNeighborsClassifier_(1)
+nn.fit(X_cd, y_cd)
+hlp.draw(X_cd, y_cd, nn, n=500, flag=1)
+```
+
+![png](output_18_0.png)
+
+CNN2的算法结果
+
+```python
+#### CNN2
+#condense data的分类结果
+X_cd, y_cd = CNN2(X, y)
+nn = hlp.KNeighborsClassifier_(1)
+nn.fit(X_cd, y_cd)
+hlp.draw(X_cd, y_cd, nn, n=500, flag=1)
+```
+
+![png](output_20_0.png)
+
+(c)如果取$\sigma  =0.5$，那么这部分运行时间非常长，不建议运行，不过从之前的例子可以看出，算法2的产生condensed sets集合的元素数量要明显小于算法1。
+
+```python
+'''
+#### 运行时间较长，不建议运行
+m = 10
+NUM1 = []
+NUM2 = []
+for i in range(m):
+    X, y = Data(n, 1, scale=0.5)
+    X_cd1, y_cd1 = CNN1(X, y)
+    NUM1.append(len(y_cd1))
+    
+    X_cd2, y_cd2 = CNN2(X, y)
+    NUM2.append(len(y_cd2))
+    
+plt.hist(NUM1)
+plt.title("CNN1")
+plt.show()
+print("Average sizes of the condensed sets is {}(CNN1)".format(np.mean(NUM1)))
+
+plt.hist(NUM2)
+plt.title("CNN2")
+plt.show() 
+print("Average sizes of the condensed sets is {}(CNN2)".format(np.mean(NUM2)))
+'''
+```
+
+
+
+#### Problem 6.14 (Page 45)
+
+Run the condensed nearest neighbor (CNN) algorithm for $3​$-NN on the digits data. Use all the data for classifying “$1​$” versus “not $1​$”.
+(a) Set $N = 500​$ and randomly split your data into a training set of size $N​$ and use the remaining data as a test/validation set.
+(b) Use the $3​$-NN algorithm with all the training data and evaluate its performance: report $E_{\text{in}}​$ and $E_{\text{test}}​$.
+(c) Use the CNN algorithm to condense the data. Evaluate the performance of the $3​$-NN rule with the condensed data: report $E_{\text{in}}​$ and $E_{\text{out}}​$.
+(d) Repeat parts (b) and (c) using $1,000​$ random training-test splits and report the average $E_{\text{in}}​$ and $E_{\text{out}}​$ for the full versus the condensed data.
+
+此题没有给数据，我使用的是课程官网提供的features.train以及features.test数据。
+
+(a)划分数据
+
+```python
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Apr 22 20:19:55 2019
+
+@author: qinzhen
+"""
+
+import helper as hlp
+import numpy as np
+
+#### (a)
+#获得数据
+Train = np.genfromtxt("features.train")
+Test = np.genfromtxt("features.test")
+
+N = 500
+m = 100
+y_train, X_train = Train[: N, 0], Train[: N, 1:]
+y_train[y_train != 1] = -1
+y_test, X_test = Test[: m, 0], Test[: m, 1:]
+y_test[y_test != 1] = -1
+```
+
+(b)使用3-NN算法：
+
+```python
+#### (b)
+#训练模型
+nn = hlp.KNeighborsClassifier_(3)
+nn.fit(X_train, y_train)
+y_test_pred = nn.predict(X_test)
+y_train_pred = nn.predict(X_train)
+
+#计算错误率
+ein = np.mean(y_train != y_train_pred)
+etest = np.mean(y_test != y_test_pred)
+print("Ein of 3-NN is {}".format(ein))
+print("Etest of 3-NN is {}".format(etest))
+#作图
+hlp.draw(X_train, y_train, nn, n=500, flag=1)
+```
+
+```
+Ein of 3-NN is 0.008
+Etest of 3-NN is 0.03
+```
+
+![png](output_27_1.png)
+
+(c)使用C-NN
+
+```python
+#### (c)
+X_cd, y_cd = hlp.CNN(X_train, y_train, k=3)
+#训练模型
+nn = hlp.KNeighborsClassifier_(3)
+nn.fit(X_cd, y_cd)
+y_test_pred = nn.predict(X_test)
+y_train_pred = nn.predict(X_train)
+
+#计算错误率
+ein = np.mean(y_train != y_train_pred)
+etest = np.mean(y_test != y_test_pred)
+print("Ein of C-NN is {}".format(ein))
+print("Etest of C-NN is {}".format(etest))
+#作图
+hlp.draw(X_cd, y_cd, nn, n=500, flag=1)
+```
+
+```
+Ein of C-NN is 0.008
+Etest of C-NN is 0.03
+```
+
+![png](output_29_1.png)
+
+(d)重复多次试验，查看评价结果：
+
+```python
+#%%time
+#### (d)
+N = 1000
+#索引
+train_index = np.arange(Train.shape[0])
+test_index = np.arange(Test.shape[0])
+
+Ein_KNN = []
+Etest_KNN = []
+Ein_CNN = []
+Etest_CNN = []
+
+for i in range(N):
+    #训练数据
+    train = Train[np.random.choice(train_index, size=m, replace=False)]
+    y_train, X_train = train[:, 0], train[:, 1:]
+    y_train[y_train != 1] = -1
+    #测试数据
+    test = Test[np.random.choice(test_index, size=n, replace=False)]
+    y_test, X_test = test[:, 0], test[:, 1:]
+    y_test[y_test != 1] = -1
+    
+    #训练KNN
+    nn = hlp.KNeighborsClassifier_(3)
+    nn.fit(X_train, y_train)
+    y_test_pred = nn.predict(X_test)
+    y_train_pred = nn.predict(X_train)
+
+    #计算错误率
+    ein = np.mean(y_train != y_train_pred)
+    etest = np.mean(y_test != y_test_pred)
+    Ein_KNN.append(ein)
+    Etest_KNN.append(etest)
+    
+    #训练CNN
+    X_cd, y_cd = hlp.CNN(X_train, y_train, k=3)
+    #训练模型
+    nn = hlp.KNeighborsClassifier_(3)
+    nn.fit(X_cd, y_cd)
+    y_test_pred = nn.predict(X_test)
+    y_train_pred = nn.predict(X_train)
+
+    #计算错误率
+    ein = np.mean(y_train != y_train_pred)
+    etest = np.mean(y_test != y_test_pred)
+    Ein_CNN.append(ein)
+    Etest_CNN.append(etest)
+    
+print("meanEin of C-NN is {}".format(np.mean(Ein_CNN)))
+print("meanEtest of C-NN is {}".format(np.mean(Etest_CNN)))
+
+print("meanEin of K-NN is {}".format(np.mean(Ein_KNN)))
+print("meanEtest of K-NN is {}".format(np.mean(Etest_KNN)))
+```
+
+```
+meanEin of C-NN is 0.05360000000000001
+meanEtest of C-NN is 0.05788100000000001
+meanEin of K-NN is 0.01168
+meanEtest of K-NN is 0.024625000000000005
+```
 
 
 
@@ -1360,49 +2076,74 @@ $$
 
 This problem asks you to perform an analysis of the branch and bound algorithm in an idealized setting. Assume the data is partitioned and each cluster with two or more points is partitioned into two sub-clusters of exactly equal size. (The number of data points is a power of $2$). 
 
-When you run the branch and bound algorithm for a particular test point $x$, sometimes the bound condition will hold, and sometimes not. If you generated the test point $x$ randomly, the bound condition will hold with some probability. Assume the bound condition will hold with probability at least $p ≥ 0$ at every branch, independently of what happened at other branches. Let $T (N)$ be the expected time to find the nearest neighbor in a cluster with $N$ points. Show: $T (N) = O(d \log N + dN^{\log_2(2-p)})$ (sublinear for $p > 0$). [Hint: Let $N = 2^k$; show that $T (N) ≤ 2d + T ( \frac N2 ) + (1 - p)T ( \frac N2 )$.]    
+When you run the branch and bound algorithm for a particular test point $x​$, sometimes the bound condition will hold, and sometimes not. If you generated the test point $x​$ randomly, the bound condition will hold with some probability. Assume the bound condition will hold with probability at least $p ≥ 0​$ at every branch, independently of what happened at other branches. Let $T (N)​$ be the expected time to find the nearest neighbor in a cluster with $N​$ points. Show: $T (N) = O(d \log_2 N + dN^{\log_2(2-p)})​$ (sublinear for $p > 0​$). [Hint: Let $N = 2^k​$; show that $T (N) ≤ 2d + T ( \frac N2 ) + (1 - p)T ( \frac N2 )​$.]    
 
 这里$d$的含义为数据为$d$维。回顾Exercise 6.8中的算法
 
-- 如果所属的cluster中点的个数小于等于$1​$，终止。
-- 如果$||x-\mu_1|| \le ||x-\mu_2|| $，那么在$S_1$上继续这个算法。
-- - 如果$||x-\mu_1|| +r_1 > ||x-\mu_2|| -r_2$，那么在$S_2$上继续这个算法。
-- 如果$||x-\mu_1|| > ||x-\mu_2|| $，那么在$S_2$上继续这个算法。
-- - 如果$||x-\mu_2|| +r_2 > ||x-\mu_1|| -r_1$，那么在$S_1$上继续这个算法
+- 如果所属的聚类中点的个数等于$1$，返回该点。
+- 如果$||x-\mu_1|| \le ||x-\mu_2|| $，那么在$S_1$上继续这个算法，得到$\hat x_{[1]}$。
+  - 如果$\left\|{x}-\hat{{x}}_{[1]}\right\| \leq\left\|{x}-\mu_{2}\right\|-r_{2}$，那么返回$\hat x_{[1]}$。
+  - 否则在$S_2$上继续这个算法，得到$\hat x_{[1]}'$。
+    - 如果$\left\|{x}-\hat{{x}}_{[1]}\right\| \leq\left\|{x}-\hat x_{[1]}'\right\|​$，那么返回$\hat x_{[1]}​$。
+    - 否则返回$\hat x_{[1]}' $
+- 如果$||x-\mu_2|| \le ||x-\mu_1|| $，那么在$S_2$上继续这个算法，得到$\hat x_{[1]}$。
+  - 如果$\left\|{x}-\hat{{x}}_{[1]}\right\| \leq\left\|{x}-\mu_{1}\right\|-r_{1}$，那么返回$\hat x_{[1]}$。
+  - 否则在$S_1​$上继续这个算法，得到$\hat x_{[1]}'​$。
+    - 如果$\left\|{x}-\hat{{x}}_{[1]}\right\| \leq\left\|{x}-\hat x_{[1]}'\right\|$，那么返回$\hat x_{[1]}$。
+    - 否则返回$\hat x_{[1]}' $
 
 每次需要计算$||x-\mu_1||,||x-\mu_2||$，需要的时间为$2d$，然后至少对$\frac N 2$的数据使用一次该算法，有$1-p$的概率不满足bound condition，所以有$1-p$的概率要再对$\frac N 2$的数据使用一次该算法，从而
 $$
-T (N) ≤ 2d + T ( \frac N2 ) + (1 - p)T ( \frac N2 )
+T \left(N\right) ≤ 2d + T \left( \frac N2 \right) + (1 - p)T \left( \frac N2 \right)
 $$
-假设$N=2^k$，记$f(k)= T(2^k)$所以上式可以改写为
+假设$N=2^k$，记$f(k)= T(2^k)$，所以上式可以改写为
 $$
-T(2^k) \le 2d +T(2^{k-1}) +(1-p)T(2^{k-1}) \\
-f(k)\le 2d+(2-p)f(k-1)
+\begin{eqnarray*}
+T(2^k) &&\le 2d +T(2^{k-1}) +(1-p)T(2^{k-1})\Leftrightarrow \\
+f(k)&&\le 2d+(2-p)f(k-1) \tag 1
+\end{eqnarray*}
 $$
-$d \log N + dN^{\log_2(2-p)}$可以改写为
+并且
 $$
-d \log N + dN^{\log_2(2-p)} = dk+d(2-p)^k
+d \log_2 N + dN^{\log_2(2-p)} = dk+d(2-p)^k
 $$
-证明的结论可以等价于
+所以证明的结论等价于
 $$
 f(k) = O( dk+d(2-p)^k)
 $$
-假设对于$n \le k-1$，
-$$
-f(k-1) = O( d(k-1)+d(2-p)^{k-1})
-$$
-那么
+递推(1)式可得
 $$
 \begin{aligned}
-f(k) 
-&\le 2d+(2-p)f(k-1) \\
-&\le 2d +(2-p)C(d(k-1)+d(2-p)^{k-1})\\
-&=d(2+C(2-p)(k-1)) +Cd(2-p)^k\\
-& \le C d(\frac 2 C+2(k-1))+Cd(2-p)^k \\
-&\le C^{'}d(k+(2-p)^k)
+f(k)&\le 2d+(2-p)f(k-1)\\
+&\le 2d +(2-p)\left(2d+(2-p)f(k-2)\right)\\
+&=2d\left(1 +(2-p)\right) + (2-p)^2 f(k-2)\\
+&\le \ldots\\
+&= 2d\left(\sum_{i=0}^{k-1} (2-p)^i\right) +(2-p)^{k} f(0)\\
+&= 2d \frac{(2-p)^k -1}{2-p-1} +(2-p)^{k} f(0) \\
+&= O(dk+d(2-p)^k)
 \end{aligned}
 $$
-所以$n=k$时结论也成立，命题得证。
+
+
+
+#### Problem 6.16 (Page 46)
+
+(a) Generate a data set of $10,000$ data points uniformly in the unit square $[0, 1]^2$ to test the performance of the branch and bound method:
+	(i) Construct a $10$-partition for the data using the simple greedy heuristic described in the text.
+	(ii) Generate $10,000$ random query points and compare the running time of obtaining the nearest neighbor using the partition with branch and bound versus the brute force approach which does not use the partition.
+(b) Repeat (a) but instead generate the data from a mixture of $10$ gaussians with centers randomly distributed in $[0, 1]^2$ and identical covariances for each bump equal to $σI$ where $σ = 0.1$.
+(c) Explain your observations.
+(d) Does your decision to use the branch and bound technique depend on how many test points you will need to evaluate?
+
+略过，等阅读深入的内容再补充。
+
+
+
+#### Problem 6.17 (Page 46)
+
+Using Exercise 6.8, assume that $p = \frac12$ (the probability that the bound condition will hold at any branch point). Estimate the asymptotic running time to estimate the out-of-sample error with $10$-fold cross validation to select the value of $k​$, and compare with Exercise 6.6.
+
+略过，等阅读深入的内容再补充。
 
 
 
@@ -1418,25 +2159,32 @@ An alternative to the $k$-nearest neighbor rule is the $r$ nearest neighbor rule
 
 这里$d$的含义为数据的维度，$P(x)$为点集的概率密度函数。
 
-这里查阅了论坛，[老师的帖子](http://book.caltech.edu/bookforum/showthread.php?t=4600)
+这里查阅了论坛，[老师的帖子](http://book.caltech.edu/bookforum/showthread.php?t=4600)。
 
-$P (x)$ is a compact set的意思是存在常数$L,U$，使得
+Compact set的意思是紧集，即有界闭集，所以题目的含义是，存在有界闭集$D​$，使得
 $$
-L\le P(x) \le U
+P(x)\begin{cases}
+\neq 0 & x\in D\\
+=0 & x\notin D
+\end{cases}
 $$
-所以所求的期望为
+$P(x)​$是概率密度，假设其为连续函数，有界闭集上连续函数必然有界，所以存在$L,U​$，使得
+$$
+L\le P(x)\le D
+$$
+设$E$为半径为$r$的球体内点的数量，所以
 $$
 E= NP(x)V(r)
 $$
-其中$V(r)$表示$d$维空间中半径为$r$的球的体积，我们知道$V(r)=f(d)r^d$，所以
+其中$V(r)$表示$d$维空间中半径为$r$的球的体积，我们知道$V(r)=g(d)r^d$，所以
 $$
-NL f(d)r^d  \le E \le NU f(d)r^d
+NL g(d)r^d  \le E \le NU g(d)r^d
 $$
-从而数学期望为$Nr^d$数量级的
+从而数学期望为$Nr^d​$数量级的。
 
 (b)$Nr^d → ∞$表示以$x$为球心，半径为$r$的球体内的点数量无限大，而$r → 0$表示球体的半径无限小，由大数定律可知，在这种条件下，$f(x)$会无限接近于实际的$P(x)$，从而结论成立。（注：$f(x)$表示$r$-nearest neighbor分类器）
 
-(c)取$r = N^{-\frac 1 {2d}}$
+(c)取$r = N^{-\frac 1 {2d}}$。
 
 
 
@@ -1444,45 +2192,175 @@ $$
 
 For the full RBFN in Equation (6.6) give the details of a 2-stage algorithm to fit the model to the data. The first stage determines the parameters of the bumps (their centers and covariance matrices); and, the second stage determines the weights. [Hint: For the first stage, think about the E-M algorithm to learn a Gaussian mixture model.]    
 
-我们要优化的式子为
+回顾EM算法，对于下式
+$$
+\begin{aligned}
+l(\theta)
+&= \sum_{i=1}^m \log p(x;\theta) \\
+&=\sum_{i=1}^m \log \sum_{z}
+\log p(x,z;\theta) 
+\end{aligned}
+$$
+求其最大值的方法为：
+
+- 重复直到收敛
+
+  - (E步骤)对每个$i$，令
+    $$
+    Q_i(z^{(i)})  = p(z^{(i)}|x^{(i)};\theta)
+    $$
+
+  - (M步骤)令
+    $$
+    \theta:=\arg\max_{\theta}  \sum_{i} \sum_{z^{(i)}}{Q_i(z^{(i)})} \log \frac {p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
+    $$
+
+此处我们需要最小化的式子为
 $$
 \begin{aligned}
 E_{\text{in}} &= - \text{ln} \prod _{i=1}^N  h(x_i)\\
+&= -  \sum_{i=1}^N \text{ln}   h(x_i)\\
 &=- \sum_{i=1}^N \text{ln} \Big (\sum_{j=1}^k   w_j e^{− \frac 12
 (x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)}\Big)
 \end{aligned}
 $$
-接着利用EM算法，令$\gamma_{nj}$为第$n$个点落入第$j$类的概率，由定义可知
+这等价于最大化
 $$
-\sum_{j=1}^k \gamma_{nj} =1
+\ell=\sum_{i=1}^N \text{ln} \Big (\sum_{j=1}^k   w_j e^{− \frac 12
+(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)}\Big)\triangleq \sum_{i=1}^N \text{ln} \Big (\sum_{j=1}^k p(x_i,w_j | \mu_j,\Sigma_{j})\Big)
 $$
-由EM算法可知
+注意此处无法直接使用EM算法，因为
 $$
-N_j =\sum_{n=1}^N \gamma_{nj} \\
-w_j = \frac{N_j }N \\
-\sum_{j=1}^k w_j = \frac{\sum_{j=1}^k N_j}{N}=1
+\sum_{j=1}^k p(x_i,w_j | \mu_j,\Sigma_{j})
 $$
-由EM算法，现在要最小化如下式子
+不是概率密度，但是可以使用原理推导。
+
+首先回顾Jenson不等式：
+
+令$f$为一个凸函数，$X$是一个随机变量，那么：
+$$
+\mathbb E[f(x)] \ge f(\mathbb E[X])
+$$
+此外，如果$f$是一个严格凸函数，那么$\mathbb E[f(x)] = f(\mathbb E[X])$当且仅当$X= \mathbb E[X]$以概率$1$成立（即$X$是一个常数）。如果$f$是凹函数，则符号相反。
+
+接着，对每个$i$，令$Q_i$是关于$z$的某个分布（$\sum_{z}Q_i(z)=1,Q_i(z)\ge 0$），考虑下式
+$$
+\begin{eqnarray*}
+\ell 
+&&= \sum_{i=1}^N \text{ln} \Big (\sum_{j=1}^k p(x_i,w_j | \mu_j,\Sigma_{j})\Big) \tag 1 \\
+&&=\sum_{i=1}^N \text{ln} \Big (\sum_{j=1}^kQ_i(w_j) 
+\frac{p(x_i,w_j | \mu_j,\Sigma_{j})}{Q_i(w_j) }\Big)\\
+&& \ge \sum_{i=1}^N  \sum_{j=1}^kQ_i(w_j) \ln \frac{p(x_i,w_j | \mu_j,\Sigma_{j})}{Q_i(w_j) }
+ \tag 3
+\end{eqnarray*}
+$$
+其中最后一步利用了Jeson不等式。注意等号成立当且仅当
+$$
+\frac{p(x_i,w_j | \mu_j,\Sigma_{j})}{Q_i(w_j) } = c
+$$
+因为$\sum_{j=1}^kQ_i(w_j) =1​$，所以
 $$
 \begin{aligned}
-L&=- \sum_{i=1}^N\sum_{j=1}^k    \gamma_{ij} \text{ln} \Big ( e^{− \frac 12
-(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)}\Big)\\
-&=- \sum_{i=1}^N\sum_{j=1}^k  \gamma_{ij} { \Big (− \frac 12
-(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)\Big)}\\
-&=\frac 1 2  \sum_{i=1}^N\sum_{j=1}^k \gamma_{ij} { 
-(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)}
+Q_i(w_j)  
+&= \frac{p(x_i,w_j | \mu_j,\Sigma_{j})}
+{\sum_{j=1}^kp(x_i,w_j | \mu_j,\Sigma_{j})} 
 \end{aligned}
 $$
-先关于$\mu_m$求梯度
+记
 $$
-\nabla _{\mu_m}L = \nabla _{\mu_m}\frac 1 2  \sum_{i=1}^N\sum_{j=1}^k  \gamma_{ij} { 
-(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)} =\frac 1 2   \sum_{i=1}^N  \gamma_{im} Σ_m^{-1}(x_i − \mu_m)=0\\
- \mu_m= \frac{\sum_{i=1}^N  \gamma_{im} x_i}{ \sum_{i=1}^N  \gamma_{im}} =\frac 1 {N_m} \sum_{i=1}^N  \gamma_{im}x_i
+r_{ij}=Q_i(w_j)  
+= \frac{p(x_i,w_j | \mu_j,\Sigma_{j})}
+{\sum_{j=1}^kp(x_i,w_j | \mu_j,\Sigma_{j})}
 $$
-再关于$Σ_m^{-1}​$求梯度，利用$\frac{\partial}{\partial S}(z^TSz)=zz^T​$
+所以接下来的目标是最大化
 $$
-\nabla _{Σ_m^{-1}}L = \frac 1 2  \sum_{i=1}^N \gamma_{im} { 
-(x_i −  \mu_m)(x_i −  \mu_m)^T}
+\begin{aligned}
+\sum_{i=1}^N  \sum_{j=1}^kr_{ij} \ln \frac {p(x^{(i)},z^{(i)};\theta)}{r_{ij}}
+&= \sum_{i=1}^N  \sum_{j=1}^kr_{ij} \ln \frac {w_j e^{-\frac 12
+(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)}}{r_{ij}}\\
+&=\sum_{i=1}^N  \sum_{j=1}^k r_{ij}
+\left(\ln w_j -\ln r_{ij} - \frac 12
+(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)\right)\\
+&\triangleq L
+\end{aligned}
+$$
+注意每一轮的$r_{ij}$固定为常数，计算$\mu_j $的梯度
+$$
+\begin{aligned}
+
+
+\nabla_{\mu_j } L&= \sum_{i=1}^N r_{ij} Σ_j^{-1}(x_i −  \mu_j)
+=Σ_j^{-1}\sum_{i=1}^N r_{ij}(x_i −  \mu_j)
+\end{aligned}
+$$
+令上式为$0​$可得
+$$
+\mu_j =\frac{\sum_{i=1}^N r_{ij} x_i}{\sum_{i=1}^N r_{ij}}
+$$
+接着计算$\Sigma_j$的梯度，将关于参数$\Sigma_j$的部分整合起来
+$$
+- \frac 12\sum_{i=1}^N  \sum_{j=1}^k r_{ij}
+(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)
+$$
+注意到如果求出$\Sigma_j^{-1}$的更新规则，那么就可以得到$\Sigma_j$的更新规则，所以关于$\Sigma_j^{-1}$求梯度可得
+$$
+\begin{aligned}
+&\nabla_{\Sigma_j^{-1}}\left( - \frac 12\sum_{i=1}^N  \sum_{j=1}^k r_{ij}
+
+(x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)\right)\\
+&= -\nabla_{\Sigma_j^{-1}} \frac 1 2 \sum_{i=1}^N  \sum_{j=1}^k\Big(  r_{ij}\text{trace}\big((x_i −  \mu_j)^TΣ_j^{-1}(x_i −  \mu_j)\big)\Big) \\
+&= -\nabla_{\Sigma_j^{-1}} \frac 1 2 \sum_{i=1}^N  \sum_{j=1}^k\Big(  r_{ij}\text{trace}\big(Σ_j^{-1}(x_i −  \mu_j)(x_i −  \mu_j)^T\big)\Big) \\
+
+&=-\frac 1 2 \sum_{i=1}^N
+\Big( r_{ij}(x_i −  \mu_j)(x_i −  \mu_j)^T \Big)
+\end{aligned}
+$$
+注意这一步无法解出$\Sigma_j $，根据实际意义，一个合理的估计为
+$$
+\Sigma_j = \frac{ \sum_{i=1}^N r_{ij} (x_i −  \mu_j)(x_i −  \mu_j)^T}{\sum_{i=1}^N r_{ij} }
+$$
+最后，我们计算$w_j$的梯度，注意由条件我们有
+$$
+\sum_{j=1}^k w_j=1 \tag 4
+$$
+只保留关于$w_j$的项，结合上述条件，构造如下拉格朗日乘子
+$$
+\mathcal L(w)=\sum_{i=1}^N  \sum_{j=1}^k  r_{ij}\ln w_j
++\beta(\sum_{j=1}^k w_j -1)
+$$
+求导可得
+$$
+\frac{\partial}{\partial w_j}\mathcal L(w)=
+\sum_{i=1}^N \frac{ r_{ij}}{w_j} +\beta
+$$
+令导数为$0$解得
+$$
+w_j = \frac{\sum_{i=1}^N  r_{ij}}{-\beta}
+$$
+结合(4)可得
+$$
+\begin{aligned}
+-\beta
+&=-\beta \sum_{j=1}^k  w_j \\
+&=\sum_{j=1}^k \sum_{i=1}^N  r_{ij}\\
+&=\sum_{i=1}^ N\sum_{j=1}^k  \frac{p(x_i,w_j | \mu_j,\Sigma_{j})}
+{\sum_{j=1}^kp(x_i,w_j | \mu_j,\Sigma_{j})}\\
+&=N
+\end{aligned}
+$$
+所以
+$$
+w_j = \frac{\sum_{i=1}^N  r_{ij}}{N}
+$$
+最后将内容总结如下：
+$$
+\begin{aligned}
+r_{ij}&= \frac{p(x_i,w_j | \mu_j,\Sigma_{j})}
+{\sum_{j=1}^kp(x_i,w_j | \mu_j,\Sigma_{j})} \\
+w_j &= \frac{\sum_{i=1}^N  r_{ij}}{N}\\
+\mu_j& =\frac{\sum_{i=1}^N r_{ij} x_i}{\sum_{i=1}^N r_{ij}}\\
+\Sigma_j&= \frac{ \sum_{i=1}^N r_{ij} (x_i −  \mu_j)(x_i −  \mu_j)^T}{\sum_{i=1}^N r_{ij} }
+\end{aligned}
 $$
 
 
@@ -1496,7 +2374,7 @@ a_k \int _{−∞}^∞ dx \Big(h^{(k)}(x)\Big)^2
 $$
 where $λ$ is the regularization parameter. Assume $h^{(k)} (x)$ (the $k$th derivative of $h$) decays to to $0$ as $|x| \to \infty$.Let $δ(x) $
 
-be the Dirac delta function
+be the Dirac delta function.
 
 (a) How would you select $a_k$ to penalize how curvy or wiggly $h$ is?   
 
@@ -1505,7 +2383,7 @@ $$
 E_{\text{aug}}(h) = \int _{−∞}^{∞} dx \Big[ \sum_{i=1}^N (h(x) − y_i)^2δ(x − x_i) + λ\sum_{k=0}^\infty
 a_k  \Big(h^{(k)}(x)\Big)^2 \Big]
 $$
-Now find a stationary point of this functional: perturb $h$ by $δh$ and assume that for all $k$, $δh^{(k)} → 0$ as $|x| → 0$. Compute the change $δE_{\text{aug}}(h) = E_{\text{aug}}(h + δh) - E_{\text{aug}}(h)$ and set it to $0$. After integrating by parts and discarding all terms of higher order than linear in $δh$, and setting all boundary terms from the integration by parts to $0$, derive the following condition for $h$ to be stationary (since $δh$ is arbitrary), 
+Now find a stationary point of this functional: perturb $h​$ by $δh​$ and assume that for all $k​$, $δh^{(k)} → 0​$ as $|x| → 0​$. Compute the change $δE_{\text{aug}}(h) = E_{\text{aug}}(h + δh) - E_{\text{aug}}(h)​$ and set it to $0​$. After integrating by parts and discarding all terms of higher order than linear in $δh​$, and setting all boundary terms from the integration by parts to $0​$, derive the following condition for $h​$ to be stationary (since $δh​$ is arbitrary), 
 $$
 \sum_{i=1}^N (h(x) − y_i)δ(x − x_i) + λ\sum_{k=0}^\infty
 (-1)^ka_k h^{(2k)}(x)=0
@@ -1514,12 +2392,14 @@ $$
 $$
 h(x) = \sum_{i=1}^N w_iG(x, x_i)
 $$
-with $w = (G + λI)^{-1}y$, where $G_{ij} = G(x_i, x_j)$. ($h$ resembles an RBF with the Green’s function as kernel. If $L$ is translation and rotation in variant, then $G(x, x′) = G(||x - x′||)$, and we have an RBF.)     
+with $w = (G + λI)^{-1}y​$, where $G_{ij} = G(x_i, x_j)​$. ($h​$ resembles an RBF with the Green’s function as kernel. If $L​$ is translation and rotation in variant, then $G(x, x′) = G(||x - x′||)​$, and we have an RBF.)     
 
-(d) [Computing the Green’s Function] Solve $LG(x, x′) = δ(x - x′)$ to get $G$. Define the Fourier transform and its inverse, 
+(d) [Computing the Green’s Function] Solve $LG(x, x′) = δ(x - x′)​$ to get $G​$. Define the Fourier transform and its inverse, 
 $$
-\hat G(f, x′) = \int_{-∞}^∞ dx\ e^{2πifx}G(x, x′)\\
-\hat G(x, x′) = \int_{-∞}^∞df\ e^{-2πifx}\hat G(f, x′)
+\begin{aligned}
+\hat G(f, x′)&= \int_{-∞}^∞ dx\ e^{2πifx}G(x, x′)\\
+\hat G(x, x′)&= \int_{-∞}^∞df\ e^{-2πifx}\hat G(f, x′)
+\end{aligned}
 $$
 Fourier transform both sides of $LG(x, x′) = δ(x -x′)$, integrate by parts, assuming that the boundary terms vanish, and show that 
 $$
@@ -1529,11 +2409,11 @@ where $Q(f) = \sum^∞ _{k=0} a_k(2πf)^{2k}$ is an even function whose power se
 $$
 G(x, x′) = \frac 1 {\sqrt{2π}} e^{- \frac1 2 (x-x′)^2}
 $$
-(For regularization that penalizes a particular combination of the deriva tives of $h$, the optimal non-parametric regularized fit is a Gaussian kernel RBF.) [Hint: You may need: $\int_{-∞} ^{∞} dt e^{-at^2+bt} =\sqrt{ \frac πa} e^{b^2/4a}, Re(a) > 0$.]    
+(For regularization that penalizes a particular combination of the deriva tives of $h​$, the optimal non-parametric regularized fit is a Gaussian kernel RBF.) [Hint: You may need: $\int_{-∞} ^{∞} dt e^{-at^2+bt} =\sqrt{ \frac πa} e^{b^2/4a}, Re(a) > 0​$.]    
 
 这里积分的写法和习惯上的稍有不同，后续讨论的时候就按常规写法。
 
-(a)选择$a_k$使得$k\to \infty$时，$a_k \to 0$，之所以这样做，是为了让高阶导数尽可能地小，从而曲线更平滑。
+(a)选择$a_k$使得$k\to \infty$时，$a_k \to 0$，之所以这样做，是为了让高阶导数的影响尽可能地小，从而曲线更平滑。
 
 (b)Dirac delta function的性质为
 $$
@@ -1587,13 +2467,13 @@ $$
 
 \end{aligned}
 $$
-令其为$0$可得
+令其为$0​$可得
 $$
 \int _{−∞}^{∞}  \Big[ \sum_{i=1}^N (h(x) − y_i)δ(x − x_i) + λ\sum_{k=0}^\infty
 (-1)^k a_k
  h^{(2k)}(x) \Big] dx = 0
 $$
-(c)注意题目中的$L$是不对的，论坛里已经有人指出了，这里$L =\sum^∞_{k=0}(-1)^ka_k \frac{d^{2k}} {dx^{2k}}$，将$h(x) = \sum_{i=1}^N w_iG(x, x_i)$带入(b)中求得等式
+(c)注意题目中的$L$是不对的，论坛里已经有人指出了，这里$L =\sum^∞_{k=0}(-1)^ka_k \frac{d^{2k}} {dx^{2k}}$，将$h(x) = \sum_{i=1}^N w_iG(x, x_i)$带入(b)的等式
 $$
 \sum_{i=1}^N ( \sum_{j=1}^N w_jG(x, x_j) − y_i)δ(x − x_i) + λ\sum_{k=0}^\infty
 (-1)^ka_k\Big ( \sum_{j=1}^N w_jG(x, x_j)\Big ) ^{(2k)}=0\\
@@ -1606,20 +2486,20 @@ $$
 ( \sum_{j=1}^N w_jG(x_k, x_j) − y_i)δ(0) +λw_k δ(0) =0 \\
  \sum_{j=1}^N w_jG(x_k, x_j) − y_i +λw_k=0
 $$
-令$k=1,...,N$，那么上述$N$个等式可以写为
+令$k=1,...,N​$，那么上述$N​$个等式可以写为
 $$
 (G+\lambda I)w = y \\
 w= (G+\lambda I)^{-1}y
 $$
-(d)因为$L =\sum^∞_{k=0}(-1)^ka_k \frac{d^{2k}} {dx^{2k}}$，所以我们先求$\frac{d^{2k}} {dx^{2k}} G(x,x^{'})$的傅里叶变换
+(d)因为$L =\sum^∞_{k=0}(-1)^ka_k \frac{d^{2k}} {dx^{2k}}​$，所以我们先求$\frac{d^{2k}} {dx^{2k}} G(x,x^{'})​$的傅里叶变换
 $$
 \begin{aligned}
 \int_{-\infty}^{\infty}  e^{-2πifx} \frac{d^{2k}} {dx^{2k}} G(f,x^{'}) df
 &=\int_{-\infty}^{\infty}  e^{-2πifx}  d\Big( \frac{d^{2k-1}} {dx^{2k-1}} G(f,x^{'}) \Big) \\
 &= e^{-2πifx}  \frac{d^{2k-1}} {dx^{2k-1}} G(f,x^{'})\Big| _{f=-\infty}^{f=\infty} - (-2\pi i x)\int_{-\infty}^{\infty}  e^{-2πifx} \frac{d^{2k-1}} {dx^{2k-1}} G(f,x^{'})df \\
-&= -(-2\pi i x)\int_{-\infty}^{\infty}  e^{-2πifx} \frac{d^{2k-1}} {dx^{2k-1}} G(f,x^{'})df \\
-&= -(-2\pi i x)\int_{-\infty}^{\infty}   e^{-2πifx}  d\Big( \frac{d^{2k-2}} {dx^{2k-2}} G(f,x^{'}) \Big) \\
-&= -(-2\pi i x)\Big(e^{-2πifx}  \frac{d^{2k-2}} {dx^{2k-2}} G(f,x^{'})\Big| _{f=-\infty}^{f=\infty} - (-2\pi i x)\int_{-\infty}^{\infty}  e^{-2πifx} \frac{d^{2k-2}} {dx^{2k-2}} G(f,x^{'})df  \Big)\\
+&= (2\pi i x)\int_{-\infty}^{\infty}  e^{-2πifx} \frac{d^{2k-1}} {dx^{2k-1}} G(f,x^{'})df \\
+&= (2\pi i x)\int_{-\infty}^{\infty}   e^{-2πifx}  d\Big( \frac{d^{2k-2}} {dx^{2k-2}} G(f,x^{'}) \Big) \\
+&= (2\pi i x)\Big(e^{-2πifx}  \frac{d^{2k-2}} {dx^{2k-2}} G(f,x^{'})\Big| _{f=-\infty}^{f=\infty} - (-2\pi i x)\int_{-\infty}^{\infty}  e^{-2πifx} \frac{d^{2k-2}} {dx^{2k-2}} G(f,x^{'})df  \Big)\\
 &=(-1)(2\pi x)^{2} \int_{-\infty}^{\infty}  e^{-2πifx} \frac{d^{2k-2}} {dx^{2k-2}} G(f,x^{'})df 
 \end{aligned}
 $$
@@ -1639,6 +2519,8 @@ $$
 |x| \to \infty时,\frac{d^{k}} {dx^{k}} G(x,x_i) \to 0\\
 e^{-2πifx}  \frac{d^{k}} {dx^{k}} G(f,x^{'})\Big| _{f=-\infty}^{f=\infty} =0
 $$
+（上述推理有不严谨的地方，但是应该可以默认这点成立。）
+
 接着递推下去可得
 $$
 \int_{-\infty}^{\infty}  e^{-2πifx} \frac{d^{2k}} {dx^{2k}} G(f,x^{'}) df = (-1)^k (2\pi x)^{2k} \int_{-\infty}^{\infty}  e^{-2πifx}G(f,x^{'})df
@@ -1665,8 +2547,10 @@ $\int_{-∞}^∞e^{-2πi f_1x}δ(f_1) df_1=1$可以参看[维基百科](https://
 
 所以现在有等式
 $$
-Q(x)\int_{-\infty}^{\infty}  e^{-2πifx}G(f,x^{'})df= e^{-2\pi ixx^{'}} \\
-\int_{-\infty}^{\infty}  e^{-2πifx}G(f,x^{'})df =\frac{ e^{-2\pi ixx^{'}} }{Q(x)}
+\begin{aligned}
+Q(x)\int_{-\infty}^{\infty}  e^{-2πifx}G(f,x^{'})df&= e^{-2\pi ixx^{'}} \\
+\int_{-\infty}^{\infty}  e^{-2πifx}G(f,x^{'})df& =\frac{ e^{-2\pi ixx^{'}} }{Q(x)}
+\end{aligned}
 $$
 两边求傅里叶逆变换可得
 $$
@@ -1683,7 +2567,7 @@ G(x,x^{'}) =\int_{-\infty}^{\infty}  \frac{ e^{2\pi if (x^{'} -x)} }{Q(f)} df
 $$
 有所不同，暂时不确定谁对谁错，这里先保留这个问题。
 
-现在$x_k=\frac{1}{2^k k!}$，所以
+现在$a_k=\frac{1}{2^k k!}$，所以
 $$
 \begin{aligned}
 Q(f)
@@ -1694,7 +2578,7 @@ Q(f)
 \end{aligned}
 $$
 
-带入上式，利用$\int_{-∞} ^{∞} e^{-at^2+bt} dt  =\sqrt{ \frac πa} e^{b^2/4a}, Re(a) > 0$
+带入上式，利用$\int_{-∞} ^{∞} e^{-at^2+bt} dt  =\sqrt{ \frac πa} e^{b^2/4a}, Re(a) > 0$，我们有
 $$
 \begin{aligned}
 G(x,x^{'})
@@ -1703,7 +2587,7 @@ G(x,x^{'})
 &=\int_{-\infty}^{\infty}  e^{-2 \pi^2 f^2 +2\pi if (x -x^{'})} df\\
 &=\int_{-\infty}^{\infty}  e^{-2 \pi^2 f^2 +2\pi if (x -x^{'})} df\\
 &= \sqrt{\frac {\pi}{2\pi^2}} e^{\frac{- 4\pi^2 (x -x^{'})^2}{8\pi^2}}\\
-&= \sqrt{\frac {1}{2\pi}}  e^{{-\frac 1 2  (x -x^{'})^2}}
+&=\frac {1}{\sqrt{2\pi}}  e^{{-\frac 1 2  (x -x^{'})^2}}
 \end{aligned}
 $$
 
@@ -1729,11 +2613,13 @@ y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1  - ζ_n
 $$
  where $ζ_n ≥ 0​$ are slack variables that measure the degree to which the data point $(x_n, y_n)​$ has been misclassified. The total error is $\sum_{i=1}^Nζ_n​$. If you minimize a combination of the total weight sizes and the error with emphasis $C​$ on error, then argue that the optimization problem becomes 
 $$
-\underset {w}{\text{minimize }} \sum_{i=1}^N|w_i| +C\sum_{i=1}^Nζ_n\\
-\text{ s.t.  }y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1  - ζ_n\\
-ζ_n \ge 0
+\begin{aligned}
+\underset {w}{\text{minimize }}& \sum_{i=1}^N|w_i| +C\sum_{i=1}^Nζ_n\\
+\text{ s.t.  }&y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1  - ζ_n\\
+&ζ_n \ge 0
+\end{aligned}
 $$
-where the inequalities must hold for $n = 1, . . . , N$. The minimization trades off sparsity of the weight vector with the extent of misclassification. To encourage smaller in-sample error, one sets $C$ to be large.    
+where the inequalities must hold for $n = 1, . . . , N​$. The minimization trades off sparsity of the weight vector with the extent of misclassification. To encourage smaller in-sample error, one sets $C​$ to be large.    
 
 (a)如果完全fit数据，那么
 $$
@@ -1753,9 +2639,12 @@ y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1
 $$
 所以优化问题为
 $$
-\underset {w}{\text{minimize }} \sum_{i=1}^N|w_i|\\ \text{ s.t.  }y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1
+\begin{aligned}
+\underset {w}{\text{minimize }}& \sum_{i=1}^N|w_i|\\ 
+\text{ s.t.  }&y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1
+\end{aligned}
 $$
-这个算法很容易过拟合，因为$E_{in}=0$
+这个算法很容易过拟合，因为$E_{\text{in}}=0​$
 
 (b)为了解决过拟合问题，同SVM的方法，允许一些误差
 $$
@@ -1768,11 +2657,13 @@ $$
 $$
 所以原问题可以转化为
 $$
-\underset {w}{\text{minimize }} \sum_{i=1}^N|w_i| +C\sum_{i=1}^Nζ_n\\
-\text{ s.t.  }y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1  - ζ_n\\
-ζ_n \ge 0
+\begin{aligned}
+\underset {w}{\text{minimize }}& \sum_{i=1}^N|w_i| +C\sum_{i=1}^Nζ_n\\
+\text{ s.t.  }&y_n \Big(w_0 +\sum_{i=1}^Nw_id(x_n, x_i) \Big)\ge 1  - ζ_n\\
+&ζ_n \ge 0
+\end{aligned}
 $$
-如果$C$比较大，那么我们希望$ζ_n$比较小，即允许较小的误差。
+如果$C​$比较大，那么我们希望$ζ_n​$比较小，即允许较小的误差。
 
 
 
@@ -1780,44 +2671,54 @@ $$
 
 Show that the minimization in (6.10) is a linear program: 
 $$
-\underset{w,ζ,α} {\text{minimize }}  \sum_{n=1}^N α_n + C  \sum_{n=1}^N ζ_n, \\
--α_n ≤ w_n ≤ α_n, \\
-\text{s.t.} y_n \Big(w_0 + \sum_{i=1}^N w_id(x_n, x_i) \Big) ≥ 1 - ζ_n, \\
-ζ_n ≥ 0
+\begin{aligned}
+\underset{w,ζ,α} {\text{minimize }}&  \sum_{n=1}^N α_n + C  \sum_{n=1}^N ζ_n, \\
+&-α_n ≤ w_n ≤ α_n, \\
+\text{s.t. }& y_n \Big(w_0 + \sum_{i=1}^N w_id(x_n, x_i) \Big) ≥ 1 - ζ_n, \\
+&ζ_n ≥ 0
+\end{aligned}
 $$
 where the inequalities must hold for $n = 1, . . . , N​$. Formulate this linear program in a standard form as in Problem 3.6. You need to specify what the parameters $A, a, b​$ are and what the optimization variable $z​$ is. [Hint: Use auxiliary variables $α_1, . . . , α_N​$ to rewrite $|w_n|​$ using linear functions.]    
 
 记$\alpha_n =|w_n|$，所以
 $$
-\alpha_n = |w_n| \ge w_n \\
-\alpha_n = |w_n| \ge -w_n\\
--α_n ≤ w_n ≤ α_n
+\begin{aligned}
+&\alpha_n = |w_n| \ge w_n \\
+&\alpha_n = |w_n| \ge -w_n\\
+&-α_n ≤ w_n ≤ α_n
+\end{aligned}
 $$
 原问题可以修改为
 $$
-\underset{w,ζ,α} {\text{minimize }}  \sum_{n=1}^N α_n + C  \sum_{n=1}^N ζ_n, \\
--α_n ≤ w_n ≤ α_n, \\
-\text{s.t.} y_n \Big(w_0 + \sum_{i=1}^N w_id(x_n, x_i) \Big) ≥ 1 - ζ_n, \\
-ζ_n ≥ 0
+\begin{aligned}
+\underset{w,ζ,α} {\text{minimize }}&  \sum_{n=1}^N α_n + C  \sum_{n=1}^N ζ_n, \\
+&-α_n ≤ w_n ≤ α_n, \\
+\text{s.t. }& y_n \Big(w_0 + \sum_{i=1}^N w_id(x_n, x_i) \Big) ≥ 1 - ζ_n, \\
+&ζ_n ≥ 0
+\end{aligned}
 $$
 现在要把问题变形为如下形式
 $$
-\underset {z}{\text{min}}\quad {c^Tz}\\
-{\text{subject to}}\ \quad Az\le b
+\begin{aligned}
+\underset {z}{\text{min}}\quad &{c^Tz}\\
+{\text{subject to}}\quad & Az\le b
+\end{aligned}
 $$
 给出以下记号
 $$
-z= [\alpha_1,...,\alpha_N,w_1,...,w_N,\xi_1,..., \xi_N]^T \in R^{3N}
+z= [\alpha_1,...,\alpha_N,w_1,...,w_N,\xi_1,..., \xi_N]^T \in \mathbb R^{3N}
 $$
-那么$-α_n ≤ w_n ≤ α_n​$可以化为
+注意$-α_n ≤ w_n ≤ α_n$可以化为
 $$
--α_n-w_n\le 0 \\
--α_n +w_n≤ 0
+\begin{aligned}
+-α_n-w_n&\le 0 \\
+-α_n +w_n&≤ 0
+\end{aligned}
 $$
 记
 $$
-A_1=  \left[ \begin{matrix} -I_N & -I_N  &0 \end{matrix}\right] \in R^{N\times 3N},
-A_2=  \left[ \begin{matrix} -I_N & I_N  &0 \end{matrix}\right]\in R^{N\times 3N}
+A_1=  \left[ \begin{matrix} -I_N & -I_N  &0 \end{matrix}\right] \in \mathbb R^{N\times 3N},
+A_2=  \left[ \begin{matrix} -I_N & I_N  &0 \end{matrix}\right]\in \mathbb R^{N\times 3N}
 $$
 所以上述两个条件可以化为
 $$
@@ -1826,11 +2727,17 @@ $$
 接着对$ y_n \Big(w_0 + \sum_{i=1}^N w_id(x_n, x_i) \Big) ≥ 1 - ζ_n$进行处理
 $$
 y_n \Big(w_0 + \sum_{i=1}^N w_id(x_n, x_i) \Big) ≥ 1 - ζ_n \\
-- \sum_{i=1}^N w_iy_nd(x_n, x_i)-ζ_n\le y_nw_0 -1\\
-D_n= y_n\left[ \begin{matrix} d(x_n, x_1)&...&(x_n, x_N) \end{matrix}\right]\\
-D= \left[ \begin{matrix} D_1 \\... \\D_N \end{matrix}\right] \in R^{N\times N}\\
-b_3= \left[ \begin{matrix} y_1w_0 -1 \\... \\y_Nw_0 -1 \end{matrix}\right] \in R^{N}\\
-A_3=  \left[ \begin{matrix} 0 & -D  &-I_N \end{matrix}\right] \in R^{N\times 3N}
+- \sum_{i=1}^N w_iy_nd(x_n, x_i)-ζ_n\le y_nw_0 -1
+$$
+记
+$$
+\begin{aligned}
+D_n&= y_n\left[ \begin{matrix} d(x_n, x_1)&...&d(x_n, x_N) \end{matrix}\right]
+\in \mathbb R^{1\times N}\\
+D&= \left[ \begin{matrix} D_1 \\... \\D_N \end{matrix}\right] \in \mathbb R^{N\times N}\\
+b_3&= \left[ \begin{matrix} y_1w_0 -1 \\... \\y_Nw_0 -1 \end{matrix}\right] \in \mathbb R^{N}\\
+A_3&=  \left[ \begin{matrix} 0 & -D  &-I_N \end{matrix}\right] \in \mathbb R^{N\times 3N}
+\end{aligned}
 $$
 从而上述不等式可以化为
 $$
@@ -1838,24 +2745,33 @@ A_3 z \le b_3
 $$
 最后对$ζ_n ≥ 0$进行处理
 $$
-ζ_n ≥ 0\\
--ζ_n \le 0\\
-A_4=  \left[ \begin{matrix} 0 &0  &-I_N \end{matrix}\right] \in R^{N\times 3N}
+\begin{aligned}
+ζ_n &≥ 0\\
+-ζ_n &\le 0
+\end{aligned}
+$$
+记
+$$
+A_4=  \left[ \begin{matrix} 0 &0  &-I_N \end{matrix}\right] \in \mathbb R^{N\times 3N}
 $$
 从而上述不等式可以化为
 $$
 A_4 z \le 0
 $$
-所以限制条件为
+综上，约束条件为
 $$
-A=  \left[ \begin{matrix} A_1 \\A_2  \\A_3\\A_4 \end{matrix}\right] \in R^{4N\times 3N}\\
-b= \left[ \begin{matrix} 0 \\0  \\b_3\\0 \end{matrix}\right] \in R^{4N}\\
-Az\le b
+\begin{aligned}
+A&=  \left[ \begin{matrix} A_1 \\A_2  \\A_3\\A_4 \end{matrix}\right] \in \mathbb R^{4N\times 3N}\\
+b&= \left[ \begin{matrix} 0 \\0  \\b_3\\0 \end{matrix}\right] \in \mathbb R^{4N}\\
+Az&\le b
+\end{aligned}
 $$
 记
 $$
-e=[1,...,1]^T \in R^N\\
-c= \left[ \begin{matrix} e \\0  \\Ce \end{matrix}\right] \in R^{3N}
+\begin{aligned}
+e&=[1,...,1]^T \in \mathbb R^N\\
+c&= \left[ \begin{matrix} e \\0  \\Ce \end{matrix}\right] \in \mathbb R^{3N}
+\end{aligned}
 $$
 那么目标函数为
 $$
@@ -1873,35 +2789,39 @@ For test point $x$, show that the classifier with minimum error probability is
 $$
 f(x) = \text{sign}\Big( \sum^k_{ j =1} w_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}\Big)
 $$
-where $w_j = p_j(2π_j - 1)$. [Hint: Show that the optimal decision rule can be written $f(x) = \text{sign}(P[+1|x] - P[-1|x])$. Use Bayes’ theorem and simplify.] (This is the RBF-network for classification. Since $\mu_j, Σ_j, p_j, π_j$ are unknown, they must be fit to the data. This problem shows the connection between the RBF-network for classification and a very simple probabilistic model of the data. The Bayesians often view the RBF-network through this lens. )  
+where $w_j = p_j(2π_j - 1)$. [Hint: Show that the optimal decision rule can be written $f(x) = \text{sign}(\mathbb P[+1|x] - \mathbb P[-1|x])$. Use Bayes’ theorem and simplify.] (This is the RBF-network for classification. Since $\mu_j, Σ_j, p_j, π_j$ are unknown, they must be fit to the data. This problem shows the connection between the RBF-network for classification and a very simple probabilistic model of the data. The Bayesians often view the RBF-network through this lens. )  
 
 这里最重要的是说明最优分类器为
 $$
-f(x) = \text{sign}(P[+1|x] - P[-1|x])
+f(x) = \text{sign}(\mathbb P[+1|x] - \mathbb P[-1|x])
 $$
-这一点可以由Exercise 6.2直接得出，因为Exercise 6.2中的$\pi(x)=P[+1|x]$，所以
+这一点可以由Exercise 6.2直接得出，因为Exercise 6.2中的$\pi(x)=\mathbb P[+1|x]$，而
 $$
-\pi(x)\ge \frac 1 2\Leftrightarrow P[+1|x]\ge P[-1|x]
+\pi(x)\ge \frac 1 2\Leftrightarrow \mathbb P[+1|x]\ge \mathbb P[-1|x]
 $$
-Exercise 6.2的分类器可以变形为
+所以，Exercise 6.2的分类器可以变形为
 $$
-f(x)=\begin{cases}
-+1, & P[+1|x]\ge P[-1|x] \\
+\begin{aligned}
+f(x)&=\begin{cases}
++1, & \mathbb P[+1|x]\ge \mathbb P[-1|x] \\
 -1, & \text{otherwise}
 \end{cases}\\
-f(x) = \text{sign}(P[+1|x] - P[-1|x])
+f(x) &= \text{sign}(\mathbb P[+1|x] - \mathbb P[-1|x])
+\end{aligned}
 $$
 由Exercise 6.2的结论知$f(x)​$的误差最小，为最优分类器。
 
-现在我们来计算$P[+1|x],P[-1|x]$，由全概率公式可得
+现在我们来计算$\mathbb P[+1|x],\mathbb P[-1|x]$，由全概率公式可得
 $$
-P[+1|x] =  \sum^k_{ j =1} p_ j\pi_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}\\
-P[-1|x] =  \sum^k_{ j =1} p_ j(1-\pi_j)e^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}
+\begin{aligned}
+\mathbb P[+1|x] &=  \sum^k_{ j =1} p_ j\pi_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}\\
+\mathbb P[-1|x] &=  \sum^k_{ j =1} p_ j(1-\pi_j)e^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}
+\end{aligned}
 $$
 所以
 $$
 \begin{aligned}
-P[+1|x]- P[-1|x] 
+\mathbb P[+1|x]- \mathbb P[-1|x] 
   &=   \sum^k_{ j =1} p_ j\pi_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)} -  \sum^k_{ j =1} p_ j(1-\pi_j)e^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}\\
   &= \sum^k_{ j =1} p_ j(2\pi_j-1)e^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)} \\
   &=\sum^k_{ j =1} w_je^{ - \frac 12 (x - \mu_j)^T Σ_j^{ -1}(x - \mu_j)}
@@ -1915,13 +2835,298 @@ $$
 
 
 
+#### Problem 6.24 (Page 49)
+
+[Determining the Number of Clusters $k$] Use the same input data ($x_n$) as in Problem 6.13.
+
+(a) Run Lloyd’s $k​$-means clustering algorithm, for $k = 1, 2, 3, 4, . . .,​$ outputting the value of the $k​$-means objective $E_{\text{in}}(k)​$.
+(b) Generate benchmark random data of the same size, uniformly over the smallest axis-aligned square containing the the actual data (this data has no well defined clusters). Run Lloyd’s algorithm on this random data for $k = 1, 2, 3, 4, . . .​$. Repeat for several such random data sets to obtain the average $k​$-means error as a function of $k​$, $E^{\text{rand}}_{\text{in}} (k)​$.
+
+(c) Compute and plot the gap statistic (as a function of $k$)
+$$
+G(k)= \log E^{\text{rand}}_{\text{in}} (k)-\log E_{\text{in}}(k)
+$$
+(d) Argue that the maximum of the gap statistic is a reasonable choice for the number of clusters to use. What value for $k$ do you get?
+(e) Repeat with different choices for $σ$ in Problem 6.13, and plot the value of $k$ chosen by the gap statistic versus $σ$. Explain your result.
+
+利用Problem 6.1介绍的方法可以向量化实现Kmeans，具体代码如下：
+
+```python
+class KMeans_():
+    def __init__(self, k, D=1e-5):
+        #聚类数量
+        self.k = k
+        #聚类中心
+        self.cluster_centers_ = []
+        #聚类结果
+        self.labels_ = []
+        #设置阈值
+        self.D = D
+        
+    def fit(self, X):
+        #数据维度
+        n, d = X.shape
+        #聚类标签
+        labels = np.zeros(n, dtype=int)
+        #初始中心点
+        index = np.random.randint(0, n, self.k)
+        cluster_centers = X[index]
+        #记录上一轮迭代的聚类中心
+        cluster_centers_pre = np.copy(cluster_centers)
+        
+        while True:
+            #计算距离矩阵
+            d1 = np.sum(X ** 2, axis=1).reshape(-1, 1)
+            d2 = np.sum(cluster_centers ** 2, axis=1).reshape(1, -1)
+            dist = d1 + d2 - 2 * X.dot(cluster_centers.T)
+            
+            #STEP1:找到最近的中心
+            labels = np.argmin(dist, axis=1)
+            #STEP2:重新计算中心
+            for i in range(self.k):
+                #第i类的索引
+                index = (labels==i)
+                #第i类的数据
+                x = X[index]
+                #判断是否有点和某聚类中心在一类
+                if len(x) != 0:
+                    cluster_centers[i] = np.mean(x, axis=0)
+                
+            #计算误差
+            delta = np.linalg.norm(cluster_centers - cluster_centers_pre)
+            
+            if delta < self.D:
+                break
+            
+            cluster_centers_pre = np.copy(cluster_centers)
+            
+        self.cluster_centers_ = np.copy(cluster_centers)
+        self.labels_ = labels
+        
+        
+    def predict(self, X):
+        #计算距离矩阵
+        d1 = np.sum(X ** 2, axis=1).reshape(-1, 1)
+        d2 = np.sum(self.cluster_centers_ ** 2, axis=1).reshape(1, -1)
+        dist = d1 + d2 - 2 * X.dot(self.cluster_centers_.T)
+        
+        #找到最近的中心
+        self.cluster_centers_ = np.argmin(dist, axis=1)
+        
+        return self.cluster_centers_
+```
+
+(a)分别取不同的$k$做Kmeans，比较$E_{\text{in}}$：
+$$
+E_{\mathrm{in}}\left(S_{1}, \ldots, S_{k} ; \mu_{1}, \ldots, \mu_{k}\right)=
+\frac 1 N \sum_{j=1}^{k} E_{j}=\frac 1 N \sum_{n=1}^{N}\left\|{x}_{n}-\mu\left({x}_{n}\right)\right\|^{2}
+$$
+
+```python
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Apr 30 11:27:42 2019
+
+@author: qinzhen
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+import helper as hlp
+
+#### (a)
+n = 1000
+X, y = hlp.Data(n, scale=0.5) 
+plt.scatter(X[:, 0], X[:, 1], edgecolor='k', c=y)
+plt.show()
+
+n = X.shape[0]
+K = np.arange(1, 10)
+Ein = []
+for k in K:
+    #训练模型
+    kmeans = hlp.KMeans_(k)
+    kmeans.fit(X)
+    #获得标签
+    label = kmeans.labels_
+    #获得聚类中心
+    center = kmeans.cluster_centers_
+    #计算Ein
+    ein = 0
+    for i in range(k):
+        #计算每一类的误差
+        ein += np.sum((X[label==i] - center[i]) ** 2)
+    #计算均值
+    ein /= n
+    Ein.append(ein)
+
+#作图
+plt.plot(K, Ein)
+plt.title("$K$ VS $E_{in}$")
+plt.xlabel("$K$")
+plt.ylabel("$E_{in}$")
+plt.show()
+```
+
+![png](output_33_0.png)
+
+![png](output_33_1.png)
+
+(b)题目的意思是首先找到点集中两个坐标的最大最小值，分别记为$x_{\min},x_{\max},y_{\min},y_{\max}$，于是$[x_{\min},x_{\max}]\times [y_{\min},y_{\max}]$包含全部点，在这个范围内均匀生成和原始点集相同数量的点，然后使用Kmeans算法，计算$E^{\text{rand}}_{\text{in}} (k)$即可：
+
+```python
+#### (b)
+#记录结果
+Ein_rand = []
+#试验次数
+N = 1000
+
+for k in K:
+    ein_k = []
+    for _ in range(N):
+        X, y = hlp.Data(n, scale=0.5) 
+        #计算范围
+        X1_min = np.min(X[:, 0])
+        X1_max = np.max(X[:, 0])
+        X2_min = np.min(X[:, 1])
+        X2_max = np.max(X[:, 1])
+        #生成点
+        X1_rand = np.random.uniform(X1_min, X1_max, size=n)
+        X2_rand = np.random.uniform(X2_min, X2_max, size=n)
+        #合并
+        Xrand = np.c_[X1_rand, X2_rand]
+        #训练模型
+        kmeans = hlp.KMeans_(k)
+        kmeans.fit(Xrand)
+        #获得标签
+        label = kmeans.labels_
+        #获得聚类中心
+        center = kmeans.cluster_centers_
+        #计算Ein
+        ein = 0
+        for i in range(k):
+            #计算每一类的误差
+            ein += np.sum((Xrand[label==i] - center[i]) ** 2)
+        #计算均值
+        ein /= n
+        #存储结果
+        ein_k.append(ein)
+    Ein_rand.append(np.mean(ein_k))
+    
+plt.plot(K, Ein_rand)
+plt.title("$K$ VS $E^{{rand}}_{{in}} (k)$")
+plt.xlabel("$K$")
+plt.ylabel("$E^{{rand}}_{{in}} (k)$")
+plt.show()
+```
+
+![png](output_34_0.png)
+
+(c)题目的意思是使得$G(k)-G(k-1)$最大的$k$是合适的聚类数，这个比较好理解，因为再增加聚类数量不能显著减少$E_{\text{in}}$，结果如下：
+
+```python
+#### (c)
+#计算Gk
+Gk = np.log(Ein_rand) - np.log(Ein)
+
+#作图
+plt.plot(K, Gk)
+plt.title("$K$ VS $G(k)$")
+plt.xlabel("$K$")
+plt.ylabel("$G(k)$")
+plt.show()
+
+#最优解
+k_opt = K[np.argmin(np.diff(Gk)) + 1]
+print("Optimal choice of k is {}".format(k_opt))
+```
+
+![png](output_35_0.png)
+
+```
+Optimal choice of k is 2
+```
+
+(d)改变$\sigma $做实验：
+
+```python
+#### (d)
+#试验次数
+N = 100
+Sigma = [0.1, 0.3, 0.5, 0.75, 1]
+K_opt = []
+
+for sigma in Sigma:
+    #记录结果
+    Ein_rand_sigma = []
+    for k in K:
+        ein_k = []
+        for _ in range(N):
+            X, y = hlp.Data(n, scale=sigma) 
+            #计算范围
+            X1_min = np.min(X[:, 0])
+            X1_max = np.max(X[:, 0])
+            X2_min = np.min(X[:, 1])
+            X2_max = np.max(X[:, 1])
+            #生成点
+            X1_rand = np.random.uniform(X1_min, X1_max, size=n)
+            X2_rand = np.random.uniform(X2_min, X2_max, size=n)
+            #合并
+            Xrand = np.c_[X1_rand, X2_rand]
+            #训练模型
+            kmeans = hlp.KMeans_(k)
+            kmeans.fit(Xrand)
+            #获得标签
+            label = kmeans.labels_
+            #获得聚类中心
+            center = kmeans.cluster_centers_
+            #计算Ein
+            ein = 0
+            for i in range(k):
+                #计算每一类的误差
+                ein += np.sum((Xrand[label==i] - center[i]) ** 2)
+            #计算均值
+            ein /= n
+            #存储结果
+            ein_k.append(ein)
+        Ein_rand_sigma.append(np.mean(ein_k))
+    Gk = np.log(Ein_rand_sigma) - np.log(Ein)
+    #记录最优k
+    k_opt = K[np.argmin(np.diff(Gk)) + 1]
+    K_opt.append(k_opt)
+
+#作图
+plt.plot(Sigma, K_opt)
+plt.title("$\sigma$ VS $k$")
+plt.xlabel("$\sigma$")
+plt.ylabel("$k$")
+plt.show()
+```
+
+![png](output_36_0.png)
+
+
+
+#### Problem 6.25 (Page 50)
+
+[Novelty Detection] Novelty corresponds to the arrival of a new cluster. Use the same input data ($x_n$) as in Problem 6.13.
+(a) Use the method of Problem 6.24 to determine the number of clusters.
+(b) Add data (one by one) from a $5$th Gaussian centered on the origin with the same covariance matrix as the other four Gaussians. For each new point, recompute the number of clusters using the method of Problem 6.24. Plot the number of clusters versus $ℓ$ the amount of data added.
+(c) Repeat (b) and plot, as a function of $ℓ$, the average increase in the number of clusters from adding $ℓ$ data points.
+(d) From your plot in (c), estimate $ℓ^∗$, the number of data points needed to identify the existence of this new cluster.
+(e) Vary $σ$ (the variance parameter of the Gaussians) and plot $ℓ^∗$ versus $σ$. Explain your results.
+
+略过。
+
+
+
 #### Problem 6.26 (Page 50)
 
 Let $V = \{v_1, . . . , v_M \}$ be a universe of objects. Define the distance between two sets $S_1, S_2 ⊆ V$ by 
 $$
 d(S_1, S_2) = 1 - J(S_1, S_2)
 $$
-where $J(S_1, S_2) = |S_1 ∩ S_2|/|S_1 ∪ S_2|$ is the Jaccard coefficient. Show that $d(·, ·)$ is a metric satisfying non-negativity, symmetry and the triangle inequality.    
+where $J(S_1, S_2) = |S_1 ∩ S_2|/|S_1 ∪ S_2|$ is the Jaccard coefficient. Show that $d(·, ·)​$ is a metric satisfying non-negativity, symmetry and the triangle inequality.    
 
 这题死算了半天，完全做不出来，还上网查阅了资料才有思路
 
@@ -1937,23 +3142,37 @@ d_1(A,B)\le  d_1(A,C) +d_1(C,B)
 $$
 利用等价转换来证明
 $$
-d_1(A,B)\le  d_1(A,C) +d_1(C,B)  \Leftrightarrow \\
- |A\cup B| - | A\cap B| \le  |A\cup C| - | A\cap C| + |C\cup B| - | C\cap B| \Leftrightarrow \\
- |A| +|B| - | A\cap B| - | A\cap B|  \le |A|+ |C|- | A\cap C| - | A\cap C| +|C| +|B| - | C\cap B|- | C\cap B|  \Leftrightarrow \\
- -2 | A\cap B| \le 2|C|-2 | A\cap C| -2 | C\cap B|  \Leftrightarrow \\
- | A\cap C|+| C\cap B| \le |C|+|A\cup B|
+\begin{aligned}
+d_1(A,B)&\le  d_1(A,C) +d_1(C,B)  \Leftrightarrow \\
+ |A\cup B| - | A\cap B| &\le  |A\cup C| - | A\cap C| + |C\cup B| - | C\cap B| \Leftrightarrow \\
+ |A| +|B| - | A\cap B| - | A\cap B| & \le |A|+ |C|- | A\cap C| - | A\cap C| +|C| +|B| - | C\cap B|- | C\cap B|  \Leftrightarrow \\
+ -2 | A\cap B|& \le 2|C|-2 | A\cap C| -2 | C\cap B|  \Leftrightarrow \\
+ | A\cap C|+| C\cap B|& \le |C|+|A\cup B|
+\end{aligned}
 $$
 这时候画韦恩图其实一目了然，但是还是严格证明一下，思路其实就是受维恩图的启发
 $$
-| A\cap C|+| C\cap B| \le |C|+|A\cup B| \Leftrightarrow \\
+\begin{aligned}
+| A\cap C|+| C\cap B| &\le |C|+|A\cup B| \Leftrightarrow \\
 | A\cap C \cap B^c| +| A\cap C \cap B|  + | A\cap C\cap B| + | A^c\cap C\cap B|
-\le |C| +|A\cup B|  \\
-显然 | A\cap C \cap B| \le |C|\\
-而| A\cap C \cap B^c|,| A\cap C\cap B| , | A^c\cap C\cap B|这三个集合两两交集为空且都为A\cup B的子集\\
-所以| A\cap C \cap B^c|+| A\cap C\cap B| + | A^c\cap C\cap B| \le  |A\cup B|\\
-从而| A\cap C|+| C\cap B| \le |C|+|A\cup B|成立，即三角不等式成立
+&\le |C| +|A\cup B| 
+\end{aligned}
 $$
-接下来要从这个证明中诱导出题目中的矩阵，证明以下引理
+显然 
+$$
+| A\cap C \cap B| \le |C|
+$$
+而$| A\cap C \cap B^c|,| A\cap C\cap B| , | A^c\cap C\cap B|$这三个集合两两交集为空且都为$A\cup B$的子集，所以
+$$
+| A\cap C \cap B^c|+| A\cap C\cap B| + | A^c\cap C\cap B| \le  |A\cup B|
+$$
+从而
+$$
+| A\cap C|+| C\cap B| \le |C|+|A\cup B|
+$$
+成立，即三角不等式成立。
+
+接下来要从这个证明中诱导出题目中的矩阵，首先证明以下引理
 
 Steinhaus Transform:
 $$
@@ -1966,30 +3185,36 @@ p,q,r >0,如果p\le q,那么\frac{p}{q} \le \frac{p+r}{q+r}
 $$
 证明：
 
-这里取$p=d(x,y),q= d(x,a) + d(y,a) + d(x,y),r=d(x,z)+d(y,z)-d(x,y)$
+这里取
 $$
-\begin{aligned}
- \delta(x,y)& = \frac{2d(x,y)}{d(x,a)+d(y,a)+d(x,y)}\\
- &\le \frac{2d(x,z)+2d(y,z)}{d(x,a)+d(y,a)+d(x,z)+d(y,z)}\\
- &= \frac{2d(x,z)}{d(x,a)+d(x,z)+(d(y,a)+d(y,z))} + \frac{2d(y,z)}{d(y,a)+d(y,z)+(d(x,a)+d(x,z))}\\
- &\le\frac{2d(x,z)}{d(x,a)+d(x,z)+d(a,z)} + \frac{2d(y,z)}{d(y,a)+d(y,z)+d(a,z)}\\
-&= \delta(x,z)+\delta(y,z)
-\end{aligned}
+p=d(x,y),q= d(x,a) + d(y,a) + d(x,y),r=d(x,z)+d(y,z)-d(x,y)
 $$
-证明中利用了$d$为距离：
+那么
 $$
-d(x,y) \le d(x,z) + d(y,z)\\
+\begin{eqnarray*}
+ \delta(x,y)&& = \frac{2d(x,y)}{d(x,a)+d(y,a)+d(x,y)}\\
+ && =2 \frac{p}{q}\\
+ && \le  2\frac{p+r}{q+r}\\
+ && =2 \frac{d(x,y)+d(x,z)+d(y,z)-d(x,y)}{ d(x,a) + d(y,a) + d(x,y)+d(x,z)+d(y,z)-d(x,y)}\\
+ &&= \frac{2d(x,z)+2d(y,z)}{d(x,a)+d(y,a)+d(x,z)+d(y,z)}\\
+ &&= \frac{2d(x,z)}{d(x,a)+d(x,z)+(d(y,a)+d(y,z))} + \frac{2d(y,z)}{d(y,a)+d(y,z)+(d(x,a)+d(x,z))}\\
+ &&\le\frac{2d(x,z)}{d(x,a)+d(x,z)+d(a,z)} + \frac{2d(y,z)}{d(y,a)+d(y,z)+d(a,z)} \tag 1\\
+&&= \delta(x,z)+\delta(y,z)
+\end{eqnarray*}
+$$
+其中(1)利用了$d$为距离：
+$$
 d(y,a) + d(y,z)\ge d(a,z)\\
-d(x,z)+d(x,z) \ge d(a,z) 
+d(x,z)+d(x,z) \ge d(a,z)
 $$
 说明$\delta$满足三角不等式，显然$\delta$满足对称性以及非负性，从而$\delta$为距离。
 
-现在取$a=\empty,d=d_1$，那么
+现在取$a=\varnothing,d=d_1​$，那么
 $$
 \begin{aligned}
 \delta(x,y) 
 &=\frac{2d_1(x,y)}{d_1(x,a)+d_1(y,a)+d_1(x,y)}\\
-&=\frac{2(|x\cup y|-|x\cap y|)}{|x\cup \empty|-|x\cap \empty|+|y\cup \empty|-|y\cap \empty|+|x\cup y|-|x\cap y|}\\
+&=\frac{2(|x\cup y|-|x\cap y|)}{|x\cup \varnothing |-|x\cap  \varnothing |+|y\cup  \varnothing |-|y\cap  \varnothing |+|x\cup y|-|x\cap y|}\\
 &=\frac{2(|x\cup y|-|x\cap y|)}{|x|+|y|+|x\cup y|-|x\cap y|}\\
 &=\frac{2(|x\cup y|-|x\cap y|)}{2|x\cup y|}\\
 &=1-\frac{|x\cap y|}{|x\cup y|}\\
@@ -2003,44 +3228,74 @@ $$
 
 #### Problem 6.27 (Page 50)
 
+Consider maximum likelihood estimation of the parameters of a GMM in one dimension from data $x_1, . . . , x_N$. The probability density is
+$$
+P(x)=\sum_{k=1}^{K} \frac{w_{k}}{\sqrt{2 \pi \sigma_{k}^{2}}} \exp \left(-\frac{\left(x-\mu_{k}\right)^{2}}{2 \sigma_{k}^{2}}\right)
+$$
+(a) If $K = 1$ what are the maximum likelihood estimate of $μ_1$ and $σ^2_1$
+(b) If $K > 1$, show that the maximum likelihood estimate is not well defined; specifically that the maximum of the likelihood function is infinite.
+(c) How does the E-M algorithm perform? Under what conditions does the E-M algorithm converge to a well defined estimator?
+
+(d)To address the problem in (b), define the “regularized” likelihood: For each $x_n$, define the $2\epsilon$-interval $B_n = [x_n − \epsilon, x_n + \epsilon ]$. The $\epsilon $-regularized likelihood is the probability that each $x_n ∈ B_n$. Intuitively, one does not
+measure $x_n$, but rather a $2\epsilon$-interval in which $x_ n$ lies.
+
+​	(i) Show that
+$$
+\mathbb{P}\left[x_{n} \in B_{n}\right]=\sum_{k=1}^{K} w_{k}\left(F_{\mathcal{N}}\left(\frac{x_{n}+\epsilon-\mu_{k}}{\sigma_{k}}\right)-F_{\mathcal{N}}\left(\frac{x_{n}+\epsilon-\mu_{k}}{\sigma_{k}}\right)\right)
+$$
+​	where $F_{\mathcal N}(·)$ is the standard normal distribution function.
+
+​	(ii) For fixed $\epsilon  $, show that the maximum likelihood estimator is now well defined. What about in the limit as $\epsilon → 0$?
+​	(iii) Give an E-M algorithm to maximize the $\epsilon  $-regularized likelihood.
+
+题目有误，概率密度应该为
+$$
+P(x)=\sum_{k=1}^{K} \frac{w_{k}}{\sqrt{2 \pi \sigma_{k}^{2}}} \exp \left(-\frac{\left(x-\mu_{k}\right)^{2}}{2 \sigma_{k}^{2}}\right)
+$$
 (a)如果$K=1$，此时$w_k=1$，那么似然函数为
 $$
-L = \prod_{i=1}^n \frac{1}{2\pi \sigma_1^2} \exp\Big(-\frac{(x_i-\mu_1)^2}{2\sigma_1^2}\Big)
-=\frac{1}{(2\pi \sigma_1^2)^n}\exp\Big(-\sum_{i=1}^n\frac{(x_i-\mu_1)^2}{2\sigma_1^2}\Big)
+L = \prod_{i=1}^n \frac{1}{\sqrt{2\pi \sigma_1^2}} \exp\Big(-\frac{(x_i-\mu_1)^2}{2\sigma_1^2}\Big)
+=\frac{1}{(2\pi \sigma_1^2)^{\frac n2}}\exp\Big(-\sum_{i=1}^n\frac{(x_i-\mu_1)^2}{2\sigma_1^2}\Big)
 $$
-从而对数似然函数$l=\ln(L)$为
+从而对数似然函数$l=\ln(L)​$为
 $$
-l = -n\ln(2\pi) - n\ln \sigma_1^2  -\sum_{i=1}^n\frac{(x_i-\mu_1)^2}{2\sigma_1^2}
+l = -\frac n2\ln(2\pi) - \frac n2\ln \sigma_1^2  -\sum_{i=1}^n\frac{(x_i-\mu_1)^2}{2\sigma_1^2}
 $$
 求偏导可得
 $$
-\frac{\partial l}{\partial \sigma_1^2} = -\frac n {\sigma_1^2} +
+\begin{aligned}
+\frac{\partial l}{\partial \sigma_1^2} &= -\frac n {2\sigma_1^2} +
 \sum_{i=1}^n\frac{(x_i-\mu_1)^2}{2\sigma_1^4}\\
-\frac{\partial l}{\partial \mu_1} = -\sum_{i=1}^n\frac{(\mu_1-x_i)}{\sigma_1^2}
+\frac{\partial l}{\partial \mu_1}  &= -\sum_{i=1}^n\frac{(\mu_1-x_i)}{\sigma_1^2}
+\end{aligned}
 $$
 令偏导数等于$0$可得
 $$
-\hat \sigma_1^2 =  \frac 1 {2n} \sum_{i=1}^n(x_i-\mu_1)^2 \\
-\hat \mu_1  =\frac 1 n \sum_{i=1}^n  x_i
+\begin{aligned}
+\hat \sigma_1^2 &=  \frac 1 {n} \sum_{i=1}^n(x_i-\mu_1)^2 \\
+\hat \mu_1 &=\frac 1 n \sum_{i=1}^n  x_i
+\end{aligned}
 $$
 
 
-(b)当$K>1$时，似然函数为
+(b)当$K>1​$时，似然函数为
 $$
-L = \prod_{i=1}^n\sum_{k=1}^K \frac{w_k}{2\pi \sigma_k^2} \exp\Big(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\Big)
+L = \prod_{i=1}^n\sum_{k=1}^K \frac{w_k}{{\sqrt{2 \pi \sigma_{k}^{2}}} } \exp\Big(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\Big)
 $$
-取$\mu_1 =x_1$，那么有如下不等式
+取$\mu_1 =x_1​$，那么有如下不等式
 $$
-L\ge \prod_{i=1}^n \frac{w_1}{2\pi \sigma_1^2}
+L\ge \prod_{i=1}^n \frac{w_1}{{\sqrt{2 \pi \sigma_{1}^{2}}} }
 $$
-如果$\sigma_1 \to 0$，右边$\to \infty$，这说明$L\to \infty$，所以$L$没有最大值
+如果$\sigma_1 \to 0$，右边$\to \infty$，这说明$L\to \infty$，所以$L$没有最大值。
 
 (c)这题不是特别确定，给出一些自己的理解。
 
 回顾上题不难发现，只有存在$\mu_k = x_i$，且$\sigma_i^2 \to 0$两个条件同时成立时，$L$才会趋于正无穷，回顾40页的估计式
 $$
-\mu_j= \frac 1 {N_j}\sum_{n=1}^N \gamma_{nj} x_n \\
-\sigma^2_j = \frac{1}{N_j} \sum_{n=1}^N \gamma_{nj} x_n x_n^T- \mu_j \mu_j^T
+\begin{aligned}
+\mu_j&= \frac 1 {N_j}\sum_{n=1}^N \gamma_{nj} x_n \\
+\sigma^2_j&= \frac{1}{N_j} \sum_{n=1}^N \gamma_{nj} x_n x_n^T- \mu_j \mu_j^T
+\end{aligned}
 $$
 只要右边的估计式不产生上述结果即可。
 
@@ -2075,7 +3330,7 @@ $$
 (ii)注意上面倒数第二个式子，我们有
 $$
 \int_{\frac{x_n -\epsilon -\mu_k}{\sigma_k}}^{\frac{x_n +\epsilon -\mu_k}{\sigma_k}} 
-\frac 1 {\sqrt{2\pi}} e^{-\frac {t^2} {2}} dt \le 1 
+\frac 1 {\sqrt{2\pi}} e^{-\frac {t^2} {2}} dt \le 1
 $$
 从而
 $$
@@ -2085,28 +3340,57 @@ $$
 $$
 L = \prod_{n=1}^ N \mathbb P(x_n \in B_n)  \le 1
 $$
-这说明似然函数是良定义的，如果$\epsilon \to 0$，那么
+这说明似然函数是良定义的，如果$\epsilon \to 0​$，那么
 $$
 F_{\mathcal N}\Big(\frac{x_n +\epsilon -\mu_k}{\sigma_k}\Big)-
 F_{\mathcal N}\Big(\frac{x_n -\epsilon -\mu_k}{\sigma_k}\Big) \to 0
 $$
-此时$L \to 0$
+此时$L \to 0$。
 
 (iii)这里给出启发式的算法，定义课本40页一样的参数，除了$\gamma$的更新公式以外保持不变，$\gamma$的更新公式修改为
 $$
-\gamma _{nj}(t+1)= \mathbb P[j|x_n] =\frac{w_k 
-\Big(F_{\mathcal N}\Big(\frac{x_n +\epsilon -\mu_k}{\sigma_k}\Big)-
-F_{\mathcal N}\Big(\frac{x_n -\epsilon -\mu_k}{\sigma_k}\Big) \Big)}{P(x_n)}
+\begin{aligned}
+\gamma _{nj}(t+1)&= \mathbb P(x\sim \mathcal N (\mu_j,\sigma_j^2)|x\in B_n)\\
+&=\frac{\mathbb P(x\sim \mathcal N (\mu_j,\sigma_j^2),x\in B_n)}{\mathbb P(x\in B_n) } \\
+&=\frac{w_k 
+\Big(F_{\mathcal N}\Big(\frac{x +\epsilon -\mu_k}{\sigma_k}\Big)-
+F_{\mathcal N}\Big(\frac{x -\epsilon -\mu_k}{\sigma_k}\Big) \Big)}
+{ \sum_{k=1}^K w_k 
+\Big(F_{\mathcal N}\Big(\frac{x +\epsilon -\mu_k}{\sigma_k}\Big)-
+F_{\mathcal N}\Big(\frac{x -\epsilon -\mu_k}{\sigma_k}\Big) \Big)}
+\end{aligned}
 $$
 
 
 
 #### Problem 6.28 (Page 51)
 
+Probability density estimation is a very general task in that supervised learning can be posed as probability density estimation. In supervised learning, the task is to learn $f(x)$ from $(x_1, y_1), . . . , (x_N, y_N)$.
+
+(a) Let $P(x, y)$ be the joint distribution of $(x, y)$. For the squared error, $E_{\mathrm{out}}(h)=\mathbb{E}_{P({x}, y)}\left[(h({x})-y)^{2}\right]$. Show that among all functions, the one which minimizes $E_{\mathrm{out}}$ is $f(\mathbf{x})=\mathbb{E}_{P(\mathbf{x}, y)}[y | \mathbf{x}]$.
+
+(b)To estimate $f​$, first estimate $P(x, y)​$ and then compute $\mathbb E[y|x]​$. Treat the $N​$ data points as $N​$ “unsupervised” points $z_1, . . . , z_N​$ in $\mathbb R^{d+1}​$, where ${z}_{n}^{\mathrm{T}}=\left[{x}_{n}^{\mathrm{T}}, y_{n}\right]​$. Suppose that you use a GMM to estimate $P(z)​$, so the parameters $w_{k}, {\mu}_{k}, \Sigma_{k}​$ have been estimated ($w_{k} \geq 0, \sum_{k} w_{k}=1​$), and
+$$
+P({z})=\sum_{k=1}^{K} \frac{w_{k}\left|S_{k}\right|^{1 / 2}}{(2 \pi)^{(d+1) / 2}} e^{-\frac{1}{2}\left({z}-{\mu}_{k}\right)^{\top} {S}_{k}\left({z}-{\mu}_{k}\right)}
+$$
+where $\mathrm{S}_{k}=\Sigma_{k}^{-1}​$. Let $\mathrm{S}_{k}=\left[ \begin{array}{ll}{{A}_{k}} & {{b}_{k}} \\ {{b}_{k}^{\mathrm{T}}} & {c_{k}}\end{array}\right]​$ and ${\mu}_{k}=\left[ \begin{array}{c}{{\alpha}_{k}} \\ {\beta_{k}}\end{array}\right]​$. Show that 
+$$
+g( {x})=\mathbb{E}[y |  {x}]=
+\frac{\sum_{k=1}^{K} \hat{w}_{k} e^{-\frac{1}{2}\left( {x}- {\alpha}_{k}\right)^{\mathrm{T}} \Omega_{ {k}}\left( {x}- {\alpha}_{ {k}}\right)}\left(\beta_{ {k}}+\frac{1}{c_{k}}  {b}_{{k}}^{\top}\left({x}-{\alpha}_{k}\right)\right)}
+{\sum_{k=1}^{K} \hat{w}_{k} e^{\left(-\frac{1}{2}\left({x}-\alpha_{k}\right)^{\top} \Omega_{k}\left({x}-\alpha_{k}\right)\right)}}
+$$
+where $\Omega_{k}=A_{k}-\mathbf{b}_{k} {b}_{k}^{{T}} / c_{k}$ and $\hat{w}_{k}=w_{k} \sqrt{\left|\mathrm{S}_{k}\right| / c_{k}}$.Interpret this functional form in terms of Radial Basis Functions.
+
+(c)If you non-parametric Parzen windows with spherical Gaussian kernel to estimate $P(x,y)$, show that $g(x)$ is an RBF,
+$$
+g( {x})=\mathbb{E}[y |  {x}]=\frac{\sum_{n=1}^{N} e^{-\frac{1}{2 r^{2}}\left\| {x}- {x}_{n}\right\|^{2}} y_{n}}{\sum_{n=1}^{N} e^{-\frac{1}{2 r^{2}}\left\| {x}- {x}_{n}\right\|^{2}}}
+$$
+[Hint: This is a special case of the previous part: what are $K, w_{k}, \mu_{k}, {S}_{k}$?]
+
 (a)将$\mathbb E_{P(x,y)}$记为$\mathbb E$
 $$
 \begin{aligned}
-E_{out}(h) &=\mathbb E[(h(x)-y)^2] \\
+E_{\text{out}}(h) &=\mathbb E[(h(x)-y)^2] \\
 &=\mathbb E[(h(x)-\mathbb E[y|x]+\mathbb E[y|x]-y)^2] \\
 &=\mathbb E[(h(x)-\mathbb E[y|x])^2]+ \mathbb E[(\mathbb E[y|x]-y)^2]
 +2\mathbb E[(h(x)-\mathbb E[y|x])(\mathbb E[y|x]-y)]\\
@@ -2120,289 +3404,291 @@ E_{out}(h) &=\mathbb E[(h(x)-y)^2] \\
 &\ge \mathbb E[(h(x)-\mathbb E[y|x])^2]
 \end{aligned}
 $$
-当且仅当$y=\mathbb E[y|x]$时等式成立。
+当且仅当$y=\mathbb E[y|x]​$时等式成立。
 
 (b)首先证明一个引理：
+
+假设我们有一个向量值随机变量
 $$
-X= \left(
+x=\left[
  \begin{matrix}
-   X_1 \\
-   X_2
+   x_1 \\
+   x_2
   \end{matrix}
-  \right) 
-  \sim N_n 
-  \left(
-  \left(
+  \right],
+$$
+其中$x_1\in \mathbb R^r, x_2 \in \mathbb R^s$，因此$x\in \mathbb R^{r+s}$。如果$x\sim \mathcal N(\mu, \Sigma)$，其中
+$$
+\mu=\left[
  \begin{matrix}
    \mu_1 \\
    \mu_2
   \end{matrix}
-  \right) ,
-  \left(
+  \right] ,
+ \Sigma= \left[
  \begin{matrix}
-   \sum_{11} &   \sum_{12} \\
-   \sum_{21} &\sum_{22} 
+   \Sigma_{11} &   \Sigma_{12} \\
+   \Sigma_{21} &\Sigma_{22} 
   \end{matrix}
-  \right)
-   \right) \\
-   X_1 ,\mu _1 \in \mathbb R^k ,{\sum}_{11}为k阶方阵， 
-   {\sum}_{11}，{\sum}_{21}{\sum}_{22}相应矩阵，|{\sum}_{22}| \neq 0\\
-   
-  那么(1)X_1 \sim  N_k (\mu_1, {\sum}_{11})\\
-  (2)在X_1= x_1条件下，X_2的条件分布是\\
-  N_{n-k} 
-  \left(
-  \mu_2+{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1),
- {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
-   \right)
+  \right]
 $$
-(1)证明：
+其中，$\mu_1\in \mathbb R^r$，$\mu_2\in \mathbb R^s$，$\Sigma_{11}=\mathbb R^{r\times r}$，$\Sigma_{12}\in \mathbb R^{r\times s}$，那么
+$$
+\begin{aligned}
+&(1)x_1 \sim  \mathcal N (\mu_1, {\Sigma}_{11})\\
+&(2) x_1 |x_2 \sim \mathcal N(\mu_{1|2},\Sigma_{1|2})
+\end{aligned}\\
+其中 \mu_{1|2} = \mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(x_2 -\mu_2) \\
+\Sigma_{1|2} = \Sigma_{11}- \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}
+$$
+下面证明上述结论。
 
 令
 $$
-B = \left(
+B = \left[
  \begin{matrix}
-   I_k & 0 \\
-   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+   I_r & -{\Sigma}_{12}{\Sigma}_{22}^{-1}\\
+   0 &  I_{s}  
   \end{matrix}
-  \right) (该矩阵为分块初等矩阵)
+  \right], y=\left[
+ \begin{matrix}
+   y_1 \\
+   y_2
+  \end{matrix}
+  \right] 
+  
+  = B\left[
+ \begin{matrix}
+   x_1 \\
+   x_2
+  \end{matrix}
+  \right] = \left[
+ \begin{matrix}
+   x_1-{\Sigma}_{12}{\Sigma}_{22}^{-1}x_2 \\
+   x_2
+  \end{matrix}
+  \right]
 $$
 那么
 $$
 \begin{aligned}
-B\sum B'&=\left(
+B\Sigma B^T&=\left[
  \begin{matrix}
-   I_k & 0 \\
-   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+   I_r & -{\Sigma}_{12}{\Sigma}_{22}^{-1}\\
+   0 &  I_{s}  
   \end{matrix}
-  \right)
-    \left(
+  \right]
+    \left[
  \begin{matrix}
-   \sum_{11} &   \sum_{12} \\
-   \sum_{21} &\sum_{22} 
+   \Sigma_{11} &   \Sigma_{12} \\
+   \Sigma_{21} &\Sigma_{22} 
   \end{matrix}
-  \right)
+  \right]
   
-  \left(
+ \left[
  \begin{matrix}
-   I_k &  -{\sum}_{11}^{-1}{\sum}_{12} \\
-   0&  I_{n-k}  
+   I_r & 0\\
+    -{\Sigma}_{22}^{-1}{\Sigma}_{21} &  I_{s}  
   \end{matrix}
-  \right) \\
+  \right]\\
   &=
-  \left(
+  \left[
  \begin{matrix}
-   \sum_{11} &   \sum_{12} \\
-   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+ \Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21} &  0 \\
+   {\Sigma}_{21} &\Sigma_{22}
   \end{matrix}
-  \right)
-   \left(
+  \right]
+   \left[
  \begin{matrix}
-   I_k &  -{\sum}_{11}^{-1}{\sum}_{12} \\
-   0&  I_{n-k}  
+   I_r & 0\\
+    -{\Sigma}_{22}^{-1}{\Sigma}_{21} &  I_{s}  
   \end{matrix}
-  \right)\\
-  &=\left(
+  \right]\\
+  &=\left[
  \begin{matrix}
-   \sum_{11} &  0 \\
-   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
+   \Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21}  &  0 \\
+   0 &\Sigma_{22}
   \end{matrix}
-  \right)
-\end{aligned}\\
-B\left(
- \begin{matrix}
-   \mu_1 \\
-   \mu_2
-  \end{matrix}
-  \right)  = \left(
- \begin{matrix}
-   I_k & 0 \\
-   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
-  \end{matrix}
-  \right) \left(
+  \right]\\
+  
+  B\left[
  \begin{matrix}
    \mu_1 \\
    \mu_2
   \end{matrix}
-  \right)
-  = \left(
+  \right]  &=\left[
+ \begin{matrix}
+   I_r & -{\Sigma}_{12}{\Sigma}_{22}^{-1}\\
+   0 &  I_{s}  
+  \end{matrix}
+  \right] \left[
  \begin{matrix}
    \mu_1 \\
-   \mu_2 -{\sum}_{21}{\sum}_{11}^{-1} \mu_1
+   \mu_2
   \end{matrix}
-  \right)
+  \right]
+  = \left[
+ \begin{matrix}
+   \mu_1- {\Sigma}_{12}{\Sigma}_{22}^{-1}\mu_2\\
+   \mu_2 
+  \end{matrix}
+  \right]
+\end{aligned}
 $$
-设$Y = BX$，那么
+从而
 $$
-Y= \left(
+y=\left[
  \begin{matrix}
-   Y_1 \\
-   Y_2
+   y_1 \\
+   y_2
   \end{matrix}
-  \right) =BX =\left(
+  \right]= \left[
  \begin{matrix}
-   I_k & 0 \\
-   -{\sum}_{21}{\sum}_{11}^{-1} &  I_{n-k}  
+   x_1-{\Sigma}_{12}{\Sigma}_{22}^{-1}x_2 \\
+   x_2
   \end{matrix}
-  \right)
-  \left(
+  \right]\sim \mathcal N(\mu', \Sigma')
+$$
+其中
+$$
+\mu' =\left[ \begin{matrix}  \mu_1'\\   \mu_2'   \end{matrix}  \right]
+= B\mu= \left[ \begin{matrix}   \mu_1- {\Sigma}_{12}{\Sigma}_{22}^{-1}\mu_2\\   \mu_2   \end{matrix}  \right],\\
+\Sigma' = B\Sigma B^T=\left[
  \begin{matrix}
-   X_1 \\
-   X_2
+   \Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21}  &  0 \\
+   0 &\Sigma_{22}
   \end{matrix}
-  \right)  = 
-  \left(
+  \right]
+$$
+因此可以看出$y_1, y_2​$独立，且
+$$
+y_2=x_2 \sim \mathcal N(\mu_2, \Sigma_{22})
+$$
+由对称性类似可得
+$$
+x_1\sim \mathcal N(\mu_1, \Sigma_{11})
+$$
+备注：这里求$x_2$的边际分布而不是$x_1$的边际分布是为了方便求出条件分布。
+
+接下来考虑$ x_1 |x_2$的分布，
+$$
+f( x_1 |x_2)= \frac{f(x_1,x_2)}{f(x_2)}
+$$
+这里要利用到$B​$为正交矩阵，且
+$$
+|\Sigma|=|\Sigma'|=  |\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21}|
+ |\Sigma_{22}|,\\
+ \Sigma'^{-1}=\left[
  \begin{matrix}
-   X_1 \\
-   X_2-{\sum}_{21}{\sum}_{11}^{-1}X_1
+   (\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21})^{-1}  &  0 \\
+   0 &\Sigma_{22}^{-1}
   \end{matrix}
-  \right) \\
-   B(X-\mu)=\left(
- \begin{matrix}
-   X_1-\mu_1 \\
-   X_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(X_1 -\mu_1)
-  \end{matrix}
-  \right)
+  \right]
+$$
+首先计算分子
+$$
+\begin{aligned}
+f(x_1,x_2)
+&= \frac{1}{(2\pi)^{\frac {s+r} 2} |\Sigma|^{\frac 1 2}} \exp(-\frac{1}{2}(x-\mu)^T \Sigma^{-1}(x-\mu)) \\
+&=\frac{1}{(2\pi)^{\frac {s+r} 2}|\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21}|^{\frac 1 2}
+ |\Sigma_{22}|^{\frac 1 2}}
+ \exp(-\frac{1}{2}(x-\mu)^T B^T (B\Sigma B^T)^{-1}B(x-\mu)) \\
+ &=\frac{1}{(2\pi)^{\frac {s+r} 2}|\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21}|^{\frac 1 2}
+ |\Sigma_{22}|^{\frac 1 2}}
+ \exp(-\frac{1}{2}(B(x-\mu))^T (B\Sigma B^T)^{-1}(B(x-\mu))) \\
+ &=\frac{1}{(2\pi)^{\frac {s+r} 2}|\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21}|^{\frac 1 2}
+ |\Sigma_{22}|^{\frac 1 2}}
+ \exp(-\frac{1}{2}(y-\mu')^T {\Sigma'}^{-1}(y-\mu'))\\
+ &=\frac{1}{(2\pi)^{\frac {s+r} 2}|\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21}|^{\frac 1 2}
+ |\Sigma_{22}|^{\frac 1 2}}\exp(-\frac{1}{2}(y_1-\mu_1')^T {(\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21})}^{-1}(y_1-\mu_1') -\frac 1 2 (y_2-\mu_2')^T \Sigma_{22}^{-1} (y_2-\mu_2'))
+\end{aligned}
+$$
+接着计算分母，之前已经计算过了
+$$
+f(x_2)= \frac{1}{ (2\pi)^{\frac s2} |\Sigma_{22}|^{\frac 1 2 }} \exp(-\frac 1 2 x_2^T \Sigma_{22}^{-1} x_2)=
+\frac{1}{ (2\pi)^{\frac s2}|\Sigma_{22}|^{\frac 1 2 }} \exp(-\frac 1 2 (y_2-\mu_2')^T \Sigma_{22}^{-1} (y_2-\mu_2'))
 $$
 因此
 $$
-Y= \left(
- \begin{matrix}
-   Y_1 \\
-   Y_2
-  \end{matrix}
-  \right) 
-  \sim N_n 
-  \left(
-   \left(
- \begin{matrix}
-   \mu_1 \\
-   \mu_2 -{\sum}_{21}{\sum}_{11}^{-1} \mu_1
-  \end{matrix}
-  \right) ,
- \left(
- \begin{matrix}
-    \sum_{11} &  0 \\
-   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
-  \end{matrix}
-  \right)
-   \right)
-$$
-不难看出$Y_1,Y_2$独立，从而
-$$
-Y_1=X_1 \sim N_k (\mu_1, {\sum}_{11})
-$$
-(2)证明：按定义将$X,X_1$的分布写出来
-$$
-f_X(x) = \frac{1}{(2\pi)^{\frac n 2 } |\sum|^{\frac 1 2 }} 
-\exp(-\frac 1 2 (x-\mu)^T{\sum}^{-1} (x-\mu)) \\
-f_{X_1}(x_1) = \frac{1}{(2\pi)^{\frac k 2 } |\sum_{11}|^{\frac 1 2 }} 
-\exp(-\frac 1 2 (x_1-\mu_1)^T{\sum}_{11}^{-1} (x_1-\mu_1))
-$$
-对$(x-\mu)'{\sum}^{-1} (x-\mu)$进行处理，利用上一题的$B$，不难看出$B$为正交矩阵，即$B^TB=BB^T =I$，所以
-$$
 \begin{aligned}
-(x-\mu)^T{\sum}^{-1} (x-\mu) 
-&= (x-\mu)^TB^T B {\sum}^{-1} B^T B (x-\mu) \\
-&= (B(x-\mu))^T (B{\sum} B^T)^{-1} (B (x-\mu)) \\
-&= \left(
- \begin{matrix}
-   x_1-\mu_1 \\
-   x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)
-  \end{matrix}
-  \right)^T\left(
- \begin{matrix}
-   \sum_{11} &  0 \\
-   0 &\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
-  \end{matrix}
-  \right)\left(
- \begin{matrix}
-   x_1-\mu_1 \\
-   x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)
-  \end{matrix}
-  \right) \\
-  &=( x_1-\mu_1 )^T {\sum}_{11}( x_1-\mu_1 )+
-  (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
- ( {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
- (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))
+f( x_1 |x_2)
+&=\frac{f(x_1, x_2)}{f(x_2)} \\
+&=\frac{1}{(2\pi)^{\frac {r} 2}|\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21}|^{\frac 1 2}}
+\exp(-\frac{1}{2}(y_1-\mu_1')^T {(\Sigma_{11} -{\Sigma}_{12}{\Sigma}_{11}^{-1}{\Sigma}_{21})}^{-1}(y_1-\mu_1') ) 
 \end{aligned}
 $$
 注意到
 $$
-|\sum| =\det (\left(
- \begin{matrix}
-   \sum_{11} &  0 \\
-   0 &{\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
-  \end{matrix}
-  \right)) =|{\sum}_{11}||{\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}|
-$$
-所以条件概率为
-$$
 \begin{aligned}
-f_{X_2|X_1}(x|x_1)&=
-\frac{\frac{1}{(2\pi)^{\frac n 2 } |\sum|^{\frac 1 2 }} 
-\exp(( x_1-\mu_1 )^T \sum_{11}( x_1-\mu_1 )+
-  (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
- ( \sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
- (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)))}
-{\frac{1}{(2\pi)^{\frac k 2 } |\sum_{11}|^{\frac 1 2 }} 
-\exp(-\frac 1 2 (x_1-\mu_1)^T{\sum}_{11}^{-1} (x_1-\mu_1))}\\
-&= \frac{1}{(2\pi)^{\frac {n-k} 2 }|\sum_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}|^{\frac 1 2 }}
-\exp((x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1))^T
- ( {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12})
- (x_2-\mu_2-{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1)))
+y_1-\mu_1'
+&= x_1-{\Sigma}_{12}{\Sigma}_{22}^{-1}x_2-  \mu_1+ {\Sigma}_{12}{\Sigma}_{22}^{-1}\mu_2\\
+&= x_1 -\mu_1 -{\Sigma}_{12}{\Sigma}_{22}^{-1}(x_2 -\mu_2)
 \end{aligned}
 $$
-即
+从而
 $$
-f_{X_2|X_1}(x|x_1) \sim N_{n-k} 
-  \left(
-  \mu_2+{\sum}_{21}{\sum}_{11}^{-1}(x_1 -\mu_1),
- {\sum}_{22} -{\sum}_{21}{\sum}_{11}^{-1}{\sum}_{12}
-   \right)
+ x_1 |x_2 \sim \mathcal N(\mu_{1|2},\Sigma_{1|2})\\
+其中 \mu_{1|2} = \mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(x_2 -\mu_2)\\
+\Sigma_{1|2} = \Sigma_{11}- \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}
 $$
-回到原题，记$Z_k \sim N(\mu_k, S_k^{-1})$，对应的$X,Y$分别记为$X_k,Y_k$那么
+
+
+
+回到原题，记$Z_k \sim \mathcal N(\mu_k, S_k^{-1})$，其中
+$$
+{Z}_{k}^{\mathrm{T}}=\left[{X}_{k}^{\mathrm{T}},Y_{k}\right]
+$$
+那么
 $$
 f_Z(z) = \sum_{k=1}^K \frac{w_k |S_k|^{\frac 1 2 }}{(2\pi)^{\frac{d+1}{2}}}
-\exp(-\frac 1 2 (z-\mu_k)^T S_k (z-\mu_k))=\sum_{k=1}^K 
+\exp\left(-\frac 1 2 (z-\mu_k)^T S_k (z-\mu_k)\right)=\sum_{k=1}^K 
 w_k f_{Z_k}(z)
 $$
 由引理的第一部分可知
 $$
 f_X(x)  = \sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
-\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))
+\exp\left(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k)\right)
 = \sum_{k=1}^K w_k f_{X_k}(x)
 $$
 所以
 $$
-f_{Y|X}(y|x) =\frac{\sum_{k=1}^K w_k f_{X_k}(x)f_{Y_k|X_k}(y|x)}{f_X(x)}
+f_{Y|X}(y|x) =\frac{\sum_{k=1}^K w_k f_{X_k}(x)f_{Y_k|X_k}(y|x)}{f_X(x)} \tag 1
 $$
 由引理的第二部分可知
 $$
-f_{Y_k|X_k}(y|x) \sim N(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k) , S_k^* )\\
+f_{Y_k|X_k}(y|x) \sim \mathcal N(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k) , S_k^* )\\
 S_k^*可由引理计算出来
 $$
 对上式取期望可得
 $$
 \mathbb E_{Y_k|X_k}[y|x] = \beta_k+\frac 1 {c_k}b_k^T(x-\mu_k)
 $$
-对整体取期望可得
+对(1)式关于$y$取期望可得
 $$
 \begin{aligned}
 g(x) &=\mathbb E[y|x]\\
+&= \frac{\sum_{k=1}^K w_k f_{X_k}(x)\mathbb E_{Y_k|X_k}[y|x]}{f_X(x)}\\
 &= \frac{\sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
-\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k))}{\sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
-\exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k)} \\
+\exp \left(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k)\right)(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k))}{\sum_{k=1}^K \frac{w_k |A_k|^{\frac 1 2 }}{(2\pi)^{\frac{d}{2}}}
+\exp\left(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k)\right)} \\
 &=\frac{\sum_{k=1}^K {w_k |A_k|^{\frac 1 2 }}
 \exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))(\beta_k+\frac 1 {c_k}b_k^T(x-\mu_k))}{\sum_{k=1}^K {w_k |A_k|^{\frac 1 2 }}
 \exp(-\frac 1 2 (x-\alpha_k)^T A_k (x-\alpha_k))}
 \end{aligned}
 $$
-注意这里我和题目的答案不同，个人感觉答案错了。
+注意这里我和题目的答案不同。
 
 (c)此时为(b)的特殊情形
 $$
 K= N,w_k =\frac 1 K ,\alpha_k= x_k,\beta_k =y_k,S_k =r^2 I
+$$
+因为
+$$
+{S}_{k}=\left[ \begin{array}{ll}{{A}_{k}} & {{b}_{k}} \\ {{b}_{k}^{\mathrm{T}}} & {c_{k}}\end{array}\right]
+$$
+所以
+$$
+b_k=\vec 0
 $$
 带入上式可得
 $$
@@ -2411,3 +3697,4 @@ g(x) &=\mathbb E[y|x]\\
 &=\frac{\sum_{n=1}^N \exp({-\frac 1 {2r^2}||x-x_n||^2  })y_n}{\sum_{n=1}^N \exp({-\frac 1 {2r^2}||x-x_n||^2  })}
 \end{aligned}
 $$
+

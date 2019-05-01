@@ -362,18 +362,18 @@ $c_1​$ is the first coin flipped; $c_{\text{rand}}​$ is a coin you choose at
 
 介绍下这题的背景,先定义几个概念:
 $$
-E_{\text{in}}(h)=(fraction\ of\ D\ where\ f\ and\ h\ disagree)
-\\ =\frac 1N \sum_{i=1}^{n}[\![h(x_n)\neq  f(x_n)]\!],
+\begin{aligned}
+E_{\text{in}}(h)&=(\text{fraction of } D\text{ where }f\text{ and }h\text{  disagree})\\ 
+&=\frac 1N \sum_{i=1}^{n}[\![h(x_n)\neq  f(x_n)]\!]\\
+E_{\text{out}}(h)&=\mathbb P[\![h(x)\neq  f(x)]\!]
+\end{aligned}
 $$
+这里$f$是原假设,$h$是我们得到的假设，其次：
 $$
-E_{\text{out}}(h)=\mathbb P[\![h(x)\neq  f(x)]\!]
-$$
-这里$f$是原假设,$h​$是我们得到的假设，其次：
-$$
-[\![statement]\!]= 1\ if\ the\ statement\ is\ true
-$$
-$$
-[\![statement]\!]= 0\ if\ the\ statement \ is\ false
+[\![\text{statement}]\!]=\begin{cases}
+1 & \text{if the statement is true}\\
+0 &  \text{if the statement is false}
+\end{cases}
 $$
 $E_{\text{in}}(h)$就是我们得到的假设和目标假设在训练集上的误差，$E_{\text{out}}(h)$是实际误差，所以$E_{\text{out}}(h)$相当于Hoeffding​不等式中的​$\mu$，$E_{\text{in}}(h)$相当于​Hoeffding​不等式中的​$v$。
 因此：
@@ -482,15 +482,17 @@ $$
 $$
 下面计算数学期望,首先给出分布函数：
 $$
-\mathbb P(v_{\min}\le \frac k{10})=1-\mathbb P(v_{\min}\ge \frac{k+1}{10})
-\\ =1-\mathbb P(\min(X_1,X_2,...,X_{1000})\ge \frac{k+1}{10})
-\\ =1-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}
+\begin{aligned}
+\mathbb P(v_{\min}\le \frac k{10})&=1-\mathbb P(v_{\min}\ge \frac{k+1}{10})\\
+ &=1-\mathbb P(\min(X_1,X_2,...,X_{1000})\ge \frac{k+1}{10})\\
+ &=1-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}
+\end{aligned}
 $$
 所以：
 $$
 \begin{aligned}
 \mathbb P(v_{\min}
-&=\frac k{10})=\mathbb P(v_{\min}\le \frac k{10})-
+=\frac k{10})&=\mathbb P(v_{\min}\le \frac k{10})-
 \mathbb P(v_{\min}\le \frac {k-1}{10})\\
 &=1-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-[1-(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}]\\ 
 &=(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}
@@ -500,11 +502,11 @@ $$
 $$
 \begin{aligned}
 \mathbb E(v_{\min})
-&=\sum_{k=0}^{10}\frac k{10}\times P(v_{\min}=k)\\
+&=\sum_{k=0}^{10}\frac k{10}\times P(v_{\min}=\frac k{10})\\
 &=\sum_{k=0}^{10}\frac k{10}\times[(\sum_{i=k}^{10}C_{10}^i(\frac1 2)^{10})^{1000}-(\sum_{i=k+1}^{10}C_{10}^i(\frac1 2)^{10})^{1000}]
 \end{aligned}
 $$
-这里使用Python计算结果，最后得到$\mu\approx0.037644419141365526​$，可以看到和之前模拟的结果一致
+这里使用Python计算结果，最后得到$\mu\approx0.037644419141365526$，可以看到和之前模拟的结果一致
 
 
 ```python
