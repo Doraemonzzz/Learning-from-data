@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec 12 16:38:30 2018
+Created on Fri May  3 12:00:28 2019
 
-@author: Administrator
+@author: qinzhen
 """
 
 import numpy as np
@@ -17,9 +17,10 @@ y = data[:, 0][:N]
 y = (y == 1).astype("double")
 
 def l(X, y, Lambda):
+    N, d = X.shape
     #计算
-    w = inv(X.T.dot(X) + Lambda).dot(X.T).dot(y)
-    H = X.dot(inv(X.T.dot(X) + Lambda)).dot(X.T)
+    w = inv(X.T.dot(X) + Lambda * np.eye(d)).dot(X.T).dot(y)
+    H = X.dot(inv(X.T.dot(X) + Lambda * np.eye(d))).dot(X.T)
     y_hat = X.dot(w)
     
     N = X.shape[0]
@@ -31,7 +32,7 @@ def l(X, y, Lambda):
         #分子
         e1 = y_hat - y + (y_hat[m] - y[m]) / (1 - H[m][m]) * H[m, :]
         #分母
-        e2 = 1 - H1 - H[m, :] ** 2 / (1 - H1)
+        e2 = 1 - H1 - H[m, :] ** 2 / (1 - H[m][m])
         Ecv_m = 1 / (N - 1) * np.sum((e1 / e2) ** 2) - \
                 1 / (N - 1) * ((y_hat[m] - y[m]) / (1 - 2 * H[m][m])) ** 2
         Ecvm = np.append(Ecvm, Ecv_m)

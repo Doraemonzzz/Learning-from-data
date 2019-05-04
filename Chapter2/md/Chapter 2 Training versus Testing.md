@@ -2115,7 +2115,7 @@ E_{\text{out}}&=
 \mathbb E_{x,x_1,x_2} 
 \Big[\sin(\pi x) - \frac{y_2-y_1}{x_2-x_1}x -\frac{y_1x_2-y_2x_1}{x_2-x_1}\Big]^2 \\
 &=\frac 1 8\int _{-1}^{1}\int _{-1}^{1}\int _{-1}^{1}
-\Big[\sin(\pi x) - \frac{\sin(x_2)-\sin(x_1)}{x_2-x_1}x -\frac{\sin(x_1)x_2-\sin(x_2)x_1}{x_2-x_1}\Big]^2 dx_1dx_2dx
+\Big[\sin(\pi x) - \frac{\sin(\pi x_2)-\sin(\pi x_1)}{x_2-x_1}x -\frac{\sin(\pi x_1)x_2-\sin(\pi x_2)x_1}{x_2-x_1}\Big]^2 dx_1dx_2dx
 \end{aligned}
 $$
 这个式子计算量太大，直接编程进行计算。
@@ -2212,7 +2212,7 @@ $$
 \begin{aligned}
 \text{var}&=
 \frac 1 8\int _{-1}^{1}\int _{-1}^{1}\int _{-1}^{1}
-\Big[\overline g(x) - \frac{\sin(x_2)-\sin(x_1)}{x_2-x_1}x -\frac{\sin(x_1)x_2-\sin(x_2)x_1}{x_2-x_1}\Big]^2 dx_1dx_2dx
+\Big[\overline g(x) - \frac{\sin(\pi x_2)-\sin(\pi x_1)}{x_2-x_1}x -\frac{\sin(\pi x_1)x_2-\sin(\pi x_2)x_1}{x_2-x_1}\Big]^2 dx_1dx_2dx
 \end{aligned}
 $$
 
@@ -2472,17 +2472,17 @@ print(integrate.tplquad(var_c, -1, 1, lambda x: -1, lambda x: 1,lambda x, y: -1,
 
 #### Problem 2.24 (Page 75)
 
-Consider a simplified learning scenario. Assume that the input dimension is one. Assume that the input variable $x$ is uniformly distributed in the interval $[-1, 1]$ . The data set consists of 2 points $\{ x_1, x_2\}$ and assume that the target function is $f(x) = x^2$. Thus, the full data set is $\mathcal D= \{(x_1 , x_1^2), (x_2, x_2^2)\}$. The learning algorithm returns the line fitting these two points as $g$ ($\mathcal H$ consists of functions of the frm $h(x) = ax + b$). We are interested in the test performance ($E_{\text{out}}$) of our learning system with respect to the squared error measure, the bias and the var. 
+Consider a simplified learning scenario. Assume that the input dimension is one. Assume that the input variable $x$ is uniformly distributed in the interval $[-1, 1]$ . The data set consists of 2 points $\{ x_1, x_2\}$ and assume that the target function is $f(x) = x^2$. Thus, the full data set is $\mathcal D= \{(x_1 , x_1^2), (x_2, x_2^2)\}$. The learning algorithm returns the line fitting these two points as $g$ ($\mathcal H$ consists of functions of the form $h(x) = ax + b$). We are interested in the test performance ($E_{\text{out}}$) of our learning system with respect to the squared error measure, the bias and the var. 
 
-(a) Give the analytic expression fr the average function $\overline g(x)​$. 
+(a) Give the analytic expression for the average function $\overline g(x)$. 
 
-(b) Describe an experiment that you could run to determine (numerically) $\overline g(x)$ , $E_{\text{out}}$, bias, and var. 
+(b) Describe an experiment that you could run to determine (numerically) $\overline g(x)​$ , $E_{\text{out}}​$, bias, and var. 
 
-(c) Run your experiment and report the results. Compare Bout with bias+var. Provide a plot of your $\overline g(x)$ and $f(x)$ (on the same plot) . 
+(c) Run your experiment and report the results. Compare $E_{\text{out}}$ with bias+var. Provide a plot of your $\overline g(x)$ and $f(x)$ (on the same plot) . 
 
 (d) Compute analytically what $E_{\text{out}}$. bias and var should be.    
 
-这题其实和上一题的(a)基本一样，只不过这里的$f(x)=x^2$
+这题其实和上一题的(a)基本一样，只不过这里的$f(x)=x^2​$
 
 (a)对于固定的两个点$D= \{(x_1 , x_1^2), (x_2, x_2^2)\}$，训练误差最小的直线为过这两个点的直线，假设直线为$g(x) = ax + b$，因此
 $$
@@ -2686,8 +2686,8 @@ $$
 $$
 \begin{aligned}
 b&=\mathbb E(-x_1x_2)
-\\&=\int_{-1}^1\int_{-1}^1(-x_1x_2)dx_1dx_2
-\\&=-\int_{-1}^1x_1dx_1\int_{-1}^1x_2dx_2
+\\&=\frac 1 4\int_{-1}^1\int_{-1}^1(-x_1x_2)dx_1dx_2
+\\&=-\frac 1 4\int_{-1}^1x_1dx_1\int_{-1}^1x_2dx_2
 \\&=0
 \end{aligned}
 $$
@@ -2696,7 +2696,7 @@ $$
 $$
 \begin{aligned}
 \text{bias}&=\mathbb E_x[(\overline g(x) - f(x))^2]
-\\&=\int_{-1}^1x^4dx
+\\&=\frac 1 2\int_{-1}^1x^4dx
 \\&=0.2
 \end{aligned}
 $$

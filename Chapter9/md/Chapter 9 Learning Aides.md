@@ -758,132 +758,162 @@ $$
 Consider data $(0, 0,+1), (0, 1,+1), (5, 5,−1)$ (in 2-D), where the first two entries are $x_1,  x_2$ and the third is $y$.
 (a) Implement the nearest neighbor method on the raw data and show the decision regions of the final hypothesis.
 (b) Transform to whitened coordinates and run the nearest neighbor rule, showing the final hypothesis in the original space.
-(c) Use principal components analysis and reduce the data to $1​$ dimension for your nearest neighbor classifier. Again, show the decision regions of the final hypothesis in the original space.
+(c) Use principal components analysis and reduce the data to $1$ dimension for your nearest neighbor classifier. Again, show the decision regions of the final hypothesis in the original space.
+
+这里模仿sklearn的接口将StandardScaler和PCA复现了一遍，由于会复用，存放在helper.py文件中，knn部分的说明可以参考第六章。
+
+StandardScaler
 
 ```python
+class StandardScaler_:
+    def __init__(self):
+        self.mean = None
+        self.var = None
+    
+    def fit(self, X):
+        N = X.shape[0]
+        #中心化
+        self.mean = np.mean(X, axis=0)
+        X1 = X - self.mean
+        #协方差
+        Sigma = 1 / N * X1.T.dot(X1)
+        #奇异值分解
+        U, S, V = np.linalg.svd(Sigma)
+        self.var = U.dot(np.diag(1 / np.sqrt(S))).dot(U.T)
+    
+    def fit_transform(self, X):
+        self.fit(X)
+        X1 = X - self.mean
+        
+        return X1.dot(self.var)
+    
+    def transform(self, X):
+        X1 = X - self.mean
+        
+        return X1.dot(self.var)
+```
+
+PCA：
+
+```python
+class PCA_:
+    def __init__(self, n_components):
+        self.n_components = n_components
+        self.mean = None
+        self.explained_variance_ratio_ = None
+        self.U = None
+        self.singular_values_ = None
+        self.components_ = None
+        self.flag = None
+        
+    def fit(self, X, flag=1):
+        """
+        flag=1表示中心化，否则不中心化
+        """
+        if flag == 1:
+            #中心化
+            self.mean_ = np.mean(X, axis=0)
+            X -= self.mean_
+            self.flag = flag
+
+        #SVD分解
+        U, S, V = np.linalg.svd(X)
+        #np.linalg.svd返回的是V^T
+        V = V.T
+        self.U = U
+        self.singular_values_ = S
+        self.components_ = V
+        #方差占比
+        self.explained_variance_ratio_ = self.singular_values_ ** 2 / np.sum(self.singular_values_ ** 2)
+        
+        return self
+    
+    def inverse_transform(self, X):
+        if self.flag == 1:
+            X -= self.mean_
+        
+        Z = X.dot(self.components_[:, : self.n_components])
+        X1 = Z.dot(self.components_)
+        
+        return X1
+    
+    def transform(self, X):
+        if self.flag == 1:
+            X -= self.mean_
+        Z = X.dot(self.components_[:, :self.n_components])
+        
+        return Z
+    
+    def fit_transform(self, X, flag=1):
+        """
+        flag=1表示中心化，否则不中心化
+        """
+        self.fit(X, flag)
+        Z = self.transform(X)
+        
+        return Z
+```
+
+作图：
+
+```python
+# -*- coding: utf-8 -*-
+"""
+Created on Thu May  2 09:25:37 2019
+
+@author: qinzhen
+"""
+
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from sklearn import neighbors, decomposition
-from sklearn.preprocessing import StandardScaler
+import helper as hlp
 
-def knn(X, y, k):
-    # Create color maps
-    cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA'])
-    cmap_bold = ListedColormap(['#FF0000', '#00FF00'])
-    
-    h = .02  # step size in the mesh
-    
-    # we create an instance of Neighbours Classifier and fit the data.
-    clf = neighbors.KNeighborsClassifier(k, weights='uniform')
-    clf.fit(X, y)
-
-    # Plot the decision boundary. For that, we will assign a color to each
-    # point in the mesh [x_min, x_max]x[y_min, y_max].
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    #将meshgrid转换为[x,y]的坐标
-    Z = clf.predict(np.c_[xx.ravel(), yy.ravel()])
-
-    # Put the result into a color plot
-    Z = Z.reshape(xx.shape)
-    plt.figure()
-    plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
-
-    # Plot also the training points
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold,
-                edgecolor='k', s=20)
-    plt.xlim(xx.min(), xx.max())
-    plt.ylim(yy.min(), yy.max())
-    plt.title("2-Class classification (k = %i)"
-              % (k))
-    
-    plt.show()
-
-def knn_with_pca(X, y, k):
-    # Create color maps
-    cmap_light = ListedColormap(['#FFAAAA', '#AAFFAA'])
-    cmap_bold = ListedColormap(['#FF0000', '#00FF00'])
-    
-    h = .02  # step size in the mesh
-    
-    pca = decomposition.PCA(n_components=1)
-    pca.fit(X)
-    X_pca = pca.transform(X)
-    
-    # we create an instance of Neighbours Classifier and fit the data.
-    clf = neighbors.KNeighborsClassifier(k, weights='uniform')
-    clf.fit(X_pca, y)
-
-    # Plot the decision boundary. For that, we will assign a color to each
-    # point in the mesh [x_min, x_max]x[y_min, y_max].
-    x_min, x_max = X[:, 0].min() - 2, X[:, 0].max() + 2
-    y_min, y_max = X[:, 1].min() - 2, X[:, 1].max() + 2
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    
-    newdata = pca.transform(np.c_[xx.ravel(), yy.ravel()])
-    Z = clf.predict(newdata)
-
-    # Put the result into a color plot
-    Z = Z.reshape(xx.shape)
-    plt.figure()
-    plt.pcolormesh(xx, yy, Z, cmap=cmap_light)
-
-    # Plot also the training points
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold,
-                edgecolor='k', s=20)
-    #plt.xlim(xx.min() , xx.max() )
-    #plt.ylim(yy.min() , yy.max() )
-    plt.title("2-Class classification with pca (k = %i)"
-              % (k))
-    
-    plt.show()
-
+X = np.array([[0, 0], [0, 1], [5, 5]]).astype("float")
+y = np.array([1, 1, -1])
 #(a)
-X = np.array([[0, 0], [0, 1], [5, 5]])
-y = np.array([1, 1, -1])
-knn(X, y, 1)
-knn(X, y, 2)
-
-#(b)
-scaler = StandardScaler()
-X1 = scaler.fit_transform(X)
-y = np.array([1, 1, -1])
-knn(X1, y, 1)
-knn(X1, y, 2)
-
-#(c)
-knn_with_pca(X, y, 1)
-knn_with_pca(X, y, 2)
+knn = hlp.KNeighborsClassifier_(1)
+knn.fit(X, y)
+hlp.draw(X, y, knn)
 ```
 
 
 ![png](output_1_0.png)
 
-![png](output_1_1.png)
+```python
+#(b)
+scaler = hlp.StandardScaler_()
+X1 = scaler.fit_transform(X)
+knn = hlp.KNeighborsClassifier_(1)
+knn.fit(X1, y)
 
-![png](output_1_3.png)
+hlp.draw(X, y, knn, flag=2, preprocess=scaler)
+```
 
-![png](output_1_4.png)
+![png](output_2_0.png)
 
-![png](output_1_5.png)
+```python
+#(c)
+pca = hlp.PCA_(1)
+pca.fit(X)
+X2 = pca.transform(X)
+knn = hlp.KNeighborsClassifier_(1)
+knn.fit(X2, y)
 
-![png](output_1_6.png)
+hlp.draw(X, y, knn, flag=3, preprocess=pca)
+```
+
+![png](output_3_0.png)
 
 
 
 #### Problem 9.2 (Page 38)
 
 We considered three forms of input preprocessing: centering, normalization and whitening. The goal of input processing is to make the learning robust to unintentional choices made during data collection.
-Suppose the data are $x_ n$ and the transformed vectors $z_ n$. Suppose that during data collection, $x′_n$, a mutated version of $x_ n$, were measured, and input preprocessing on $x′_ n$ produces $z'_ n$. We would like to study when the $z′_ n$ would be the same as the $z_n$. In other words, what kinds of mutations can the data vectors be subjected to without changing the result of your input processing.The learning will be robust to such mutations.
+Suppose the data are $x_ n​$ and the transformed vectors $z_ n​$. Suppose that during data collection, $x′_n​$, a mutated version of $x_ n​$, were measured, and input preprocessing on $x′_ n​$ produces $z'_ n​$. We would like to study when the $z′_ n​$ would be the same as the $z_n​$. In other words, what kinds of mutations can the data vectors be subjected to without changing the result of your input processing.The learning will be robust to such mutations.
 Which input processing methods are robust to the following mutations:
-(a) Bias: $x′_n = x_n + b$ where $b$ is a constant vector.
-(b) Uniform scaling: $x′_n = αx_n$, where $α > 0$ is a constant.
-(c) Scaling: $x′_n = Ax_n$ where $A$ is a diagonal non-singular matrix.
-(d) Linear transformation:$x′_n = Ax_n$ where $A$ is a non-singular matrix.
+(a) Bias: $x′_n = x_n + b​$ where $b​$ is a constant vector.
+(b) Uniform scaling: $x′_n = αx_n​$, where $α > 0​$ is a constant.
+(c) Scaling: $x′_n = Ax_n​$ where $A​$ is a diagonal non-singular matrix.
+(d) Linear transformation:$x′_n = Ax_n​$ where $A​$ is a non-singular matrix.
 
 (a)center：
 
@@ -895,34 +925,36 @@ $$
 $$
 z_n'  = x_n'- \overline x '= x_n + b - \overline x - b =x_n -  \overline x = z_n
 $$
-这说明平移不会影响center
+这说明平移不会影响center。
 
 normalization：
 $$
-{\sigma_i'^2} = \frac 1 N \sum_{n=1}^N x_{ni}'^2 = \frac 1 N \sum_{n=1}^N (x_{ni}+b)^2
-\neq \sigma_i^2
+{\sigma_i'^2} = \frac 1 N \sum_{n=1}^N  (x_{ni}+b-\overline x_i -b)^2 = 
+\frac 1 N \sum_{n=1}^N (x_{ni}-\overline x_i)^2
+= \sigma_i^2
 $$
 考察分量
 $$
-z_{ni}' =  \frac{x_{ni}'}{{\sigma_i'} } =\frac{x_{ni}+b}{{\sigma_i'} }  \neq z_{ni}
+z_{ni}'  =\frac{x_{ni}+b-\bar x_i -b}{{\sigma_i} } = z_{ni}
 $$
-这说明平移会影响normalization
+这说明平移不会影响normalization。
 
 whitening：
 $$
 \begin{aligned}
-{\sum}' 
+{\Sigma}' 
 &= \frac 1 N \sum_{n=1}^N (x_n'- \overline x')(x_n- \overline x')^T\\
 &=\frac 1 N \sum_{n=1}^N (x_n+b- \overline x-b)(x_n+b- \overline x-b)^T\\
 &=\frac 1 N \sum_{n=1}^N (x_n- \overline x)(x_n- \overline x)^T\\
-&=\sum
+&=\Sigma
 \end{aligned}
 $$
 所以
 $$
-z_n' = {\sum'}^{-\frac 1 2 } x_n' ={\sum}^{-\frac 1 2 } (x_n+b) = z_n +{\sum}^{-\frac 1 2 } b
+z_n' = {\Sigma'}^{-\frac 1 2 } x_n' ={\Sigma}^{-\frac 1 2 } (x_n+b- \overline x-b) = 
+{\Sigma}^{-\frac 1 2 } (x_n- \overline x)=z_n
 $$
-这说明平移会影响whitening
+这说明平移不会影响whitening。
 
 (b)center：
 
@@ -935,35 +967,37 @@ $$
 z_n'  = x_n'- \overline x '= \alpha x_n - \alpha \overline x  
 =\alpha(x_n - \overline x)=\alpha z_n
 $$
-这说明伸缩会影响center
+这说明伸缩会影响center。
 
 normalization：
 $$
-{\sigma_i'^2} = \frac 1 N \sum_{n=1}^N x_{ni}'^2 = \frac 1 N \sum_{n=1}^N (\alpha x_{ni})^2
-= \frac {\alpha^2} N \sum_{n=1}^N  x_{ni}^2 =\alpha^2\sigma_i^2
+{\sigma_i'^2} = \frac 1 N \sum_{n=1}^N
+(\alpha x_{ni}-\alpha \overline x_i)^2
+= \frac {\alpha^2} N \sum_{n=1}^N  (x_{ni}-\overline x_i)^2 =\alpha^2\sigma_i^2
 $$
 考察分量
 $$
-z_{ni}' =  \frac{x_{ni}'}{{\sigma_i'} } =\frac{\alpha x_{ni}}{\alpha \sigma_i } = z_{ni}
+z_{ni}' =\frac{\alpha (x_{ni}-\overline x_i)}{\alpha \sigma_i } = z_{ni}
 $$
-这说明伸缩不会影响normalization
+这说明伸缩不会影响normalization。
 
 whitening：
 $$
 \begin{aligned}
-{\sum}' 
+{\Sigma}' 
 &= \frac 1 N \sum_{n=1}^N (x_n'- \overline x')(x_n- \overline x')^T\\
 &=\frac 1 N \sum_{n=1}^N (\alpha x_n - \alpha \overline x  )(\alpha x_n - \alpha \overline x  )^T\\
 &=\frac {\alpha^2} N \sum_{n=1}^N (x_n- \overline x)(x_n- \overline x)^T\\
-&=\alpha^2\sum
+&=\alpha^2{\Sigma}
 \end{aligned}
 $$
 所以
 $$
-z_n' = {\sum'}^{-\frac 1 2 } x_n' ={\sum}^{-\frac 1 2 }{\alpha}^{-1} \alpha x_n
-={\sum}^{-\frac 1 2 } x_n =z_n
+z_n' = {\Sigma'}^{-\frac 1 2 } x_n' ={\Sigma}^{-\frac 1 2 }{\alpha}^{-1} 
+(\alpha x_n -\alpha \overline x)
+={\Sigma}^{-\frac 1 2 } (x_n - \overline x)  =z_n
 $$
-这说明伸缩不会影响whitening
+这说明伸缩不会影响whitening。
 
 (b)假设
 $$
@@ -990,36 +1024,35 @@ $$
 z_n'  = Ax_n -A \overline x
 =A(x_n -\overline x)  =A z_n
 $$
-这说明伸缩会改变center
+这说明不同比例伸缩会改变center。
 
 normalization：
 $$
-{\sigma_i'^2} = \frac 1 N \sum_{n=1}^N x_{ni}'^2 
-= \frac 1 N \sum_{n=1}^N a_i^2 x_{ni}^2= \frac {a_i^2} N \sum_{n=1}^N  x_{ni}^2 
-=a_i^2 \sigma_i^2
+{\sigma_i'^2} = \frac 1 N \sum_{n=1}^N (a_i x_{ni}-a_i \overline x_i)^2
+= \frac {a_i^2 } N \sum_{n=1}^N (x_{ni}-\overline x_i)^2=a_i^2 \sigma_i^2
 $$
 所以
 $$
-z_{ni}' =  \frac{x_{ni}'}{{\sigma_i'} } =\frac{a_ix_{ni}}{a_i\sigma_i } 
-= \frac{x_{ni}}{\sigma_i } =z_{ni}
+z_{ni}' =\frac{a_i(x_{ni}-\overline x_i)}{a_i\sigma_i } 
+= \frac{x_{ni}-\overline x_i}{\sigma_i } =z_{ni}
 $$
-这说明伸缩不会改变normalization
+这说明不同比例伸缩不会改变normalization。
 
 whitening：
 $$
 \begin{aligned}
-{\sum}' 
+{\Sigma}' 
 &= \frac 1 N \sum_{n=1}^N (x_n'- \overline x')(x_n- \overline x')^T\\
 &=\frac 1 N \sum_{n=1}^N (A x_n - A \overline x)(A x_n - A \overline x)^T\\
-&=\frac {\alpha^2} N \sum_{n=1}^N A(x_n- \overline x)(x_n- \overline x)^TA^T\\
-&= A\sum A^T\\
+&=\frac {1} N \sum_{n=1}^N A(x_n- \overline x)(x_n- \overline x)^TA^T\\
+&= A{\Sigma} A^T\\
 \end{aligned}
 $$
 所以
 $$
-z_n ={\sum}'^{-\frac 1 2 } x_n' ={\sum}'^{-\frac 1 2 } Ax_n
+z_n' ={\Sigma}'^{-\frac 1 2 } (Ax_n -A\bar x) ={\Sigma}'^{-\frac 1 2 } A(x_n-\overline x)\neq z_n
 $$
-没法继续化简，所以这说明伸缩会改变whitening
+这说明不同比例伸缩会改变whitening。
 
 (d)center：
 
@@ -1032,27 +1065,27 @@ $$
 z_n'  = Ax_n -A \overline x
 =A(x_n -\overline x)  =A z_n
 $$
-这说线性变换会改变center
+这说线性变换会改变center。
 
 normalization：
 
-这里就不列式子表示了，但是结果是线性变换会改变normalization
+这里就不列式子表示了，但是结果是线性变换会改变normalization。
 
 whitening：
 $$
 \begin{aligned}
-{\sum}' 
+{\Sigma}' 
 &= \frac 1 N \sum_{n=1}^N (x_n'- \overline x')(x_n- \overline x')^T\\
 &=\frac 1 N \sum_{n=1}^N (A x_n - A \overline x)(A x_n - A \overline x)^T\\
 &=\frac {\alpha^2} N \sum_{n=1}^N A(x_n- \overline x)(x_n- \overline x)^TA^T\\
-&= A\sum A^T\\
+&= A\Sigma A^T\\
 \end{aligned}
 $$
 所以
 $$
-z_n ={\sum}'^{-\frac 1 2 } x_n' ={\sum}'^{-\frac 1 2 } Ax_n
+z_n' ={\Sigma}'^{-\frac 1 2 } A(x_n-\overline x) \neq z_n
 $$
-没法继续化简，所以这说明线性变换会改变whitening
+这说明线性变换会改变whitening。
 
 
 
@@ -1066,11 +1099,11 @@ What are  $\Gamma^{\frac{1}{2}}$ and $\Gamma^{- \frac{1}{2}}$
 
 接验证即可
 $$
-{\sum}^{\frac 1 2 }{\sum}^{\frac 1 2 }=U\Gamma^{\frac 1 2 } U^TU\Gamma^{\frac 1 2 } U^T
-=U\Gamma^{\frac 1 2 } \Gamma^{\frac 1 2 } U^T = U \Gamma U^T = \sum \\
-{\sum}^{-\frac 1 2 }{\sum}^{-\frac 1 2 }=U\Gamma^{-\frac 1 2 } U^TU\Gamma^{-\frac 1 2 } U^T
+{\Sigma}^{\frac 1 2 }{\Sigma}^{\frac 1 2 }=U\Gamma^{\frac 1 2 } U^TU\Gamma^{\frac 1 2 } U^T
+=U\Gamma^{\frac 1 2 } \Gamma^{\frac 1 2 } U^T = U \Gamma U^T = \Sigma \\
+{\Sigma}^{-\frac 1 2 }{\Sigma}^{-\frac 1 2 }=U\Gamma^{-\frac 1 2 } U^TU\Gamma^{-\frac 1 2 } U^T
 =U\Gamma^{-\frac 1 2 } \Gamma^{-\frac 1 2 } U^T 
-=U\Gamma^{-1} U^T ={\sum}^{-1}
+=U\Gamma^{-1} U^T ={\Sigma}^{-1}
 $$
 
 
@@ -1091,7 +1124,7 @@ $$
 $$
 \psi^T \psi  =A^TV V^T A= A^T A  = I
 $$
-所以$\psi$为正交矩阵
+所以$\psi$为正交矩阵。
 
 
 
@@ -1110,17 +1143,9 @@ Give the SVD of matrix $A$ defined in each case below.
 
 (a)此时为对角阵，所以$N=d​$，比较第11页的形式不难发现
 $$
-U= V= I_N, A =\Gamma
+U= V= I_N,\Gamma= A 
 $$
 (b)$A$的行向量互相正交，所以
-$$
-AA^T = \text{diag}(\sigma_1^2,...,\sigma_N^2) =\Lambda
-$$
-将$A= U\Gamma V^T$带入可得，注意$\Gamma$为对角矩阵
-$$
-U\Gamma V^T V\Gamma^T U^T = U\Gamma^2 U^T = \Lambda
-$$
-那么
 $$
 U =\left[
  \begin{matrix}
@@ -1130,29 +1155,15 @@ I_d  \\
   \end{matrix}
   \right]
 $$
-此时
-$$
-U\Gamma = \left[
- \begin{matrix}
-\Gamma\\
-
-  0
-  \end{matrix}
-  \right]
-$$
-所以SVD分解为
+SVD分解为
 $$
 A= \Gamma V^T
 $$
 (c)$A$的列向量互相正交，所以
 $$
-A^TA= \text{diag}(\sigma_1^2,...,\sigma_d^2) =\Lambda
+V=I_d
 $$
-将$A= U\Gamma V^T$带入可得，注意$\Gamma$为对角矩阵
-$$
-V\Gamma^T U^TU\Gamma V^T =  V\Gamma^2 V^T = \Lambda
-$$
-不难看出$V= I_d$即可，所以SVD分解为
+SVD分解为
 $$
 A= U \Gamma
 $$
@@ -1234,27 +1245,49 @@ $$
 
 For the digits data, suppose that the data were not centered first in Example 9.2. Perform PCA and obtain a 2-dimensional feature vector (give a plot). Are the transformed data whitened?
 
+这里分别对中心化和非中心化分别作图，首先是中心化：
+
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Thu May  2 11:08:48 2019
+
+@author: qinzhen
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import decomposition
+import helper as hlp
 
 data = np.genfromtxt("zip.train")
 X = data[:, 1:]
-Y = data[:, 0]
-pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X_pca = pca.transform(X)
+y = data[:, 0]
+#PCA分解with centering
+pca = hlp.PCA_(n_components=2)
+X_pca = pca.fit_transform(X)
 
-plt.scatter(X_pca[:, 0], X_pca[:, 1], s=5, c = Y, cmap='gist_ncar')
+plt.scatter(X_pca[:, 0], X_pca[:, 1], s=5, c=y, cmap='gist_ncar')
 plt.colorbar()
-plt.title("digits data with 2 components PCA")
+plt.title("digits data with 2 components PCA with centering")
 plt.show()
 ```
 
-![png](output_3_0.png)
+![png](output_5_0.png)
 
-下一题告诉我们数据已经whitened
+其次是非中心化：
+```python
+#PCA分解without centering
+pca = hlp.PCA_(n_components=2)
+X_pca = pca.fit_transform(X, flag=2)
+plt.scatter(X_pca[:, 0], X_pca[:, 1], s=5, c=y, cmap='gist_ncar')
+plt.colorbar()
+plt.title("digits data with 2 components PCA without centering")
+plt.show()
+```
+
+![png](output_6_0.png)
+
+由下题可知，因为原始数据没有中心化，所以转换后的数据没有whitened。
 
 
 
@@ -1290,7 +1323,7 @@ x_N^T \\
   \end{matrix}
   \right] V_k (\Gamma_k^{-1})^T =XV_k (\Gamma_k^{-1})^T
 $$
-我们计算$Z^TZ$，注意$X=U\Gamma V^T$
+我们计算$Z^TZ​$，注意$X=U\Gamma V^T​$
 $$
 \begin{aligned}
 Z^T Z 
@@ -1300,7 +1333,7 @@ Z^T Z
 \end{aligned}
 $$
 
-我们考虑$V_k ^T V,V^T V_k$，注意$V$为正交矩阵
+我们考虑$V_k ^T V,V^T V_k​$，注意$V​$为正交矩阵
 $$
 V_k^T V= \left[
  \begin{matrix}
@@ -1372,7 +1405,11 @@ Z^T Z
   &= I_k
 \end{aligned}
 $$
-从而$z_n$为whitened
+所以
+$$
+z_n^T z_n =1
+$$
+因此$z_n$已经whitened。
 
 
 
@@ -1386,8 +1423,8 @@ One heuristic to address this is to do a PCA separately for each class, and use 
 We applied the algorithm to the digits data, giving the features shown above.
 
 (a) Give a scatter plot of your resulting two features.
-(b) Are the directions $v_1$ and $v_2$ necessarily orthogonal?
-(c) Let $Z = X\hat V$ be the feature matrix, where $\hat V = [v_1, v_2]$. Show that the best reconstruction of $X$ from $Z$ is
+(b) Are the directions $v_1​$ and $v_2​$ necessarily orthogonal?
+(c) Let $Z = X\hat V​$ be the feature matrix, where $\hat V = [v_1, v_2]​$. Show that the best reconstruction of $X​$ from $Z​$ is
 $$
 \hat{{X}}={Z} \hat{{V}}^{\dagger}={X} \hat{{V}} \hat{{V}}^{\dagger}
 $$
@@ -1397,42 +1434,66 @@ where $\hat{{V}}^{\dagger}$ is the pseudo-inverse of $\hat{{V}}​$.
 (a)无法画出和教材中一样的图片，暂时没有找到问题在哪
 
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Thu May  2 14:50:33 2019
+
+@author: qinzhen
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import decomposition
+import helper as hlp
 
 data = np.genfromtxt("zip.train")
 X = data[:, 1:]
-# center
-mean = np.mean(X, axis=0)
-X = X - mean
-Y = data[:, 0]
+#中心化
+X -= np.mean(X, axis=0)
+y = data[:, 0]
+#选择的标签
 l = 1
-X1 = X[Y == l]
-X2 = X[Y != l]
-
-pca = decomposition.PCA(n_components=1)
-pca.fit(X1)
+#划分数据
+Xpos = X[y == l]
+Xneg = X[y != l]
+#对每一类分别使用PCA，flag=2表示pca中不使用中心化
+pca = hlp.PCA_(n_components=1)
+pca.fit(Xpos, flag=2)
 z1 = pca.transform(X)
-pca.fit(X2)
+
+pca = hlp.PCA_(n_components=1)
+pca.fit(Xneg, flag=2)
 z2 = pca.transform(X)
 
-plt.scatter(z1[Y == l], z2[Y == l], s=5)
-plt.scatter(z1[Y != l], z2[Y != l], s=5)
+#作图
+plt.scatter(z1[y == l], z2[y == l], s=5)
+plt.scatter(z1[y != l], z2[y != l], s=5)
 plt.title("+1 digits VS -1 digits with 2 components PCA")
 plt.show()
 ```
 
 
-![png](output_5_0.png)
+![png](output_8_0.png)
 
-(b)由算法描述可知，$v_1,v_2$不一定正交
+(b)由算法描述可知，$v_1,v_2$不一定正交。
 
-(c)因为$\hat V$列满秩，所以$\hat V$存在左伪逆矩阵$\hat V^† = (\hat V^ T \hat  V)^{-1}\hat  V^T=\hat V^T$，回顾课本12页的公式可知
+(c)我们需要最小化
 $$
-\hat X = Z \hat V \hat V^T =  Z \hat V \hat V^† 
+ \| X- ZU\|_F^2 = \| X- X \hat VU\| _F^2 = \| X(I- \hat VU)\| _F^2
 $$
-(d)这个算法利用到了标签，所以是监督式学习
+如果
+$$
+\hat V U= I
+$$
+那么上式即可达到最小值，可以通过施密特正交化方法构造$U​$。在上述条件成立的情形下，我们有
+$$
+\begin{aligned}
+U\hat V U&= U\\
+\hat V U \hat V&= \hat V
+\end{aligned}
+$$
+所以$U$是$\hat V$的伪逆矩阵。
+
+(d)这个算法利用到了标签，所以是监督式学习。
 
 
 
@@ -1443,13 +1504,13 @@ Let $X=U\Gamma V^T $ be the SVD of $X$. Give an alternative proof of the Eckart-
 (a) Let $\hat  X$ be a reconstruction of $X$ whose rows are the data points in $X$ projected onto $k$ basis vectors. What is the rank($\hat   X$)?
 (b) Show that 
 $$
-\|{X}-\hat{{X}}\|_{F}^{2} \geq\left\|{U}^{{T}}({X}-\hat{{X}}) {V}\right\|_{F}^{2}=\left\|\Gamma-{U}^{{r}} \hat{{X}} {V}\right\|_{F}^{2}
+\|{X}-\hat{{X}}\|_{F}^{2} \geq\left\|{U}^{{T}}({X}-\hat{{X}}) {V}\right\|_{F}^{2}=\left\|\Gamma-{U}^{{T}} \hat{{X}} {V}\right\|_{F}^{2}
 $$
-(c) Let $\hat{\Gamma}=U^{\tau} \hat{X} V$. Show that $\text{rank}(\hat \Gamma)\le k $
-(d) Argue that the optimal choice for $\hat \Gamma  $ must have all off-diagonal elements zero. [Hint: What is the definition of the Frobenius norm?]
-(e) How many non-zero diagonals can $\hat \Gamma  $ have.
-(f) What is the best possible choice for $\hat \Gamma  $.
-(g) Show that $\hat X = XVV^T $ results in such an optimal choice for $\hat X$
+(c) Let $\hat{\Gamma}=U^{T} \hat{X} V​$. Show that $\text{rank}(\hat \Gamma)\le k ​$
+(d) Argue that the optimal choice for $\hat \Gamma  ​$ must have all off-diagonal elements zero. [Hint: What is the definition of the Frobenius norm?]
+(e) How many non-zero diagonals can $\hat \Gamma  ​$ have.
+(f) What is the best possible choice for $\hat \Gamma  ​$.
+(g) Show that $\hat X = XVV^T ​$ results in such an optimal choice for $\hat X​$
 
 (a)因为$\hat X​$是由$X​$投影到$k​$个基向量得到的矩阵，所以$\text{rank}(\hat X) = k​$
 
@@ -1470,9 +1531,9 @@ $$
 \|\Gamma - \Gamma' \|_F^2 =\sum_{i=1}^d \sum_{j=1}^d (\gamma_{ij}- \gamma_{ij}')^2
 =\sum_{i=1}^d (\gamma_{ii}- \gamma_{ii}')^2 + \sum_{i\ne j}  \gamma_{ij}'^2 \ge \sum_{i=1}^d (\gamma_{ii}- \gamma_{ii}')^2
 $$
-上述等式利用了$\Gamma$为对角阵，不难看出上述不等式当且仅当$\gamma_{ij}'=0$时才成立，所以$\hat \Gamma$的最优选择为非对角线元素全为$0$
+上述等式利用了$\Gamma$为对角阵，不难看出上述不等式当且仅当$\gamma_{ij}'=0$时才成立，所以$\hat \Gamma$的最优选择为非对角线元素全为$0$。
 
-(e)现在已经确定$\hat \Gamma$为对角矩阵，由于$\text{rank}(\hat\Gamma)\le k $，这说明对角线的非$0$元素最多有$k$个
+(e)现在已经确定$\hat \Gamma$为对角矩阵，由于$\text{rank}(\hat\Gamma)\le k $，这说明对角线的非$0$元素最多有$k$个。
 
 (f)继续利用定义，注意$\Gamma$和$\hat \Gamma$为对角矩阵
 $$
@@ -1480,8 +1541,10 @@ $$
 =\sum_{i=1}^k (\gamma_{ii}- \gamma_{ii}')^2 + \sum_{i=k+1}^d \gamma_{ii}^2 
 \ge  \sum_{i=k+1}^d \gamma_{ii}^2
 $$
-上述等号成立当且仅当$\gamma_{ii}'= \gamma_{ii}$
-
+上述等号成立当且仅当$\gamma_{ii}'= \gamma_{ii}$，即
+$$
+\Gamma' =\text{diag} \{\gamma_{11}, \ldots, \gamma_{kk} , 0,\ldots ,0\}
+$$
 (g)题目有误，正确的应该是
 $$
 \hat X = X V_k V_k^T
@@ -1491,7 +1554,7 @@ $$
 U^T\hat XV = U^T X V_k V_k^T V =U^T U\Gamma V^T V_k V_k^T V
 =\Gamma V^T V_k V_k^T V
 $$
-注意$V$为正交矩阵，因此
+注意$V​$为正交矩阵，因此
 $$
 V_k^T V = \left[
  \begin{matrix}
@@ -1537,14 +1600,14 @@ I_k&0 \\
   \right] =  
  \left[
  \begin{matrix}
-\gamma_1 &&   \\
+\gamma_{11} &&   \\
    & \ddots   \\
-   && \gamma_k  \\
+   && \gamma_{kk}  \\
       &&& 0   \\
   \end{matrix}
   \right]
 $$
-这说明$  U^T\hat XV$为$\hat \Gamma$的最优解
+这说明$  U^T\hat XV​$为$\hat \Gamma​$的最优解。
 
 
 
@@ -1570,16 +1633,23 @@ x_n + \epsilon_n$ where $\epsilon_ n$ is independent Gaussian noise with varianc
 (c) Explain your results from (b) part (v).
 (d) Which is the correct estimate for $E_{\text{out}}(g)$.
 
-(a)算法1是先进行SVD然后再进划分数据，算法2是先划分数据再进行SVD
+(a)算法1是先进行SVD然后再进划分数据，算法2是先划分数据再进行SVD。
 
-(b)$E_1,E_2$均值比$E_{\text{out}}$大，这是因为PCA降维后减少了一些信息，从而误差会变大；$E_1$均值比$E_{2}​$小，这是因为算法1是先进行SVD，这时候会利用到交叉验证集的数据，从而整体误差会小一些。
+(b)$E_1,E_2​$均值比$E_{\text{out}}​$大，这是因为PCA降维后减少了一些信息，从而误差会变大；$E_1​$均值比$E_{2}​$小，这是因为算法1是先进行SVD，这时候会利用到交叉验证集的数据，从而整体误差会小一些。
 
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Sat May  4 09:12:52 2019
+
+@author: qinzhen
+"""
+
 #### (b)
 import numpy as np
 from numpy.linalg import inv
 import matplotlib.pyplot as plt
-from sklearn import decomposition
+import helper as hlp
 
 #### (i)
 N = 40
@@ -1587,70 +1657,79 @@ d = 5
 k = 3
 
 def data(N, d):
-    x = np.random.randn(N, d)
+    """
+    生成数据集
+    """
+    X = np.random.randn(N, d)
     w = np.random.randn(d)
     epsilon = np.random.randn(N) * 0.5
-    y = x.dot(w) + epsilon
-    return w, x, y
+    y = X.dot(w) + epsilon
+    return w, X, y
 
 #### (ii)
 #Algorithm 1
-def Algorithm_1(x, y, k):
-    pca = decomposition.PCA(n_components=k)
-    pca.fit(x)
-    z = pca.fit_transform(x)
+def Algorithm_1(X, y, k):
+    pca = hlp.PCA_(n_components=k)
+    pca.fit(X)
+    Z = pca.fit_transform(X)
     e1 = []
+    N, d = X.shape
     for i in range(N):
+        #每轮选择的数据下标
         index = np.array([True] * N)
         index[i] = False
-        z0 = z[i]
+        #划分数据
+        Z0 = Z[i]
         y0 = y[i]
-        z1 = z[index]
+        Z1 = Z[index]
         y1 = y[index]
-        w = inv(z1.T.dot(z1)).dot(z1.T).dot(y1)
-        e1.append((z0.dot(w) - y0) ** 2)
+        w = inv(Z1.T.dot(Z1)).dot(Z1.T).dot(y1)
+        e1.append((Z0.dot(w) - y0) ** 2)
     return np.mean(e1)
 
 #Algorithm 2
-def Algorithm_2(x, y, k):  
+def Algorithm_2(X, y, k):  
     e2 = []
-    pca = decomposition.PCA(n_components=k)
+    
+    N, d = X.shape
     for i in range(N):
+         #每轮选择的数据下标
         index = np.array([True] * N)
         index[i] = False
-        x0 = x[i].reshape(1, -1)
+        #划分数据
+        X0 = X[i].reshape(1, -1)
         y0 = y[i]
-        x1 = x[index]
+        X1 = X[index]
         y1 = y[index]
+        #训练
+        pca = hlp.PCA_(n_components=k)
+        pca.fit(X1)
+        Z1 = pca.transform(X1)
+        w = inv(Z1.T.dot(Z1)).dot(Z1.T).dot(y1)
         
-        pca.fit(x1)
-        z1 = pca.fit_transform(x1)
-        w = inv(z1.T.dot(z1)).dot(z1.T).dot(y1)
-        
-    #    z0 = pca.fit_transform(x0)
-        z0 = x0.dot(pca.components_.T)
+        Z0 = pca.transform(X0)
     
-        e2.append((z0.dot(w) - y0) ** 2)
+        e2.append((Z0.dot(w) - y0) ** 2)
     return np.mean(e2)
 
 #### (iii)
-def E_out(x, y, w):
+def E_out(X, y, w):
     #计算结果
-    w0 = inv(x.T.dot(x)).dot(x.T).dot(y)
-    #获得新的数据来模拟Eout
-    d = x.shape[1]
+    w0 = inv(X.T.dot(X)).dot(X.T).dot(y)
+    #生成新的数据来模拟Eout
+    d = X.shape[1]
     N = 10000
-    x1 = np.random.randn(N, d)
+    X1 = np.random.randn(N, d)
     epsilon = np.random.randn(N) * 0.5
-    y1 = x1.dot(w) + epsilon
-    y0 = x1.dot(w0)
+    y1 = X1.dot(w) + epsilon
+    y0 = X1.dot(w0)
     return np.mean((y1 - y0) ** 2)
 
 #### (iv)
-w, x, y = data(N, d)
-print("E1 =", Algorithm_1(x, y, k))
-print("E2 =", Algorithm_2(x, y, k))
-print("E_out =", E_out(x, y, w))
+w, X, y = data(N, d)
+print("E1 =", Algorithm_1(X, y, k))
+print("E2 =", Algorithm_2(X, y, k))
+print("E_out =", E_out(X, y, w))
 
 
 #### (v)
@@ -1659,10 +1738,10 @@ E1 = []
 E2 = []
 Eout = []
 for i in range(M):
-    w, x, y = data(N, d)
-    E1.append(Algorithm_1(x, y, k))
-    E2.append(Algorithm_2(x, y, k))
-    Eout.append(E_out(x, y, w))
+    w, X, y = data(N, d)
+    E1.append(Algorithm_1(X, y, k))
+    E2.append(Algorithm_2(X, y, k))
+    Eout.append(E_out(X, y, w))
     
 plt.hist(E1)
 plt.title("E1")
@@ -1676,56 +1755,92 @@ plt.show()
 print("E1_mean =", np.mean(E1))
 print("E2_mean =", np.mean(E2))
 print("E_out_mean =", np.mean(Eout))
-
 ```
 
-    E1 = 0.538838556358
-    E2 = 0.612163338131
-    E_out = 0.321355196027
+    E1 = 2.9848477689390487
+    E2 = 3.3734459718878087
+    E_out = 0.2671906269590378
 
-![png](output_7_1.png)
+![png](output_10_1.png)
 
-![png](output_7_2.png)
+![png](output_10_2.png)
 
-![png](output_7_3.png)
+![png](output_10_3.png)
 
 
-    E1_mean = 1.82117996189
-    E2_mean = 2.19237149596
-    E_out_mean = 0.286213319201
-(c)(b)中已经解释了，算法1是先进行SVD，这时候会利用到交叉验证集的数据，这是不大准确的计算方法
+    E1_mean = 1.865415167353018
+    E2_mean = 2.3127315449440284
+    E_out_mean = 0.2877558958424026
+(c)(b)中已经解释了，算法1是先进行SVD，这时候会利用到交叉验证集的数据，这样会是一种Data snooping，所以$E_1$比$E_2$更小。
 
-(d)我认为算法2更正确一些
+(d)从(c)中的讨论不难看出算法2更正确一些，注意这里$E_1​$，$E_2​$和$E_{\text{out}}​$偏差较大，这是因为主成分选择较少的原因。
 
 
 
 #### Problem 9.11 (Page 41)
 
-(a)不难看出，如果$\lambda$不变，那么$d_{eff}$随着次数的增加而增加，所以如果$d_{eff}$不变，那么$\lambda$会减小
+From Figure 9.8(a), performance degrades rapidly as the order of the model increases. What if the target function has a high order? One way to allow for higher order, but still get good generalization is to fix the effective dimension $d_{\text{eff}}$, and try a variety of orders. Given $X,d_{\text{eff}}$ depends on $λ$. Fixing $d_{\text{eff}}$ (to say 7) requires changing $λ$ as the order increases.
 
-(b)利用Chaper 4，Problem 4.15(c)计算$d_{eff}$
-$$
-d_{eff}(\lambda)=\sum_{i=0}^d\frac{s_i^4}{(s_i+\lambda)^2}
-$$
-不难看出$d_{eff}$关于$\lambda$单调，从而可以用二分法解此方程
+(a) For fixed $d_{\text{eff}}$, when the order increases, will $λ$ increase or decrease?
+(b) Implement a numerical method for finding $λ(d_{\text{eff}})$ using one of the measures for the effective number of parameters (e.g., $d_{\text{eff}} = \text{trace}(H^2(λ))$, where ${H}(\lambda)={X}\left({X}^{{T}} {X}+\lambda {I}\right)^{-1} {X}^{{T}}$ is the hat-matrix from Chapter 4). The inputs are $d_\text{eff}$, and $X$ and the output should be $\lambda\left(d_{\mathrm{eff}}, {X}\right)$.
+(c) Use the experimental design in Exercise 9.18 to evaluate this approach. Vary the model order in $[0, 30]$ and set $d_\text{eff}$ to $7$. Plot the expected out-of-sample error versus the order.
+(d) Comment on your results. How should your plot behave if $d_\text{eff}$ alone controlled the out-of-sample error? What is the best model order using this approach?
 
-由于exercise 9.18有点问题，(c)(d)暂时略过
+(a)因为次数增加，所以要保持$d_{\text{deff}}​$不变，$\lambda ​$必然要增加。
+
+(b)利用Chaper 4，Problem 4.15(c)计算$d_{\text{eff}}​$
+$$
+d_{\text{eff}}(\lambda)=\sum_{i=0}^d\frac{s_i^4}{(s_i+\lambda)^2}
+$$
+不难看出$d_{\text{eff}}$关于$\lambda$单调，从而可以用二分法解此方程。
+
+由于exercise 9.18有点问题，(c)(d)暂时略过。
 
 
 
 #### Problem 9.12 (Page 41)
+
+In this problem you will derive the permutation optimism penalty in Equation (9.5). We compute the optimism for a particular data distribution and use that to penalize $E_{\mathrm{in}}$ as in (9.5). The data is $\mathcal{D}=\left(\mathrm{x}_{1}, y_{1}\right), \ldots,\left(\mathrm{x}_{N}, y_{N}\right)$, and the permuted data set is
+$$
+\mathcal{D}_{\pi}=\left(\mathrm{x}_{1}, y_{\pi_{1}}\right), \ldots,\left(\mathrm{x}_{N}, y_{\pi_{N}}\right)
+$$
+Define the ‘permutation input distribution’ to be uniform over $\mathbf{x}_{1}, \dots, \mathbf{x}_{N}$. Define a ‘permutation target function’ $f_π$ as follows: to compute target values $f_{\pi}\left(\mathbf{x}_{n}\right)$, generate a random permutation $π$ and set $f_{\pi}\left(\mathrm{x}_{n}\right)=y_{\pi_{n}}$. So,
+$$
+\mathbb{P}\left[f_{\pi}\left(\mathbf{x}_{n}\right)=y_{m}\right]=\frac{1}{N}
+$$
+for $m=1, \ldots, N$, independent of the particular $\mathrm{x}_{n}$. We define $E_{\mathrm{out}}^{\boldsymbol{\pi}}(h)$ with respect to this target function on the inputs $\mathrm{x}_{1}, \ldots, \mathrm{x}_{N}$.
+
+(a)Define $E_{\mathrm{out}}^{\pi}(h)=\frac{1}{4} \mathbb{E}_{\mathbf{x}, \pi}\left[\left(h(\mathrm{x})-f_{\pi}(\mathrm{x})\right)^{2}\right]​$, where expectation is with respect to the permutation input and target joint distribution. Show that
+$$
+E_{\mathrm{out}}^{\pi}(h)=\frac{1}{4 N} \sum_{n=1}^{N} \mathbb{E}_{\pi}\left[\left(h\left(\mathrm{x}_{n}\right)-f_{\pi}\left(\mathrm{x}_{n}\right)\right)^{2}\right]
+$$
+(b)Show that 
+$$
+E_{\mathrm{out}}^{\pi}(h)=\frac{s_{y}^{2}}{4}+\frac{1}{4 N} \sum_{n=1}^{N}\left(h\left(\mathrm{x}_{n}\right)-\overline{y}\right)^{2}
+$$
+where $\overline{y}=\frac{1}{N} \sum_{n} y_{n}$ and $s_{y}^{2}=\frac{1}{N} \sum_{n}\left(y_{n}-\overline{y}\right)^{2}$ are the mean and variance of the target values.
+
+(c)In-sample error minimization on $\mathcal{D}_{\pi}$ yields $g_{\pi}$. What is $E_{\mathrm{in}}^{\pi}\left(g_{\pi}\right)$?
+
+(d)The permutation optimism penalty is $E_{\mathrm{out}}^{\pi}\left(g_{\pi}\right)-E_{\mathrm{in}}^{\pi}\left(g_{\pi}\right)$. Show:
+$$
+\text{permutation optimism penalty}=
+
+\frac{1}{2 N} \sum_{n=1}^{N}\left(y_{\pi_{n}}-\overline{y}\right) g_{(\pi)}\left(\mathrm{x}_{n}\right)\tag {9.7}
+$$
+(e)Show that the permutation optimism penalty is proportional to the correlation between the randomly permuted targets $y_{π_n}$ and the learned function $g_{\pi}\left(\mathrm{x}_{n}\right)​$.
 
 (a)
 $$
 \begin{aligned}
 E_{\text{out}}^{\pi} (h)
 &=  \frac 1 4 \mathbb E_{x,\pi}[(h(x) - f_{\pi}(x))^2]\\
-&= \frac 1 4\sum_{n=1}^N \mathbb E_{\pi}[(h(x) - f_{\pi}(x))^2|x =x _n]P(x=x_n) \\
+&= \frac 1 4\sum_{n=1}^N \mathbb E_{\pi}[(h(x) - f_{\pi}(x))^2|x =x _n]\mathbb P[x=x_n] \\
 &=\frac 1 4\sum_{n=1}^N \mathbb E_{\pi}[(h(x_n) - f_{\pi}(x_n))^2]\frac 1 N \\
 &=\frac 1 {4N} \sum_{n=1}^N \mathbb E_{\pi}[(h(x_n) - f_{\pi}(x_n))^2]
 \end{aligned}
 $$
-(b)注意$f_{\pi}(x_n) =y_{\pi_n}$
+(b)注意$f_{\pi}(x_n) =y_{\pi_n}$，所以
 $$
 \begin{aligned}
 E_{\text{out}}^{\pi} (h)
@@ -1750,20 +1865,20 @@ $$
 $$
 \begin{aligned}
 \frac 1 {4N} \sum_{n=1}^N  \mathbb E_{\pi}[(\overline y- y_{\pi_n})^2]
-&=\frac 1 {4N} \sum_{n=1}^N \sum_{i=1}^N \mathbb E_{\pi}[(\overline y- y_{\pi_n})^2|\pi_n = i ]P(\pi_n = i)\\
+&=\frac 1 {4N} \sum_{n=1}^N \sum_{i=1}^N \mathbb E_{\pi}[(\overline y- y_{\pi_n})^2|\pi_n = i ]\mathbb P[\pi_n = i]\\
 &=\frac 1 {4N} \sum_{n=1}^N \sum_{i=1}^N \mathbb E_{\pi}[(\overline y- y_i)^2]\frac 1 N  \\
 &=\frac 1 {4N} \sum_{n=1}^N \sum_{i=1}^N (\overline y- y_i)^2\frac 1 N \\
 &=\frac 1 {4N} \sum_{i=1}^N (\overline y- y_i)^2\\
 &=\frac{s_y^2}{4}
 \end{aligned}
 $$
-第三项：$(h(x_n) -\overline y)$关于排列$\pi$为常数，所以
+第三项：$(h(x_n) -\overline y)​$关于排列$\pi​$为常数，所以
 $$
 \begin{aligned}
 \frac 1 {2N}\sum_{n=1}^N  \mathbb E_{\pi}[(h(x_n) -\overline y)(\overline y- y_{\pi_n})]
 &=\frac 1 {2N}\sum_{n=1}^N  (h(x_n) -\overline y) \mathbb E_{\pi}[(\overline y- y_{\pi_n})]\\
 &=\frac 1 {2N}\sum_{n=1}^N  (h(x_n) -\overline y) 
-\sum_{i=1}^N\mathbb E_{\pi}[(\overline y- y_{\pi_n})|\pi_n=i] P(\pi_n = i) \\
+\sum_{i=1}^N\mathbb E_{\pi}[(\overline y- y_{\pi_n})|\pi_n=i] \mathbb P[\pi_n = i] \\
 &=\frac 1 {2N}\sum_{n=1}^N  (h(x_n) -\overline y) 
 \sum_{i=1}^N\mathbb E_{\pi}[(\overline y- y_{i})] \frac 1 N \\
 &=\frac 1 {2N}\sum_{n=1}^N  (h(x_n) -\overline y) 
@@ -1775,7 +1890,7 @@ $$
 $$
 E_{\text{out}}^{\pi}(h)  = \frac{s_y^2}{4}+ \frac 1 {4N} \sum_{n=1}^N (h(x_n) -\overline y)^2
 $$
-(c)由定义可知
+(c)由(a)中$E_{\text{out}}^h(h)$的计算式可得
 $$
 E_{\text{in}}^{\pi} (h) = \frac 1 {4N} \sum_{n=1}^N (h(x_n) -y_{\pi_n})^2
 $$
@@ -1801,19 +1916,43 @@ E_{\text{out}}^{\pi}(h)-E_{\text{in}}^{\pi} (h)
 &=\frac 1 {2N}\sum_{n=1}^N  (y_{\pi_n} -\overline y)h(x_n)
 \end{aligned}
 $$
-(e)不难看出，上式即为协方差，所以结论成立
+(e)不难看出，上式即为协方差，所以结论成立。
 
 
 
 #### Problem 9.13 (Page 42)
 
-Bootstrap为重复抽样，只要重新计算第一步即可，实际上，由重复抽样的定义可知$P(x=x_n)=\frac 1 N $，所以上述推导不变，所以结论都一样。
+Repeat Problem 9.12, but , instead of defining the target distribution for the random problem using a random permutation (sampling the targets without replacement), use sampling of the targets with replacement (the Bootstrap distribution).
+[Hint: Almost everything stays the same.]
+
+Bootstrap为放回抽样，只要重新计算第一步即可，实际上，由放回抽样的定义可知$\mathbb P[x=x_n]=\frac 1 N $，所以上述推导不变，所以结论都一样。
 
 
 
 #### Problem 9.14 (Page 42)
 
+In this problem you will investigate the Rademacher optimism penalty for the perceptron in one dimension, $h(x)=\operatorname{sign}\left(x-w_{0}\right)$.
+
+(a) Write a program to estimate the Rademacher optimism penalty:
+	(i) Generate inputs $x_{1}, \dots, x_{N}$ and random targets $r_1, . . . , r_N$.
+	(ii) Find the perceptron $g_{\mathrm{r}}$ with minimum in-sample error $E_{\mathrm{in}}^{\prime} \left(g_{\mathrm{r}}\right)$.
+	(iii) Compute the optimism penalty as $\frac{1}{2}-E_{\text { in }}^{\prime}\left(g_{\mathrm{r}}\right)$.
+Run your program for $N = 1, 2, . . . , 10^3$ and plot the penalty versus $N$.
+
+(b) Repeat part (a) $10,000$ times to compute the average Rademacher penalty and give a plot of the penalty versus $N$.
+
+(c)On the same plot show the function $1/\sqrt N$; how does the Rademacher penalty compare to $1/\sqrt N$? What is the VC-penalty for this learning model and how does it compare with the Rademacher penalty?
+
+(a)
+
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Thu May  2 23:00:48 2019
+
+@author: qinzhen
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -1830,7 +1969,7 @@ def f(N):
     X2 = np.append(X1[0] - 1, X2)
     X2 = np.append(X2, X1[-1] + 1)
     
-    #计算结果
+    #计算结果，向量化计算
     temp = np.sign(X1.reshape(-1, 1) - X2)
     result = np.mean(temp != r.reshape(-1, 1), axis=0)
     error = np.min(result)
@@ -1844,7 +1983,14 @@ for n in N:
 plt.plot(N, Error)
 plt.title("penalty VS N")
 plt.show()
+```
 
+
+![png](output_12_0.png)
+
+(b)
+
+```python
 #(b)
 m = 100
 Error = []
@@ -1856,41 +2002,73 @@ for n in N:
 plt.plot(N, Error)
 plt.title("mean penalty VS N")
 plt.show()
+```
 
+![png](output_13_0.png)
+
+(c)可以看到Rademacher penalty的数量级为$O(\frac 1 {\sqrt N})$，由课本上册58页可知VC penalty为
+$$
+\sqrt{\frac{8}{N} \ln \left(\frac{4\left((2 N)^{d_{\text{vc}}} +1\right)}{\delta}\right)}
+$$
+不考虑$\delta $的影响，VC penality为
+$$
+\sqrt{\frac{8}{N} \ln \left({4\left((2 N)^{d_{\text{vc}}} +1\right)}\right)}
+$$
+此处为一维感知机，所以
+$$
+d_{\text{vc}}=2
+$$
+
+作图可得：
+
+```python
 #(c)
 N1 = 1 / np.sqrt(N)
-plt.plot(N, Error)
+N2 = np.sqrt(8 * np.log((4 * ((2 * N) ** 2 + 1))) / N)
+plt.plot(N, Error, label="Rademacher optimism penalty")
 plt.plot(N, N1, label="$1/\sqrt{N}$")
+plt.plot(N, N2, label="VC penalty")
 plt.title("mean penalty VS N")
 plt.legend()
 plt.show()
 ```
 
+![png](output_14_0.png)
 
-![png](output_9_0.png)
+可以看到VC penalty要明显大很多。
 
-![png](output_9_1.png)
-
-![png](output_9_2.png)
-
-(c)可以看到Rademacher penalty的数量级为$O(\frac 1 {\sqrt N})$，VC-penalty略过 
 
 
 
 #### Problem 9.15 (Page 43)
 
+The Rademacher optimism penalty is
+$$
+E_{\mathrm{out}}^{\prime}\left(g_{\mathrm{r}}\right)-E_{\mathrm{in}}^{\prime}\left(g_{\mathrm{r}}\right)=\frac{1}{2}-E_{\mathrm{in}}^{\prime}\left(g_{\mathrm{r}}\right)
+$$
+Let $\mathcal H$ have growth function $m_{\mathcal H}(N)$. Show that, with probability at least $1-\delta $,
+$$
+\text{Rademacher optimism penalty}
+\leq \sqrt{\frac{1}{2 N} \ln \frac{2 m_{\mathcal{H}}(N)}{\delta}}
+$$
+[Hint: For a single hypothesis gives $\mathbb{P}\left[ | E_{\text {out}}(h)-E_{\text {in}}(h) |>\epsilon\right] \leq 2 e^{-2 N \epsilon^{2}}$ .]
+
 由第二章可知
 $$
-P(|E'_{\text{out}}(g_r) -E'_{\text{in}}(g_r)| > \epsilon ) \le 2 m_{\mathcal H }(N)e^{-2N\epsilon^2}\\
-P(|E'_{\text{out}}(g_r) -E'_{\text{in}}(g_r)| \le \epsilon )\ge 1- 2 m_{\mathcal H }(N)e^{-2N\epsilon^2}
+\begin{aligned}
+\mathbb P(|E'_{\text{out}}(g_r) -E'_{\text{in}}(g_r)| > \epsilon ) &\le 2 m_{\mathcal H }(N)e^{-2N\epsilon^2}\\
+\mathbb P(|E'_{\text{out}}(g_r) -E'_{\text{in}}(g_r)| \le \epsilon )&\ge 1- 2 m_{\mathcal H }(N)e^{-2N\epsilon^2}
+\end{aligned}
 $$
-令$\delta =2 m_{\mathcal H }(N)e^{-2N\epsilon^2} $，可得
+令$\delta =2 m_{\mathcal H }(N)e^{-2N\epsilon^2} ​$，可得
 $$
-e^{2N\epsilon^2} =  \frac{2 m_{\mathcal H }(N)}{\delta}\\
-2N\epsilon^2 = \ln (\frac{2 m_{\mathcal H }(N)}{\delta}) \\
-\epsilon = \sqrt{ \frac {1}{2N} \ln (\frac{2 m_{\mathcal H }(N)}{\delta})}
+\begin{aligned}
+e^{2N\epsilon^2} &=  \frac{2 m_{\mathcal H }(N)}{\delta}\\
+2N\epsilon^2 &= \ln  \left(\frac{2 m_{\mathcal H }(N)}{\delta}\right) \\
+\epsilon &= \sqrt{ \frac {1}{2N} \ln (\frac{2 m_{\mathcal H }(N)}{\delta})}
+\end{aligned}
 $$
-所以上式可以理解为至少有$1-\delta$概率
+所以上式表示至少有$1-\delta​$概率，如下事实成立
 $$
 |E'_{\text{out}}(g_r) -E'_{\text{in}}(g_r)| \le \sqrt{ \frac {1}{2N} \ln (\frac{2 m_{\mathcal H }(N)}{\delta})} 
 $$
@@ -1903,6 +2081,108 @@ $$
 
 #### Problem 9.16 (Page 43)
 
+[Hard] **Rademacher Generalization Bound.**
+
+The Rademacher optimism penalty bounds the test error for binary classification (as does the VC-bound). This problem guides you through the proof.
+
+We will need McDiarmid’s inequality (a generalization of the Hoeffding bound):
+
+**Lemma 9.1** (McDiarmid, 1989).
+
+Let $X_{i} \in A_{i}$ be independent random variables, and $Q$ a function, $Q : \prod_{i} A_{i} \mapsto \mathbb{R}$, satisfying
+$$
+\sup _{x \in \Pi_{i} A_{j},z\in A_j}\left|Q(\mathrm{x})-q\left(x_{1}, \ldots, x_{j-1}, z, x_{j+1}, \ldots, x_{n}\right)\right| \leq c_{j}
+$$
+for $j=1, \dots, n$. Then, $t>0$,
+$$
+\mathbb{P}\left[Q\left(X_{1}, \ldots, X_{n}\right)-\mathbb{E}\left[Q\left(X_{1}, \ldots, X_{n}\right)\right] \geq t\right] \leq \exp \left(-\frac{2 t^{2}}{\sum_{i=1}^{n} c_{i}^{2}}\right)
+$$
+**Corollary 9.2**
+
+With probability at least $1-\delta $
+$$
+\left|Q\left(X_{1}, \ldots, X_{n}\right)-\mathbb{E}\left[Q\left(X_{1}, \ldots, X_{n}\right)\right]\right| \leq \sqrt{\frac{1}{2} \sum_{i=1}^{n} c_{i}^{2} \ln \frac{2}{\delta}}
+$$
+(a)Assume that the hypothesis set is symmetric ($h ∈ \mathcal H$ implies $−h ∈ \mathcal H$). Prove that with probability at least $1 − δ$,
+$$
+E_{\mathrm{out}}(g) \leq E_{\mathrm{in}}(g)+\mathbb{E}_{r, \mathcal{D}}\left[\max _{h \in \mathcal{H}} \frac{1}{N} \sum_{n=1}^{N} r_{n} h\left(\mathrm{x}_{n}\right)\right]+\sqrt{\frac{1}{2 N} \log \frac{2}{\delta}} \tag {9.8}
+$$
+To do this, show the following steps.
+
+(i)
+$$
+E_{\mathrm{out}}(g) \leq E_{\mathrm{in}}(g)+\max _{h \in \mathcal{H}}\left\{E_{\mathrm{out}}(h)-E_{\mathrm{in}}(h)\right\}
+$$
+(ii)
+$$
+\max _{h \in \mathcal{H}}\left\{E_{\text {out}}(h)-E_{\text {in}}(h)\right\}=\frac{1}{2} \max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} y_{n} h\left(\mathbf{x}_{n}\right)-\mathbb{E}_{\mathbf{x}}[f(\mathbf{x}) h(\mathbf{x})]\right\}
+$$
+(iii)Show that $\frac{1}{2} \max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} y_{n} h\left(\mathbf{x}_{n}\right)-\mathbb{E}_{\mathbf{x}}[f(\mathbf{x}) h(\mathbf{x})]\right\}$ is upper bounded with probability at least $1-\delta   $ by
+$$
+\frac{1}{2} \max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} y_{n} h\left(\mathbf{x}_{n}\right)-\mathbb{E}_{\mathbf{x}}[f(\mathbf{x}) h(\mathbf{x})]\right\}
+$$
+[Hint: Use McDairmid’s inequality with
+$$
+Q\left(\mathrm{x}_{1}, \ldots, \mathrm{x}_{N}, y_{1}, \ldots, y_{N}\right)=\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} y_{n} h\left(\mathrm{x}_{n}\right)-\mathbb{E}_{\mathrm{x}}[f(\mathrm{x}) h(\mathrm{x})]\right\}
+$$
+Show that perturbing data point $\left(\mathrm{x}_{n}, y_{n}\right)$ changes $Q$ by at most $\frac 2 N $.]
+
+(iv)Let $\mathcal{D}^{\prime}=\left(\mathrm{x}_{1}^{\prime}, y_{1}^{\prime}\right), \ldots,\left(\mathrm{x}_{N}^{\prime}, y_{N}^{\prime}\right)$ be an independent (ghost) data set.Show that
+$$
+\mathbb{E}_{\mathbf{x}}[f(\mathbf{x}) h(\mathbf{x})]=\frac{1}{N} \sum_{n=1}^{N} \mathbb{E}_{\mathcal{D}^{\prime}}\left[y_{n}^{\prime} h\left(\mathbf{x}_{n}^{\prime}\right)\right]
+$$
+Hence, show that $\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} y_{n} h\left(\mathrm{x}_{n}\right)-\mathbb{E}_{\mathrm{x}}[f(\mathrm{x}) h(\mathrm{x})]\right\}$ equals
+$$
+\max _{h \in \mathcal{H}}\left\{\mathbb{E}_{\mathcal{D}^{\prime}}\left[\frac{1}{N} \sum_{n=1}^{N}\left(y_{n} h\left(\mathbf{x}_{n}\right)-y_{n}^{\prime} h\left(\mathbf{x}_{n}^{\prime}\right)\right)\right]\right\}
+$$
+By convexity, $\max _{h}\{\mathbb{E}[\cdot]\} \leq \mathbb{E}\left[\max _{h}\{\cdot\}\right]$, hence show that
+$$
+\begin{aligned} 
+& \max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} y_{n} h\left(\mathbf{x}_{n}\right)-\mathbb{E}_{\mathbf{x}}[f(\mathbf{x}) h(\mathbf{x})]\right\} \\ 
+\le\quad & \mathbb{E}_{\mathcal{D}^{\prime}}\left[\max _{h \in \mathcal{H}} \sum_{n=1}^{N}\left(y_{n} h\left(\mathbf{x}_{n}\right)-y_{n}^{\prime} h\left(\mathbf{x}_{n}^{\prime}\right)\right)\right] 
+\end{aligned}
+$$
+Conclude that
+
+$$
+E_{\mathrm{out}}(g) \leq E_{\mathrm{in}}(g)+\frac{1}{2} \mathbb{E}_{\mathcal{D}, \mathcal{D}^{\prime}}\left[\max _{h \in \mathcal{H}} \frac{1}{N} \sum_{n=1}^{N}\left(y_{n} h\left(\mathbf{x}_{n}\right)-y_{n}^{\prime} h\left(\mathbf{x}_{n}^{\prime}\right)\right)\right]+\sqrt{\frac{1}{2 N} \log \frac{2}{\delta}}
+$$
+The remainder of the proof is to bound the second term on the RHS.
+
+(v)Let $r_{1}, \dots, r_{N}$ be arbitrary $\pm 1$ Rademacher variables. Show that
+$$
+\begin{aligned} & \mathbb{E}_{\mathcal{D}, \mathcal{D}^{\prime}}\left[\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N}\left(y_{n} h\left(\mathbf{x}_{n}\right)-y_{n}^{\prime} h\left(\mathbf{x}_{n}^{\prime}\right)\right)\right\}\right] \\
+=\quad& \mathbb{E}_{\mathcal{D}, \mathcal{D}^{\prime}}\left[\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} r_{n}\left(y_{n} h\left(\mathbf{x}_{n}\right)-y_{n}^{\prime} h\left(\mathbf{x}_{n}^{\prime}\right)\right)\right\}\right] \\ 
+\leq\quad & 2 \mathbb{E}_{\mathcal{D}}\left[\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} r_{n} y_{n} h\left(\mathbf{x}_{n}\right)\right\}\right] \end{aligned}
+$$
+[Hint: Argue that $r_n = −1$ effectively switches $\mathrm{x}_{n}$ with $\mathrm{x}_{n}'$ which is just a relabeling of variables in the expectation over $\mathbf{x}_{n}, \mathbf{x}_{n}^{\prime}$. For the second step, use $\max \{A-B\} \leq \max |A|+\max |B|$ and the fact that $\mathcal H$ is symmetric.]
+
+(vi) Since the bound in (v) holds for any $\mathrm r$, we can take the expectation over independent $r_n $ with $\mathbb{P}\left[r_{n}=+1\right]=\frac{1}{2}$. Hence, show that
+$$
+\begin{aligned}
+&\mathbb{E}_{\mathcal{D}, \mathcal{D}^{\prime}}\left[\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N}\left(y_{n} h\left(\mathbf{x}_{n}\right)-y_{n}^{\prime} h\left(\mathbf{x}_{n}^{\prime}\right)\right)\right\}\right] \\
+ \leq \quad&2 \mathbb{E}_{\mathbf{r}, \mathcal{D}}\left[\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} r_{n} h\left(\mathbf{x}_{n}\right)\right\}\right]
+ 
+ \end{aligned}
+$$
+and obtain (9.8). [Hint: what is the distribution of $r_ny_n $?]
+
+(b) In part (a) we obtained a generalization bound in terms of twice the expected Rademacher optimism penalty. To prove Theorem 9.6, show that this expectation can be well approximated by a single realization.
+
+(i)Let 
+$$
+Q\left(r_{1}, \ldots, r_{N}, \mathrm{x}_{1}, \ldots, \mathrm{x}_{n}\right)=\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} r_{n} h\left(\mathrm{x}_{n}\right)\right\}
+$$
+Show that if you change an input of $Q$, its value changes by at most $\frac 2 N $.
+
+(ii)Show that with probability at least $1- \delta $,
+$$
+\mathbb{E}_{\mathbf{r}, \mathcal{D}}\left[\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} r_{n} h\left(\mathbf{x}_{n}\right)\right\}\right] \leq \max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} r_{n} h\left(\mathbf{x}_{n}\right)\right\}+\sqrt{\frac{2}{N} \ln \frac{2}{\delta}}
+$$
+(iii) Apply the union bound to show that with probability at least $1-\delta  $,
+$$
+E_{\mathrm{out}}(g) \leq E_{\mathrm{in}}(g)+\max _{h \in \mathcal{H}}\left\{\frac{1}{N} \sum_{n=1}^{N} r_{n} h\left(\mathrm{x}_{n}\right)\right\}+\sqrt{\frac{9}{2 N} \ln \frac{4}{\delta}}
+$$
 (a)
 
 (i)
@@ -1916,20 +2196,22 @@ $$
 $$
 所以
 $$
-E_{\text{out}}(h) =\frac 1 2 (1- \mathbb E_{x}[f(x)h(x)])\\
-E_{\text{in}}(h) =\frac 1 {2N} \sum_{n=1}^N(1- y_n h(x_n))\\
-\max_{h\in \mathcal H}(E_{\text{out}}(h) - E_{\text{in}}(h) )=
+\begin{aligned}
+E_{\text{out}}(h)& =\frac 1 2 (1- \mathbb E_{x}[f(x)h(x)])\\
+E_{\text{in}}(h)& =\frac 1 {2N} \sum_{n=1}^N(1- y_n h(x_n))\\
+\max_{h\in \mathcal H}(E_{\text{out}}(h) - E_{\text{in}}(h) )&=
 \frac 1 {2}\max_{h\in \mathcal H} 
 \Big\{ 
 \frac 1 N \sum_{n=1}^N y_n h(x_n)  - \mathbb E_{x}[f(x)h(x)]
 \Big\}
+\end{aligned}
 $$
 (iii)首先估计改变$x_i$，$\frac 1 {2N} \sum_{n=1}^N y_n h(x_n)  - \mathbb E_{x}[f(x)h(x)]$的变化，注意第二项不变，第一项最多变化$\frac 1 N $，取最大值后最多变化$\frac 1 N $，从而引理中的$c_i = \frac 1 N$，注意引理中的$n= N$，因此
 $$
 \sqrt{\frac 1 2 \sum_{i=1}^N c_i ^2  \ln \frac 2 \delta} 
 =\sqrt{\frac 1 {2N}  \ln \frac 2 \delta}
 $$
-从而有大于等于$1-\delta$的概率
+从而有大于等于$1-\delta$的概率，如下事实发生
 $$
 \frac 1 {2}\max_{h\in \mathcal H} 
 \Big\{ 
@@ -1945,7 +2227,7 @@ $$
 $$
 \begin{aligned}
   \mathbb E_{x}[f(x)h(x)]
-  &=\sum_{n=1}^N \mathbb E_{x,\mathcal D'}[f(x)h(x)|x = x_n']P(x=x_n')\\
+  &=\sum_{n=1}^N \mathbb E_{x,\mathcal D'}[f(x)h(x)|x = x_n']\mathbb P[x=x_n']\\
   &=\frac 1 N \sum_{n=1}^N \mathbb E_{x,\mathcal D'}[f(x_n')h(x_n')]\\
   &=\frac 1 N \sum_{n=1}^N \mathbb E_{\mathcal D'}[y_n'h(x_n')]
 \end{aligned}
@@ -1971,7 +2253,7 @@ $$
 \Big]
 \end{aligned}
 $$
-从而有$1-\delta$的概率
+从而有$1-\delta$的概率，如下事实发生
 $$
 \mathbb  E_{\text{out}}(g) 
 \le\mathbb  E_{\text{in}}(g)  + \frac 12  \mathbb E_{\mathcal D,\mathcal D'}
@@ -2009,7 +2291,7 @@ $$
 \Big]
 \end{aligned}
 $$
-最后一步是因为期望内部和$\mathcal D'$无关，因此至少有$1-\delta$的概率
+最后一步是因为期望内部和$\mathcal D'​$无关，因此至少有$1-\delta​$的概率，如下事实发生
 $$
 \mathbb  E_{\text{out}}(g) 
 \le\mathbb  E_{\text{in}}(g)  + \mathbb E_{\mathcal D}
@@ -2018,17 +2300,18 @@ $$
 \Big]
 + \sqrt{\frac 1 {2N}  \ln \frac 2 \delta}
 $$
-(vi)如果$P(r_n=1)=\frac 1 2$
+(vi)如果$\mathbb P[r_n=1]=\frac 1 2$，那么
 $$
 \begin{aligned}
-P(r_ny_n=1) 
-&= P(r_ny_n=1|r_n =1) P(r_n =1)+P(r_ny_n=1|r_n =-1) P(r_n =-1)\\
-&= \frac1 2 P(y_n=1)+\frac 1 2
-P(y_n=-1)\\
+\mathbb P[r_ny_n=1]
+&= \mathbb P[r_ny_n=1|r_n =1]\mathbb  P[r_n =1]+
+\mathbb P[r_ny_n=1|r_n =-1]\mathbb  P[r_n =-1]\\
+&= \frac1 2\mathbb  P[y_n=1]+\frac 1 2
+\mathbb P[y_n=-1]\\
 &=\frac 1 2 
 \end{aligned}
 $$
-从而$r_ny_n$与$r_n$分布相同，所以
+从而$r_ny_n​$与$r_n​$分布相同，所以
 $$
 \mathbb E_{\mathcal D}
 \Big[
@@ -2038,7 +2321,7 @@ $$
 \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n)
 \Big]
 $$
-因此至少有$1-\delta$的概率
+因此至少有$1-\delta$的概率，如下事实发生
 $$
 \mathbb  E_{\text{out}}(g) 
 \le\mathbb  E_{\text{in}}(g)  + \mathbb E_{r,\mathcal D}
@@ -2059,27 +2342,31 @@ $$
 \Big]
 \le \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) +\sqrt{\frac 2 {N}  \ln \frac 2 \delta}
 $$
-(iii)$A\le B$，$B\le C$可以推出$A\le C$，所以
+(iii)因为$A\le B$，$B\le C$可以推出$A\le C$，所以
 $$
-P(A\le B，B\le C) \le P(A\le C)
+\mathbb P[A\le B，B\le C] \le \mathbb  P[A\le C]
 $$
 注意到
 $$
 \begin{aligned}
-P(A\le B，B\le C) 
-&= P(A\le B)+P(B\le C) -P(A\le B\bigcup B\le C)\\
-&\ge P(A\le B)+P(B\le C) - 1
+\mathbb P[A\le B，B\le C]
+&= \mathbb P[A\le B]+\mathbb P[B\le C] -\mathbb P[A\le B\bigcup B\le C]\\
+&\ge \mathbb P[A\le B]+\mathbb P[B\le C] - 1
 \end{aligned}
 $$
-所以如果$P(A\le B) \ge 1-\delta_1,P(B\le C) \ge 1-\delta_1$，
+所以如果
 $$
-P(A\le C) \ge  2-2\delta_1  - 1 = 1-2\delta_1
+\mathbb P[A\le B] \ge 1-\delta_1,\mathbb P[B\le C] \ge 1-\delta_1
 $$
-取$\delta = 2\delta_1$可得
+那么
 $$
-P(A\le C) \ge  1 -\delta
+\mathbb  P[A\le C] \ge \mathbb P[A\le B，B\le C] \ge  2-2\delta_1  - 1 = 1-2\delta_1
 $$
-注意我们已有的结论为，至少有$\ge 1-\delta/ 2$的概率
+取$\delta = 2\delta_1​$可得
+$$
+\mathbb  P[A\le C] \ge  1 -\delta
+$$
+注意我们已有的结论为，至少有$\ge 1-\delta/ 2$的概率，如下事实成立
 $$
 \mathbb  E_{\text{out}}(g) 
 \le\mathbb  E_{\text{in}}(g)  + \mathbb E_{r,\mathcal D}
@@ -2088,7 +2375,7 @@ $$
 \Big]
 + \sqrt{\frac 1 {2N}  \ln \frac 2 {\delta/ 2}}\\
 $$
-至少有$\ge 1-\delta/ 2$的概率
+以及至少有$\ge 1-\delta/ 2$的概率，如下事实成立
 $$
 \mathbb E_{r,\mathcal D}
 \Big[
@@ -2097,26 +2384,24 @@ $$
 \le \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) +\sqrt{\frac 2 {N}  \ln \frac 2 {\delta /2}}
 $$
 
-所以这里
+所以这里取
 $$
-A=\mathbb  E_{\text{out}}(g) \\
-B= \mathbb  E_{\text{in}}(g)  + \mathbb E_{r,\mathcal D}
+\begin{aligned}
+A&=\mathbb  E_{\text{out}}(g) \\
+B&= \mathbb  E_{\text{in}}(g)  + \mathbb E_{r,\mathcal D}
 \Big[
 \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n)
 \Big]
 + \sqrt{\frac 1 {2N}  \ln \frac 2 {\delta/ 2}} \\
-C= \mathbb  E_{\text{in}}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) +\sqrt{\frac 2 {N}  \ln \frac 2 {\delta /2}}
-+ \sqrt{\frac 1 {2N}  \ln \frac 2 {\delta / 2}}
-$$
-注意到
-$$
-\sqrt{\frac 2 {N}  \ln \frac 2 {\delta /2}}
-+ \sqrt{\frac 1 {2N}  \ln \frac 4 {\delta /2}}=
- \sqrt{\frac 1 {2N}  \ln \frac 4 {\delta}}(2+ 1)
- =\sqrt{\frac 9 {2N}  \ln \frac 4 {\delta}}
-$$
+C&= \mathbb  E_{\text{in}}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) +\sqrt{\frac 2 {N}  \ln \frac 2 {\delta /2}}
++ \sqrt{\frac 1 {2N}  \ln \frac 2 {\delta / 2}}\\
+&= \mathbb  E_{\text{in}}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) +
 
-所以至少有$1-\delta$的概率
+ \sqrt{\frac 1 {2N}  \ln \frac 4 {\delta}}(2+ 1)\\
+ &=\mathbb  E_{\text{in}}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) +\sqrt{\frac 9 {2N}  \ln \frac 4 {\delta}}
+\end{aligned}
+$$
+所以至少有$1-\delta$的概率，如下事实成立
 $$
 \mathbb  E_{\text{out}}(g) \le
 \mathbb  E_{\text{in}}(g)  +  \max_{h\in \mathcal H}  \frac 1 N \sum_{n=1}^N r_n h(x_n) 
@@ -2127,15 +2412,45 @@ $$
 
 #### Problem 9.17 (Page 43)
 
+[Hard] Permutation Generalization Bound. Prove that with probability at least $1-\delta$,
+$$
+E_{\mathrm{out}}(g) \leq E_{\mathrm{in}}(g)+\mathbb{E}_{\pi}\left[\max _{h \in \mathcal{H}} \frac{1}{N} \sum_{n=1}^{N} y_{n}^{(\pi)} h\left(\mathrm{x}_{n}\right)\right]+O\left(\sqrt{\frac{1}{N} \log \frac{1}{\delta} )}\right.
+$$
+The second term is similar to the permutation optimism penalty, differing by $\overline{y} \mathbb{E}_{\pi}\left[\overline{g}_{\pi}\right]$, which is zero for balanced data.
+
+[Hint: Up to introducing the $r_ n$, you can follow the proof in Problem 9.16; now pick a distribution for $r$ to mimic permutations. For some helpful tips, see “A Permutation Approach to Validation,” Magdon-Ismail, Mertsalov, 2010.]
+
 暂时略过，思路基本同上一题，参考论文在文件夹内。
 
 
 
 #### Problem 9.18 (Page 45)
 
+**Permutation Penalty for Linear Models.**
+
+For linear models, the predictions on the data are $\hat{\mathbf{y}}^{(\pi)}=\mathrm{Hy}^{(\pi)}​$, $\mathrm H​$ is the hat matrix, $\mathrm{H}(\lambda)=\mathrm{X}\left(\mathrm{X}^{\mathrm{T}} \mathrm{X}+\lambda \mathrm{I}\right)^{-1} \mathrm{X}^{\mathrm{T}}​$, which is independent of $\pi ​$. For regression, the permutation optimism penalty from (9.7) is $\frac{2}{N} \sum_{n=1}^{N}\left(y_{\pi_{n}}-\overline{y}\right) g_{(\pi)}\left(\mathrm{x}_{n}\right)​$.
+
+(we do not divide the squared error by $4$ for regression).
+
+(a)Show that for a single permutation, permutation penalty is:
+$$
+\frac{2}{N} \sum_{m, n=1}^{N} \mathrm{H}_{m n}\left(y_{\pi_{m}} y_{\pi_{n}}-\overline{y} y_{\pi_{n}}\right)
+$$
+(b)Show that: $\mathbb{E}_{\pi}\left[y_{\pi_{n}}\right]=\overline{y}$ and 
+$$
+\mathbb{E}_{\pi}\left[y_{\pi_{m}} y_{\pi_{n}}\right]=\left\{\begin{array}{ll}{\overline{y}^{2}+s_{y}^{2}} & {m=n} \\ {\overline{y}^{2}-\frac{1}{N-1} s_{y}^{2}} & {m \neq n}\end{array}\right.
+$$
+($\overline y$ and $s_y^2$ are defined in Problem 9.12(b).)
+
+(c)Take the expectation of the penalty in (a) and prove Equation (9.6):
+$$
+\text{permutation optimism penalty}=\frac{2 \hat{\sigma}_{y}^{2}}{N}\left(\operatorname{trace}(\mathrm{S})-\frac{1^{\mathrm{T}} \mathrm{S} 1}{N}\right)
+$$
+where $\hat{\sigma}_{y}^{2}=\frac{N}{N-1} s_{y}^{2}​$ is the unbiased estimate of the target variance.
+
 (a)注意
 $$
-g_{(\pi)} (x_n) = (Hy')_n = \sum_{m=1}^N H_{nm} y_{\pi_m}
+g_{(\pi)} (x_n) = (Hy^{(\pi)})_n = \sum_{m=1}^N H_{nm} y_{\pi_m}
 $$
 所以
 $$
@@ -2150,27 +2465,27 @@ $$
 $$
 \begin{aligned}
 \mathbb E_{\pi} [y_{\pi_n }] =
-&\sum_{i=1}^N \mathbb E_{\pi} [y_{\pi_n }|\pi_n =i] P(\pi_n = i)\\
+&\sum_{i=1}^N \mathbb E_{\pi} [y_{\pi_n }|\pi_n =i]\mathbb P[\pi_n = i]\\
 &=\frac 1 N \sum_{i=1}^N y_i\\
 &= \overline y
 \end{aligned}
 $$
-如果$m=n$，那么
+如果$m=n​$，那么
 $$
 \begin{aligned}
 \mathbb E_{\pi} [y_{\pi_m }y_{\pi_n}] 
 &=\mathbb E_{\pi} [y_{\pi_n }^2] \\
-&=\sum_{i=1}^N \mathbb E_{\pi} [y_{\pi_n }^2|\pi_n =i] P(\pi_n = i)\\
+&=\sum_{i=1}^N \mathbb E_{\pi} [y_{\pi_n }^2|\pi_n =i] \mathbb P[\pi_n = i]\\
 &=\frac 1 N \sum_{i=1}^N y_{i}^2 \\
 &=\overline y ^2 + s_y^2
 \end{aligned}
 $$
-如果$m\ne n$，那么
+如果$m\ne n​$，那么
 $$
 \begin{aligned}
 \mathbb E_{\pi} [y_{\pi_m }y_{\pi_n}] 
 &=\sum_{i\neq j} \mathbb E_{\pi} [y_{\pi_m }y_{\pi_n}|\pi_n =i,\pi_m =j] 
-P(\pi_n =i,\pi_m =j)\\
+\mathbb P[\pi_n =i,\pi_m =j]\\
 &=\frac 1 {N(N-1)} \sum_{i\neq j}  y_i y_j \\
 &=\frac 1 {N(N-1)} \Big(\sum_{i=1}^N\sum_{j=1}^N y_i y_j -\sum_{i=1}^N y_i^2   \Big)\\
 &=\frac 1 {N(N-1)} \Big(N^2 \overline y^2 - \sum_{i=1}^N y_i^2 \Big) \\
@@ -2178,7 +2493,7 @@ P(\pi_n =i,\pi_m =j)\\
 &= \overline y^2 -\frac 1 {N-1}s_y^2
 \end{aligned}
 $$
-(c)我们来计算(a)式的期望，注意$\hat \sigma_y^2 =\frac N {N-1}s_y^2$
+(c)我们来计算(a)式的期望，注意$\hat \sigma_y^2 =\frac N {N-1}s_y^2​$
 $$
 \begin{aligned}
 \mathbb E [\frac 2 N \sum_{m,n=1}^NH_{nm}( y_{\pi_m}y_{\pi_n }- \overline y y_{\pi_m})]
@@ -2205,35 +2520,43 @@ $$
 $$
 
 
+
 #### Problem 9.19 (Page 46)
+
+Repeat Problem 9.18 for the Bootstrap optimism penaltyand show that 
+$$
+\text{Bootstrap optimism penalty}=\frac{2 s_{y}^{2}}{N} \operatorname{trace}(\mathrm{H})
+$$
+Compare this to the permutation optimism penalty in Problem 9.18.
+[Hint: How does Problem 9.18(b) change for the Bootstrap setting?]
 
 第一步不变，然后我们重新计算 $\mathbb E_{\pi} [y_{\pi_n }],E_{\pi} [y_{\pi_m }y_{\pi_n}] $
 $$
 \begin{aligned}
 \mathbb E_{\pi} [y_{\pi_n }] =
-&\sum_{i=1}^N \mathbb E_{\pi} [y_{\pi_n }|\pi_n =i] P(\pi_n = i)\\
+&\sum_{i=1}^N \mathbb E_{\pi} [y_{\pi_n }|\pi_n =i]\mathbb P[\pi_n = i]\\
 &=\frac 1 N \sum_{i=1}^N y_i\\
 &= \overline y
 \end{aligned}
 $$
-如果$m=n$，那么
+如果$m=n​$，那么
 $$
 \begin{aligned}
 \mathbb E_{\pi} [y_{\pi_m }y_{\pi_n}] 
 &=\mathbb E_{\pi} [y_{\pi_n }^2] \\
-&=\sum_{i=1}^N \mathbb E_{\pi} [y_{\pi_n }^2|\pi_n =i] P(\pi_n = i)\\
+&=\sum_{i=1}^N \mathbb E_{\pi} [y_{\pi_n }^2|\pi_n =i] \mathbb P[\pi_n = i]\\
 &=\frac 1 N \sum_{i=1}^N y_{i}^2 \\
 &=\overline y ^2 + s_y^2
 \end{aligned}
 $$
 
 
-如果$m\neq n$，注意Bootstrap为重复抽样，那么
+如果$m\neq n$，注意Bootstrap为放回抽样，那么
 $$
 \begin{aligned}
 \mathbb E_{\pi} [y_{\pi_m }y_{\pi_n}] 
 &=\sum_{i,j=1}^N  \mathbb E_{\pi} [y_{\pi_m }y_{\pi_n}|\pi_n =i,\pi_m =j] 
-P(\pi_n =i,\pi_m =j)\\
+\mathbb P[\pi_n =i,\pi_m =j]\\
 &=\frac 1 {N^2}\sum_{i=1}^N\sum_{j=1}^N y_i y_j \\
 &= \overline y^2
 \end{aligned}
@@ -2265,6 +2588,31 @@ $$
 
 #### Problem 9.21 (Page 46)
 
+**[Cross-Validation Leverage for Linear Regression.]**
+In this problem, compute an expression for the leverage defined in Equation (9.4) for linear regression with weight decay regularization. We will use the same notation from Problem 4.26, so you may want to review that problem and some of the tools developed there.
+
+To simulate leaving out the data point $\left(\mathbf{z}_{m}, y_{m}\right)$, set the mth row of $\mathrm Z$ and the $m$th entry of y to zero, to get data matrix  $\mathrm{Z}^{(m)}$ and target vector $\mathbf{y}^{(m)}$, so  $\mathcal{D}_{m}=\left(\mathrm{Z}^{(m)}, \mathbf{y}^{(m)}\right)$. We need to compute the cross validation error for this data set $E_{\mathrm{cv}}\left(\mathcal{D}_{m}\right)$. Let $\hat{\mathrm{H}}^{(m)}$be the hat matrix you get from doing linear regression with the data $\mathrm{Z}^{(m)}, \mathrm{y}^{(m)}$.
+
+(a)Show that
+$$
+E_{\mathrm{cv}}\left(\mathcal{D}_{m}\right)=\frac{1}{N-1} \sum_{n \neq m}\left(\frac{\hat{y}_{n}^{(m)}-y_{n}}{1-\mathrm{H}_{n n}^{(m)}}\right)^{2}
+$$
+(b)Use the techniques from Problem 4.26 to show that
+$$
+\mathrm{H}_{n k}^{(m)}=\mathrm{H}_{n k}+\frac{\mathrm{H}_{m n} \mathrm{H}_{m k}}{1-\mathrm{H}_{m m}}
+$$
+(c)Similarly, show that
+$$
+\hat{y}_{n}^{(m)}=\hat{y}_{n}+\left(\frac{\hat{y}_{m}-y_{m}}{1-\mathrm{H}_{m m}}\right) \mathrm{H}_{m n}
+$$
+[Hint: Use part (c) of Problem 4.26.]
+
+(d)Show that $E_{\mathrm{cv}}\left(\mathcal{D}_{m}\right)$ is given by
+$$
+\frac{1}{N-1} \sum_{n=1}^{N}\left(\frac{\hat{y}_{n}-y_{n}+\left(\frac{\hat y_{m}-y_{m}}{1-\mathrm{H}_{m m}}\right) \mathrm{H}_{m n}}{1-\mathrm{H}_{n n}-\frac{\mathrm{H}_{m n}^2}{1-\mathrm{H}_{m m}}}\right)^{2}+\frac{1}{N-1}\left(\frac{\hat{y}_{m}-y_{m}}{1-2 \mathrm{H}_{m m}}\right)^{2}
+$$
+(e)Give an expression for the leverage $ℓ_m$. What is the running time toc ompute the leverages $ℓ_1, . . . , ℓ_N$.
+
 (a)回顾problem 4.26我们知道
 $$
 e_n =\Big(
@@ -2274,26 +2622,28 @@ $$
 所以
 $$
 E_{\text{cv}}(\mathcal D_m) =\frac 1 {N-1}
-\sum_{n\neq m}\Big(
+\sum_{n\neq m}\left(
 \frac {\hat y_n^{(m)}-y_n}{1-H_{nn}^{(m)}}
-\Big)^2
+\right)^2
 $$
-(b)记$A=Z^TZ +\lambda \Gamma^T \Gamma=\sum_{n=1}^N z_n z_n^T +\lambda \Gamma^T \Gamma$，所以
+(b)记$A=Z^TZ +\lambda \Gamma^T \Gamma=\sum_{n=1}^N z_n z_n^T +\lambda \Gamma^T \Gamma​$，所以
 $$
 A^{(m)}=\sum_{n=1}^N z_n z_n^T-z_mz_m^T +\lambda \Gamma^T \Gamma
 =A -z_mz_m^T
 $$
 注意$H=ZA^{-1}Z^T$，$H^{(m)}=Z{A^{(m)}}^{-1}Z^T$，所以
 $$
-H_{nk} = z_n^T A^{-1}z_k\\
-H_{nk}^{(m)} =z_n^T (A -z_mz_m^T)^{-1}z_k
+\begin{aligned}
+H_{nk} &= z_n^T A^{-1}z_k\\
+H_{nk}^{(m)}&=z_n^T (A -z_mz_m^T)^{-1}z_k
+\end{aligned}
 $$
 
 回顾Problem 4.26可知
 $$
 \begin{aligned}
 H_{nk}^{(m)}
-&=z_n^T (A^{-1}+\frac{A^{-1}z_mz_m^TA^{-1}}{1-z_m^TA^{-1}z_m})z_k \\
+&=z_n^T\left (A^{-1}+\frac{A^{-1}z_mz_m^TA^{-1}}{1-z_m^TA^{-1}z_m}\right)z_k \\
 &=z_n^T A^{-1}z_k +\frac{(z_n^TA^{-1}z_m)(z_m^TA^{-1}z_k)}{1-z_m^TA^{-1}z_m} \\
 &=H_{nk} + \frac{H_{nm}H_{mk}}{1-H_{mm}}
 \end{aligned}
@@ -2321,11 +2671,11 @@ $$
 $$
 E_{\text{cv}}(\mathcal D_m) 
 =\frac 1 {N-1}
-\sum_{n\neq m}\Big(
+\sum_{n\neq m}\left(
 \frac {\hat y_n^{(m)}-y_n}{1-H_{nn}^{(m)}}
-\Big)^2
+\right)^2
 $$
-首先计算分子$(\hat y_n^{(m)}-y_n)^2$
+首先计算分子$(\hat y_n^{(m)}-y_n)^2​$
 $$
 \begin{aligned}
 (\hat y_n^{(m)}-y_n)^2
@@ -2347,12 +2697,7 @@ $$
 \begin{aligned}
 分子&=(\hat y_m- y_m  +\frac{\hat y_m-y_m}{1-H_{mm}} H_{mm})^2 \\
 &=\Big(\frac{(\hat y_m- y_m)(1-H_{mm}) +(\hat y_m-y_m)H_{mm}}{1-H_{mm}} \Big)^2 \\
-&=\Big(\frac{\hat y_m- y_m}{1-H_{mm}} \Big)^2
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
+&=\Big(\frac{\hat y_m- y_m}{1-H_{mm}} \Big)^2\\
 分母&=(1- H_{mm}-\frac{H_{mm}^2}{1-H_{mm}})^2 \\
 &=\Big(\frac{(1- H_{mm})^2 -H_{mm}^2}{1-H_{mm}} \Big)^2 \\
 &=\Big(\frac{1-2H_{mm}}{1-H_{mm}} \Big)^2
@@ -2382,11 +2727,11 @@ E_{\text{cv}}(\mathcal D_m)
 \Big)^2
 \end{aligned}
 $$
-注意这里我认为是减号，不是加号
+注意这里我认为是减号，不是加号。
 
 (e)回顾课本150页可知
 $$
-E_{\text {cv} }(\mathcal D)= \frac 1 N \sum_{n=1}^N(\frac{\hat y_n-y_n}{1-H_{nn}})^2
+E_{\text {cv} }(\mathcal D)= \frac 1 N \sum_{n=1}^N \left(\frac{\hat y_n-y_n}{1-H_{nn}}\right)^2
 $$
 回顾第九章29页可得
 $$
@@ -2403,19 +2748,27 @@ l_m
 \Big)^2
 \end{aligned}
 $$
-接下来分析计算复杂度，注意$X^TX +\lambda \Gamma^T \Gamma $为$d\times d$矩阵，所以计算$ (X^TX +\lambda \Gamma^T \Gamma )^{-1}$的时间复杂度为$O(d^3)$，注意到
+接下来分析计算复杂度，注意$X^TX +\lambda \Gamma^T \Gamma ​$为$d\times d​$矩阵，所以计算$ (X^TX +\lambda \Gamma^T \Gamma )^{-1}​$的时间复杂度为$O(d^3)​$，注意到
 $$
 H = X (X^TX +\lambda \Gamma^T \Gamma )^{-1} X^T 
 $$
-所以计算$H$的时间复杂度为$O(N d^2 + N^2 d)$，注意到
+所以计算$H$的时间复杂度为$O(N d^2 + N^2 d)$，因为
 $$
 \hat y_n = x_n^Tw = x_n^TA^{-1} x^T y = H_{n:} y
 $$
-其中$H_{n:}$为$H$的第$n$行，所以计算$\hat y_n $的时间复杂度为$O(N)$，所以计算全部$\hat y_n $的时间为$O(N^2)$，所以计算全部$l_m$的时间复杂度为$O(N d^2 + N^2 d)$
+其中$H_{n:}$为$H$的第$n$行，所以计算$\hat y_n $的时间复杂度为$O(N)$，所以计算全部$\hat y_n $的时间为$O(N^2)$，所以计算全部$l_m$的时间复杂度为$O(N d^2 + N^2 d)$。
 
 
 
 #### Problem 9.22 (Page 47)
+
+The data set for Example 9.3 is
+$$
+\mathrm{X}=\left[ \begin{array}{ccc}{1} & {0.51291} \\ {1} & {0.46048} \\ {1} & {0.3504} \\ {1} & {0.09504} \\ {1} & {0.43367} \\ {1} & {0.70924} \\ {1} & {0.11597}\end{array}\right] \quad \mathrm{y}=\left[ \begin{array}{c}{0.36542} \\ {0.2156} \\ {0.15263} \\ {0.10015} \\ {0.26713} \\ {2.3095}\end{array}\right]
+$$
+Implement the algorithm from Problem 9.21 to compute the leverages for all the data points as you vary the regularization parameter $\lambda$.
+
+Give a plot of the leverage of the last data point as a function of $λ$. Explain the dependence you find in your plot.
 
 ```python
 import numpy as np
@@ -2435,9 +2788,10 @@ y = np.array([0.36542, 0.22156,
      2.3095])
 
 def l(X, y, Lambda):
+    N, d = X.shape
     #计算
-    w = inv(X.T.dot(X) + Lambda).dot(X.T).dot(y)
-    H = X.dot(inv(X.T.dot(X) + Lambda)).dot(X.T)
+    w = inv(X.T.dot(X) + Lambda * np.eye(d)).dot(X.T).dot(y)
+    H = X.dot(inv(X.T.dot(X) + Lambda * np.eye(d))).dot(X.T)
     y_hat = X.dot(w)
     
     N = X.shape[0]
@@ -2449,10 +2803,10 @@ def l(X, y, Lambda):
     #分子
     e1 = y_hat - y + (y_hat[m] - y[m]) / (1 - H[m][m]) * H[m, :]
     #分母
-    e2 = 1 - H1 - H[m, :] ** 2 / (1 - H1)
+    e2 = 1 - H1 - H[m, :] ** 2 / (1 - H[m][m])
     Ecv_m = 1 / (N - 1) * np.sum((e1 / e2) ** 2) - \
             1 / (N - 1) * ((y_hat[m] - y[m]) / (1 - 2 * H[m][m])) ** 2
-    return Ecv - np.mean(Ecv_m)
+    return Ecv - Ecv_m
 
 Lambda = np.linspace(0, 10, num=300)
 leverage = []
@@ -2470,17 +2824,28 @@ plt.show()
 ```
 
 
-![png](output_11_0.png)
+![png](output_16_0.png)
 
-![png](output_11_1.png)
+![png](output_16_1.png)
 
-作图后可以发现，随着$\lambda$的增加，异常点（最后一个点）的影响在减少，这是因为增加$\lambda$会使得范化能力增加，$E_{\text {cv} }$减少
+作图后可以发现，随着$\lambda$的增加，异常点（最后一个点）的影响在减少，这是因为增加$\lambda$会使得范化能力增加，$E_{\text {cv} }$减少。
 
 
 
 #### Problem 9.23 (Page 48)
 
+For a sample of $500$ digits data (classifying “1” versus “not 1”), use linear regression to compute the leverage of the data points (even though the problem is a classification problem). You can use the algorithm in Problem 9.21.
+
+Give a similar plot to Figure 9.5 where you highlight in a black box all the data points with the top-10 largest (positive) leverages.Give some intuition for which points are highlighted.
+
 ```python
+# -*- coding: utf-8 -*-
+"""
+Created on Fri May  3 12:00:28 2019
+
+@author: qinzhen
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy.linalg import inv
@@ -2493,9 +2858,10 @@ y = data[:, 0][:N]
 y = (y == 1).astype("double")
 
 def l(X, y, Lambda):
+    N, d = X.shape
     #计算
-    w = inv(X.T.dot(X) + Lambda).dot(X.T).dot(y)
-    H = X.dot(inv(X.T.dot(X) + Lambda)).dot(X.T)
+    w = inv(X.T.dot(X) + Lambda * np.eye(d)).dot(X.T).dot(y)
+    H = X.dot(inv(X.T.dot(X) + Lambda * np.eye(d))).dot(X.T)
     y_hat = X.dot(w)
     
     N = X.shape[0]
@@ -2507,7 +2873,7 @@ def l(X, y, Lambda):
         #分子
         e1 = y_hat - y + (y_hat[m] - y[m]) / (1 - H[m][m]) * H[m, :]
         #分母
-        e2 = 1 - H1 - H[m, :] ** 2 / (1 - H1)
+        e2 = 1 - H1 - H[m, :] ** 2 / (1 - H[m][m])
         Ecv_m = 1 / (N - 1) * np.sum((e1 / e2) ** 2) - \
                 1 / (N - 1) * ((y_hat[m] - y[m]) / (1 - 2 * H[m][m])) ** 2
         Ecvm = np.append(Ecvm, Ecv_m)
@@ -2528,13 +2894,47 @@ plt.show()
 ```
 
 
-![png](output_13_0.png)
+![png](output_18_0.png)
 
 
 
 #### Problem 9.24 (Page 48)
 
-(a)由定义即可，将定义中的$N$替换为$N-1$
+**The Jackknife Estimate.**
+
+The jackknife is a general statistical technique used to reduce the bias of an estimator, based on the assumption that the estimator is asymptotically (as $N$ increases) unbiased. Let $\mathcal{Z}=\mathbf{z}_{1}, \dots, \mathbf{z}_{N}$be a sample set. In the case of learning, the sample set is the data, so $\mathbf{z}_{n}=\left(\mathbf{x}_{n}, y_{n}\right)$. We wish to estimate a quantity $t$ using an estimator $\hat{t}(\mathcal{Z})$ (some function of the sample $\mathcal Z$. Assume that $\hat{t}(\mathcal{Z})$ is asymptotically unbiased, satisfying 
+$$
+\mathbb{E}_{\mathcal{Z}}[\hat{t}(\mathcal{Z})]=t+\frac{a_{1}}{N}+\frac{a_{2}}{N^{2}}+\cdots
+$$
+The bias is $O\left(\frac{1}{N}\right)$. $\mathcal{Z}_{n}=\mathbf{z}_{1}, \ldots, \mathbf{z}_{n-1}, \mathbf{z}_{n+1}, \ldots, \mathbf{z}_{N}$ be the leave one out sample sets (similar to cross validation), and consider the estimates using the leave one out samples $\hat{t}_{n}=\hat{t}\left(\mathcal{Z}_{n}\right)$.
+
+(a) Argue that
+$$
+\mathbb{E}_{\mathcal{Z}}\left[\hat{t}_{n}\right]=t+\frac{a_{1}}{N-1}+\frac{a_{2}}{(N-1)^{2}}+\cdots
+$$
+(b)Define $\hat{\tau}_{n}=N \hat{t}(\mathcal{Z})-(N-1) \hat{t}_{n}$. Show that
+$$
+\mathbb{E}_{\mathcal{Z}}\left[\hat{\tau}_{n}\right]=t-\frac{a_{2}}{N(N-1)}+O(\frac 1 {N^2})
+$$
+($\hat{\tau}_{n}​$ has an asymptotically asymptotically smaller bias than $t(\mathcal{Z})​$.) The $\hat{\tau}_{n}​$ are called pseudo-values because they have the “correct” expectation. A natural improvement is to take the average of the pseudovalues, and this is the jackknife estimate:
+$$
+\hat{t}_{J}(\mathcal{Z})=\frac{1}{N} \sum_{n=1}^{N} \hat{\tau}_{n}=N \hat{t}(\mathcal{Z})-\frac{N-1}{N} \sum_{n=1}^{N} \hat{t}\left(\mathcal{Z}_{n}\right)
+$$
+(c)Applying the Jackknife to variance estimation. Suppose that the sample is a bunch of independent random values $x_{1}, \dots, x_{N}$from a distribution whose variance $σ^2$ we wish to estimate. We suspect that the sample variance,
+$$
+s^{2}=\frac{1}{N} \sum_{n=1}^{N} x_{n}^{2}-\frac{1}{N^{2}}\left(\sum_{n=1}^{N} x_{n}\right)^{2}
+$$
+should be a good estimator, i.e., it has the assumed form for the bias (it does).Let $s_{n}^{2}​$ be the sample variances on the leave one out samples. Show that
+$$
+s_{n}^{2}=\frac{1}{N-1}\left(\sum_{m=1}^{N} x_{m}^{2}-x_{n}^{2}\right)-\frac{1}{(N-1)^{2}}\left(\sum_{m=1}^{N} x_{m}-x_{n}\right)^{2}
+$$
+Hence show that jackknife estimate $N s^{2}-\frac{N-1}{N} \sum_{n} s_{n}^{2}$ is $s_{J}^{2}=\frac{N}{N-1} s^{2}$, which is the well known unbiased estimator of the variance. In this particular case, the jackknife has completely removed the bias (automatically).
+
+(d) What happens to the jackknife if $t(\mathcal{Z})​$ has an asymptotic bias?
+
+(e) If the leading order term in the bias was $\frac{1}{N^{2}}​$ , does the jackknife estimate have a better or worse bias (in magnitude)?
+
+(a)由定义即可，将定义中的$N​$替换为$N-1​$
 
 (b)分别计算$\mathbb E_{\mathcal Z}[N \hat t(\mathcal Z)]$，$\mathbb E_{\mathcal Z}[(N-1) \hat t_n]$
 $$
@@ -2542,8 +2942,7 @@ $$
 \mathbb E_{\mathcal Z}[N \hat t(\mathcal Z)]
 &=N (t + \frac{a_1}{N} +\frac{a_2}{N^2} + O(\frac 1 {N^3})) \\
 &=N t + a_1 +\frac{a_2}{N}  +O(\frac 1 {N^2})\\
-\end{aligned}\\
-\begin{aligned}
+
 \mathbb E_{\mathcal Z}[(N-1) \hat t_n]
 &=(N-1) (t + \frac{a_1}{N-1} +\frac{a_2}{(N-1)^2} + O(\frac 1 {N^3})) \\
 &=(N-1) t + a_1 +\frac{a_2}{N-1}  +O(\frac 1 {N^2})
@@ -2585,6 +2984,8 @@ $$
 \frac 1 {(N-1)^2 }\sum_{n=1}^N\Big(a_1 -x_n\Big) ^2 \\
 &=\frac 1 {N-1}(Na_2 -\sum_{n=1}^Nx_n^2) 
 -\frac 1 {(N-1)^2 }\Big(Na_1^2 +\sum_{n=1}^N x_n^2-2a_1\sum_{n=1}^N x_n \Big) \\
+&=\frac 1 {N-1}(Na_2 -a_2) 
+-\frac 1 {(N-1)^2 }\Big(Na_1^2 +\sum_{n=1}^N x_n^2-2a_1\sum_{n=1}^N x_n \Big)\\
 &=a_2 -\frac 1 {(N-1)^2 }\Big(Na_1^2 + a_2 -2a_1^2  \Big) \\
 &= \frac{(N^2 -2N)a_2 -(N-2)a_1^2}{(N-1)^2}\\
 &=\frac{(N-2)(Na_2 -a_1^2)}{(N-1)^2}\\
@@ -2601,7 +3002,7 @@ Ns^2 -\frac{N-1}{N} \sum_{n=1}^N  s_n^2
 &=\frac{N}{N-1}s^2
 \end{aligned}
 $$
-(d)如果本来是渐近有偏的，那么jackknife estimate并不能改变有偏性
+(d)如果本来是渐近有偏的，那么jackknife estimate并不能改变有偏性。
 
 (e)此时相当于$a_1=0$，那么这时要比较以下两项绝对值的大小
 $$
@@ -2609,17 +3010,55 @@ $$
 $$
 不难看出
 $$
-|\frac{a_2}{N^2}| \le |\frac{a_2}{N(N-1)}|
+\left|\frac{a_2}{N^2}\right| \le \left|\frac{a_2}{N(N-1)}\right|
 $$
-说明这时候jackknife estimate的偏差更大
+说明这时候jackknife estimate的偏差更大。
 
 
 
 #### Problem 9.25 (Page 49)
 
-(a)由之前几章的讨论可知$E_{\text{in}}$是对$E_{\text{out}}$较小的估计，当模型的方差不大时，可以认为是渐近无偏的
+**The Jackknife for Validation.**
 
-(b)这个两个结论由定义以及上一题即可得到
+(see also the previous problem) If $E_{\mathrm{in}}$ is an asymptotically unbiased estimate of $E_{\mathrm{out}}$,we may use the jackknife to reduce this bias and get a better estimate. The sample is the data. We want to estimate the expected out-of-sample error when learning from $N$ examples, $\mathcal{E}_{\text {out}}(N)$. We estimate $\mathcal{E}_{\text {out}}(N)$ by the in-sample error $E_{\mathrm{in}}\left(g^{(\mathcal{D})}\right)$.
+
+(a) What kind of bias (+ve or -ve) will $E_{\mathrm{in}}​$ have. When do you expect it to be asymptotically unbiased?
+
+(b)Assume that the bias has the required form:
+$$
+\mathbb{E}_{\mathcal{D}}\left[E_{\text {in}}\left(g^{(\mathcal{D})}\right)\right]=\mathcal{E}_{\text {out}}(N)+\frac{a_{1}}{N}+\frac{a_{2}}{N^{2}}+\cdots
+$$
+Now consider one of the leave one out data sets $\mathcal{D}_{n}$,which would produce the estimates $E_{\mathrm{in}}\left(g^{\left(\mathcal{D}_{n}\right)}\right)$. Show that:
+
+i.the pseudo-values are
+$$
+ N E_{\mathrm{in}}\left(g^{(\mathcal{D})}\right)-(N-1) E_{\mathrm{in}}\left(g^{\left(\mathcal{D}_{n}\right)}\right)
+$$
+ii.the jackknife estimate is:
+$$
+E_{J}=N E_{\mathrm{in}}\left(g^{(\mathcal{D})}\right)-\frac{N-1}{N} \sum_{n=1}^{N} E_{\mathrm{in}}\left(g^{\left(\mathcal{D}_{n}\right)}\right)
+$$
+(c)Argue that
+$$
+\mathbb{E}_{\mathcal{D}}\left[E_{\text {in}}\left(g^{\left(\mathcal{D}_{n}\right)}\right)\right]=\mathcal{E}_{\text {out}}(N-1)+\frac{a_{1}}{N-1}+\frac{a_{2}}{(N-1)^{2}}+\cdots
+$$
+and hence show that the expectation of the jackknife estimate is given by
+$$
+\mathbb{E}_{\mathcal{D}}\left[E_{J}\right]=\mathcal{E}_{\text {out}}(N)+(N-1)\left(\mathcal{E}_{\text {out}}(N)-\mathcal{E}_{\text {out}}(N-1)\right)+O\left(\frac{1}{N^{2}}\right)
+$$
+(d)the learning curve converges, having a form
+$$
+\mathcal{E}_{\text {out}}(N)=E+\frac{b_{1}}{N}+\frac{b_{2}}{N^{2}}+\ldots
+$$
+,then show that
+$$
+\mathbb{E}_{\mathcal{D}}\left[E_{J}\right]=\mathcal{E}_{\text {out}}(N)+\frac{b_{1}}{N}+O\left(\frac{1}{N^{2}}\right)
+$$
+The jackknife replaced the term $\frac{a_{1}}{N}$ in the bias by $\frac{b_{1}}{N}$.(In a similar vein to cross validation, the jackknife replaces the bias of the in-sample estimate with the bias in the learning curve.) When will the jackknife be helpful?
+
+(a)由之前几章的讨论可知$E_{\text{in}}$是对$E_{\text{out}}$较小的估计，当模型的方差不大时，可以认为是渐近无偏的。
+
+(b)这个两个结论由定义以及上一题即可得到。
 (c)由定义不难看出
 $$
 \mathbb E_{\mathcal D} [ E_{\text{in}}(g^{\mathcal D_n}) ]=
@@ -2643,7 +3082,7 @@ $$
 +O(\frac 1 {N^2})
 \end{aligned}
 $$
-(d)将$\epsilon_{\text{out}}(N)= E+\frac{b_1}{N}+\frac{b_2}{N^2}+...$带入上式可得
+(d)将$\epsilon_{\text{out}}(N)= E+\frac{b_1}{N}+\frac{b_2}{N^2}+...​$带入上式可得
 $$
 \begin{aligned}
 \mathbb E_{\mathcal D} [E_J ] 

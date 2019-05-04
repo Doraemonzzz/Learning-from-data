@@ -1,22 +1,30 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Dec  7 11:12:22 2018
+Created on Thu May  2 11:08:48 2019
 
-@author: Administrator
+@author: qinzhen
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import decomposition
+import helper as hlp
 
 data = np.genfromtxt("zip.train")
 X = data[:, 1:]
-Y = data[:, 0]
-pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X_pca = pca.transform(X)
+y = data[:, 0]
+#PCA分解with centering
+pca = hlp.PCA_(n_components=2)
+X_pca = pca.fit_transform(X)
 
-plt.scatter(X_pca[:, 0], X_pca[:, 1], s=5, c = Y, cmap='gist_ncar')
+plt.scatter(X_pca[:, 0], X_pca[:, 1], s=5, c=y, cmap='gist_ncar')
 plt.colorbar()
-plt.title("digits data with 2 components PCA")
+plt.title("digits data with 2 components PCA with centering")
+plt.show()
+
+#PCA分解without centering
+pca = hlp.PCA_(n_components=2)
+X_pca = pca.fit_transform(X, flag=2)
+plt.scatter(X_pca[:, 0], X_pca[:, 1], s=5, c=y, cmap='gist_ncar')
+plt.colorbar()
+plt.title("digits data with 2 components PCA without centering")
 plt.show()

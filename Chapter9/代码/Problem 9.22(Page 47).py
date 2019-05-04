@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec 12 15:40:44 2018
+Created on Fri May  3 11:40:49 2019
 
-@author: Administrator
+@author: qinzhen
 """
 
 import numpy as np
@@ -22,9 +22,10 @@ y = np.array([0.36542, 0.22156,
      2.3095])
 
 def l(X, y, Lambda):
+    N, d = X.shape
     #计算
-    w = inv(X.T.dot(X) + Lambda).dot(X.T).dot(y)
-    H = X.dot(inv(X.T.dot(X) + Lambda)).dot(X.T)
+    w = inv(X.T.dot(X) + Lambda * np.eye(d)).dot(X.T).dot(y)
+    H = X.dot(inv(X.T.dot(X) + Lambda * np.eye(d))).dot(X.T)
     y_hat = X.dot(w)
     
     N = X.shape[0]
@@ -36,7 +37,7 @@ def l(X, y, Lambda):
     #分子
     e1 = y_hat - y + (y_hat[m] - y[m]) / (1 - H[m][m]) * H[m, :]
     #分母
-    e2 = 1 - H1 - H[m, :] ** 2 / (1 - H1)
+    e2 = 1 - H1 - H[m, :] ** 2 / (1 - H[m][m])
     Ecv_m = 1 / (N - 1) * np.sum((e1 / e2) ** 2) - \
             1 / (N - 1) * ((y_hat[m] - y[m]) / (1 - 2 * H[m][m])) ** 2
     return Ecv - Ecv_m
@@ -53,3 +54,4 @@ plt.plot(Lambda, leverage)
 plt.xlabel("$\lambda$")
 plt.ylabel("leverage")
 plt.title("$\lambda$ VS leverage")
+plt.show()

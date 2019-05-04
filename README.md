@@ -17,6 +17,14 @@ http://book.caltech.edu/bookforum/index.php
 
 https://book.douban.com/subject/11026330/
 
+
+
+<br/>
+
+校阅：[Wang](https://github.com/Splendid-sun)
+
+
+
 <br/>
 
 补充说明：仓库中有四类文件，分别是Jupyter Notebook，py，pdf，md，代码部分保存在Jupyter Notebook和py文件中。  
@@ -108,6 +116,10 @@ https://book.douban.com/subject/11026330/
 
 - 完成Chapter 8的优化。
 
+2019/5/4
+
+- 完成Chapter 9的优化。
+
 
 
 <br/>
@@ -136,6 +148,6 @@ https://book.douban.com/subject/11026330/
 | Chapter 6 | 43       | 40       | Problem 16,17,25                | 已完成优化 |
 | Chapter 7 | 35       | 35       | 无                              | 已完成优化 |
 | Chapter 8 | 35       | 35       | 无                              | 已完成优化 |
-| Chapter 9 | 46       | 41       | Exercise 18,Problem 17,26,27,28 |            |
+| Chapter 9 | 46       | 41       | Exercise 18,Problem 17,26,27,28 | 已完成优化 |
 | 总计      | 300      | 292      |                                 |            |
 
