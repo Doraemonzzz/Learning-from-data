@@ -799,7 +799,7 @@ PCA：
 class PCA_:
     def __init__(self, n_components):
         self.n_components = n_components
-        self.mean = None
+        self.mean_ = None
         self.explained_variance_ratio_ = None
         self.U = None
         self.singular_values_ = None
@@ -817,7 +817,7 @@ class PCA_:
             self.flag = flag
 
         #SVD分解
-        U, S, V = np.linalg.svd(X)
+        U, S, V = np.linalg.svd(X, full_matrices=False)
         #np.linalg.svd返回的是V^T
         V = V.T
         self.U = U
@@ -827,15 +827,6 @@ class PCA_:
         self.explained_variance_ratio_ = self.singular_values_ ** 2 / np.sum(self.singular_values_ ** 2)
         
         return self
-    
-    def inverse_transform(self, X):
-        if self.flag == 1:
-            X -= self.mean_
-        
-        Z = X.dot(self.components_[:, : self.n_components])
-        X1 = Z.dot(self.components_)
-        
-        return X1
     
     def transform(self, X):
         if self.flag == 1:
