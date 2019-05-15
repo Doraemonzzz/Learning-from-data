@@ -12,7 +12,7 @@ plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 from helper import Pocket_PLA
 from helper import preprocess
 
-#Step产生数据
+#Step1产生数据
 def generatedata(n, flag=True):
     """
     产生n组数据，10%为噪声，这里直线选择为y=x，y>x则标签为1，否则为-1

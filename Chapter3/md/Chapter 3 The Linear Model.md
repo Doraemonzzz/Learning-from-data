@@ -54,7 +54,7 @@ from helper import preprocess
 #Step产生数据
 def generatedata(n, flag=True):
     """
-    产生n组数据，10%为噪声，这里直线选择为y=x，y>x则标签为1，否则为-1
+    1产生n组数据，10%为噪声，这里直线选择为y=x，y>x则标签为1，否则为-1
     x, y的范围都介于(-2, 2)，flag用于判断是否产生噪声
     """
     #产生X
@@ -375,11 +375,11 @@ $$
 
 For the expected out of sample error, we take a special case which is easy to analyze. Consider a test data set $\mathcal D_{\text{test}}=\{(x_1 , {y'_1} ), . . . , (x_N , {y'_N})\}$ which shares the same input vectors $x_n$ with $\mathcal D$ but with a different realization of the noise terms. Denote the noise in $y'_n$ as $\epsilon'_n$and let $\epsilon'=[\epsilon'_1,\epsilon'_2,...,\epsilon'_N]^T$. Define $E_{\text{test}}(w_{\text{lin}})$ to be the average squared error on $\mathcal D_{\text{test}}​$.
 
-(e) Prove that $\mathbb E_{\mathcal D,\epsilon'}[E_{\text{in}}(w_{\text{lin}})] = \sigma^2(1+\frac{d+1}N) $. 
+(e) Prove that $\mathbb E_{\mathcal D,\epsilon'}[E_{\text{test}}(w_{\text{lin}})] = \sigma^2(1+\frac{d+1}N) $. 
 
 The special test error $E_{\text{test}}​$ is a very restricted case of the general out-of sample error. Some detailed analysis shows that similar results can be obtained for the general case, as shown in Problem 3.1.    
 
-(a)首先将$y = w^{*T}x + \epsilon$改写为向量的形式，记$y=[y_1...y_N]^T,X=[x_1...x_N]^T$，注意题目中给出$\epsilon=[\epsilon_1,\epsilon_2,...,\epsilon_N]^T$
+(a)首先将$y = w^{*T}x + \epsilon​$改写为向量的形式，记$y=[y_1...y_N]^T,X=[x_1...x_N]^T​$，注意题目中给出$\epsilon=[\epsilon_1,\epsilon_2,...,\epsilon_N]^T​$
 
 那么
 $$
@@ -422,9 +422,10 @@ $$
 (d)这题也是直接计算，注意要用到trace的性质和上题结论
 $$
 \begin{aligned}
-\mathbb E_{\mathcal D}[E_{\text{in}}(w_{\text{lin}})]&=\frac 1N E_{\mathcal D}( \epsilon^T(I-H)\epsilon)
-\\&=\frac 1N\mathbb  E_{\mathcal D}\text{trace}( \epsilon^T(I-H)\epsilon)(这一步是由于\epsilon^T(I-H)\epsilon是一个实数，对于实数a,a=\text{trace}(a))
-\\&=\frac 1N\mathbb  E_{\mathcal D}\text{trace}( \epsilon^T\epsilon-\epsilon^TH\epsilon))
+\mathbb E_{\mathcal D}[E_{\text{in}}(w_{\text{lin}})]
+&=\frac 1N \mathbb E_{\mathcal D}[ \epsilon^T(I-H)\epsilon]
+
+\\&=\frac 1N\mathbb  E_{\mathcal D}[ \epsilon^T\epsilon-\epsilon^TH\epsilon]
 \\&=\frac 1N [\mathbb E_{\mathcal D}(\sum_{i=1}^N\epsilon_i^2)-\mathbb E_{\mathcal D}(\sum_{i=1}^N\sum_{j=1}^N\epsilon_iH_{ij}\epsilon_j)](H_{ij}为H第(i,j)个元素)\\
 &=\frac 1N [\mathbb E_{\mathcal D}(\sum_{i=1}^N\epsilon_i^2)-\mathbb E_{\mathcal D}(\sum_{i=1}^N\epsilon_i^2H_{ii})](\epsilon_i相互独立且期望为0)
 \\&=\frac 1N [N\sigma^2-(\sum_{i=1}^NH_{ii})\sigma^2]
@@ -435,8 +436,10 @@ $$
 $$
 为了方便解决下一题，我们把上述计算中的两个结果单独列出
 $$
-\mathbb E_{\mathcal D}(\epsilon^T\epsilon)=N\sigma^2\\
-\mathbb E_{\mathcal D}(\epsilon^TH\epsilon))=(d+1)\sigma^2
+\begin{aligned}
+\mathbb E_{\mathcal D}[\epsilon^T\epsilon]&=N\sigma^2\\
+\mathbb E_{\mathcal D}[\epsilon^TH\epsilon]&=(d+1)\sigma^2
+\end{aligned}
 $$
 (e)首先还是改写为向量的形式$y'=[y'_1...y'_N]^T,X=[x_1...x_N]^T,\epsilon'=[\epsilon'_1,\epsilon'_2,...,\epsilon'_N]^T​$，那么
 $$
@@ -458,23 +461,25 @@ E_{\text{test}}(w_{\text{lin}})&=\frac 1N||\hat y-y'||^2
 \\&=\frac 1N(\epsilon^TH\epsilon-2\epsilon^{'T}H\epsilon+\epsilon^{'T}\epsilon')(注意H^K=H)
 \end{aligned}
 $$
-接着我们计算$\mathbb E_{\mathcal D,\epsilon'}[E_{\text{in}}(w_{\text{lin}})]$
+接着我们计算$\mathbb E_{\mathcal D,\epsilon'}[E_{\text{test}}(w_{\text{lin}})]$
 $$
 \begin{aligned}
-\mathbb E_{\mathcal D,\epsilon'}[E_{\text{in}}(w_{\text{lin}})]&=\mathbb E_{\mathcal D,\epsilon'}[\frac 1N(\epsilon^TH\epsilon-2\epsilon^{'T}H\epsilon+\epsilon^{'T}\epsilon')]
+\mathbb E_{\mathcal D,\epsilon'}[E_{\text{test}}(w_{\text{lin}})]&=\mathbb E_{\mathcal D,\epsilon'}[\frac 1N(\epsilon^TH\epsilon-2\epsilon^{'T}H\epsilon+\epsilon^{'T}\epsilon')]
 \\&=\frac 1N[\mathbb E_{\mathcal D,\epsilon'}(\epsilon^TH\epsilon)-2\mathbb E_{\mathcal D,\epsilon'}(\epsilon^{'T}H\epsilon)+\mathbb E_{\mathcal D,\epsilon'}(\epsilon^{'T}\epsilon')]
 \end{aligned}
 $$
 回顾上一题单独列出的结论
 $$
-\mathbb E_{\mathcal D}(\epsilon^T\epsilon)=N\sigma^2\\
-\mathbb E_{\mathcal D}(\epsilon^TH\epsilon))=(d+1)\sigma^2
+\begin{aligned}
+\mathbb E_{\mathcal D}[\epsilon^T\epsilon]&=N\sigma^2\\
+\mathbb E_{\mathcal D}[\epsilon^TH\epsilon]&=(d+1)\sigma^2
+\end{aligned}
 $$
 因此
 $$
-\mathbb E_{\mathcal D,\epsilon'}[E_{\text{in}}(w_{\text{lin}})]=\sigma^2(1+\frac{d+1}N)-\frac 2N \mathbb E_{\mathcal D,\epsilon'}(\epsilon^{'T}H\epsilon)
+\mathbb E_{\mathcal D,\epsilon'}[E_{\text{test}}(w_{\text{lin}})]=\sigma^2(1+\frac{d+1}N)-\frac 2N \mathbb E_{\mathcal D,\epsilon'}(\epsilon^{'T}H\epsilon)
 $$
-后面我们单独计算$\mathbb E_{\mathcal D,\epsilon'}(\epsilon^{'T}H\epsilon)$，注意$\epsilon_i,\epsilon_i'$独立且$\mathbb E(\epsilon_i)=\mathbb E(\epsilon_i')=0$
+后面我们单独计算$\mathbb E_{\mathcal D,\epsilon'}(\epsilon^{'T}H\epsilon)​$，注意$\epsilon_i,\epsilon_i'​$独立且$\mathbb E(\epsilon_i)=\mathbb E(\epsilon_i')=0​$
 $$
 \begin{aligned}
 \mathbb E_{\mathcal D,\epsilon'}(\epsilon^{'T}H\epsilon)&=\mathbb E_{\mathcal D,\epsilon'}(\text{trace}(\epsilon^{'T}H\epsilon))
@@ -485,7 +490,7 @@ $$
 $$
 因此
 $$
-\mathbb E_{\mathcal D,\epsilon'}[E_{\text{in}}(w_{\text{lin}})]=\sigma^2(1+\frac{d+1}N)
+\mathbb E_{\mathcal D,\epsilon'}[E_{\text{test}}(w_{\text{lin}})]=\sigma^2(1+\frac{d+1}N)
 $$
 
 
@@ -560,10 +565,12 @@ The in sample error in part (a) corresponds to a cross entropy error measure on 
 
 (a)记最大似然函数为$L$
 $$
-L=\prod_{i=1}^N(h(x_n))^{[\![y_n=+1]\!]}(1-h(x_n))^{[\![y_n=-1]\!]}\\
-lnL={\sum_{n=1}^N[\![y_n=+1]\!]\ln{h(x_n)}+[\![y_n=-1]\!]\ln{(1-h(x_n))}}
+\begin{aligned}
+L&=\prod_{i=1}^N(h(x_n))^{[\![y_n=+1]\!]}(1-h(x_n))^{[\![y_n=-1]\!]}\\
+\ln L&={\sum_{n=1}^N[\![y_n=+1]\!]\ln{h(x_n)}+[\![y_n=-1]\!]\ln{(1-h(x_n))}}
+\end{aligned}
 $$
-因此要使得$L$最大，只要使$\sum_{n=1}^N[\![y_n=+1]\!]\ln{h(x_n)}+[\![y_n=-1]\!]\ln{(1-h(x_n))}$最大即可，也就是使得$-(\sum_{n=1}^N[\![y_n=+1]\!]\ln{h(x_n)}+[\![y_n=-1]\!]\ln{(1-h(x_n))})$最小，注意以下事实
+因此要使得$L​$最大，只要使$\sum_{n=1}^N[\![y_n=+1]\!]\ln{h(x_n)}+[\![y_n=-1]\!]\ln{(1-h(x_n))}​$最大即可，也就是使得$-(\sum_{n=1}^N[\![y_n=+1]\!]\ln{h(x_n)}+[\![y_n=-1]\!]\ln{(1-h(x_n))})​$最小，注意以下事实
 $$
 \begin{aligned}
 -\big(\sum_{n=1}^N[\![y_n=+1]\!]\ln{h(x_n)}+[\![y_n=-1]\!]\ln{(1-h(x_n))}\big)
@@ -1764,12 +1771,14 @@ Show that $E_n (w)$ is continuous and differentiable except when $y_n = w^Tx_n$ 
 
 $s$关于$w$处处可导，但$f(s)=\max(0,1-s)$在$s=1$处不可导，其余点均可导。我们来看下$s=1$的特点，注意$y_n\in\{1,-1\}​$，那么
 $$
-s=1\Leftrightarrow
-\\y_nw^Tx_n=1\Leftrightarrow
-\\y_n\times y_nw^Tx_n=y_n\Leftrightarrow
-\\w^Tx_n=y_n
+\begin{aligned}
+s&=1\Leftrightarrow
+\\y_nw^Tx_n&=1\Leftrightarrow
+\\y_n\times y_nw^Tx_n&=y_n\Leftrightarrow
+\\w^Tx_n&=y_n
+\end{aligned}
 $$
-所以$E_n (w)=f(s(w))$在$s=1$即$y_n = w^Tx_n$处不可导，其余点均可导。
+所以$E_n (w)=f(s(w))​$在$s=1​$即$y_n = w^Tx_n​$处不可导，其余点均可导。
 
 (b)同Problem 3.4方法，$s= y_nw^Tx_n$
 $$
